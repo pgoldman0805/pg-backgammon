@@ -3,3 +3,9 @@ dist/
 coverage/
 *.local
 .DS_Store
+
+# Node artifacts
+logs/
+*.log
+npm-debug.log*
+*.tsbuildinfo

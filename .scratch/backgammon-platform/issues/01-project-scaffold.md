@@ -6,7 +6,7 @@
 
 **Status:** ready-for-agent
 
-- [ ] `npm run dev` serves the app; `npm test`, `npm run build`, and lint all pass
-- [ ] Navigation between Play / Analyze / Puzzles / Progress works and is keyboard-accessible
-- [ ] Light and dark themes both render and persist across reloads
-- [ ] LICENSE is GPL-3.0 and the README notes the gnubg provenance obligation
+- [x] `npm run dev` serves the app; `npm test`, `npm run build`, and lint all pass
+- [x] Navigation between Play / Analyze / Puzzles / Progress works and is keyboard-accessible
+- [x] Light and dark themes both render and persist across reloads
+- [x] LICENSE is GPL-3.0 and the README notes the gnubg provenance obligation

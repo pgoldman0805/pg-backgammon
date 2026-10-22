@@ -1,0 +1,180 @@
+/* pg-backgammon shell — modern-minimal, high-contrast, training-first.
+   One memorable element: the board-point triangle under the active area. */
+
+:root {
+  --bg: #fcfcfa;
+  --ink: #1a1713;
+  --ink-muted: #5f5a52;
+  --accent: #146b47;
+  --line: #e4e1da;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #15130f;
+  --ink: #f1efea;
+  --ink-muted: #a39d92;
+  --accent: #4cc695;
+  --line: #2e2b26;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  font-family:
+    Seravek, "Gill Sans Nova", Ubuntu, Calibri, "DejaVu Sans", source-sans-pro,
+    sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Skip link: hidden until focused */
+.skip-link {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 10;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  text-decoration: none;
+  transform: translateY(-300%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+/* Header */
+.shell-header {
+  display: flex;
+  align-items: stretch;
+  gap: 2rem;
+  padding: 0 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.brand svg {
+  display: block;
+}
+
+.brand .brand-point {
+  fill: var(--accent);
+}
+
+.brand .brand-counterpoint {
+  fill: var(--ink);
+}
+
+/* Navigation: active area carries a board-point triangle rising
+   from the header's bottom rule. */
+.shell-nav {
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+  padding: 0;
+}
+
+.shell-nav a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0.9rem 0.75rem;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+
+.shell-nav a:hover {
+  color: var(--ink);
+}
+
+.shell-nav a[aria-current="page"] {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.shell-nav a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 9px solid var(--accent);
+}
+
+/* Theme toggle */
+.theme-toggle {
+  align-self: center;
+  margin-left: auto;
+  padding: 0.35rem 0.85rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  color: var(--ink);
+  border-color: var(--ink-muted);
+}
+
+/* Content */
+.shell-main {
+  max-width: 68ch;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.shell-main h1 {
+  font-size: 1.6rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+.shell-main p {
+  color: var(--ink-muted);
+}
+
+@media (max-width: 640px) {
+  .shell-header {
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  .shell-main {
+    padding: 2rem 1rem;
+  }
+}

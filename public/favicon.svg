@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <title>pg-backgammon</title>
+  <rect width="32" height="32" rx="6" fill="#15130f"/>
+  <path d="M7 5h9l-4.5 15z" fill="#f1efea"/>
+  <path d="M16 27h9l-4.5-15z" fill="#4cc695"/>
+</svg>
