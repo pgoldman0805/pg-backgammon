@@ -1039,6 +1039,18 @@
     min-height: 0;
   }
 
+  /* Tutor mode adds the eval strip above the board: the board yields its
+     height so roll/move/commit stay reachable without losing it. */
+  .play-area:has(.tutor-strip) .board {
+    height: calc(100dvh - 180px);
+  }
+
+  /* While a setup card or dialog banner is open below the board, the board
+     yields enough height for the card to peek above the fold. */
+  .play-board:has(.play-banner) .board {
+    height: 52dvh;
+  }
+
   .play-side {
     flex: 0 0 148px;
   }
