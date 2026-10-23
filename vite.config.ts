@@ -8,5 +8,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
+    // Agent worktrees live under .claude/worktrees and must not be swept into this run
+    include: ['src/**/*.test.{ts,tsx}'],
   },
 });
