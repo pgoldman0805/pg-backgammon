@@ -196,6 +196,13 @@
     flex-direction: column;
   }
 
+  /* In the column direction the copy block's 24ch flex-basis would become
+     height; let it size to its content. */
+  .setting-copy {
+    flex: 0 0 auto;
+    min-width: 0;
+  }
+
   /* Phone touch sizing (ticket 24): switches and pills grow to fingertip
      height; their look is unchanged. */
   .settings-switch {

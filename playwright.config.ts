@@ -8,9 +8,11 @@
  * - `audit` (npm run e2e:audit): the visual-audit screenshot harness for
  *   ticket 14; writes PNGs under .scratch/backgammon-platform/audit/.
  *
- * The webServer builds first, so `npm run e2e` is self-contained. During
- * development, keep `npm run build && npm run preview -- --port 4173` running
- * and Playwright reuses it.
+ * The webServer builds first, so `npm run e2e` is self-contained. It serves
+ * dist with `vite preview` (ticket 23 pointed `npm run preview` at wrangler
+ * dev, which rejects --strictPort). During development, keep
+ * `npm run build && npx vite preview --port 4173 --strictPort` running and
+ * Playwright reuses it.
  */
 
 import { defineConfig } from '@playwright/test';
@@ -35,7 +37,7 @@ export default defineConfig({
     { name: 'pwa', testMatch: /pwa\.spec\.ts/ },
   ],
   webServer: {
-    command: 'npm run build && npm run preview -- --port 4173 --strictPort',
+    command: 'npm run build && npx vite preview --port 4173 --strictPort',
     url: 'http://localhost:4173',
     reuseExistingServer: true,
     timeout: 240_000,

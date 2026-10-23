@@ -924,6 +924,20 @@
 /* Touch sizing at phone widths and in the short landscape tier: the same
    controls, never smaller than a fingertip. */
 @media (max-width: 640px), (max-height: 480px) and (orientation: landscape) {
+  /* The phone-scale board is smaller than the setup card and the cube and
+     game-end dialogs it hosts at wider tiers: the banner overlay would
+     spill over the header. It becomes flow content below the board. */
+  .play-banner {
+    position: static;
+    background: none;
+    margin-top: 0.75rem;
+  }
+
+  .setup-card {
+    max-width: 100%;
+    padding: 1rem 1.1rem;
+  }
+
   .play-button {
     min-height: 44px;
   }
@@ -1008,14 +1022,21 @@
 
   .play-board {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
   }
 
   .board {
     width: auto;
     max-width: 100%;
-    height: calc(100dvh - 145px);
+    height: calc(100dvh - 150px);
     max-height: none;
+  }
+
+  /* The quiet Copy XGID chip keeps its compact caption row here; a 44px
+     minimum would push the board under the fold. */
+  .copy-xgid {
+    min-height: 0;
   }
 
   .play-side {

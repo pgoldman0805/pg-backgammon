@@ -75,17 +75,6 @@ function ShellHeader() {
     }
   };
 
-  const themeToggle = (className: string) => (
-    <button
-      type="button"
-      className={className}
-      onClick={toggleTheme}
-      aria-label={`Switch to ${otherTheme} theme`}
-    >
-      {otherTheme === 'dark' ? 'Dark' : 'Light'}
-    </button>
-  );
-
   return (
     // biome-ignore lint/a11y/noStaticElementInteractions: Escape handling for the menu popup, not a click target
     <header className="shell-header" ref={headerRef} onKeyDown={closeOnEscape}>
@@ -107,7 +96,14 @@ function ShellHeader() {
           ))}
         </ul>
       </nav>
-      {themeToggle('theme-toggle')}
+      <button
+        type="button"
+        className="theme-toggle"
+        onClick={toggleTheme}
+        aria-label={`Switch to ${otherTheme} theme`}
+      >
+        {otherTheme === 'dark' ? 'Dark' : 'Light'}
+      </button>
       <button
         type="button"
         className="menu-toggle"
@@ -136,7 +132,16 @@ function ShellHeader() {
                 </NavLink>
               </li>
             ))}
-            <li className="shell-menu-theme">{themeToggle('theme-toggle')}</li>
+            <li className="shell-menu-theme">
+              <button
+                type="button"
+                className="theme-toggle"
+                onClick={toggleTheme}
+                aria-label={`Switch to ${otherTheme} theme`}
+              >
+                Switch to {otherTheme} theme
+              </button>
+            </li>
           </ul>
         </nav>
       )}
