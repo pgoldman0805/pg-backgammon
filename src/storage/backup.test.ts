@@ -1,10 +1,12 @@
 import type { PuzzleProgressState } from '../puzzles/queue';
+import type { CubePuzzle } from '../puzzles/types';
 import {
   exportBackup,
   importBackup,
   parseBackup,
   serializeBackup,
 } from './backup';
+import { createMemoryBlunderPuzzleStorage } from './blunderPuzzles';
 import { createMemoryStorage } from './memory';
 import { createMemoryPuzzleProgressStorage } from './puzzleProgress';
 import { storedMatchFixture } from './storageContract';
@@ -14,6 +16,35 @@ const progressFixture: PuzzleProgressState = {
   solvedIds: ['curated-001'],
   retryQueue: ['curated-002'],
   updatedAt: 4_000,
+};
+
+const blunderFixture: CubePuzzle = {
+  id: 'blunder:m1:0:1',
+  kind: 'cube',
+  theme: 'cube-handling',
+  source: 'blunder',
+  origin: { matchId: 'm1', game: 0, decision: 1 },
+  board: {
+    points: [
+      0, 2, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, -5, 5, 0, 0, 0, -3, 0, -5, 0, 0, 0, 0,
+      -2,
+    ],
+    bar: { white: 0, black: 0 },
+    off: { white: 4, black: 0 },
+  },
+  hero: 'white',
+  match: {
+    matchLength: 7,
+    score: { white: 0, black: 0 },
+    cube: { value: 1, owner: 'center' },
+    crawford: false,
+  },
+  decision: 'response',
+  choices: [
+    { action: 'pass', equity: -1, equityLoss: 0 },
+    { action: 'take', equity: -1.3, equityLoss: 0.3 },
+  ],
+  verdict: 'Double, pass',
 };
 
 describe('history backup', () => {
@@ -30,10 +61,89 @@ describe('history backup', () => {
     );
 
     expect(backup.app).toBe('pg-backgammon');
-    expect(backup.format).toBe(2);
+    expect(backup.format).toBe(3);
     expect(backup.exportedAt).toBe(5_000);
     expect(backup.matches.map((m) => m.id)).toEqual(['a', 'b']);
     expect(backup.puzzleProgress).toBeUndefined();
+    expect(backup.blunderPuzzles).toBeUndefined();
+  });
+
+  it('exports mined blunder puzzles beside the matches once some exist', async () => {
+    const blunders = createMemoryBlunderPuzzleStorage();
+    await blunders.putAll([blunderFixture]);
+
+    const backup = await exportBackup(
+      createMemoryStorage(),
+      () => 5_000,
+      createMemoryPuzzleProgressStorage(),
+      blunders,
+    );
+
+    expect(backup.blunderPuzzles).toEqual([blunderFixture]);
+  });
+
+  it('restores blunder puzzles on import, replacing the current set', async () => {
+    const source = createMemoryBlunderPuzzleStorage();
+    await source.putAll([blunderFixture]);
+    const json = serializeBackup(
+      await exportBackup(
+        createMemoryStorage(),
+        Date.now,
+        createMemoryPuzzleProgressStorage(),
+        source,
+      ),
+    );
+
+    const target = createMemoryBlunderPuzzleStorage();
+    await target.putAll([{ ...blunderFixture, id: 'blunder:old:0:0' }]);
+    await importBackup(
+      createMemoryStorage(),
+      parseBackup(json),
+      createMemoryPuzzleProgressStorage(),
+      target,
+    );
+
+    expect(await target.list()).toEqual([blunderFixture]);
+  });
+
+  it('imports a format-2 backup, leaving current blunder puzzles alone', async () => {
+    const json = JSON.stringify({
+      app: 'pg-backgammon',
+      format: 2,
+      exportedAt: 0,
+      matches: [storedMatchFixture({ id: 'good', status: 'finished' })],
+    });
+
+    const blunders = createMemoryBlunderPuzzleStorage();
+    await blunders.putAll([blunderFixture]);
+    await importBackup(
+      createMemoryStorage(),
+      parseBackup(json),
+      createMemoryPuzzleProgressStorage(),
+      blunders,
+    );
+
+    expect(await blunders.list()).toEqual([blunderFixture]);
+  });
+
+  it('skips corrupt blunder puzzles inside an otherwise valid file', async () => {
+    const json = JSON.stringify({
+      app: 'pg-backgammon',
+      format: 3,
+      exportedAt: 0,
+      matches: [],
+      blunderPuzzles: [blunderFixture, { id: 'broken' }],
+    });
+
+    const blunders = createMemoryBlunderPuzzleStorage();
+    await importBackup(
+      createMemoryStorage(),
+      parseBackup(json),
+      createMemoryPuzzleProgressStorage(),
+      blunders,
+    );
+
+    expect(await blunders.list()).toEqual([blunderFixture]);
   });
 
   it('exports puzzle progress beside the matches once some exists', async () => {
@@ -129,6 +239,9 @@ describe('history backup', () => {
     ).toThrow(/format/i);
     expect(() =>
       parseBackup('{"app":"pg-backgammon","format":2,"matches":[]}'),
+    ).not.toThrow();
+    expect(() =>
+      parseBackup('{"app":"pg-backgammon","format":3,"matches":[]}'),
     ).not.toThrow();
     expect(() =>
       parseBackup('{"app":"pg-backgammon","format":1,"matches":"nope"}'),

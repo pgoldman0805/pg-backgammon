@@ -9,6 +9,7 @@ import { Analyze } from './pages/Analyze';
 import { Play } from './pages/Play';
 import { Progress } from './pages/Progress';
 import { Puzzles } from './pages/Puzzles';
+import { useBlunderMining } from './puzzles';
 import { useTheme } from './theme';
 
 /** Play, with the match id Analyze's "Resume" put into the route state. */
@@ -28,6 +29,8 @@ const areas = [
 function App() {
   const [theme, toggleTheme] = useTheme();
   const otherTheme = theme === 'light' ? 'dark' : 'light';
+  // Ticket 12: analyzed blunders mine themselves into puzzles app-wide.
+  useBlunderMining();
 
   return (
     <BrowserRouter>

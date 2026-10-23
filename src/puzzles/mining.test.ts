@@ -9,6 +9,7 @@ import type { CubeAnalysis } from '../engine/types';
 import { createBoard, initialBoard, pipCount } from '../rules';
 import {
   classifyPlayTheme,
+  cubeChoicesFromEquities,
   deriveCubeChoices,
   mirrorBoard,
   mirrorMovement,
@@ -115,6 +116,33 @@ describe('deriveCubeChoices', () => {
     });
     expect(choices[1].action).toBe('double');
     expect(choices[1].equityLoss).toBeCloseTo(0.12, 10);
+  });
+});
+
+describe('cubeChoicesFromEquities (ticket 12: from stored analysis rows)', () => {
+  const equities = { noDouble: 0.712, doubleTake: 0.861, doublePass: 1.0 };
+
+  it('matches deriveCubeChoices for the offer view', () => {
+    expect(cubeChoicesFromEquities(equities, 'offer')).toEqual(
+      deriveCubeChoices(analysis, 'offer').choices,
+    );
+  });
+
+  it('matches deriveCubeChoices for the responder view', () => {
+    expect(cubeChoicesFromEquities(equities, 'response')).toEqual(
+      deriveCubeChoices(analysis, 'response').choices,
+    );
+  });
+
+  it('ranks a wrong take: pass is best, take carries the loss', () => {
+    const choices = cubeChoicesFromEquities(
+      { noDouble: 0.4, doubleTake: 1.3, doublePass: 1.0 },
+      'response',
+    );
+    expect(choices).toEqual([
+      { action: 'pass', equity: -1.0, equityLoss: 0 },
+      { action: 'take', equity: -1.3, equityLoss: 0.3 },
+    ]);
   });
 });
 

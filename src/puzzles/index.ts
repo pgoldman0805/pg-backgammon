@@ -5,6 +5,17 @@
  * helpers (ticket 12's blunder mining builds on the same model).
  */
 
+export {
+  type BlunderMiningDeps,
+  blunderPuzzleId,
+  mineBlunderPuzzles,
+  puzzleContentKey,
+} from './blunderMining';
+export {
+  type BlunderMiningService,
+  type BlunderMiningServiceOptions,
+  createBlunderMiningService,
+} from './blunderMiningService';
 export { CURATED_PUZZLES } from './curatedSet';
 export {
   boardKey,
@@ -15,12 +26,15 @@ export {
   type PlayGrade,
 } from './grade';
 export {
+  type CubefulEquities,
   classifyPlayTheme,
+  cubeChoicesFromEquities,
   deriveCubeChoices,
   mirrorBoard,
   mirrorMovement,
   toEnginePosition,
 } from './mining';
+export { getBlunderMiningService } from './miningInstance';
 export {
   drillOrder,
   emptyProgress,
@@ -42,3 +56,4 @@ export {
   type PuzzleSource,
   type PuzzleTheme,
 } from './types';
+export { useBlunderMining } from './useBlunderMining';

@@ -17,7 +17,10 @@ import type {
   Puzzle,
 } from '../puzzles/types';
 import { applyMovement, createBoard, legalPlays } from '../rules';
-import { createMemoryPuzzleProgressStorage } from '../storage';
+import {
+  createMemoryBlunderPuzzleStorage,
+  createMemoryPuzzleProgressStorage,
+} from '../storage';
 import { Puzzles } from './Puzzles';
 
 /** White bears off with 5-3: 5/off 3/off is best, 5/2 3/off a clear error. */
@@ -98,6 +101,22 @@ const cubePuzzle: CubePuzzle = {
 };
 
 const basePuzzles: Puzzle[] = [playPuzzle, cubePuzzle];
+
+/** Mined blunder puzzles (ticket 12): same shapes, source 'blunder'. */
+const blunderPlay: PlayPuzzle = {
+  ...playPuzzle,
+  id: 'blunder:m1:0:0',
+  theme: 'priming',
+  source: 'blunder',
+  origin: { matchId: 'm1', game: 0, decision: 0 },
+};
+
+const blunderCube: CubePuzzle = {
+  ...cubePuzzle,
+  id: 'blunder:m1:0:1',
+  source: 'blunder',
+  origin: { matchId: 'm1', game: 0, decision: 1 },
+};
 
 async function makeBestPlay(user: ReturnType<typeof userEvent.setup>) {
   await user.click(screen.getByRole('button', { name: 'Move from point 5' }));
@@ -235,6 +254,87 @@ describe('cube puzzles', () => {
     expect(within(rows[1]).getByText(/best/i)).toBeInTheDocument();
     expect(within(rows[2]).getByText(/you/i)).toBeInTheDocument();
     expect(screen.getByText(/double, take/i)).toBeInTheDocument();
+  });
+});
+
+describe('blunder puzzles ("From your games", ticket 12)', () => {
+  it('lists mined puzzles as their own collection, kept out of theme drills', async () => {
+    const blunderStorage = createMemoryBlunderPuzzleStorage();
+    await blunderStorage.putAll([blunderPlay, blunderCube]);
+    render(
+      <Puzzles
+        puzzles={basePuzzles}
+        blunderStorage={blunderStorage}
+        mining={null}
+      />,
+    );
+
+    const section = (await screen.findByText('From your games')).closest('li');
+    expect(section).not.toBeNull();
+    await within(section as HTMLElement).findByText('2 puzzles');
+    // The mined priming play does not leak into the Priming theme drill.
+    const priming = screen.getByText('Priming').closest('li');
+    expect(
+      within(priming as HTMLElement).getByRole('button', { name: /drill/i }),
+    ).toBeDisabled();
+  });
+
+  it('drills the collection with a source badge and the usual grading', async () => {
+    const user = userEvent.setup();
+    const blunderStorage = createMemoryBlunderPuzzleStorage();
+    await blunderStorage.putAll([blunderCube]);
+    render(
+      <Puzzles
+        puzzles={basePuzzles}
+        blunderStorage={blunderStorage}
+        mining={null}
+      />,
+    );
+
+    const section = (await screen.findByText('From your games')).closest('li');
+    await within(section as HTMLElement).findByText('1 puzzle');
+    await user.click(
+      within(section as HTMLElement).getByRole('button', { name: /drill/i }),
+    );
+
+    expect(screen.getByText(/double, or roll/i)).toBeInTheDocument();
+    // The source badge marks the puzzle as mined from the player's games.
+    expect(screen.getByText('From your games')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Double' }));
+    expect(screen.getByText(/correct/i)).toBeInTheDocument();
+    expect(screen.getByRole('table', { name: /equity/i })).toBeInTheDocument();
+  });
+
+  it('shows the collection as empty-but-coming before anything is mined', async () => {
+    render(
+      <Puzzles
+        puzzles={basePuzzles}
+        blunderStorage={createMemoryBlunderPuzzleStorage()}
+        mining={null}
+      />,
+    );
+    const section = (await screen.findByText('From your games')).closest('li');
+    expect(
+      within(section as HTMLElement).getByRole('button', { name: /drill/i }),
+    ).toBeDisabled();
+  });
+
+  it('refreshes the collection after the miner catches up', async () => {
+    const blunderStorage = createMemoryBlunderPuzzleStorage();
+    const mining = {
+      catchUp: async () => {
+        await blunderStorage.putAll([blunderCube]);
+      },
+    };
+    render(
+      <Puzzles
+        puzzles={basePuzzles}
+        blunderStorage={blunderStorage}
+        mining={mining}
+      />,
+    );
+    const section = (await screen.findByText('From your games')).closest('li');
+    await within(section as HTMLElement).findByText('1 puzzle');
   });
 });
 

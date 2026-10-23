@@ -7,7 +7,13 @@
  * nothing again at match end, and restarts cleanly after failures.
  */
 
-import type { CubeInfoOptions, Engine, RankPlaysOptions } from '../engine';
+import type {
+  CubeInfoOptions,
+  Engine,
+  EnginePosition,
+  RankedPlay,
+  RankPlaysOptions,
+} from '../engine';
 import type { DiceRoll, MatchGameRecord, MatchRecord } from '../rules';
 import { analyzeGame, assembleMatchAnalysis } from './analyze';
 import { deepenDecision } from './deepen';
@@ -52,6 +58,15 @@ export interface MatchAnalyzer {
     analysis: MatchAnalysis,
     target: DeepenTarget,
   ): Promise<MatchAnalysis>;
+  /**
+   * One full-strength ranking through the shared gate — ticket 12's blunder
+   * miner completes play answer tables with it at background priority.
+   */
+  rankPlays(
+    position: EnginePosition,
+    roll: DiceRoll,
+    priority?: AnalysisPriority,
+  ): Promise<readonly RankedPlay[]>;
 }
 
 export interface MatchAnalyzerOptions {
@@ -155,6 +170,10 @@ export function createMatchAnalyzer(
         engine: gatedEngine('user'),
         now,
       });
+    },
+
+    rankPlays(position, roll, priority = 'background') {
+      return gatedEngine(priority).rankPlays(position, roll);
     },
   };
 }

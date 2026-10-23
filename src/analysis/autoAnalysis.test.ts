@@ -48,6 +48,7 @@ function spiedAnalyzer(): MatchAnalyzer & {
       return real.analyzeMatch(record, options);
     }) as MatchAnalyzer['analyzeMatch'],
     deepen: real.deepen,
+    rankPlays: real.rankPlays,
   };
   return spy;
 }
