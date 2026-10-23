@@ -136,12 +136,6 @@
   min-width: 0;
 }
 
-/* The attempt controls sit centered under the letterboxed board, like the
-   Play page's stacked layout. */
-.puzzle-main > .puzzle-controls {
-  justify-content: center;
-}
-
 .puzzle-hud {
   display: flex;
   align-items: baseline;
@@ -199,6 +193,12 @@
   align-items: center;
   margin: 0.9rem 0;
   max-width: 54rem;
+}
+
+/* The attempt controls sit centered under the letterboxed board, like the
+   Play page's stacked layout. */
+.puzzle-main > .puzzle-controls {
+  justify-content: center;
 }
 
 /* The quiet reminder beside "Try again" (ticket 21): retries are free. */
