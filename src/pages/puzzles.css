@@ -4,11 +4,7 @@
    miss color only your error. */
 
 .puzzles-area {
-  --miss: #a23c2a;
-}
-
-:root[data-theme="dark"] .puzzles-area {
-  --miss: #de7a62;
+  --miss: var(--danger);
 }
 
 .puzzles-area h1 {

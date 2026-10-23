@@ -20,7 +20,11 @@ export interface MatchSetup {
 /** Configure the setup card and start a vs-computer match as White. */
 export async function startComputerMatch(
   page: Page,
-  { difficulty = 'Beginner', length = '1 point', tutor = false }: MatchSetup = {},
+  {
+    difficulty = 'Beginner',
+    length = '1 point',
+    tutor = false,
+  }: MatchSetup = {},
 ): Promise<void> {
   await page.getByRole('radio', { name: difficulty }).check();
   await page.getByLabel('Match length').selectOption({ label: length });
@@ -34,9 +38,7 @@ export async function startComputerMatch(
 }
 
 /** True when the given locator is visible right now (no waiting). */
-async function visible(
-  locator: ReturnType<Page['locator']>,
-): Promise<boolean> {
+async function visible(locator: ReturnType<Page['locator']>): Promise<boolean> {
   return locator.isVisible().catch(() => false);
 }
 
@@ -90,10 +92,18 @@ async function act(page: Page): Promise<boolean> {
   if (await visible(retry)) {
     return click(retry);
   }
-  // Otherwise move a checker: select the first highlighted origin, then
-  // take its first destination. Activation goes through the board's
-  // keyboard path (the SVG controls are focusable buttons), which is exactly
-  // what the accessibility contract promises and is free of pointer flake.
+  // Otherwise move a checker.
+  return moveOnce(page);
+}
+
+/**
+ * Make one checker-movement step: select the first highlighted origin, or
+ * take the selected origin's first destination. Activation goes through the
+ * board's keyboard path (the SVG controls are focusable buttons), which is
+ * exactly what the accessibility contract promises and is free of pointer
+ * flake. Returns true when something was activated.
+ */
+export async function moveOnce(page: Page): Promise<boolean> {
   const dest = page
     .getByRole('button', { name: /^(Move to point|Bear off)/ })
     .first();

@@ -4,7 +4,7 @@
    here" — selected checkers, legal destinations, nothing else. */
 
 :root {
-  --tutor-bad: #b3362b;
+  --tutor-bad: var(--danger);
   --board-frame: #20312a;
   --board-felt: #f2f0e9;
   --board-tray: #e7e4d9;
@@ -20,7 +20,6 @@
 }
 
 :root[data-theme="dark"] {
-  --tutor-bad: #e0604f;
   --board-frame: #0e120f;
   --board-felt: #20241f;
   --board-tray: #272c26;
@@ -371,7 +370,7 @@
   color: var(--ink);
   background: transparent;
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: var(--control-radius);
   cursor: pointer;
 }
 
@@ -509,7 +508,7 @@
   color: var(--ink);
   background: var(--bg);
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: var(--control-radius);
   padding: 0.25rem 0.5rem;
 }
 
@@ -795,7 +794,7 @@
   padding: 0.75rem 1rem;
   border: 1px solid var(--line);
   border-left: 3px solid var(--accent);
-  border-radius: 6px;
+  border-radius: var(--control-radius);
 }
 
 .resume-text {

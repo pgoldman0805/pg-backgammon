@@ -7,6 +7,11 @@
   --ink-muted: #5f5a52;
   --accent: #146b47;
   --line: #e4e1da;
+  /* The one rust-red for everything costly: blunders, misses, bad plays,
+     destructive actions. Each area aliases it under its own name. */
+  --danger: #a2402c;
+  /* Shared corner radius for buttons and inputs across all areas. */
+  --control-radius: 6px;
   color-scheme: light;
 }
 
@@ -16,6 +21,7 @@
   --ink-muted: #a39d92;
   --accent: #4cc695;
   --line: #2e2b26;
+  --danger: #e08062;
   color-scheme: dark;
 }
 
@@ -140,7 +146,7 @@ body {
   color: var(--ink-muted);
   background: transparent;
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: var(--control-radius);
   cursor: pointer;
 }
 
