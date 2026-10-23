@@ -32,6 +32,39 @@ function counted(engine: Engine): Engine & { calls: number } {
   return wrapped;
 }
 
+describe('analyzePosition', () => {
+  const position = {
+    board: startMatch(7, scriptedDice(3, 1)).game.board,
+    onRoll: 'white',
+    match: { matchLength: 7, score: { white: 0, black: 0 } },
+  } as const;
+
+  it('ranks the plays of a single position when dice are given', async () => {
+    const analyzer = createMatchAnalyzer({ engine: createFakeEngine() });
+
+    const result = await analyzer.analyzePosition(position, [3, 1]);
+
+    expect(result.kind).toBe('plays');
+    if (result.kind === 'plays') {
+      expect(result.plays.length).toBeGreaterThan(1);
+      expect(result.plays[0].rank).toBe(1);
+      expect(result.plays[0].equityLoss).toBe(0);
+    }
+  });
+
+  it('analyzes the cube decision when no dice are given', async () => {
+    const analyzer = createMatchAnalyzer({ engine: createFakeEngine() });
+
+    const result = await analyzer.analyzePosition(position, null);
+
+    expect(result.kind).toBe('cube');
+    if (result.kind === 'cube') {
+      expect(result.cube.properAction).toMatch(/double/i);
+      expect(result.cube.options.length).toBeGreaterThan(0);
+    }
+  });
+});
+
 describe('createMatchAnalyzer', () => {
   it('produces the same analysis as the plain pipeline', async () => {
     const record = recordOf(cubeGame());

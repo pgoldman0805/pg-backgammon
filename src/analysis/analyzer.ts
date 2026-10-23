@@ -7,7 +7,14 @@
  * nothing again at match end, and restarts cleanly after failures.
  */
 
-import type { CubeInfoOptions, Engine, RankPlaysOptions } from '../engine';
+import type {
+  CubeAnalysis,
+  CubeInfoOptions,
+  Engine,
+  EnginePosition,
+  RankedPlay,
+  RankPlaysOptions,
+} from '../engine';
 import type { DiceRoll, MatchGameRecord, MatchRecord } from '../rules';
 import { analyzeGame, assembleMatchAnalysis } from './analyze';
 import { deepenDecision } from './deepen';
@@ -34,6 +41,11 @@ export interface DeepenTarget {
   readonly decisionIndex: number;
 }
 
+/** The on-demand analysis of one pasted/viewed position (ticket 10). */
+export type PositionAnalysis =
+  | { readonly kind: 'plays'; readonly plays: readonly RankedPlay[] }
+  | { readonly kind: 'cube'; readonly cube: CubeAnalysis };
+
 export interface MatchAnalyzer {
   /** Analyze one finished game at its standing (cached by content). */
   analyzeGame(
@@ -52,6 +64,14 @@ export interface MatchAnalyzer {
     analysis: MatchAnalysis,
     target: DeepenTarget,
   ): Promise<MatchAnalysis>;
+  /**
+   * Analyze one bare position at user priority: the ranked plays when dice
+   * are given, the cube decision otherwise (the position-viewer seam).
+   */
+  analyzePosition(
+    position: EnginePosition,
+    roll: DiceRoll | null,
+  ): Promise<PositionAnalysis>;
 }
 
 export interface MatchAnalyzerOptions {
@@ -155,6 +175,14 @@ export function createMatchAnalyzer(
         engine: gatedEngine('user'),
         now,
       });
+    },
+
+    async analyzePosition(position, roll) {
+      const gated = gatedEngine('user');
+      if (roll) {
+        return { kind: 'plays', plays: await gated.rankPlays(position, roll) };
+      }
+      return { kind: 'cube', cube: await gated.cubeInfo(position) };
     },
   };
 }
