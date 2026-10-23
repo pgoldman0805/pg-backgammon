@@ -587,6 +587,21 @@
   outline-offset: 2px;
 }
 
+/* The setup card's quiet pointer at the Settings room (ticket 25): the
+   preference controls moved there, so one muted line keeps them one tap
+   away without competing with the start buttons. */
+.setup-settings-link {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+
+.setup-settings-link:hover,
+.setup-settings-link:focus-visible {
+  color: var(--ink);
+  text-decoration: underline;
+}
+
 /* Cube and resignation dialogs reuse the setup card. */
 .dialog-note {
   font-size: 0.9rem;
@@ -957,6 +972,12 @@
   .setting-switch {
     min-height: 44px;
   }
+
+  .setup-settings-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }
 
 /* Phone landscape — the play orientation. The side column stays beside the
@@ -1064,4 +1085,45 @@
   .play-side .play-button {
     padding: 0.4rem 0.6rem;
   }
+}
+
+/* ------------------------------------------------------------------ */
+/* Ticket 25: the race autopilot button                                 */
+/*                                                                      */
+/* One toggle in the turn-controls column, present only while a         */
+/* vs-computer Race is live. Pressed, it fills with the training accent */
+/* and borrows the thinking pulse: the wheel is visibly turning until   */
+/* the game ends (it never carries into the next one).                  */
+/* ------------------------------------------------------------------ */
+
+.autopilot-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.autopilot-button[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.autopilot-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: chip-thinking-pulse 1.1s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .autopilot-dot {
+    animation: none;
+  }
+}
+
+/* Below the turn controls, with a quiet breath between the clusters. */
+.play-side .play-controls--autopilot {
+  margin-top: 0.75rem;
 }

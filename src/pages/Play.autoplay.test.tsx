@@ -1,8 +1,10 @@
 /**
- * The two autoplay settings through the Play page (spec stories 43-44):
- * labeled switches, on by default, persisted across reloads; auto-roll at the
- * user's race pre-rolls and auto-play of forced turns, with contact
- * positions, dances and the opponent's flow untouched.
+ * The two autoplay behaviors through the Play page (spec stories 43-44):
+ * auto-roll at the user's race pre-rolls and auto-play of forced turns, with
+ * contact positions, dances and the opponent's flow untouched. Since ticket
+ * 25 their switches live in Settings alone; the Play page reads the stored
+ * values at each decision moment, so this file drives them through
+ * localStorage exactly as Settings writes them.
  */
 
 import {
@@ -12,7 +14,9 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { createFakeEngine } from '../engine/fake';
+import { AUTO_FORCED_PLAYS_KEY, AUTO_ROLL_RACES_KEY } from '../play/settings';
 import { createPlayStore, type PlayStoreOptions } from '../play/store';
 import {
   createBoard,
@@ -33,13 +37,15 @@ beforeEach(() => {
 function renderPlay(options: PlayStoreOptions, props?: Partial<PlayProps>) {
   const store = createPlayStore(options);
   const view = render(
-    <Play
-      store={store}
-      engine={createFakeEngine()}
-      opponentStepMs={0}
-      storage={createMemoryStorage()}
-      {...props}
-    />,
+    <MemoryRouter>
+      <Play
+        store={store}
+        engine={createFakeEngine()}
+        opponentStepMs={0}
+        storage={createMemoryStorage()}
+        {...props}
+      />
+    </MemoryRouter>,
   );
   return { store, view };
 }
@@ -73,48 +79,6 @@ function whitePreRollRaceMatch() {
   expect(match?.phase).toBe('pre-roll');
   return match ?? undefined;
 }
-
-describe('the autoplay switches', () => {
-  it('are on the setup card, both on by default', () => {
-    renderPlay({ dice: scriptedDice() });
-
-    expect(
-      screen.getByRole('switch', { name: 'Auto-roll in races' }),
-    ).toHaveAttribute('aria-checked', 'true');
-    expect(
-      screen.getByRole('switch', { name: 'Auto-play forced plays' }),
-    ).toHaveAttribute('aria-checked', 'true');
-  });
-
-  it('persist across reloads', () => {
-    const first = renderPlay({ dice: scriptedDice() });
-    fireEvent.click(screen.getByRole('switch', { name: 'Auto-roll in races' }));
-    expect(
-      screen.getByRole('switch', { name: 'Auto-roll in races' }),
-    ).toHaveAttribute('aria-checked', 'false');
-    first.view.unmount();
-
-    renderPlay({ dice: scriptedDice() });
-    expect(
-      screen.getByRole('switch', { name: 'Auto-roll in races' }),
-    ).toHaveAttribute('aria-checked', 'false');
-    expect(
-      screen.getByRole('switch', { name: 'Auto-play forced plays' }),
-    ).toHaveAttribute('aria-checked', 'true');
-  });
-
-  it('are in the HUD during a hot-seat match too', () => {
-    renderPlay({ dice: scriptedDice(6, 3) }, hotseat);
-    fireEvent.click(screen.getByRole('button', { name: 'Hot-seat match' }));
-
-    expect(
-      screen.getByRole('switch', { name: 'Auto-roll in races' }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('switch', { name: 'Auto-play forced plays' }),
-    ).toBeInTheDocument();
-  });
-});
 
 describe('auto-roll in races', () => {
   it("rolls the user's race pre-roll without showing the Double/Roll stop", () => {
@@ -154,13 +118,15 @@ describe('auto-roll in races', () => {
     store.dispatch({ type: 'movement', from: 19, die: 1 });
     store.dispatch({ type: 'commit' });
     render(
-      <Play
-        store={store}
-        engine={createFakeEngine()}
-        opponentStepMs={0}
-        storage={createMemoryStorage()}
-        {...hotseat}
-      />,
+      <MemoryRouter>
+        <Play
+          store={store}
+          engine={createFakeEngine()}
+          opponentStepMs={0}
+          storage={createMemoryStorage()}
+          {...hotseat}
+        />
+      </MemoryRouter>,
     );
 
     expect(screen.getByRole('button', { name: 'Roll' })).toBeInTheDocument();
@@ -169,8 +135,8 @@ describe('auto-roll in races', () => {
     ).toBeInTheDocument();
   });
 
-  it('switched off, stops at the race pre-roll; switching on rolls immediately', () => {
-    localStorage.setItem('pg-backgammon.auto-roll-races', 'off');
+  it('stored off in Settings, stops at the race pre-roll', async () => {
+    localStorage.setItem(AUTO_ROLL_RACES_KEY, 'off');
     renderPlay(
       { match: whitePreRollRaceMatch(), dice: scriptedDice(3, 1) },
       hotseat,
@@ -178,25 +144,41 @@ describe('auto-roll in races', () => {
 
     expect(screen.getByRole('button', { name: 'Roll' })).toBeInTheDocument();
     expect(screen.getByRole('status')).toHaveTextContent('White to roll.');
-
-    fireEvent.click(screen.getByRole('switch', { name: 'Auto-roll in races' }));
-
-    expect(screen.getByRole('status')).toHaveTextContent(
-      'White to play 3 and 1.',
-    );
   });
 
-  it('switched off mid-game, the next race pre-roll stops again', () => {
+  it('a Settings flip mid-match applies from the next decision moment', () => {
+    localStorage.setItem(AUTO_ROLL_RACES_KEY, 'off');
+    const { store } = renderPlay(
+      { match: whitePreRollRaceMatch(), dice: scriptedDice(3, 1, 6, 3) },
+      hotseat,
+    );
+    expect(screen.getByRole('status')).toHaveTextContent('White to roll.');
+
+    // Flipped on in Settings (same localStorage the switch writes): the stop
+    // at hand stays — the user already has it — but once white's turn is
+    // played out, black's race pre-roll rolls itself.
+    localStorage.setItem(AUTO_ROLL_RACES_KEY, 'on');
+    fireEvent.click(screen.getByRole('button', { name: 'Roll' }));
+    act(() => {
+      store.dispatch({ type: 'movement', from: 6, die: 3 });
+      store.dispatch({ type: 'movement', from: 5, die: 1 });
+      store.dispatch({ type: 'commit' });
+    });
+
+    expect(screen.getByRole('status')).toHaveTextContent('Black to play');
+  });
+
+  it('flipped off mid-match, the next race pre-roll stops again', () => {
     const { store } = renderPlay(
       { match: whitePreRollRaceMatch(), dice: scriptedDice(3, 1) },
       hotseat,
     );
-    // The race pre-roll auto-rolled on arrival.
+    // The race pre-roll auto-rolled on arrival (the stored default is on).
     expect(screen.getByRole('status')).toHaveTextContent(
       'White to play 3 and 1.',
     );
 
-    fireEvent.click(screen.getByRole('switch', { name: 'Auto-roll in races' }));
+    localStorage.setItem(AUTO_ROLL_RACES_KEY, 'off');
     // White plays the turn out; black's pre-roll now stops as usual.
     act(() => {
       store.dispatch({ type: 'movement', from: 6, die: 3 });
@@ -237,8 +219,8 @@ describe('auto-play of forced plays', () => {
     expect(store.getState().match?.game.record.plays).toHaveLength(1);
   });
 
-  it('switched off, the forced turn waits for the manual button', async () => {
-    localStorage.setItem('pg-backgammon.auto-forced-plays', 'off');
+  it('stored off in Settings, the forced turn waits for the manual button', async () => {
+    localStorage.setItem(AUTO_FORCED_PLAYS_KEY, 'off');
     renderPlay(
       { match: whiteForcedMatch(), dice: scriptedDice(5, 2) },
       hotseat,

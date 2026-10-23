@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { Link } from 'react-router-dom';
 import { useAutoAnalysis } from '../analysis';
 import {
   DIFFICULTY_LABELS,
@@ -8,22 +9,21 @@ import {
 } from '../engine';
 import { CopyXgidButton, encodeXgid } from '../formats';
 import { stepMsFor, useAnimationSpeed } from '../play/animation';
-import { type Autoplay, createAutoplay } from '../play/autoplay';
+import { createAutoplay } from '../play/autoplay';
 import { Board } from '../play/Board';
-import { BoardStylePicker } from '../play/BoardStylePicker';
 import { getPlayEngine } from '../play/engineInstance';
 import {
   createEngineOpponent,
   type EngineOpponent,
   type EngineOpponentState,
 } from '../play/opponent';
+import { createRaceAutopilot, type RaceAutopilot } from '../play/raceAutopilot';
 import { canCommit, canUndo, forcedPlay, isDance } from '../play/selectors';
 import {
   AUTO_FORCED_PLAYS_KEY,
   AUTO_ROLL_RACES_KEY,
   getStoredSwitch,
   TUTOR_DEFAULT_KEY,
-  useStoredSwitch,
 } from '../play/settings';
 import { createPlayStore, type PlayStore } from '../play/store';
 import {
@@ -37,6 +37,7 @@ import {
   canTakeback,
   type GameEndKind,
   initialBoard,
+  isRace,
   type MatchGameResult,
   type MatchState,
   opponent,
@@ -308,8 +309,8 @@ const IDLE_OPPONENT: EngineOpponentState = { thinking: false, error: null };
 
 /**
  * One labeled on/off switch in the Play area's visual language: the Tutor
- * mode toggle and the two autoplay settings, on the setup card and in the
- * HUD during a match.
+ * mode toggle, on the setup card and in the HUD during a match. (The
+ * preference switches moved to Settings — ticket 25.)
  */
 function SettingSwitch({
   label,
@@ -418,9 +419,6 @@ export function Play({
   );
   const [selected, setSelected] = useState<Point | 'bar' | null>(null);
   const [resignOpen, setResignOpen] = useState(false);
-  // The HUD's Board style picker (issue 19), tucked behind a disclosure so
-  // the settings cluster stays quiet mid-match.
-  const [stylePickerOpen, setStylePickerOpen] = useState(false);
   const [declineNote, setDeclineNote] = useState<string | null>(null);
   const [opponentState, setOpponentState] =
     useState<EngineOpponentState>(IDLE_OPPONENT);
@@ -433,17 +431,8 @@ export function Play({
   );
   const [tutorState, setTutorState] = useState<TutorState | null>(null);
   const tutorRef = useRef<Tutor | null>(null);
-  const [autoRollRaces, setAutoRollRaces] = useStoredSwitch(
-    AUTO_ROLL_RACES_KEY,
-    true,
-  );
-  const [autoForcedPlays, setAutoForcedPlays] = useStoredSwitch(
-    AUTO_FORCED_PLAYS_KEY,
-    true,
-  );
-  const autoplaySettings = useRef({ autoRollRaces, autoForcedPlays });
-  autoplaySettings.current = { autoRollRaces, autoForcedPlays };
-  const autoplayRef = useRef<Autoplay | null>(null);
+  const autopilotRef = useRef<RaceAutopilot | null>(null);
+  const [autopilotOn, setAutopilotOn] = useState(false);
   // The checker-animation speed paces the opponent's and autoplay's visible
   // steps too (ticket 20), so "fast" feels fast end to end. An injected
   // opponentStepMs (tests) always wins.
@@ -511,28 +500,49 @@ export function Play({
   const vsComputer = setup.mode === 'computer';
 
   // The autoplay controller (spec stories 43-44) acts for every human side —
-  // just White vs the computer, both in hot-seat — reading the two settings
-  // live so toggling mid-game applies immediately.
+  // just White vs the computer, both in hot-seat. Its two settings live in
+  // Settings alone (ticket 25); reading localStorage at decision time keeps
+  // a flip made there honored from the next decision moment on.
   useEffect(() => {
     const autoplay = createAutoplay({
       store,
       players: vsComputer ? ['white'] : ['white', 'black'],
-      settings: () => autoplaySettings.current,
+      settings: () => ({
+        autoRollRaces: getStoredSwitch(AUTO_ROLL_RACES_KEY, true),
+        autoForcedPlays: getStoredSwitch(AUTO_FORCED_PLAYS_KEY, true),
+      }),
       stepMs,
     });
-    autoplayRef.current = autoplay;
     return () => {
       autoplay.dispose();
-      autoplayRef.current = null;
     };
   }, [store, vsComputer, stepMs]);
 
-  // A settings flip can unlock an action at the current position (e.g. the
-  // race pre-roll the stop is showing for): have the controller look again.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: the controller reads settings through a ref; this effect exists purely to re-check on every flip
+  // The race autopilot (spec story 59) lives alongside a vs-computer match
+  // only — in hot-seat its button never appears and no controller runs.
   useEffect(() => {
-    autoplayRef.current?.recheck();
-  }, [autoRollRaces, autoForcedPlays]);
+    if (!vsComputer) {
+      setAutopilotOn(false);
+      return;
+    }
+    const autopilot = createRaceAutopilot({
+      store,
+      engine,
+      player: 'white',
+      stepMs,
+    });
+    autopilotRef.current = autopilot;
+    setAutopilotOn(autopilot.getState().active);
+    const unsubscribe = autopilot.subscribe(() =>
+      setAutopilotOn(autopilot.getState().active),
+    );
+    return () => {
+      unsubscribe();
+      autopilot.dispose();
+      autopilotRef.current = null;
+      setAutopilotOn(false);
+    };
+  }, [store, engine, vsComputer, stepMs]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: selection is per-position; any turn change (movement, undo, commit) invalidates it
   useEffect(() => {
@@ -583,6 +593,15 @@ export function Play({
   }, [match]);
 
   const board = game?.board ?? initialBoard();
+  // The race autopilot's moment (spec story 59): a vs-computer Race with the
+  // game still live. Everywhere else — contact, hot-seat, a settled game —
+  // the button stays out of the controls.
+  const autopilotAvailable =
+    vsComputer &&
+    match != null &&
+    phase !== 'game-over' &&
+    phase !== 'match-over' &&
+    isRace(board);
   const dance = isDance(game);
   const forced =
     game && turn && turn.movements.length === 0 ? forcedPlay(game) : null;
@@ -712,21 +731,6 @@ export function Play({
     </div>
   );
 
-  const autoplaySwitches = (
-    <>
-      <SettingSwitch
-        label="Auto-roll in races"
-        on={autoRollRaces}
-        onChange={setAutoRollRaces}
-      />
-      <SettingSwitch
-        label="Auto-play forced plays"
-        on={autoForcedPlays}
-        onChange={setAutoForcedPlays}
-      />
-    </>
-  );
-
   const setupCard = (
     title: string,
     primaryLabel: string,
@@ -743,10 +747,13 @@ export function Play({
             on={tutorOn}
             onChange={setTutorOn}
           />
-          {autoplaySwitches}
         </div>
-        <BoardStylePicker />
         {startButtons(primaryLabel, primaryMode)}
+        {/* The preference controls live in Settings (ticket 25); one quiet
+            pointer keeps them discoverable from here. */}
+        <Link className="setup-settings-link" to="/settings">
+          Board style, auto-play and more in Settings
+        </Link>
         <EngineNote
           status={engineStatus}
           opponentError={opponentState.error}
@@ -983,27 +990,15 @@ export function Play({
               )}
             </p>
           )}
-          {match && (
+          {match && vsComputer && (
             <div className="setting-switches">
-              {vsComputer && (
-                <SettingSwitch
-                  label="Tutor mode"
-                  on={tutorOn}
-                  onChange={setTutorOn}
-                />
-              )}
-              {autoplaySwitches}
-              <button
-                type="button"
-                className="setting-switch"
-                aria-expanded={stylePickerOpen}
-                onClick={() => setStylePickerOpen((open) => !open)}
-              >
-                Board style
-              </button>
+              <SettingSwitch
+                label="Tutor mode"
+                on={tutorOn}
+                onChange={setTutorOn}
+              />
             </div>
           )}
-          {match && stylePickerOpen && <BoardStylePicker />}
         </div>
         <div
           className={`player-chip player-chip--mirror ${actor === 'black' ? 'player-chip--active' : ''}`}
@@ -1182,6 +1177,31 @@ export function Play({
                   />
                 </div>
               )}
+            {autopilotAvailable && (
+              <div className="play-controls play-controls--autopilot">
+                <button
+                  type="button"
+                  className="play-button autopilot-button"
+                  aria-pressed={autopilotOn}
+                  onClick={() => {
+                    const autopilot = autopilotRef.current;
+                    if (!autopilot) {
+                      return;
+                    }
+                    if (autopilotOn) {
+                      autopilot.stop();
+                    } else {
+                      autopilot.start();
+                    }
+                  }}
+                >
+                  {autopilotOn && (
+                    <span className="autopilot-dot" aria-hidden="true" />
+                  )}
+                  Finish race
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>

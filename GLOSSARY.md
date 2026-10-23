@@ -32,6 +32,10 @@ _Avoid_: No-contact (as a noun)
 **Forced play**:
 A turn with exactly one legal play, so the player has no decision to make. Excluded from analysis and eligible for auto-play.
 
+**Race autopilot**:
+A per-game toggle, offered only during a Race against the computer, that plays the user's remaining turns at full engine strength (paced and visible) until the game ends. It pauses for cube decisions aimed at the user and stops on a second press, a takeback, or game end. Autopiloted plays are recorded as the user's.
+_Avoid_: Autoplay (reserved for the two preference-driven conveniences)
+
 **Difficulty**:
 A named opponent strength level (Beginner, Casual, Intermediate, Expert, World-class). All difficulties are the same engine deliberately weakened; they are not separate AIs.
 

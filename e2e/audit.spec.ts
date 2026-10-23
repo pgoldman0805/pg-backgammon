@@ -82,6 +82,33 @@ async function shoot(page: Page, name: string): Promise<void> {
 }
 
 /**
+ * Select the origin showing the most destinations (preferring one with a
+ * dashed two-movement target) — the readability bar every Board style must
+ * hold. Expects a turn with at least one selectable origin on screen.
+ */
+async function selectBusiestOrigin(page: Page): Promise<void> {
+  const origins = page.getByRole('button', { name: /^Move from/ });
+  const originCount = await origins.count();
+  let bestOrigin = 0;
+  let bestScore = -1;
+  for (let i = 0; i < originCount; i++) {
+    await origins.nth(i).press('Enter');
+    await page.waitForTimeout(100);
+    const score =
+      (await page.locator('.dest--two').count()) * 10 +
+      (await page.locator('.dest').count());
+    if (score > bestScore) {
+      bestScore = score;
+      bestOrigin = i;
+    }
+    await origins.nth(i).press('Enter');
+    await page.waitForTimeout(50);
+  }
+  await origins.nth(bestOrigin).press('Enter');
+  await expect(page.locator('.dest').first()).toBeVisible();
+}
+
+/**
  * The phone menu, open (ticket 24): captured at portrait phone width in
  * both themes with the same overflow assertion. Restores 1280px light.
  */
@@ -384,9 +411,12 @@ test('visual audit: every area, both themes, desktop through phone', async ({
   });
   await shoot(page, 'play-midgame-tutor');
 
-  // --- Board styles (ticket 19): the picker, then every style mid-game ----
-  // Reach a fresh White turn (both dice unused) so a selected origin can show
-  // the solid and the dashed two-movement destination highlights at once.
+  // --- Board styles (ticket 19): every style mid-game ---------------------
+  // Ticket 25 moved the picker to Settings, so each style is picked there
+  // through the real control, then the running match is resumed to capture
+  // the styled board at the same readability bar (a selected origin with
+  // solid and dashed two-movement destination highlights at once). First,
+  // reach a fresh White turn (both dice unused).
   const freshTurnDeadline = Date.now() + 120_000;
   while (Date.now() < freshTurnDeadline) {
     const dice = await page.locator('.die').count();
@@ -428,35 +458,11 @@ test('visual audit: every area, both themes, desktop through phone', async ({
     }
   }
 
-  // Select the origin showing the most destinations (prefer one with a
-  // dashed two-movement target) — the readability bar every style must hold.
-  const styleOrigins = page.getByRole('button', { name: /^Move from/ });
-  const originCount = await styleOrigins.count();
-  let bestOrigin = 0;
-  let bestScore = -1;
-  for (let i = 0; i < originCount; i++) {
-    await styleOrigins.nth(i).press('Enter');
-    await page.waitForTimeout(100);
-    const score =
-      (await page.locator('.dest--two').count()) * 10 +
-      (await page.locator('.dest').count());
-    if (score > bestScore) {
-      bestScore = score;
-      bestOrigin = i;
-    }
-    await styleOrigins.nth(i).press('Enter');
-    await page.waitForTimeout(50);
-  }
-  await styleOrigins.nth(bestOrigin).press('Enter');
-  await expect(page.locator('.dest').first()).toBeVisible();
+  await selectBusiestOrigin(page);
 
-  // The picker, open in the HUD's settings cluster.
-  await page.getByRole('button', { name: 'Board style' }).click();
-  await expect(page.getByRole('radio', { name: 'Classic' })).toBeVisible();
-  await shoot(page, 'board-style-picker');
-
-  // Every non-default style at both widths and themes; selection applies
-  // instantly through the real picker.
+  // Every non-default style: picked in Settings, captured mid-game through
+  // the resume flow (navigating away parks the match; Resume restores it at
+  // the very same turn).
   const GEOGRAPHIC_STYLES = [
     { id: 'aegean', name: 'Aegean' },
     { id: 'bosphorus', name: 'Bosphorus' },
@@ -465,21 +471,28 @@ test('visual audit: every area, both themes, desktop through phone', async ({
     { id: 'reykjavik', name: 'Reykjavík' },
   ] as const;
   for (const style of GEOGRAPHIC_STYLES) {
+    await page.getByRole('link', { name: 'Settings' }).click();
     await page.getByRole('radio', { name: style.name }).click();
     await expect(page.locator('html')).toHaveAttribute(
       'data-board-style',
       style.id,
     );
+    await page.getByRole('link', { name: 'Play' }).click();
+    await page.getByRole('button', { name: 'Resume match' }).click();
+    await expect(
+      page.getByRole('button', { name: /^Move from/ }).first(),
+    ).toBeVisible();
+    await selectBusiestOrigin(page);
     await shoot(page, `board-style-${style.id}`);
   }
 
   // Back to the default for the rest of the audit.
+  await page.getByRole('link', { name: 'Settings' }).click();
   await page.getByRole('radio', { name: 'Classic' }).click();
   await expect(page.locator('html')).not.toHaveAttribute('data-board-style');
-  await page.getByRole('button', { name: 'Board style' }).click();
 
   // --- The cube dialog (hot-seat: both sides are ours to drive) ----------
-  await page.reload();
+  await page.getByRole('link', { name: 'Play' }).click();
   await page.getByLabel('Match length').selectOption({ label: '3 points' });
   await page.getByRole('button', { name: 'Hot-seat match' }).click();
   const doubleDeadline = Date.now() + 90_000;
