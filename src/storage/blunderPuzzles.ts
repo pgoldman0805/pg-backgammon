@@ -9,13 +9,14 @@
  * conventions.
  */
 
-import { PUZZLE_THEMES, type Puzzle, type PuzzleTheme } from '../puzzles/types';
+import type { Puzzle } from '../puzzles/types';
 import {
   asPromise,
   BLUNDER_PUZZLES_STORE,
   createDatabaseHandle,
   type IndexedDbStorageOptions,
 } from './idb';
+import { hasPuzzleShape, isRecord } from './puzzleShape';
 
 /** matchId -> analyzedAt stamp of the analysis that was mined. */
 export type MinedMatchStamps = Record<string, number>;
@@ -38,83 +39,20 @@ export interface BlunderPuzzleStorage {
   clear(): Promise<void>;
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
-}
-
-function isBoard(value: unknown): boolean {
-  return (
-    isRecord(value) &&
-    Array.isArray(value.points) &&
-    isRecord(value.bar) &&
-    isRecord(value.off)
-  );
-}
-
-function isPlayAnswer(value: unknown): boolean {
-  return (
-    isRecord(value) &&
-    typeof value.rank === 'number' &&
-    typeof value.moveText === 'string' &&
-    Array.isArray(value.movements) &&
-    typeof value.finalKey === 'string' &&
-    typeof value.equity === 'number' &&
-    typeof value.equityLoss === 'number'
-  );
-}
-
-function isCubeChoice(value: unknown): boolean {
-  return (
-    isRecord(value) &&
-    typeof value.action === 'string' &&
-    typeof value.equity === 'number' &&
-    typeof value.equityLoss === 'number'
-  );
-}
-
 /**
  * Structural validation for mined puzzles arriving from outside (backup
- * import): anything corrupt is treated as absent, never thrown.
+ * import): anything corrupt is treated as absent, never thrown. Shape checks
+ * are shared with the generated-puzzle store (./puzzleShape).
  */
 export function isBlunderPuzzle(value: unknown): value is Puzzle {
-  if (!isRecord(value)) {
-    return false;
-  }
-  const base =
-    typeof value.id === 'string' &&
+  return (
+    hasPuzzleShape(value) &&
     value.source === 'blunder' &&
-    PUZZLE_THEMES.includes(value.theme as PuzzleTheme) &&
     isRecord(value.origin) &&
     typeof value.origin.matchId === 'string' &&
     typeof value.origin.game === 'number' &&
-    typeof value.origin.decision === 'number' &&
-    isBoard(value.board) &&
-    (value.hero === 'white' || value.hero === 'black') &&
-    isRecord(value.match) &&
-    typeof value.match.matchLength === 'number' &&
-    isRecord(value.match.score) &&
-    isRecord(value.match.cube);
-  if (!base) {
-    return false;
-  }
-  if (value.kind === 'play') {
-    return (
-      Array.isArray(value.roll) &&
-      Array.isArray(value.answers) &&
-      value.answers.length > 0 &&
-      value.answers.every(isPlayAnswer)
-    );
-  }
-  if (value.kind === 'cube') {
-    return (
-      (value.decision === 'offer' || value.decision === 'response') &&
-      typeof value.verdict === 'string' &&
-      Array.isArray(value.choices) &&
-      value.choices.length > 0 &&
-      value.choices.every(isCubeChoice)
-    );
-  }
-  return false;
+    typeof value.origin.decision === 'number'
+  );
 }
 
 const byId = (a: Puzzle, b: Puzzle): number => a.id.localeCompare(b.id);

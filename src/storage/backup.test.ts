@@ -7,6 +7,7 @@ import {
   serializeBackup,
 } from './backup';
 import { createMemoryBlunderPuzzleStorage } from './blunderPuzzles';
+import { createMemoryGeneratedPuzzleStorage } from './generatedPuzzles';
 import { createMemoryStorage } from './memory';
 import { createMemoryPuzzleProgressStorage } from './puzzleProgress';
 import { storedMatchFixture } from './storageContract';
@@ -61,11 +62,122 @@ describe('history backup', () => {
     );
 
     expect(backup.app).toBe('pg-backgammon');
-    expect(backup.format).toBe(3);
+    expect(backup.format).toBe(4);
     expect(backup.exportedAt).toBe(5_000);
     expect(backup.matches.map((m) => m.id)).toEqual(['a', 'b']);
     expect(backup.puzzleProgress).toBeUndefined();
     expect(backup.blunderPuzzles).toBeUndefined();
+    expect(backup.generatedPuzzles).toBeUndefined();
+  });
+
+  it('exports generated puzzles beside the matches once some exist', async () => {
+    const generated = createMemoryGeneratedPuzzleStorage();
+    const generatedFixture = {
+      ...blunderFixture,
+      id: 'generated-7-1',
+      source: 'generated',
+      origin: undefined,
+    } as CubePuzzle;
+    await generated.putAll([generatedFixture]);
+
+    const backup = await exportBackup(
+      createMemoryStorage(),
+      () => 5_000,
+      createMemoryPuzzleProgressStorage(),
+      createMemoryBlunderPuzzleStorage(),
+      generated,
+    );
+
+    expect(backup.generatedPuzzles).toEqual([generatedFixture]);
+  });
+
+  it('restores generated puzzles on import, replacing the current set', async () => {
+    const generatedFixture = {
+      ...blunderFixture,
+      id: 'generated-7-1',
+      source: 'generated',
+      origin: undefined,
+    } as CubePuzzle;
+    const source = createMemoryGeneratedPuzzleStorage();
+    await source.putAll([generatedFixture]);
+    const json = serializeBackup(
+      await exportBackup(
+        createMemoryStorage(),
+        Date.now,
+        createMemoryPuzzleProgressStorage(),
+        createMemoryBlunderPuzzleStorage(),
+        source,
+      ),
+    );
+
+    const target = createMemoryGeneratedPuzzleStorage();
+    await target.putAll([{ ...generatedFixture, id: 'generated-old-1' }]);
+    await importBackup(
+      createMemoryStorage(),
+      parseBackup(json),
+      createMemoryPuzzleProgressStorage(),
+      createMemoryBlunderPuzzleStorage(),
+      target,
+    );
+
+    expect(await target.list()).toEqual([generatedFixture]);
+  });
+
+  it('imports a format-3 backup, leaving current generated puzzles alone', async () => {
+    const json = JSON.stringify({
+      app: 'pg-backgammon',
+      format: 3,
+      exportedAt: 0,
+      matches: [storedMatchFixture({ id: 'good', status: 'finished' })],
+      blunderPuzzles: [blunderFixture],
+    });
+
+    const generatedFixture = {
+      ...blunderFixture,
+      id: 'generated-7-1',
+      source: 'generated',
+      origin: undefined,
+    } as CubePuzzle;
+    const generated = createMemoryGeneratedPuzzleStorage();
+    await generated.putAll([generatedFixture]);
+    const blunders = createMemoryBlunderPuzzleStorage();
+    await importBackup(
+      createMemoryStorage(),
+      parseBackup(json),
+      createMemoryPuzzleProgressStorage(),
+      blunders,
+      generated,
+    );
+
+    expect(await generated.list()).toEqual([generatedFixture]);
+    expect(await blunders.list()).toEqual([blunderFixture]);
+  });
+
+  it('skips corrupt generated puzzles inside an otherwise valid file', async () => {
+    const generatedFixture = {
+      ...blunderFixture,
+      id: 'generated-7-1',
+      source: 'generated',
+      origin: undefined,
+    } as CubePuzzle;
+    const json = JSON.stringify({
+      app: 'pg-backgammon',
+      format: 4,
+      exportedAt: 0,
+      matches: [],
+      generatedPuzzles: [generatedFixture, { id: 'broken' }],
+    });
+
+    const generated = createMemoryGeneratedPuzzleStorage();
+    await importBackup(
+      createMemoryStorage(),
+      parseBackup(json),
+      createMemoryPuzzleProgressStorage(),
+      createMemoryBlunderPuzzleStorage(),
+      generated,
+    );
+
+    expect(await generated.list()).toEqual([generatedFixture]);
   });
 
   it('exports mined blunder puzzles beside the matches once some exist', async () => {
@@ -242,6 +354,9 @@ describe('history backup', () => {
     ).not.toThrow();
     expect(() =>
       parseBackup('{"app":"pg-backgammon","format":3,"matches":[]}'),
+    ).not.toThrow();
+    expect(() =>
+      parseBackup('{"app":"pg-backgammon","format":4,"matches":[]}'),
     ).not.toThrow();
     expect(() =>
       parseBackup('{"app":"pg-backgammon","format":1,"matches":"nope"}'),
