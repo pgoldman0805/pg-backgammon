@@ -1,9 +1,22 @@
-import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter,
+  NavLink,
+  Route,
+  Routes,
+  useLocation,
+} from 'react-router-dom';
 import { Analyze } from './pages/Analyze';
 import { Play } from './pages/Play';
 import { Progress } from './pages/Progress';
 import { Puzzles } from './pages/Puzzles';
 import { useTheme } from './theme';
+
+/** Play, with the match id Analyze's "Resume" put into the route state. */
+function PlayRoute() {
+  const location = useLocation();
+  const state = location.state as { resumeMatchId?: string } | null;
+  return <Play resumeMatchId={state?.resumeMatchId} />;
+}
 
 const areas = [
   { path: '/', label: 'Play' },
@@ -51,7 +64,7 @@ function App() {
       </header>
       <main className="shell-main" id="content">
         <Routes>
-          <Route path="/" element={<Play />} />
+          <Route path="/" element={<PlayRoute />} />
           <Route path="/analyze" element={<Analyze />} />
           <Route path="/puzzles" element={<Puzzles />} />
           <Route path="/progress" element={<Progress />} />

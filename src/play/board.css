@@ -777,3 +777,21 @@
     width: 100%;
   }
 }
+
+/* Resume offer on the setup card (ticket 07): an in-progress match found in
+   storage; quiet emphasis, the accent only on the action. */
+.resume-note {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: center;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+}
+
+.resume-text {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+}

@@ -33,6 +33,8 @@ All game history, analysis, and puzzle progress persist in IndexedDB. Desktop-fi
 11. As a player, I want to resign a game (single, gammon, or backgammon) with the engine accepting or declining per its evaluation, so that hopeless games end fast.
 12. As a player, I want an in-progress match to survive a page reload and be resumable later, so that I never lose a match to a closed tab.
 13. As a player, I want the dice to come from a fair PRNG, so that I can trust results and my stats.
+43. As a player, I want my dice to roll automatically in a race (no-contact position), so that the bear-in and bear-off don't require a Roll click every turn. (Persisted setting, on by default; I accept that auto-roll skips the pre-roll doubling moment while it's on. Added 2026-10-22.)
+44. As a player, I want forced plays made for me automatically (visibly, then committed), so that turns without a decision cost no clicks. (Persisted setting, on by default; dance "Continue" stays manual so I see the dance. Added 2026-10-22.)
 
 ### Tutor mode (live analysis)
 

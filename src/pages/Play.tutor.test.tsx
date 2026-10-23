@@ -7,6 +7,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { createFakeEngine } from '../engine';
 import { createPlayStore, type PlayStoreOptions } from '../play/store';
+import { createMemoryStorage } from '../storage';
 import { scriptedDice } from '../test/dice';
 import { gatedEngine, openingFeedbackEngine } from '../test/engine';
 import { Play, type PlayProps } from './Play';
@@ -18,6 +19,7 @@ function renderPlay(options: PlayStoreOptions, props?: Partial<PlayProps>) {
       store={store}
       engine={createFakeEngine()}
       opponentStepMs={0}
+      storage={createMemoryStorage()}
       {...props}
     />,
   );

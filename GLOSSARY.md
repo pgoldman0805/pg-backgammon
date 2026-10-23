@@ -21,6 +21,13 @@ _Avoid_: Move (ambiguous: sometimes means one checker's hop), turn
 **Cube decision**:
 A doubling-cube choice: whether to double, and whether to take or pass when doubled. Scored by the analyzer separately from plays.
 
+**Race**:
+A position with no remaining contact: neither player can hit or be hit, so checkers only run home and bear off.
+_Avoid_: No-contact (as a noun)
+
+**Forced play**:
+A turn with exactly one legal play, so the player has no decision to make. Excluded from analysis and eligible for auto-play.
+
 **Difficulty**:
 A named opponent strength level (Beginner, Casual, Intermediate, Expert, World-class). All difficulties are the same engine deliberately weakened; they are not separate AIs.
 
