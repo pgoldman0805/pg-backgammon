@@ -25,7 +25,9 @@ import type { Puzzle, PuzzleTheme } from '../src/puzzles/types';
 import { PUZZLE_THEMES } from '../src/puzzles/types';
 
 /** How many puzzles each theme should ship with. */
-const TARGET_PER_THEME = 6;
+const TARGET_PER_THEME = 30;
+/** Acceptance floor: warn when any theme ships with fewer (ticket 17). */
+const MIN_PER_THEME = 25;
 /** 0-ply screen window for the second-best play's loss. */
 const SCREEN_MIN = 0.02;
 const SCREEN_MAX = 0.6;
@@ -35,13 +37,18 @@ const MARGIN_MAX = 0.3;
 const MIN_CANDIDATES = 4;
 /** Diversity: per game, at most this many puzzles of one theme. */
 const PER_GAME_THEME_CAP = 1;
-/** Diversity: at most this many cube puzzles of one flavor (verdict class). */
-const CUBE_BUCKET_CAP = 2;
+/**
+ * Diversity: at most this many cube puzzles of one flavor (verdict class).
+ * Scaled with TARGET_PER_THEME (ticket 17 kept the 1/3-of-target ratio the
+ * 6-puzzle set used; five flavors at the old cap of 2 would hard-limit the
+ * cube theme to 10).
+ */
+const CUBE_BUCKET_CAP = 10;
 /** Cube decisions: both sides' errors must be real but not absurd. */
 const CUBE_MARGIN_MIN = 0.05;
 const CUBE_MARGIN_MAX = 0.45;
-/** Self-play budget. */
-const MAX_GAMES = 400;
+/** Self-play budget (the loop stops early once every theme is full). */
+const MAX_GAMES = 2000;
 const MAX_TURNS_PER_GAME = 180;
 const SEED = 20261022;
 
@@ -170,7 +177,13 @@ export async function minePuzzles(): Promise<void> {
       `${result.stats.cubeEvaluated}, accepted ${result.stats.cubeAccepted}.`,
   );
   log(`Wrote ${target}`);
-  if (puzzles.length < 25) {
-    log('WARNING: fewer than 25 puzzles — raise MAX_GAMES or loosen screens.');
+  for (const theme of PUZZLE_THEMES) {
+    const count = mined.byTheme.get(theme)?.length ?? 0;
+    if (count < MIN_PER_THEME) {
+      log(
+        `WARNING: ${theme} has ${count} < ${MIN_PER_THEME} puzzles — ` +
+          'raise MAX_GAMES or loosen diversity caps.',
+      );
+    }
   }
 }

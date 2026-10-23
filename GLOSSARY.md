@@ -35,6 +35,10 @@ A turn with exactly one legal play, so the player has no decision to make. Exclu
 **Difficulty**:
 A named opponent strength level (Beginner, Casual, Intermediate, Expert, World-class). All difficulties are the same engine deliberately weakened; they are not separate AIs.
 
+**Board style**:
+A selectable visual treatment of the board and checkers (artwork, palette, mood), independent of the light/dark app theme and of puzzle Themes.
+_Avoid_: Skin, board theme
+
 **Undo**:
 Reverting checker movements within the current turn, before the play is committed. Always available.
 
