@@ -17,6 +17,7 @@ import {
   type EngineOpponent,
   type EngineOpponentState,
 } from '../play/opponent';
+import { createRaceAutopilot, type RaceAutopilot } from '../play/raceAutopilot';
 import { canCommit, canUndo, forcedPlay, isDance } from '../play/selectors';
 import {
   AUTO_FORCED_PLAYS_KEY,
@@ -36,6 +37,7 @@ import {
   canTakeback,
   type GameEndKind,
   initialBoard,
+  isRace,
   type MatchGameResult,
   type MatchState,
   opponent,
@@ -429,6 +431,8 @@ export function Play({
   );
   const [tutorState, setTutorState] = useState<TutorState | null>(null);
   const tutorRef = useRef<Tutor | null>(null);
+  const autopilotRef = useRef<RaceAutopilot | null>(null);
+  const [autopilotOn, setAutopilotOn] = useState(false);
   // The checker-animation speed paces the opponent's and autoplay's visible
   // steps too (ticket 20), so "fast" feels fast end to end. An injected
   // opponentStepMs (tests) always wins.
@@ -514,6 +518,32 @@ export function Play({
     };
   }, [store, vsComputer, stepMs]);
 
+  // The race autopilot (spec story 59) lives alongside a vs-computer match
+  // only — in hot-seat its button never appears and no controller runs.
+  useEffect(() => {
+    if (!vsComputer) {
+      setAutopilotOn(false);
+      return;
+    }
+    const autopilot = createRaceAutopilot({
+      store,
+      engine,
+      player: 'white',
+      stepMs,
+    });
+    autopilotRef.current = autopilot;
+    setAutopilotOn(autopilot.getState().active);
+    const unsubscribe = autopilot.subscribe(() =>
+      setAutopilotOn(autopilot.getState().active),
+    );
+    return () => {
+      unsubscribe();
+      autopilot.dispose();
+      autopilotRef.current = null;
+      setAutopilotOn(false);
+    };
+  }, [store, engine, vsComputer, stepMs]);
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: selection is per-position; any turn change (movement, undo, commit) invalidates it
   useEffect(() => {
     setSelected(null);
@@ -563,6 +593,15 @@ export function Play({
   }, [match]);
 
   const board = game?.board ?? initialBoard();
+  // The race autopilot's moment (spec story 59): a vs-computer Race with the
+  // game still live. Everywhere else — contact, hot-seat, a settled game —
+  // the button stays out of the controls.
+  const autopilotAvailable =
+    vsComputer &&
+    match != null &&
+    phase !== 'game-over' &&
+    phase !== 'match-over' &&
+    isRace(board);
   const dance = isDance(game);
   const forced =
     game && turn && turn.movements.length === 0 ? forcedPlay(game) : null;
@@ -1138,6 +1177,31 @@ export function Play({
                   />
                 </div>
               )}
+            {autopilotAvailable && (
+              <div className="play-controls play-controls--autopilot">
+                <button
+                  type="button"
+                  className="play-button autopilot-button"
+                  aria-pressed={autopilotOn}
+                  onClick={() => {
+                    const autopilot = autopilotRef.current;
+                    if (!autopilot) {
+                      return;
+                    }
+                    if (autopilotOn) {
+                      autopilot.stop();
+                    } else {
+                      autopilot.start();
+                    }
+                  }}
+                >
+                  {autopilotOn && (
+                    <span className="autopilot-dot" aria-hidden="true" />
+                  )}
+                  Finish race
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>

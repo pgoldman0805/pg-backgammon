@@ -181,7 +181,10 @@ export function createRaceAutopilot(
       await pace(stepMs);
     }
     const current = liveMatch(token);
-    if (current && current.game.turn?.movements.length === play.movements.length) {
+    if (
+      current &&
+      current.game.turn?.movements.length === play.movements.length
+    ) {
       store.dispatch({ type: 'commit' });
     }
   }

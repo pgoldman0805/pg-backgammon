@@ -16,10 +16,7 @@ import {
 } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { createFakeEngine } from '../engine/fake';
-import {
-  AUTO_FORCED_PLAYS_KEY,
-  AUTO_ROLL_RACES_KEY,
-} from '../play/settings';
+import { AUTO_FORCED_PLAYS_KEY, AUTO_ROLL_RACES_KEY } from '../play/settings';
 import { createPlayStore, type PlayStoreOptions } from '../play/store';
 import {
   createBoard,
