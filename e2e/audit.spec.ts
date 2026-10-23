@@ -231,7 +231,10 @@ const SEEDED_HISTORY = [
 async function seedHistory(page: Page): Promise<void> {
   await page.evaluate(async (rows) => {
     await new Promise<void>((resolve, reject) => {
-      const open = indexedDB.open('pg-backgammon', 3);
+      // No explicit version: adopt whatever schema the app created (the app
+      // has already opened the database by the time seeding runs), so the
+      // harness survives app-side schema bumps.
+      const open = indexedDB.open('pg-backgammon');
       open.onupgradeneeded = () => {
         for (const store of ['matches', 'puzzle-progress', 'blunder-puzzles']) {
           if (!open.result.objectStoreNames.contains(store)) {
