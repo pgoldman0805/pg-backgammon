@@ -9,6 +9,7 @@ import {
 import { CopyXgidButton, encodeXgid } from '../formats';
 import { type Autoplay, createAutoplay } from '../play/autoplay';
 import { Board } from '../play/Board';
+import { BoardStylePicker } from '../play/BoardStylePicker';
 import { getPlayEngine } from '../play/engineInstance';
 import {
   createEngineOpponent,
@@ -414,6 +415,9 @@ export function Play({
   );
   const [selected, setSelected] = useState<Point | 'bar' | null>(null);
   const [resignOpen, setResignOpen] = useState(false);
+  // The HUD's Board style picker (issue 19), tucked behind a disclosure so
+  // the settings cluster stays quiet mid-match.
+  const [stylePickerOpen, setStylePickerOpen] = useState(false);
   const [declineNote, setDeclineNote] = useState<string | null>(null);
   const [opponentState, setOpponentState] =
     useState<EngineOpponentState>(IDLE_OPPONENT);
@@ -729,6 +733,7 @@ export function Play({
           />
           {autoplaySwitches}
         </div>
+        <BoardStylePicker />
         {startButtons(primaryLabel, primaryMode)}
         <EngineNote
           status={engineStatus}
@@ -971,8 +976,17 @@ export function Play({
                 />
               )}
               {autoplaySwitches}
+              <button
+                type="button"
+                className="setting-switch"
+                aria-expanded={stylePickerOpen}
+                onClick={() => setStylePickerOpen((open) => !open)}
+              >
+                Board style
+              </button>
             </div>
           )}
+          {match && stylePickerOpen && <BoardStylePicker />}
         </div>
         <div
           className={`player-chip player-chip--mirror ${actor === 'black' ? 'player-chip--active' : ''}`}

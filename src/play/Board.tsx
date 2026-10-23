@@ -5,7 +5,7 @@
  * the pure drag state machine and geometry hit-testing).
  */
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useSyncExternalStore } from 'react';
 import {
   type Die,
   type GameState,
@@ -14,6 +14,9 @@ import {
   type Point,
 } from '../rules';
 import { playerName } from '../ui/format';
+import { BoardStyleDefs } from './BoardStyleDefs';
+import { getBoardStyle, subscribeBoardStyle } from './boardStyles';
+import './boardStyles.css';
 import { type DragState, dragTransition, idleDrag } from './drag';
 import {
   BOARD,
@@ -235,6 +238,9 @@ export function Board({
 }: BoardProps) {
   const board = game?.board ?? initialBoard();
   const turn = game?.turn ?? null;
+  // The selected Board style's motif artwork; the default renders none, so
+  // the default board's DOM is exactly the pre-styles DOM.
+  const boardStyle = useSyncExternalStore(subscribeBoardStyle, getBoardStyle);
   const [drag, setDrag] = useState<DragState>(idleDrag);
   const svgRef = useRef<SVGSVGElement>(null);
   const suppressClick = useRef(false);
@@ -374,6 +380,8 @@ export function Board({
       onPointerCancel={handlePointerCancel}
     >
       <title>Backgammon board</title>
+
+      <BoardStyleDefs styleId={boardStyle} />
 
       {/* Frame and playing field */}
       <rect
