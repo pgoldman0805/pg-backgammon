@@ -2,7 +2,7 @@
 
 **What to build:** A coherence pass across the whole app once all pillars exist: consistent spacing/typography/color usage against the modern-minimal high-contrast direction, both themes audited on every screen, tablet-width layout verified for Play, Analyze (review), Puzzles, and Progress, keyboard accessibility for primary flows, and a final Playwright smoke test covering the golden path (start match → play → finish → review → drill a mined puzzle).
 
-**Blocked by:** 09 (Tutor mode), 10 (import/export), 12 (blunder mining), 13 (progress view).
+**Blocked by:** 09 (Tutor mode), 10 (import/export), 12 (blunder mining), 13 (progress view), 15 (auto-roll and auto-forced-play).
 
 **Status:** ready-for-agent
 
