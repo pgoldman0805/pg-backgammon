@@ -70,6 +70,8 @@ All game history, analysis, and puzzle progress persist in IndexedDB. Desktop-fi
 35. As a learner, I want puzzles auto-mined from my own blunders, so that I drill exactly what I get wrong in real games.
 36. As a learner, I want missed puzzles to enter a retry queue, so that I see them again until I get them right.
 37. As a learner, I want my puzzle progress (solved, missed, streaks per theme) persisted, so that drilling has continuity.
+47. As a learner, I want a much larger bundled curated set (≥25 per theme), so that themed drills don't run dry in one sitting. (Added 2026-10-23.)
+48. As a learner, I want the app to generate new puzzles on demand using the engine (self-play mining in the browser, persisted locally, slotted into their themes), so that I never run out of fresh material. (Added 2026-10-23.)
 
 ### Platform
 
