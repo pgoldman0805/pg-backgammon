@@ -3,6 +3,7 @@ import {
   applyMovement,
   createBoard,
   initialBoard,
+  isRace,
   pipCount,
   undoMovement,
 } from './board';
@@ -81,6 +82,62 @@ describe('createBoard', () => {
         black: { points: { 6: 15 } },
       }),
     ).toThrow(/point 6/i);
+  });
+});
+
+describe('isRace', () => {
+  test('the starting position is not a race', () => {
+    expect(isRace(initialBoard())).toBe(false);
+  });
+
+  test('both sides fully home with no contact is a race', () => {
+    const board = createBoard({
+      white: { points: { 6: 5, 5: 5, 4: 5 } },
+      black: { points: { 19: 5, 20: 5, 21: 5 } },
+    });
+    expect(isRace(board)).toBe(true);
+  });
+
+  test('a bear-off against checkers left behind is still a race once past them', () => {
+    const board = createBoard({
+      white: { points: { 3: 2, 1: 3 }, off: 10 },
+      black: { points: { 12: 5, 18: 5, 22: 5 } },
+    });
+    expect(isRace(board)).toBe(true);
+  });
+
+  test('the last crossing: rear checkers one point apart, already passed', () => {
+    // White's rearmost on 10, black's rearmost on 11: nobody can hit.
+    const board = createBoard({
+      white: { points: { 10: 1, 5: 9, 3: 5 } },
+      black: { points: { 11: 1, 20: 9, 22: 5 } },
+    });
+    expect(isRace(board)).toBe(true);
+  });
+
+  test('the last crossing: rear checkers still facing each other is contact', () => {
+    // White's rearmost on 11, black's rearmost on 10: black can hit white.
+    const board = createBoard({
+      white: { points: { 11: 1, 5: 9, 3: 5 } },
+      black: { points: { 10: 1, 20: 9, 22: 5 } },
+    });
+    expect(isRace(board)).toBe(false);
+  });
+
+  test('a checker on the bar means contact while the opponent has checkers in play', () => {
+    const board = createBoard({
+      white: { points: { 5: 9, 3: 5 }, bar: 1 },
+      black: { points: { 19: 5, 20: 5, 21: 5 } },
+    });
+    expect(isRace(board)).toBe(false);
+  });
+
+  test('a player with every checker borne off cannot be contacted', () => {
+    const board = createBoard({
+      white: { points: {}, off: 15 },
+      black: { points: { 1: 10, 2: 5 } },
+    });
+    expect(isRace(board)).toBe(true);
   });
 });
 

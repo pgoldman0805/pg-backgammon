@@ -10,6 +10,7 @@ export {
   type BoardSpec,
   createBoard,
   initialBoard,
+  isRace,
   type PlayerPlacement,
   pipCount,
   undoMovement,

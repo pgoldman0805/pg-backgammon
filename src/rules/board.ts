@@ -153,6 +153,29 @@ export function undoMovement(
 }
 
 /**
+ * Is the position a Race (GLOSSARY "Race")? True when no contact remains:
+ * every white checker is strictly past every black checker, so neither player
+ * can ever hit or block the other again. A checker on the bar sits behind the
+ * opponent's whole army, so it means contact while the opponent has any
+ * checker still in play.
+ */
+export function isRace(board: BoardState): boolean {
+  // Rearmost checkers: white moves 24 -> 1 (bar re-enters behind 24), black
+  // moves 1 -> 24 (bar re-enters behind 1). A player with nothing left in
+  // play has no rear checker and can never be contacted.
+  let whiteRear = board.bar.white > 0 ? 25 : -1;
+  let blackRear = board.bar.black > 0 ? 0 : 26;
+  for (let p = 1; p <= 24; p++) {
+    if (board.points[p] > 0) {
+      whiteRear = Math.max(whiteRear, p);
+    } else if (board.points[p] < 0) {
+      blackRear = Math.min(blackRear, p);
+    }
+  }
+  return whiteRear < blackRear;
+}
+
+/**
  * Pips remaining for a player: sum of each checker's distance from bearing
  * off. A checker on the bar is 25 pips away; borne-off checkers count 0.
  */
