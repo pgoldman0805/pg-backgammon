@@ -53,7 +53,7 @@ async function handle(request: EngineRequest): Promise<unknown> {
     case 'rankPlays':
       return session.rankPlays(request.position, request.roll, request.options);
     case 'cubeInfo':
-      return session.cubeInfo(request.position);
+      return session.cubeInfo(request.position, request.options);
   }
 }
 

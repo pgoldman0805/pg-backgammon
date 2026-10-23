@@ -1,0 +1,129 @@
+import { describe, expect, it } from 'vitest';
+import { createFakeEngine, type Engine } from '../engine';
+import {
+  acceptResignation,
+  commitMatchPlay,
+  matchMovement,
+  nextGame,
+  offerDouble,
+  offerResignation,
+  passDouble,
+  startMatch,
+} from '../rules';
+import { scriptedDice } from '../test/dice';
+import { cubeGameMatch as cubeGame, recordOf } from '../test/match';
+import { analyzeMatch } from './analyze';
+import { createMatchAnalyzer } from './analyzer';
+
+/** Wrap an engine, counting its analysis calls. */
+function counted(engine: Engine): Engine & { calls: number } {
+  const wrapped = {
+    ...engine,
+    calls: 0,
+    rankPlays: ((...args: Parameters<Engine['rankPlays']>) => {
+      wrapped.calls += 1;
+      return engine.rankPlays(...args);
+    }) as Engine['rankPlays'],
+    cubeInfo: ((...args: Parameters<Engine['cubeInfo']>) => {
+      wrapped.calls += 1;
+      return engine.cubeInfo(...args);
+    }) as Engine['cubeInfo'],
+  };
+  return wrapped;
+}
+
+describe('createMatchAnalyzer', () => {
+  it('produces the same analysis as the plain pipeline', async () => {
+    const record = recordOf(cubeGame());
+    const analyzer = createMatchAnalyzer({
+      engine: createFakeEngine(),
+      now: () => 7,
+    });
+    const direct = await analyzeMatch(record, {
+      engine: createFakeEngine(),
+      now: () => 7,
+    });
+    expect(await analyzer.analyzeMatch(record)).toEqual(direct);
+  });
+
+  it('caches per game: a game analyzed in the background is free at match end', async () => {
+    const match = cubeGame();
+    const record = recordOf(match);
+    const engine = counted(createFakeEngine());
+    const analyzer = createMatchAnalyzer({ engine, now: () => 7 });
+
+    await analyzer.analyzeGame(record.games[0], {
+      length: 7,
+      score: { white: 0, black: 0 },
+    });
+    const callsAfterGame = engine.calls;
+    expect(callsAfterGame).toBeGreaterThan(0);
+
+    await analyzer.analyzeMatch(record);
+    expect(engine.calls).toBe(callsAfterGame);
+  });
+
+  it('does not poison the cache when analysis fails', async () => {
+    const fake = createFakeEngine();
+    let failures = 1;
+    const flaky: Engine = {
+      ...fake,
+      rankPlays: (...args) => {
+        if (failures > 0) {
+          failures -= 1;
+          return Promise.reject(new Error('engine busy'));
+        }
+        return fake.rankPlays(...args);
+      },
+    };
+    const record = recordOf(cubeGame());
+    const analyzer = createMatchAnalyzer({ engine: flaky, now: () => 7 });
+
+    await expect(analyzer.analyzeMatch(record)).rejects.toThrow('engine busy');
+    const direct = await analyzeMatch(record, {
+      engine: createFakeEngine(),
+      now: () => 7,
+    });
+    expect(await analyzer.analyzeMatch(record)).toEqual(direct);
+  });
+
+  it('reports game and position progress while analyzing a match', async () => {
+    // Two games: a double passed, then a resigned game.
+    let match = startMatch(7, scriptedDice(3, 1));
+    match = matchMovement(match, 8, 3);
+    match = matchMovement(match, 6, 1);
+    match = commitMatchPlay(match);
+    match = passDouble(offerDouble(match));
+    match = nextGame(match, scriptedDice(5, 6));
+    match = matchMovement(match, 1, 6);
+    match = matchMovement(match, 7, 5);
+    match = commitMatchPlay(match);
+    match = acceptResignation(offerResignation(match, 'white', 'single'));
+
+    const analyzer = createMatchAnalyzer({
+      engine: createFakeEngine(),
+      now: () => 7,
+    });
+    const seen: string[] = [];
+    await analyzer.analyzeMatch(recordOf(match), {
+      onProgress: (p) =>
+        seen.push(`${p.game}/${p.games}:${p.position}/${p.positions}`),
+    });
+    // Game 1 has a play and a double; game 2 has a play.
+    expect(seen).toEqual(['1/2:1/2', '1/2:2/2', '2/2:1/1']);
+  });
+
+  it('deepens through the same engine and keeps the refined match analysis', async () => {
+    const record = recordOf(cubeGame());
+    const analyzer = createMatchAnalyzer({
+      engine: createFakeEngine(),
+      now: () => 7,
+    });
+    const base = await analyzer.analyzeMatch(record);
+    const deepened = await analyzer.deepen(record, base, {
+      gameIndex: 0,
+      decisionIndex: 0,
+    });
+    expect(deepened.games[0].decisions[0].plies).toBe(3);
+  });
+});

@@ -93,14 +93,20 @@ export function createFakeEngine(): Engine {
         return [];
       }
 
+      // Deep effort refines deterministically: the same ground truth plus a
+      // small position-seeded adjustment, so downstream code can observe
+      // "the numbers moved a little" exactly as with the real 3-ply engine.
+      const deep = options?.effort === 'deep' && !options?.difficulty;
       const scored = plays.map((play) => {
         let board = position.board;
         for (const movement of play.movements) {
           board = applyMovement(board, position.onRoll, movement);
         }
+        const key = boardKey(board);
         const equity =
           heuristicEquity({ ...position, board }) +
-          0.001 * seededGaussian(boardKey(board));
+          0.001 * seededGaussian(key) +
+          (deep ? 0.004 * seededGaussian(`${key}|deep`) : 0);
         return {
           play,
           moveText: movementText(play),
@@ -140,9 +146,13 @@ export function createFakeEngine(): Engine {
       };
     },
 
-    async cubeInfo(position): Promise<CubeAnalysis> {
+    async cubeInfo(position, options): Promise<CubeAnalysis> {
       await this.initialize();
-      const equity = Number(heuristicEquity(position).toFixed(6));
+      const refined =
+        options?.effort === 'deep'
+          ? 0.004 * seededGaussian(`${boardKey(position.board)}|deep-cube`)
+          : 0;
+      const equity = Number((heuristicEquity(position) + refined).toFixed(6));
       const double = Math.min(1, 2 * equity);
       const shouldDouble = equity > 0.35 && double < 1;
       return {

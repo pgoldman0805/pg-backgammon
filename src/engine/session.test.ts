@@ -180,6 +180,33 @@ describe('createGnubgSession', () => {
     expect(analysis.options).toHaveLength(3);
   });
 
+  it('ranks plays at 3-ply when asked for deep effort', () => {
+    const { run, commands } = scriptedRun({ hint: HINT_31 });
+    const session = createGnubgSession(run);
+    session.rankPlays(OPENING, [3, 1], { effort: 'deep' });
+    expect(commands).toContain('set evaluation chequerplay evaluation plies 3');
+    // The 3-ply move filters are established up front, or no move would ever
+    // reach the deeper-ply stage (same trap ticket 04 found at 2-ply).
+    expect(
+      commands.some((c) => c.startsWith('set evaluation movefilter 3 0')),
+    ).toBe(true);
+  });
+
+  it('analyzes the cube at 3-ply when asked for deep effort, then restores', () => {
+    const { run, commands } = scriptedRun({ hint: CUBE_BLOCK });
+    const session = createGnubgSession(run);
+    session.cubeInfo(OPENING, { effort: 'deep' });
+    const deepIndex = commands.lastIndexOf(
+      'set evaluation cubedecision evaluation plies 3',
+    );
+    expect(deepIndex).toBeGreaterThan(-1);
+    const before = commands.length;
+    session.cubeInfo(OPENING);
+    expect(commands.slice(before)).toContain(
+      'set evaluation cubedecision evaluation plies 2',
+    );
+  });
+
   it('throws when the engine rejects the position', () => {
     const { run } = scriptedRun({
       'set xgid': ["Not a valid XGID 'garbage'"],

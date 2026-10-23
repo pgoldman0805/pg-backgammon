@@ -1,6 +1,12 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
+import {
+  createMatchAnalyzer,
+  isMatchAnalysis,
+  type MatchAnalyzer,
+} from '../analysis';
+import { createFakeEngine, type Engine } from '../engine';
 import {
   acceptResignation,
   createBoard,
@@ -19,6 +25,7 @@ import {
   snapshotMatch,
 } from '../storage';
 import { scriptedDice } from '../test/dice';
+import { cubeGameMatch } from '../test/match';
 import { Analyze } from './Analyze';
 
 /** A finished 1-point match vs Expert: black resigns, white wins 1-0. */
@@ -64,11 +71,14 @@ function PlayProbe() {
   return <p>Play probe: {JSON.stringify(location.state)}</p>;
 }
 
-function renderAnalyze(storage: MatchStorage) {
+function renderAnalyze(storage: MatchStorage, analyzer?: MatchAnalyzer) {
   render(
     <MemoryRouter initialEntries={['/analyze']}>
       <Routes>
-        <Route path="/analyze" element={<Analyze storage={storage} />} />
+        <Route
+          path="/analyze"
+          element={<Analyze storage={storage} analyzer={analyzer} />}
+        />
         <Route path="/" element={<PlayProbe />} />
       </Routes>
     </MemoryRouter>,
@@ -135,9 +145,11 @@ describe('opening a finished match', () => {
     await user.click(await screen.findByRole('button', { name: 'Open' }));
 
     expect(screen.getByText('White wins the match 1–0')).toBeInTheDocument();
-    expect(screen.getByLabelText('Final position')).toBeInTheDocument();
+    // This record holds no decisions: the review degrades to the final
+    // position and the game list.
+    expect(await screen.findByLabelText('Final position')).toBeInTheDocument();
     expect(
-      screen.getByText(/White \+1 — resigned single game/),
+      await screen.findByText(/White \+1 — resigned single game/),
     ).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Back to history' }));
@@ -239,5 +251,184 @@ describe('backup', () => {
     ).toBeInTheDocument();
     expect(screen.getByText('White 2 · Black 1')).toBeInTheDocument();
     expect(await storage.list()).toHaveLength(1);
+  });
+});
+
+/** The scripted cube game as a finished 2-point match (Black wins 2–0). */
+function reviewMatch(): StoredMatch {
+  return snapshotMatch({
+    id: 'stored-review',
+    config: { length: 2, mode: 'computer', difficulty: 'world-class' },
+    match: cubeGameMatch(2),
+    createdAt: new Date(2026, 2, 1).getTime(),
+    updatedAt: new Date(2026, 2, 2).getTime(),
+  });
+}
+
+function fakeAnalyzer(): MatchAnalyzer {
+  return createMatchAnalyzer({ engine: createFakeEngine(), now: () => 42 });
+}
+
+/** An analyzer whose engine waits until the test releases it. */
+function heldAnalyzer(): { analyzer: MatchAnalyzer; release: () => void } {
+  const fake = createFakeEngine();
+  let release!: () => void;
+  const gate = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  const engine: Engine = {
+    ...fake,
+    rankPlays: async (...args) => {
+      await gate;
+      return fake.rankPlays(...args);
+    },
+    cubeInfo: async (...args) => {
+      await gate;
+      return fake.cubeInfo(...args);
+    },
+  };
+  return {
+    analyzer: createMatchAnalyzer({ engine, now: () => 42 }),
+    release,
+  };
+}
+
+/** The review fixture with its analysis already persisted. */
+async function analyzedReviewMatch(): Promise<StoredMatch> {
+  const stored = reviewMatch();
+  const analysis = await fakeAnalyzer().analyzeMatch(stored.record);
+  return { ...stored, analysis };
+}
+
+describe('post-game review', () => {
+  it('analyzes an unanalyzed match on open, with progress, and persists', async () => {
+    const user = userEvent.setup();
+    const storage = createMemoryStorage([reviewMatch()]);
+    const { analyzer, release } = heldAnalyzer();
+    renderAnalyze(storage, analyzer);
+
+    await user.click(await screen.findByRole('button', { name: 'Open' }));
+    expect(await screen.findByRole('status')).toHaveTextContent(/analyzing/i);
+
+    release();
+    expect(await screen.findByLabelText('White error rate')).toBeVisible();
+
+    const row = await storage.get('stored-review');
+    expect(isMatchAnalysis(row?.analysis)).toBe(true);
+  });
+
+  it('shows the decision list with losses, markers and the summary', async () => {
+    const user = userEvent.setup();
+    const stored = await analyzedReviewMatch();
+    renderAnalyze(createMemoryStorage([stored]));
+
+    await user.click(await screen.findByRole('button', { name: 'Open' }));
+
+    // The played plays appear in engine notation; the double carries its
+    // blunder marker (the fake engine prices it at exactly 0.080).
+    const list = await screen.findByLabelText('Decisions');
+    expect(within(list).getByText('8/5 6/5')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /doubles to 2/i }),
+    ).toHaveTextContent(/blunder/i);
+
+    // Per-player error rates, in thousandths, straight from the analysis.
+    const analysis = stored.analysis;
+    if (!isMatchAnalysis(analysis)) {
+      throw new Error('fixture must carry an analysis');
+    }
+    expect(screen.getByLabelText('White error rate')).toHaveTextContent(
+      (analysis.white.errorRate * 1000).toFixed(1),
+    );
+    expect(screen.getByLabelText('Black error rate')).toHaveTextContent(
+      (analysis.black.errorRate * 1000).toFixed(1),
+    );
+  });
+
+  it('opens a decision on the board with the engine alternatives', async () => {
+    const user = userEvent.setup();
+    renderAnalyze(createMemoryStorage([await analyzedReviewMatch()]));
+    await user.click(await screen.findByRole('button', { name: 'Open' }));
+
+    // The cube blunder, called out with its cost.
+    await user.click(
+      await screen.findByRole('button', { name: /doubles to 2/i }),
+    );
+    const detail = screen.getByLabelText('Decision detail');
+    expect(detail).toHaveTextContent(/wrong double/i);
+    expect(detail).toHaveTextContent(/0\.080/);
+    expect(screen.getByLabelText('Review position')).toBeInTheDocument();
+
+    // A checker play shows the ranked alternatives with best and played marked.
+    await user.click(screen.getByRole('button', { name: /white plays 3-1/i }));
+    const alternatives = screen.getByLabelText('Engine alternatives');
+    expect(within(alternatives).getAllByRole('button').length).toBeGreaterThan(
+      1,
+    );
+    expect(within(alternatives).getByText(/played/i)).toBeInTheDocument();
+    expect(within(alternatives).getByText(/best/i)).toBeInTheDocument();
+  });
+
+  it('steps through the decisions with next and previous', async () => {
+    const user = userEvent.setup();
+    renderAnalyze(createMemoryStorage([await analyzedReviewMatch()]));
+    await user.click(await screen.findByRole('button', { name: 'Open' }));
+
+    const detail = await screen.findByLabelText('Decision detail');
+    expect(detail).toHaveTextContent(/white played 8\/5 6\/5/i);
+
+    await user.click(screen.getByRole('button', { name: 'Next decision' }));
+    expect(detail).toHaveTextContent(/black doubles to 2/i);
+
+    await user.click(screen.getByRole('button', { name: 'Previous decision' }));
+    expect(detail).toHaveTextContent(/white played 8\/5 6\/5/i);
+  });
+
+  it('analyzes a single decision deeper and persists the refinement', async () => {
+    const user = userEvent.setup();
+    const stored = await analyzedReviewMatch();
+    const storage = createMemoryStorage([stored]);
+    renderAnalyze(storage, fakeAnalyzer());
+    await user.click(await screen.findByRole('button', { name: 'Open' }));
+
+    const detail = await screen.findByLabelText('Decision detail');
+    expect(detail).toHaveTextContent('2-ply');
+    await user.click(screen.getByRole('button', { name: /analyze deeper/i }));
+
+    expect(await within(detail).findByText('3-ply')).toBeInTheDocument();
+    const row = await storage.get('stored-review');
+    if (!isMatchAnalysis(row?.analysis)) {
+      throw new Error('the deepened analysis must persist');
+    }
+    expect(row.analysis.games[0].decisions[0].plies).toBe(3);
+  });
+
+  it('offers a retry when the analysis fails', async () => {
+    const user = userEvent.setup();
+    const fake = createFakeEngine();
+    let failures = 1;
+    const flaky: Engine = {
+      ...fake,
+      rankPlays: (...args) => {
+        if (failures > 0) {
+          failures -= 1;
+          return Promise.reject(new Error('engine busy'));
+        }
+        return fake.rankPlays(...args);
+      },
+    };
+    const storage = createMemoryStorage([reviewMatch()]);
+    renderAnalyze(
+      storage,
+      createMatchAnalyzer({ engine: flaky, now: () => 42 }),
+    );
+
+    await user.click(await screen.findByRole('button', { name: 'Open' }));
+    expect(
+      await screen.findByText(/analysis could not be completed/i),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Try again' }));
+    expect(await screen.findByLabelText('White error rate')).toBeVisible();
   });
 });

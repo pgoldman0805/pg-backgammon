@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { useAutoAnalysis } from '../analysis';
 import type { Difficulty, Engine, EngineStatus } from '../engine';
 import { type Autoplay, createAutoplay } from '../play/autoplay';
 import { Board } from '../play/Board';
@@ -400,6 +401,8 @@ export function Play({
   autoplaySettings.current = { autoRollRaces, autoForcedPlays };
   const autoplayRef = useRef<Autoplay | null>(null);
   const persistence = useMatchPersistence(store, storage);
+  // Ticket 08: finished games analyze themselves in the background.
+  useAutoAnalysis(store, storage);
   const autoResumed = useRef(false);
 
   // Start the lazy engine load on first visit; the shell stays usable and

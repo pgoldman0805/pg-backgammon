@@ -99,12 +99,25 @@ export interface CubeAnalysis {
   readonly properAction: string;
 }
 
+/**
+ * Full-strength analysis effort: 'standard' is the clean 2-ply ground truth,
+ * 'deep' re-queries at 3-ply with a wider move filter (the analyzer's
+ * bounded on-demand deepening — no rollouts, per the spec).
+ */
+export type AnalysisEffort = 'standard' | 'deep';
+
 export interface RankPlaysOptions {
   /**
    * Weaken the ranking to this difficulty: reduced lookahead plus
    * position-seeded deterministic noise. Omit for full strength (2-ply).
    */
   readonly difficulty?: Difficulty;
+  /** Full-strength effort; ignored when a difficulty weakens the ranking. */
+  readonly effort?: AnalysisEffort;
+}
+
+export interface CubeInfoOptions {
+  readonly effort?: AnalysisEffort;
 }
 
 /**
@@ -126,7 +139,10 @@ export interface Engine {
     options?: RankPlaysOptions,
   ): Promise<readonly RankedPlay[]>;
   /** Analyze the on-roll player's doubling decision. */
-  cubeInfo(position: EnginePosition): Promise<CubeAnalysis>;
+  cubeInfo(
+    position: EnginePosition,
+    options?: CubeInfoOptions,
+  ): Promise<CubeAnalysis>;
   /** Release the worker and any pending requests. */
   dispose(): void;
 }

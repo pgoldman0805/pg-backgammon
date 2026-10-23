@@ -168,10 +168,418 @@
   color: var(--ink-muted);
 }
 
+/* ------------------------------------------------------------------ */
+/* The post-game review (ticket 08)                                     */
+/*                                                                      */
+/* The ledger's language continues: hairline rules give structure, and  */
+/* color appears exactly where equity was lost — the classification     */
+/* markers are the one loud element on the page. All equity numbers     */
+/* are tabular so columns of losses read like a statement.              */
+/* ------------------------------------------------------------------ */
+
+.analyze-area {
+  --blunder: #a2402c;
+  --error-mark: #8a6210;
+}
+
+:root[data-theme="dark"] .analyze-area {
+  --blunder: #e08062;
+  --error-mark: #d2a04a;
+}
+
+.review {
+  width: 100%;
+  display: grid;
+  gap: 1.25rem;
+}
+
+/* Analyzing… */
+.review-progress-block {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: start;
+  padding: 1rem 0;
+}
+
+.review-progress {
+  color: var(--ink-muted);
+}
+
+.review-progress-track {
+  width: min(28rem, 100%);
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.review-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 200ms ease;
+}
+
+/* Error-rate summary: the one number the review promises. */
+.review-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 2.5rem;
+  row-gap: 0.35rem;
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.summary-player {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.summary-player .chip-swatch {
+  align-self: center;
+}
+
+.summary-name {
+  font-weight: 600;
+}
+
+.summary-rate {
+  font-size: 1.45rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.summary-counts {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+.summary-hint {
+  flex-basis: 100%;
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+}
+
+/* Game tabs */
+.game-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.game-tab {
+  padding: 0.3rem 0.8rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.game-tab[aria-pressed="true"] {
+  color: var(--ink);
+  border-color: var(--accent);
+}
+
+.game-tab-rate {
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Two panes: the decision ledger and the board with its detail. */
+.review-layout {
+  display: grid;
+  grid-template-columns: minmax(17rem, 21rem) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+  width: 100%;
+}
+
+.decision-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  max-height: 74vh;
+  overflow-y: auto;
+}
+
+.decision-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 2.6rem minmax(0, 1fr) 3.6rem auto;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.35rem;
+  font: inherit;
+  font-size: 0.92rem;
+  text-align: left;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-left: 3px solid transparent;
+  cursor: pointer;
+}
+
+.decision-row:hover {
+  border-left-color: var(--ink-muted);
+}
+
+.decision-row[aria-current] {
+  border-left-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+}
+
+.decision-tag {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.decision-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.decision-loss {
+  justify-self: end;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.88rem;
+  color: var(--ink-muted);
+}
+
+.decision-loss--blunder {
+  color: var(--blunder);
+  font-weight: 650;
+}
+
+.decision-loss--error {
+  color: var(--error-mark);
+  font-weight: 600;
+}
+
+/* Classification badges: the page's single saturated element. */
+.review-badge {
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  padding: 0.1rem 0.45rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.review-badge--blunder {
+  color: var(--bg);
+  background: var(--blunder);
+}
+
+.review-badge--error {
+  color: var(--error-mark);
+  border: 1px solid currentcolor;
+}
+
+.review-badge--dubious {
+  color: var(--ink-muted);
+  border: 1px solid var(--line);
+}
+
+/* Board column */
+.review-board {
+  display: grid;
+  gap: 0.9rem;
+  min-width: 0;
+}
+
+.review-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.review-count {
+  font-size: 0.88rem;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.review-position {
+  margin: 0;
+  width: 100%;
+  max-width: 640px;
+}
+
+.review-position figcaption {
+  margin-top: 0.4rem;
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+/* Decision detail */
+.decision-detail {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 640px;
+}
+
+.detail-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+}
+
+.detail-headline {
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: -0.005em;
+}
+
+.detail-verdict {
+  font-size: 0.95rem;
+}
+
+.detail-verdict--blunder {
+  color: var(--blunder);
+  font-weight: 600;
+}
+
+.detail-verdict--error {
+  color: var(--error-mark);
+  font-weight: 600;
+}
+
+.detail-rank {
+  color: var(--ink-muted);
+  font-weight: 400;
+}
+
+.review-chip {
+  font-size: 0.72rem;
+  color: var(--accent);
+  border: 1px solid currentcolor;
+  border-radius: 999px;
+  padding: 0.05rem 0.5rem;
+  white-space: nowrap;
+}
+
+.review-chip--played {
+  color: var(--ink-muted);
+}
+
+.review-chip--plies {
+  color: var(--ink-muted);
+}
+
+/* Alternatives / cube equities */
+.alternatives {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.alternative-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.4rem minmax(0, 1fr) 4.2rem 3.6rem auto auto;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0.35rem;
+  font: inherit;
+  font-size: 0.9rem;
+  text-align: left;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+
+.alternative-row--static {
+  grid-template-columns: minmax(0, 1fr) 4.2rem;
+  cursor: default;
+}
+
+.alternative-row:not(.alternative-row--static):hover,
+.alternative-row--shown {
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+}
+
+.alternative-rank {
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.alternative-equity,
+.alternative-loss {
+  justify-self: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.alternative-loss {
+  color: var(--ink-muted);
+  font-size: 0.85rem;
+}
+
+.cube-panel {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.cube-proper {
+  font-size: 0.88rem;
+  color: var(--ink-muted);
+}
+
+.detail-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.detail-hint {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+}
+
+.detail-note {
+  font-size: 0.88rem;
+  color: var(--blunder);
+}
+
+@media (max-width: 900px) {
+  .review-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .decision-list {
+    order: 2;
+    max-height: 45vh;
+  }
+
+  .review-board {
+    order: 1;
+  }
+}
+
 @media (max-width: 640px) {
   .match-row {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
+  }
+
+  .review-summary {
+    column-gap: 1.25rem;
   }
 }

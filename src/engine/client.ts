@@ -8,6 +8,7 @@
 import type { DiceRoll } from '../rules';
 import type {
   CubeAnalysis,
+  CubeInfoOptions,
   Engine,
   EnginePosition,
   EngineStatus,
@@ -149,9 +150,12 @@ export function createGnubgEngine(options: CreateEngineOptions = {}): Engine {
       });
     },
 
-    async cubeInfo(position: EnginePosition): Promise<CubeAnalysis> {
+    async cubeInfo(
+      position: EnginePosition,
+      options?: CubeInfoOptions,
+    ): Promise<CubeAnalysis> {
       await initialize();
-      return send<CubeAnalysis>({ kind: 'cubeInfo', position });
+      return send<CubeAnalysis>({ kind: 'cubeInfo', position, options });
     },
 
     dispose() {
