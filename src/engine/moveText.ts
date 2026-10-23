@@ -10,7 +10,7 @@
  */
 
 import type { BoardState, DiceRoll, Play, Player } from '../rules';
-import { applyMovement, legalPlays } from '../rules';
+import { applyMovement, legalPlays, opponent } from '../rules';
 
 type Location = number | 'bar' | 'off';
 
@@ -59,7 +59,6 @@ export function applyMoveText(
   moveText: string,
 ): BoardState {
   const sign = player === 'white' ? 1 : -1;
-  const opponent: Player = player === 'white' ? 'black' : 'white';
   const points = [...board.points];
   const bar = { ...board.bar };
   const off = { ...board.off };
@@ -75,7 +74,7 @@ export function applyMoveText(
     } else if (to !== 'bar') {
       if (points[to] * sign === -1) {
         points[to] = 0;
-        bar[opponent] += 1;
+        bar[opponent(player)] += 1;
       }
       points[to] += sign;
     }

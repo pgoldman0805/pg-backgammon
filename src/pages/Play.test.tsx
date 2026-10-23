@@ -6,7 +6,8 @@ import {
   waitFor,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createFakeEngine, type Engine } from '../engine';
+import type { Engine } from '../engine';
+import { createFakeEngine } from '../engine/fake';
 import { createPlayStore, type PlayStoreOptions } from '../play/store';
 import {
   type CreateMatchOptions,
@@ -614,7 +615,7 @@ describe('playing against the computer', () => {
         continue;
       }
       const forced = screen.queryByRole('button', {
-        name: 'Play forced move',
+        name: 'Play forced play',
       });
       if (forced) {
         fireEvent.click(forced);
@@ -765,7 +766,7 @@ describe('dance and forced turns (hot-seat)', () => {
 
     expect(screen.getByRole('status')).toHaveTextContent('only one legal play');
 
-    await user.click(screen.getByRole('button', { name: 'Play forced move' }));
+    await user.click(screen.getByRole('button', { name: 'Play forced play' }));
     expect(screen.getByRole('status')).toHaveTextContent('Black to roll.');
   });
 });
@@ -797,7 +798,7 @@ describe('a complete hot-seat match with clicks only', () => {
         fireEvent.click(commit);
         continue;
       }
-      const forced = screen.queryByRole('button', { name: 'Play forced move' });
+      const forced = screen.queryByRole('button', { name: 'Play forced play' });
       if (forced) {
         fireEvent.click(forced);
         continue;

@@ -9,7 +9,7 @@
  */
 
 import type { DiceRoll, Play } from '../rules';
-import { applyMovement, legalPlays, pipCount } from '../rules';
+import { applyMovement, legalPlays, opponent, pipCount } from '../rules';
 import {
   applyDifficultyNoise,
   DIFFICULTY_SETTINGS,
@@ -61,9 +61,8 @@ export function createFakeEngine(): Engine {
   }
 
   function heuristicEquity(position: EnginePosition): number {
-    const opponent = position.onRoll === 'white' ? 'black' : 'white';
     const lead =
-      pipCount(position.board, opponent) -
+      pipCount(position.board, opponent(position.onRoll)) -
       pipCount(position.board, position.onRoll);
     return lead / 50;
   }

@@ -1,9 +1,11 @@
-import type { BoardState, CheckerMovement, Player } from './types';
+import {
+  type BoardState,
+  type CheckerMovement,
+  opponent,
+  type Player,
+} from './types';
 
 const sign = (player: Player): 1 | -1 => (player === 'white' ? 1 : -1);
-
-const opponent = (player: Player): Player =>
-  player === 'white' ? 'black' : 'white';
 
 export interface PlayerPlacement {
   /** Checker count per point (1-24). */

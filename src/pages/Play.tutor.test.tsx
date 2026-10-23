@@ -5,7 +5,7 @@
  */
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { createFakeEngine } from '../engine';
+import { createFakeEngine } from '../engine/fake';
 import { createPlayStore, type PlayStoreOptions } from '../play/store';
 import { createMemoryStorage } from '../storage';
 import { scriptedDice } from '../test/dice';

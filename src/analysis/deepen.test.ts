@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createFakeEngine } from '../engine';
+import { createFakeEngine } from '../engine/fake';
 import { cubeGameMatch as cubeGame, recordOf } from '../test/match';
 import { analyzeMatch } from './analyze';
 import { deepenDecision } from './deepen';

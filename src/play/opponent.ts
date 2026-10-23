@@ -17,6 +17,7 @@ import {
   canDouble,
   type GameEndKind,
   type MatchState,
+  opponent,
   type Play,
   type Player,
 } from '../rules';
@@ -53,9 +54,6 @@ export interface EngineOpponent {
 
 const defaultPace = (ms: number) =>
   new Promise<void>((resolve) => setTimeout(resolve, ms));
-
-const opposing = (player: Player): Player =>
-  player === 'white' ? 'black' : 'white';
 
 /** The match context the engine needs for match-aware evaluation. */
 export function matchContext(match: MatchState): MatchContext {
@@ -326,9 +324,9 @@ export function createEngineOpponent(
         return match.toRoll === player;
       case 'cube-offered':
         // Respond only to the opponent's double, never our own.
-        return match.toRoll === opposing(player);
+        return match.toRoll === opponent(player);
       case 'resign-offered':
-        return match.pendingResignation?.by === opposing(player);
+        return match.pendingResignation?.by === opponent(player);
       default:
         return false;
     }

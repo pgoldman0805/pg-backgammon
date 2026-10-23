@@ -3,14 +3,14 @@
  * stay realistic while the test decides the timing.
  */
 
-import {
-  type CubeAnalysis,
-  createFakeEngine,
-  type Engine,
-  type EngineStatus,
-  type PositionEvaluation,
-  type RankedPlay,
+import type {
+  CubeAnalysis,
+  Engine,
+  EngineStatus,
+  PositionEvaluation,
+  RankedPlay,
 } from '../engine';
+import { createFakeEngine } from '../engine/fake';
 import { applyMovement, type CheckerMovement } from '../rules';
 
 /**

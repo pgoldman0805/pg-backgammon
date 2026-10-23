@@ -50,6 +50,7 @@ export {
   type DecisionMoment,
   type GameStanding,
   matchStandings,
+  momentForDecision,
   type PlayMoment,
   walkGame,
 } from './walk';

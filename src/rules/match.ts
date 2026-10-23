@@ -23,14 +23,15 @@ import {
   startNextTurn,
   undoTurnMovement,
 } from './game';
-import type {
-  BoardState,
-  DiceRoll,
-  Die,
-  GameEndKind,
-  GameRecord,
-  Player,
-  Point,
+import {
+  type BoardState,
+  type DiceRoll,
+  type Die,
+  type GameEndKind,
+  type GameRecord,
+  opponent,
+  type Player,
+  type Point,
 } from './types';
 
 /** The doubling cube: centered until first turned, then owned by the taker. */
@@ -149,9 +150,6 @@ export interface MatchState {
   /** The match winner, once decided. */
   readonly winner: Player | null;
 }
-
-const opponent = (player: Player): Player =>
-  player === 'white' ? 'black' : 'white';
 
 /**
  * Is the next game the Crawford game? Yes exactly when a player sits one

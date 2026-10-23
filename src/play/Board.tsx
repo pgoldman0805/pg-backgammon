@@ -13,6 +13,7 @@ import {
   type Player,
   type Point,
 } from '../rules';
+import { playerName } from '../ui/format';
 import { type DragState, dragTransition, idleDrag } from './drag';
 import {
   BOARD,
@@ -181,7 +182,7 @@ function CubeGlyph({ cube }: { cube: BoardCube }) {
     ? 'Doubling cube: out of play (Crawford game)'
     : cube.owner === 'center'
       ? `Doubling cube: centered at ${cube.value}`
-      : `Doubling cube: ${cube.owner === 'white' ? 'White' : 'Black'} holds it at ${cube.value}`;
+      : `Doubling cube: ${playerName(cube.owner)} holds it at ${cube.value}`;
   return (
     // biome-ignore lint/a11y/noInteractiveElementToNoninteractiveRole: an SVG <g> is not interactive; img is its true role
     <g

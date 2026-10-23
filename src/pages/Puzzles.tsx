@@ -41,7 +41,7 @@ import {
   createGame,
   type Die,
   type GameState,
-  type Player,
+  opponent,
   type Point,
   undoTurnMovement,
 } from '../rules';
@@ -51,6 +51,7 @@ import {
   getPuzzleProgressStorage,
   type PuzzleProgressStorage,
 } from '../storage';
+import { lossText, playerName, signedEquityText } from '../ui/format';
 import '../play/board.css';
 import './puzzles.css';
 
@@ -85,18 +86,6 @@ const CUBE_LABEL: Record<CubeAction, string> = {
   take: 'Take',
   pass: 'Pass',
 };
-
-function name(player: Player): string {
-  return player === 'white' ? 'White' : 'Black';
-}
-
-function signedEquity(equity: number): string {
-  return `${equity < 0 ? '−' : '+'}${Math.abs(equity).toFixed(3)}`;
-}
-
-function lossText(loss: number): string {
-  return loss === 0 ? '—' : `−${loss.toFixed(3)}`;
-}
 
 /** A static game shell so the Board renders an arbitrary position. */
 function staticGame(puzzle: Puzzle): GameState {
@@ -137,7 +126,8 @@ interface DrillCollection {
   readonly puzzles: readonly Puzzle[];
 }
 
-interface Session {
+/** One drill: a run through a collection's queue, as the UI names it. */
+interface Drill {
   readonly collection: DrillCollection;
   readonly queue: readonly Puzzle[];
   readonly index: number;
@@ -193,7 +183,7 @@ export function Puzzles({
   );
   const [progress, setProgress] = useState<PuzzleProgressState | null>(null);
   const [blunderPuzzles, setBlunderPuzzles] = useState<readonly Puzzle[]>([]);
-  const [session, setSession] = useState<Session | null>(null);
+  const [drill, setDrill] = useState<Drill | null>(null);
   const [game, setGame] = useState<GameState | null>(null);
   const [selected, setSelected] = useState<Point | 'bar' | null>(null);
   const [outcome, setOutcome] = useState<Outcome | null>(null);
@@ -258,8 +248,8 @@ export function Puzzles({
     return groups;
   }, [puzzles]);
 
-  const current: Puzzle | null = session
-    ? (session.queue[session.index] ?? null)
+  const current: Puzzle | null = drill
+    ? (drill.queue[drill.index] ?? null)
     : null;
 
   function startDrill(collection: DrillCollection): void {
@@ -270,7 +260,7 @@ export function Puzzles({
     if (queue.length === 0) {
       return;
     }
-    setSession({
+    setDrill({
       collection,
       queue,
       index: 0,
@@ -296,30 +286,30 @@ export function Puzzles({
   };
 
   function leaveDrill(): void {
-    setSession(null);
+    setDrill(null);
     setGame(null);
     setOutcome(null);
     setSelected(null);
   }
 
-  /** Fold one answer into progress and the session; failures never break play. */
+  /** Fold one answer into progress and the drill; failures never break play. */
   function settle(
     puzzle: Puzzle,
     correct: boolean,
     outcomeNext: Outcome,
   ): void {
-    if (!progress || !session) {
+    if (!progress || !drill) {
       return;
     }
     const next = recordAnswer(progress, puzzle, correct, Date.now());
     setProgress(next);
     storage.save(next).catch(() => {});
-    setSession({
-      ...session,
+    setDrill({
+      ...drill,
       // A miss returns at the end of this same drill.
-      queue: correct ? session.queue : [...session.queue, puzzle],
-      solvedThisRun: session.solvedThisRun + (correct ? 1 : 0),
-      answeredThisRun: session.answeredThisRun + 1,
+      queue: correct ? drill.queue : [...drill.queue, puzzle],
+      solvedThisRun: drill.solvedThisRun + (correct ? 1 : 0),
+      answeredThisRun: drill.answeredThisRun + 1,
     });
     setOutcome(outcomeNext);
   }
@@ -351,12 +341,12 @@ export function Puzzles({
   }
 
   function nextPuzzle(): void {
-    if (!session) {
+    if (!drill) {
       return;
     }
-    const index = session.index + 1;
-    setSession({ ...session, index });
-    const upcoming = session.queue[index] ?? null;
+    const index = drill.index + 1;
+    setDrill({ ...drill, index });
+    const upcoming = drill.queue[index] ?? null;
     setGame(upcoming ? freshAttempt(upcoming) : null);
     setSelected(null);
     setOutcome(null);
@@ -391,7 +381,7 @@ export function Puzzles({
   }
 
   // ---- Browse view ----------------------------------------------------
-  if (!session) {
+  if (!drill) {
     return (
       <section className="puzzles-area">
         <h1>Puzzles</h1>
@@ -478,14 +468,14 @@ export function Puzzles({
         <div className="drill-complete">
           <p className="drill-complete-title">Drill complete</p>
           <p className="puzzles-note">
-            {session.collection.label}: {session.solvedThisRun} of{' '}
-            {session.answeredThisRun} right this run.
+            {drill.collection.label}: {drill.solvedThisRun} of{' '}
+            {drill.answeredThisRun} right this run.
           </p>
           <div className="puzzle-controls">
             <button
               type="button"
               className="play-button play-button--primary"
-              onClick={() => startDrill(session.collection)}
+              onClick={() => startDrill(drill.collection)}
             >
               Go again
             </button>
@@ -505,11 +495,11 @@ export function Puzzles({
   // ---- Attempt / reveal -----------------------------------------------
   const isPlay = current.kind === 'play';
   const prompt = isPlay
-    ? `${name(current.hero)} to play ${(current as PlayPuzzle).roll[0]}-${(current as PlayPuzzle).roll[1]}.`
+    ? `${playerName(current.hero)} to play ${(current as PlayPuzzle).roll[0]}-${(current as PlayPuzzle).roll[1]}.`
     : (current as CubePuzzle).decision === 'offer'
-      ? `${name(current.hero)} on roll. Double, or roll?`
-      : `${name(current.hero === 'white' ? 'black' : 'white')} doubles to ${current.match.cube.value * 2}. Take or pass?`;
-  const servedFromRetry = session.retryIds.has(current.id);
+      ? `${playerName(current.hero)} on roll. Double, or roll?`
+      : `${playerName(opponent(current.hero))} doubles to ${current.match.cube.value * 2}. Take or pass?`;
+  const servedFromRetry = drill.retryIds.has(current.id);
   const answered = outcome !== null;
 
   const equityTable = answered && (
@@ -547,7 +537,7 @@ export function Puzzles({
                     <td>{answer.rank}</td>
                     <td className="equity-move">{answer.moveText}</td>
                     <td className="equity-number">
-                      {signedEquity(answer.equity)}
+                      {signedEquityText(answer.equity)}
                     </td>
                     <td className="equity-number">
                       {lossText(answer.equityLoss)}
@@ -572,7 +562,7 @@ export function Puzzles({
                     <td>{index + 1}</td>
                     <td className="equity-move">{CUBE_LABEL[choice.action]}</td>
                     <td className="equity-number">
-                      {signedEquity(choice.equity)}
+                      {signedEquityText(choice.equity)}
                     </td>
                     <td className="equity-number">
                       {lossText(choice.equityLoss)}
@@ -622,8 +612,8 @@ export function Puzzles({
           {servedFromRetry && <span className="retry-chip">Retry</span>}
         </p>
         <p className="puzzle-caption">
-          {THEME_TEXT[current.theme].label} · puzzle {session.index + 1} of{' '}
-          {session.queue.length}
+          {THEME_TEXT[current.theme].label} · puzzle {drill.index + 1} of{' '}
+          {drill.queue.length}
         </p>
       </div>
       <div className="puzzle-board">

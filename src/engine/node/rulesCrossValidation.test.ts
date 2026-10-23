@@ -16,6 +16,7 @@ import {
   createBoard,
   initialBoard,
   legalPlays,
+  opponent,
 } from '../../rules';
 import type { GnubgSession } from '../session';
 import { loadGnubgSession } from './loadGnubg';
@@ -78,7 +79,7 @@ describe('rules engine vs gnubg move generation', () => {
       if (board.off.white === 15 || board.off.black === 15) {
         break;
       }
-      player = player === 'white' ? 'black' : 'white';
+      player = opponent(player);
     }
     expect(compared).toBeGreaterThanOrEqual(20);
   });

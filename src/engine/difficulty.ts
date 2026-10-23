@@ -29,6 +29,18 @@ export const DIFFICULTY_SETTINGS: Readonly<
   'world-class': { plies: 2, noise: 0 },
 };
 
+/**
+ * Display labels for the five difficulties (GLOSSARY "Difficulty"), in
+ * settings order: weakest first.
+ */
+export const DIFFICULTY_LABELS: Readonly<Record<Difficulty, string>> = {
+  beginner: 'Beginner',
+  casual: 'Casual',
+  intermediate: 'Intermediate',
+  expert: 'Expert',
+  'world-class': 'World-class',
+};
+
 /** xmur3 string hash: seeds the PRNG from arbitrary text. */
 function hashSeed(text: string): number {
   let h = 1779033703 ^ text.length;

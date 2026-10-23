@@ -77,3 +77,4 @@ export type {
   Player,
   Point,
 } from './types';
+export { opponent } from './types';

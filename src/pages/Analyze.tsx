@@ -18,11 +18,13 @@ import {
   type MatchAnalysis,
   type MatchAnalyzer,
   matchStandings,
+  momentForDecision,
   type PlayAlternative,
   type PlayerSummary,
   type PositionAnalysis,
   walkGame,
 } from '../analysis';
+import { DIFFICULTY_LABELS } from '../engine';
 import {
   CopyXgidButton,
   type DecodedXgid,
@@ -41,7 +43,7 @@ import {
   type GameEndKind,
   type GameState,
   type MatchGameRecord,
-  type Player,
+  opponent,
   replayMatch,
   replayMatchGame,
 } from '../rules';
@@ -55,6 +57,7 @@ import {
   type StoredMatch,
   serializeBackup,
 } from '../storage';
+import { lossText, playerName, rateText, signedEquityText } from '../ui/format';
 import '../play/board.css';
 import './analyze.css';
 
@@ -64,21 +67,7 @@ const KIND_TEXT: Record<GameEndKind, string> = {
   backgammon: 'backgammon',
 };
 
-const DIFFICULTY_LABEL: Record<string, string> = {
-  beginner: 'Beginner',
-  casual: 'Casual',
-  intermediate: 'Intermediate',
-  expert: 'Expert',
-  'world-class': 'World-class',
-};
-
-function name(player: Player): string {
-  return player === 'white' ? 'White' : 'Black';
-}
-
-function other(player: Player): Player {
-  return player === 'white' ? 'black' : 'white';
-}
+const DIFFICULTY_LABEL: Record<string, string> = DIFFICULTY_LABELS;
 
 /** The player names an imported match carries in its config, if any. */
 function storedPlayers(stored: StoredMatch): MatPlayers | undefined {
@@ -115,7 +104,7 @@ function matchName(stored: StoredMatch): string {
 function resultLine(stored: StoredMatch): string {
   if (stored.status === 'finished' && stored.winner) {
     const winner = stored.winner;
-    return `${name(winner)} wins ${stored.score[winner]}–${stored.score[other(winner)]}`;
+    return `${playerName(winner)} wins ${stored.score[winner]}–${stored.score[opponent(winner)]}`;
   }
   return `White ${stored.score.white} · Black ${stored.score.black}`;
 }
@@ -149,32 +138,17 @@ function gameLine(completed: MatchGameRecord): string {
         ? `resigned ${KIND_TEXT[result.kind]}`
         : KIND_TEXT[result.kind];
   const crawford = completed.crawford ? ' (Crawford)' : '';
-  return `${name(result.winner)} +${result.points} — ${how}${crawford}`;
+  return `${playerName(result.winner)} +${result.points} — ${how}${crawford}`;
 }
 
 /* ------------------------------------------------------------------ */
 /* Review formatting                                                    */
 /* ------------------------------------------------------------------ */
 
-/** Error rate for display: thousandths of a point per decision. */
-function rateText(summary: PlayerSummary): string {
-  return (summary.errorRate * 1000).toFixed(1);
-}
-
 function countsText(summary: PlayerSummary): string {
   const part = (count: number, word: string) =>
     `${count} ${word}${count === 1 ? '' : 's'}`;
   return `${part(summary.blunders, 'blunder')} · ${part(summary.errors, 'error')} · ${summary.dubious} dubious`;
-}
-
-/** A signed EMG equity, minus sign included. */
-function equityText(value: number): string {
-  return `${value < 0 ? '−' : '+'}${Math.abs(value).toFixed(3)}`;
-}
-
-/** An equity loss for the lists: a dash when nothing was lost. */
-function lossText(loss: number): string {
-  return loss >= 0.0005 ? `−${loss.toFixed(3)}` : '–';
 }
 
 const CLASSIFICATION_TEXT = {
@@ -214,7 +188,7 @@ function decisionText(decision: AnalyzedDecision): string {
 
 /** The accessible name of a decision row. */
 function decisionLabel(decision: AnalyzedDecision): string {
-  const player = name(decision.player);
+  const player = playerName(decision.player);
   if (decision.kind === 'play') {
     return `${player} plays ${rollText(decision.roll)}: ${decision.moveText}`;
   }
@@ -232,7 +206,7 @@ function decisionLabel(decision: AnalyzedDecision): string {
 
 /** The detail panel's headline for a decision. */
 function decisionHeadline(decision: AnalyzedDecision): string {
-  const player = name(decision.player);
+  const player = playerName(decision.player);
   if (decision.kind === 'play') {
     return `${player} played ${decision.moveText}`;
   }
@@ -389,7 +363,7 @@ function AlternativesPanel({
               <span className="alternative-rank">{rank}</span>
               <span className="alternative-text">{alternative.moveText}</span>
               <span className="alternative-equity">
-                {equityText(alternative.equity)}
+                {signedEquityText(alternative.equity)}
               </span>
               <span className="alternative-loss">
                 {isBest ? '' : lossText(alternative.equityLoss)}
@@ -421,7 +395,9 @@ function CubePanel({ decision }: { decision: AnalyzedCube }) {
             className="alternative-row alternative-row--static"
           >
             <span className="alternative-text">{row.action}</span>
-            <span className="alternative-equity">{equityText(row.equity)}</span>
+            <span className="alternative-equity">
+              {signedEquityText(row.equity)}
+            </span>
           </li>
         ))}
       </ol>
@@ -492,18 +468,10 @@ function Review({
         : [],
     [record, standings, gameIndex],
   );
-  const moment = useMemo(() => {
-    if (!decision) {
-      return null;
-    }
-    return (
-      moments.find((m) =>
-        decision.kind === 'play'
-          ? m.kind === 'play' && m.playIndex === decision.playIndex
-          : m.kind !== 'play' && m.playIndex === decision.playIndex,
-      ) ?? null
-    );
-  }, [decision, moments]);
+  const moment = useMemo(
+    () => (decision ? momentForDecision(moments, decision) : null),
+    [decision, moments],
+  );
 
   /** The XGID of the position before the selected decision (ticket 10). */
   const xgid = useMemo(() => {
@@ -566,8 +534,8 @@ function Review({
     : preview
       ? `After ${preview.moveText}.`
       : moment.kind === 'play'
-        ? `${name(moment.player)} to play ${moment.roll[0]}-${moment.roll[1]}.`
-        : `${name(moment.kind === 'cube-action' ? moment.doubler : moment.player)} on roll — cube decision.`;
+        ? `${playerName(moment.player)} to play ${moment.roll[0]}-${moment.roll[1]}.`
+        : `${playerName(moment.kind === 'cube-action' ? moment.doubler : moment.player)} on roll — cube decision.`;
 
   const position = selected
     ? sequence.findIndex((ref) => sameRef(selected, ref))
@@ -623,14 +591,14 @@ function Review({
               className={`chip-swatch chip-swatch--${player}`}
               aria-hidden="true"
             />
-            <span className="summary-name">{name(player)}</span>
+            <span className="summary-name">{playerName(player)}</span>
             {/* biome-ignore lint/a11y/useSemanticElements: a labelled inline stat; fieldset/section would be wrong semantics */}
             <span
               className="summary-rate"
               role="group"
-              aria-label={`${name(player)} error rate`}
+              aria-label={`${playerName(player)} error rate`}
             >
-              {rateText(analysis[player])}
+              {rateText(analysis[player].errorRate)}
             </span>
             <span className="summary-counts">
               {countsText(analysis[player])}
@@ -665,7 +633,8 @@ function Review({
               >
                 Game {index + 1}
                 <span className="game-tab-rate">
-                  {rateText(game.white)} · {rateText(game.black)}
+                  {rateText(game.white.errorRate)} ·{' '}
+                  {rateText(game.black.errorRate)}
                 </span>
               </button>
             );
@@ -905,7 +874,7 @@ function MatchView({
       </button>
       <h2 className="match-view-title">
         {replay?.winner
-          ? `${name(replay.winner)} wins the match ${replay.score[replay.winner]}–${replay.score[other(replay.winner)]}`
+          ? `${playerName(replay.winner)} wins the match ${replay.score[replay.winner]}–${replay.score[opponent(replay.winner)]}`
           : 'This match record could not be replayed.'}
       </h2>
       <p className="match-view-meta">{metaLine(stored)}</p>
@@ -1024,10 +993,10 @@ function viewerGame(loaded: DecodedXgid): GameState {
 function viewerCaption(loaded: DecodedXgid): string {
   const { onRoll, match } = loaded.position;
   const action = loaded.pendingDouble
-    ? `${name(onRoll)} doubles to ${(match?.cube?.value ?? 1) * 2} — ${name(other(onRoll))} to take or pass`
+    ? `${playerName(onRoll)} doubles to ${(match?.cube?.value ?? 1) * 2} — ${playerName(opponent(onRoll))} to take or pass`
     : loaded.roll
-      ? `${name(onRoll)} to play ${loaded.roll[0]}-${loaded.roll[1]}`
-      : `${name(onRoll)} on roll`;
+      ? `${playerName(onRoll)} to play ${loaded.roll[0]}-${loaded.roll[1]}`
+      : `${playerName(onRoll)} on roll`;
   const standing =
     match && match.matchLength > 0
       ? `${match.matchLength}-point match · White ${match.score.white} – Black ${match.score.black}${
@@ -1149,7 +1118,7 @@ function PositionViewer({ analyzer }: { analyzer: MatchAnalyzer }) {
                     <span className="alternative-rank">{ranked.rank}</span>
                     <span className="alternative-text">{ranked.moveText}</span>
                     <span className="alternative-equity">
-                      {equityText(ranked.equity)}
+                      {signedEquityText(ranked.equity)}
                     </span>
                     <span className="alternative-loss">
                       {index === 0 ? '' : lossText(ranked.equityLoss)}
@@ -1169,7 +1138,7 @@ function PositionViewer({ analyzer }: { analyzer: MatchAnalyzer }) {
                   >
                     <span className="alternative-text">{option.action}</span>
                     <span className="alternative-equity">
-                      {equityText(option.equity)}
+                      {signedEquityText(option.equity)}
                     </span>
                   </li>
                 ))}

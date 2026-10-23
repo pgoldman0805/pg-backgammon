@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { createFakeEngine, type Engine } from '../engine';
+import type { Engine } from '../engine';
+import { createFakeEngine } from '../engine/fake';
 import {
   acceptResignation,
   commitMatchPlay,
