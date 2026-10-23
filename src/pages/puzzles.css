@@ -1,0 +1,243 @@
+/* Puzzles: drills in the shell's paper/ink/green identity. The browse view
+   is a hairline ledger (one rule per theme, like Analyze's history); after an
+   answer the equity table is the hero — accent marks only the best row, the
+   miss color only your error. */
+
+.puzzles-area {
+  --miss: #a23c2a;
+}
+
+:root[data-theme="dark"] .puzzles-area {
+  --miss: #de7a62;
+}
+
+.puzzles-area h1 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: var(--ink-muted);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.puzzles-note {
+  max-width: 44rem;
+  color: var(--ink-muted);
+  margin-bottom: 1rem;
+}
+
+/* The theme ledger */
+.theme-ledger {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  border-top: 1px solid var(--line);
+  max-width: 54rem;
+}
+
+.theme-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.theme-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 18rem;
+  min-width: 0;
+}
+
+.theme-name {
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+.theme-blurb {
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+}
+
+.theme-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.1rem;
+  white-space: nowrap;
+}
+
+.theme-count {
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+}
+
+.theme-score {
+  font-size: 0.9rem;
+}
+
+.theme-streak {
+  margin-left: 0.6rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* The drill */
+.puzzle-hud {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 54rem;
+  margin-bottom: 0.75rem;
+}
+
+.puzzle-prompt {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.puzzle-caption {
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.retry-chip {
+  margin-left: 0.6rem;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  vertical-align: 0.1em;
+}
+
+.puzzle-board {
+  max-width: 54rem;
+}
+
+.puzzle-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0.9rem 0;
+  max-width: 54rem;
+}
+
+/* The reveal */
+.equity-reveal {
+  max-width: 54rem;
+}
+
+.puzzle-verdict {
+  margin: 0.9rem 0 0.6rem;
+  font-weight: 600;
+}
+
+.puzzle-verdict--correct {
+  color: var(--accent);
+}
+
+.puzzle-verdict--missed {
+  color: var(--miss);
+}
+
+.equity-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 1px solid var(--line);
+}
+
+.equity-table th {
+  text-align: left;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  padding: 0.45rem 0.75rem 0.45rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.equity-table td {
+  padding: 0.45rem 0.75rem 0.45rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.equity-move {
+  font-weight: 600;
+}
+
+.equity-number {
+  text-align: left;
+}
+
+.equity-row--missed .equity-move,
+.equity-row--missed .equity-number {
+  color: var(--miss);
+}
+
+.equity-markers {
+  white-space: nowrap;
+}
+
+.marker-best,
+.marker-you {
+  display: inline-block;
+  padding: 0.05rem 0.5rem;
+  margin-right: 0.4rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.marker-best {
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
+.marker-you {
+  border: 1px solid var(--ink-muted);
+  color: var(--ink);
+}
+
+.equity-row--missed .marker-you {
+  border-color: var(--miss);
+  color: var(--miss);
+}
+
+/* Drill complete */
+.drill-complete {
+  max-width: 54rem;
+}
+
+.drill-complete-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .theme-row {
+    flex-wrap: wrap;
+  }
+
+  .theme-meta {
+    align-items: flex-start;
+  }
+
+  .puzzle-hud {
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+}

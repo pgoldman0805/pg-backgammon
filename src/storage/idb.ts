@@ -1,15 +1,21 @@
 /**
- * IndexedDB-backed MatchStorage (spec: all data local, no backend). One
- * database with one object store keyed by match id; the database opens
- * lazily on first use. The factory is injectable so tests can run against
+ * The app's IndexedDB plumbing (spec: all data local, no backend). One
+ * database holds every object store: `matches` (ticket 07) and
+ * `puzzle-progress` (ticket 11, the version-2 upgrade — the upgrade only ever
+ * adds stores, so existing matches survive it untouched). The database opens
+ * lazily on first use; the factory is injectable so tests can run against
  * fake-indexeddb with per-test isolation.
  */
 
 import type { MatchStorage, StoredMatch } from './types';
 
 const DB_NAME = 'pg-backgammon';
-const DB_VERSION = 1;
+/** v1: matches (ticket 07). v2: + puzzle-progress (ticket 11). */
+const DB_VERSION = 2;
 const MATCHES = 'matches';
+
+/** The puzzle-progress object store, added by the v2 upgrade. */
+export const PUZZLE_PROGRESS_STORE = 'puzzle-progress';
 
 export interface IndexedDbStorageOptions {
   /** Defaults to the global indexedDB. */
@@ -18,7 +24,8 @@ export interface IndexedDbStorageOptions {
   readonly name?: string;
 }
 
-function asPromise<T>(request: IDBRequest<T>): Promise<T> {
+/** Resolve an IDBRequest as a promise. */
+export function asPromise<T>(request: IDBRequest<T>): Promise<T> {
   return new Promise((resolve, reject) => {
     request.onsuccess = () => resolve(request.result);
     request.onerror = () =>
@@ -31,8 +38,13 @@ function openDatabase(factory: IDBFactory, name: string): Promise<IDBDatabase> {
     const request = factory.open(name, DB_VERSION);
     request.onupgradeneeded = () => {
       const db = request.result;
+      // Additive only: never drop or rewrite an existing store, so a v1
+      // database upgrades with all its matches intact.
       if (!db.objectStoreNames.contains(MATCHES)) {
         db.createObjectStore(MATCHES, { keyPath: 'id' });
+      }
+      if (!db.objectStoreNames.contains(PUZZLE_PROGRESS_STORE)) {
+        db.createObjectStore(PUZZLE_PROGRESS_STORE, { keyPath: 'id' });
       }
     };
     request.onsuccess = () => resolve(request.result);
@@ -41,13 +53,16 @@ function openDatabase(factory: IDBFactory, name: string): Promise<IDBDatabase> {
   });
 }
 
-export function createIndexedDbStorage(
+/**
+ * Lazily open the app database once per caller, recovering from a failed
+ * open on the next call. Shared by every store-specific storage module.
+ */
+export function createDatabaseHandle(
   options: IndexedDbStorageOptions = {},
-): MatchStorage {
+): () => Promise<IDBDatabase> {
   const name = options.name ?? DB_NAME;
   let database: Promise<IDBDatabase> | null = null;
-
-  function db(): Promise<IDBDatabase> {
+  return function db(): Promise<IDBDatabase> {
     if (!database) {
       const factory = options.factory ?? indexedDB;
       database = openDatabase(factory, name);
@@ -57,7 +72,13 @@ export function createIndexedDbStorage(
       });
     }
     return database;
-  }
+  };
+}
+
+export function createIndexedDbStorage(
+  options: IndexedDbStorageOptions = {},
+): MatchStorage {
+  const db = createDatabaseHandle(options);
 
   async function matchesStore(
     mode: IDBTransactionMode,
