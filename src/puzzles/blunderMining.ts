@@ -27,7 +27,12 @@
  */
 
 import type { AnalyzedCube, AnalyzedPlay, DecisionMoment } from '../analysis';
-import { isMatchAnalysis, matchStandings, walkGame } from '../analysis';
+import {
+  isMatchAnalysis,
+  matchStandings,
+  momentForDecision,
+  walkGame,
+} from '../analysis';
 import { CLASSIFICATION_THRESHOLDS } from '../engine/analysis';
 // Deep type-only imports keep this module free of the DOM-typed engine barrel.
 import type { EnginePosition, MatchContext, RankedPlay } from '../engine/types';
@@ -196,10 +201,7 @@ async function buildPlayPuzzle(
   moments: readonly DecisionMoment[],
   deps: BlunderMiningDeps,
 ): Promise<PlayPuzzle> {
-  const moment = moments.find(
-    (candidate) =>
-      candidate.kind === 'play' && candidate.playIndex === decision.playIndex,
-  );
+  const moment = momentForDecision(moments, decision);
   if (moment?.kind !== 'play') {
     throw new Error(
       `analysis decision at play ${decision.playIndex} matches no walked play`,
@@ -268,10 +270,7 @@ function buildCubePuzzle(
   origin: PuzzleOrigin,
   moments: readonly DecisionMoment[],
 ): Puzzle {
-  const moment = moments.find(
-    (candidate) =>
-      candidate.kind !== 'play' && candidate.playIndex === decision.playIndex,
-  );
+  const moment = momentForDecision(moments, decision);
   if (!moment || moment.kind === 'play') {
     throw new Error(
       `analysis cube decision at play ${decision.playIndex} matches no walked cube moment`,

@@ -15,7 +15,7 @@ import {
   assembleMatchAnalysis,
 } from './analyze';
 import type { AnalyzedDecision, MatchAnalysis } from './types';
-import { matchStandings, walkGame } from './walk';
+import { matchStandings, momentForDecision, walkGame } from './walk';
 
 export interface DeepenOptions {
   readonly gameIndex: number;
@@ -43,9 +43,7 @@ export async function deepenDecision(
 
   let replacements: Map<number, AnalyzedDecision>;
   if (decision.kind === 'play') {
-    const moment = moments.find(
-      (m) => m.kind === 'play' && m.playIndex === decision.playIndex,
-    );
+    const moment = momentForDecision(moments, decision);
     if (moment?.kind !== 'play') {
       throw new Error(`no play recorded at index ${decision.playIndex}`);
     }
@@ -53,9 +51,7 @@ export async function deepenDecision(
       [decisionIndex, await analyzePlayMoment(moment, engine, 'deep')],
     ]);
   } else {
-    const moment = moments.find(
-      (m) => m.kind !== 'play' && m.playIndex === decision.playIndex,
-    );
+    const moment = momentForDecision(moments, decision);
     if (!moment || moment.kind === 'play') {
       throw new Error(`no cube moment recorded at play ${decision.playIndex}`);
     }

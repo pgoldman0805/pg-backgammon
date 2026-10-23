@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useAutoAnalysis } from '../analysis';
-import type { Difficulty, Engine, EngineStatus } from '../engine';
+import {
+  DIFFICULTY_LABELS,
+  type Difficulty,
+  type Engine,
+  type EngineStatus,
+} from '../engine';
 import { CopyXgidButton, encodeXgid } from '../formats';
 import { type Autoplay, createAutoplay } from '../play/autoplay';
 import { Board } from '../play/Board';
@@ -30,6 +35,7 @@ import {
   initialBoard,
   type MatchGameResult,
   type MatchState,
+  opponent,
   type Player,
   type Point,
   pipCount,
@@ -41,6 +47,7 @@ import {
   type StoredMatch,
   useMatchPersistence,
 } from '../storage';
+import { playerName, signedEquityText } from '../ui/format';
 import '../play/board.css';
 
 const KIND_TEXT = {
@@ -58,16 +65,12 @@ const RESIGN_LABEL = {
 } as const;
 
 /** The five opponent strengths (GLOSSARY "Difficulty"), weakest first. */
-const DIFFICULTIES: ReadonlyArray<{ id: Difficulty; label: string }> = [
-  { id: 'beginner', label: 'Beginner' },
-  { id: 'casual', label: 'Casual' },
-  { id: 'intermediate', label: 'Intermediate' },
-  { id: 'expert', label: 'Expert' },
-  { id: 'world-class', label: 'World-class' },
-];
+const DIFFICULTIES: ReadonlyArray<{ id: Difficulty; label: string }> = (
+  Object.keys(DIFFICULTY_LABELS) as Difficulty[]
+).map((id) => ({ id, label: DIFFICULTY_LABELS[id] }));
 
 function difficultyLabel(difficulty: Difficulty): string {
-  return DIFFICULTIES.find((d) => d.id === difficulty)?.label ?? difficulty;
+  return DIFFICULTY_LABELS[difficulty] ?? difficulty;
 }
 
 /**
@@ -152,14 +155,6 @@ function storedMatchName(stored: StoredMatch): string {
       )}`;
 }
 
-function name(player: Player): string {
-  return player === 'white' ? 'White' : 'Black';
-}
-
-function other(player: Player): Player {
-  return player === 'white' ? 'black' : 'white';
-}
-
 function points(n: number): string {
   return n === 1 ? '1 point' : `${n} points`;
 }
@@ -168,11 +163,11 @@ function points(n: number): string {
 function gameEndText(result: MatchGameResult): string {
   switch (result.end) {
     case 'checkers':
-      return `${name(result.winner)} wins a ${KIND_TEXT[result.kind]} — ${points(result.points)}.`;
+      return `${playerName(result.winner)} wins a ${KIND_TEXT[result.kind]} — ${points(result.points)}.`;
     case 'pass':
-      return `${name(other(result.winner))} passes the double — ${name(result.winner)} wins ${points(result.points)}.`;
+      return `${playerName(opponent(result.winner))} passes the double — ${playerName(result.winner)} wins ${points(result.points)}.`;
     case 'resignation':
-      return `${name(other(result.winner))} resigns a ${KIND_TEXT[result.kind]} — ${name(result.winner)} wins ${points(result.points)}.`;
+      return `${playerName(opponent(result.winner))} resigns a ${KIND_TEXT[result.kind]} — ${playerName(result.winner)} wins ${points(result.points)}.`;
   }
 }
 
@@ -192,23 +187,23 @@ function statusText(
   switch (match.phase) {
     case 'match-over': {
       const winner = match.winner ?? 'white';
-      return `${name(winner)} wins the match ${match.score[winner]}–${match.score[other(winner)]}.`;
+      return `${playerName(winner)} wins the match ${match.score[winner]}–${match.score[opponent(winner)]}.`;
     }
     case 'game-over':
       return match.gameResult ? gameEndText(match.gameResult) : '';
     case 'cube-offered': {
       const doubler = match.toRoll ?? 'white';
-      return `${name(doubler)} doubles to ${match.cube.value * 2}.${considering(other(doubler))}`;
+      return `${playerName(doubler)} doubles to ${match.cube.value * 2}.${considering(opponent(doubler))}`;
     }
     case 'resign-offered': {
       const pending = match.pendingResignation;
       if (!pending) {
         return '';
       }
-      return `${name(pending.by)} offers to resign a ${KIND_TEXT[pending.kind]}.${considering(other(pending.by))}`;
+      return `${playerName(pending.by)} offers to resign a ${KIND_TEXT[pending.kind]}.${considering(opponent(pending.by))}`;
     }
     case 'pre-roll':
-      return `${name(match.toRoll ?? 'white')} to roll.`;
+      return `${playerName(match.toRoll ?? 'white')} to roll.`;
     case 'turn': {
       const turn = match.game.turn;
       if (!turn) {
@@ -216,12 +211,12 @@ function statusText(
       }
       const dice = `${turn.roll[0]} and ${turn.roll[1]}`;
       if (isDance(match.game)) {
-        return `${name(turn.player)} rolled ${dice} — no legal plays.`;
+        return `${playerName(turn.player)} rolled ${dice} — no legal plays.`;
       }
       if (forcedPlay(match.game)) {
-        return `${name(turn.player)} to play ${dice} — only one legal play.`;
+        return `${playerName(turn.player)} to play ${dice} — only one legal play.`;
       }
-      return `${name(turn.player)} to play ${dice}.`;
+      return `${playerName(turn.player)} to play ${dice}.`;
     }
   }
 }
@@ -342,9 +337,7 @@ function SettingSwitch({
 function EvalBar({ state }: { state: TutorState | null }) {
   const evaluation = state?.evaluation ?? null;
   const percent = evaluation ? Math.round(evaluation.winProbability * 100) : 50;
-  const equityText = evaluation
-    ? `${evaluation.equity < 0 ? '−' : '+'}${Math.abs(evaluation.equity).toFixed(2)}`
-    : '…';
+  const equityText = evaluation ? signedEquityText(evaluation.equity, 2) : '…';
   return (
     <div className="eval-bar">
       {/* biome-ignore lint/a11y/useSemanticElements: a meter element would add native-widget styling the board design replaces */}
@@ -458,21 +451,21 @@ export function Play({
       setOpponentState(IDLE_OPPONENT);
       return;
     }
-    const opponent = createEngineOpponent({
+    const engineOpponent = createEngineOpponent({
       store,
       engine,
       player: 'black',
       difficulty: setup.difficulty,
       stepMs: opponentStepMs,
     });
-    opponentRef.current = opponent;
-    setOpponentState(opponent.getState());
-    const unsubscribe = opponent.subscribe(() =>
-      setOpponentState(opponent.getState()),
+    opponentRef.current = engineOpponent;
+    setOpponentState(engineOpponent.getState());
+    const unsubscribe = engineOpponent.subscribe(() =>
+      setOpponentState(engineOpponent.getState()),
     );
     return () => {
       unsubscribe();
-      opponent.dispose();
+      engineOpponent.dispose();
       opponentRef.current = null;
     };
   }, [store, engine, setup, opponentStepMs]);
@@ -564,7 +557,7 @@ export function Play({
       last?.type === 'resign-response' &&
       !last.accepted
     ) {
-      setDeclineNote(`${name(last.player)} declined — play on.`);
+      setDeclineNote(`${playerName(last.player)} declined — play on.`);
     } else if (
       match.phase !== previous.phase ||
       match.game.record.plays !== previous.game.record.plays
@@ -592,9 +585,9 @@ export function Play({
       : phase === 'pre-roll'
         ? (match?.toRoll ?? null)
         : phase === 'cube-offered' && match?.toRoll
-          ? other(match.toRoll)
+          ? opponent(match.toRoll)
           : phase === 'resign-offered' && match?.pendingResignation
-            ? other(match.pendingResignation.by)
+            ? opponent(match.pendingResignation.by)
             : null;
 
   function start(mode: PlayMode): void {
@@ -786,8 +779,8 @@ export function Play({
       <div className="play-banner">
         <div className="setup-card">
           <p className="setup-title">
-            {name(winner)} wins the match {current.score[winner]}–
-            {current.score[other(winner)]}
+            {playerName(winner)} wins the match {current.score[winner]}–
+            {current.score[opponent(winner)]}
           </p>
           <ol className="match-games">
             {current.games.map((completed, index) => (
@@ -795,7 +788,7 @@ export function Play({
                 // biome-ignore lint/suspicious/noArrayIndexKey: games are an append-only sequence
                 key={index}
               >
-                {name(completed.result.winner)} +{completed.result.points}
+                {playerName(completed.result.winner)} +{completed.result.points}
                 {' — '}
                 {completed.result.end === 'pass'
                   ? 'double passed'
@@ -826,7 +819,7 @@ export function Play({
       <div className="play-banner">
         <div className="setup-card">
           <p className="setup-title">
-            {name(doubler)} doubles to {stake * 2}
+            {playerName(doubler)} doubles to {stake * 2}
           </p>
           <p className="dialog-note">
             Take to play on for {points(stake * 2)}, or pass to concede{' '}
@@ -861,7 +854,7 @@ export function Play({
     <div className="play-banner">
       <div className="setup-card">
         <p className="setup-title">
-          {name(pending.by)} offers to resign a {KIND_TEXT[pending.kind]}
+          {playerName(pending.by)} offers to resign a {KIND_TEXT[pending.kind]}
         </p>
         <p className="dialog-note">
           Accept to win {points(KIND_POINTS[pending.kind] * current.cube.value)}
@@ -1054,12 +1047,12 @@ export function Play({
         {match &&
           phase === 'cube-offered' &&
           match.toRoll &&
-          humanSide(other(match.toRoll)) &&
+          humanSide(opponent(match.toRoll)) &&
           cubeDialog(match)}
         {match &&
           phase === 'resign-offered' &&
           match.pendingResignation &&
-          humanSide(other(match.pendingResignation.by)) &&
+          humanSide(opponent(match.pendingResignation.by)) &&
           resignDialog(match, match.pendingResignation)}
       </div>
 
@@ -1090,7 +1083,7 @@ export function Play({
                   className="play-button play-button--primary"
                   onClick={() => store.dispatch({ type: 'forced' })}
                 >
-                  Play forced move
+                  Play forced play
                 </button>
               )}
               <button

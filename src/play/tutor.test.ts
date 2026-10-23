@@ -5,7 +5,8 @@
  */
 
 import { describe, expect, it, vi } from 'vitest';
-import { classifyEquityLoss, createFakeEngine, type Engine } from '../engine';
+import { classifyEquityLoss, type Engine } from '../engine';
+import { createFakeEngine } from '../engine/fake';
 import { createBoard, createGame, createMatch } from '../rules';
 import { scriptedDice } from '../test/dice';
 import { openingFeedbackEngine } from '../test/engine';

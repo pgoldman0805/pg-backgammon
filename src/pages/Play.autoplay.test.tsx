@@ -12,7 +12,7 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
-import { createFakeEngine } from '../engine';
+import { createFakeEngine } from '../engine/fake';
 import { createPlayStore, type PlayStoreOptions } from '../play/store';
 import {
   createBoard,
@@ -250,7 +250,7 @@ describe('auto-play of forced plays', () => {
       await new Promise((resolve) => setTimeout(resolve, 20));
     });
     expect(screen.getByRole('status')).toHaveTextContent('only one legal play');
-    fireEvent.click(screen.getByRole('button', { name: 'Play forced move' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Play forced play' }));
     expect(screen.getByRole('status')).toHaveTextContent('Black to roll.');
   });
 

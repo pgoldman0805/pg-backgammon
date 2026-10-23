@@ -1,10 +1,11 @@
 /**
  * The engine module (ADR-0001): gnubg-WASM in a Web Worker behind a typed
- * async interface, the difficulty layer, shared analysis primitives, and a
- * fake engine for downstream tests.
+ * async interface, the difficulty layer, and shared analysis primitives.
  *
  * Internals (command protocol, parsers, XGID encoding, worker plumbing) stay
  * private to this directory; consumers program against the Engine interface.
+ * The fake engine for tests lives in ./fake, deliberately outside this
+ * production barrel — test code imports it from there directly.
  */
 
 export {
@@ -15,10 +16,10 @@ export {
 } from './analysis';
 export { type CreateEngineOptions, createGnubgEngine } from './client';
 export {
+  DIFFICULTY_LABELS,
   DIFFICULTY_SETTINGS,
   type DifficultySettings,
 } from './difficulty';
-export { createFakeEngine } from './fake';
 export type {
   AnalysisEffort,
   CubeAnalysis,

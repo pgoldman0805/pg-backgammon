@@ -83,7 +83,7 @@ async function act(page: Page): Promise<boolean> {
     return click(commit);
   }
   // A forced play resolves in one click when autoplay is off or paused.
-  const forced = page.getByRole('button', { name: 'Play forced move' });
+  const forced = page.getByRole('button', { name: 'Play forced play' });
   if (await visible(forced)) {
     return click(forced);
   }

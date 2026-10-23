@@ -18,6 +18,7 @@ import {
   type MatchGameRecord,
   type MatchRecord,
   type MatchScore,
+  opponent,
   type Player,
 } from '../rules';
 
@@ -70,8 +71,24 @@ export type DecisionMoment =
   | CubeActionMoment
   | CubeOpportunityMoment;
 
-const other = (player: Player): Player =>
-  player === 'white' ? 'black' : 'white';
+/**
+ * The walked moment an analyzed decision refers to: the play moment of a
+ * play decision, the cube moment (action or opportunity) of a cube one,
+ * matched by its play index. Null when the record holds no such moment.
+ */
+export function momentForDecision(
+  moments: readonly DecisionMoment[],
+  decision: { readonly kind: 'play' | 'cube'; readonly playIndex: number },
+): DecisionMoment | null {
+  const wantsPlay = decision.kind === 'play';
+  return (
+    moments.find(
+      (moment) =>
+        (moment.kind === 'play') === wantsPlay &&
+        moment.playIndex === decision.playIndex,
+    ) ?? null
+  );
+}
 
 /** Mirror of the match layer's canDouble, over replayed state. */
 function mayDouble(
@@ -135,7 +152,7 @@ export function walkGame(
             kind: 'cube-action',
             playIndex: afterPlays,
             doubler,
-            responder: other(doubler),
+            responder: opponent(doubler),
             response: decision.type,
             board,
             context: context(cube),

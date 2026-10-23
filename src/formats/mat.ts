@@ -37,6 +37,7 @@ import {
   legalPlays,
   type MatchGameRecord,
   type MatchRecord,
+  opponent,
   type Play,
   type Player,
   replayMatch,
@@ -239,9 +240,6 @@ export interface MatImport {
   readonly record: MatchRecord;
   readonly players: MatPlayers;
 }
-
-const other = (player: Player): Player =>
-  player === 'white' ? 'black' : 'white';
 
 /** One parsed half-move column entry, with its source position. */
 type RawEntry = { readonly line: number; readonly column: number } & (
@@ -492,7 +490,7 @@ function parseGame(
             board,
           );
         }
-        actor = other(actor);
+        actor = opponent(actor);
         break;
       }
       case 'double': {
@@ -515,7 +513,7 @@ function parseGame(
           player: actor,
           afterPlays: plays.length,
         });
-        actor = other(actor);
+        actor = opponent(actor);
         break;
       }
       case 'take': {
@@ -529,7 +527,7 @@ function parseGame(
           afterPlays: plays.length,
         });
         doubler = null;
-        actor = other(actor);
+        actor = opponent(actor);
         break;
       }
       case 'drop': {
@@ -543,7 +541,7 @@ function parseGame(
         });
         droppedBy = actor;
         doubler = null;
-        actor = other(actor);
+        actor = opponent(actor);
         break;
       }
       case 'wins':
@@ -589,7 +587,7 @@ function parseGame(
     }
     decisions.push({
       type: 'resign',
-      player: other(winner),
+      player: opponent(winner),
       kind,
       afterPlays: plays.length,
     });

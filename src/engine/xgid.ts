@@ -15,7 +15,13 @@
  * the bottom of the board; the turn field picks who is on roll.
  */
 
-import type { BoardState, DiceRoll, Die, Player } from '../rules';
+import {
+  type BoardState,
+  type DiceRoll,
+  type Die,
+  opponent,
+  type Player,
+} from '../rules';
 import type { EnginePosition } from './types';
 
 function checkerChar(heroCount: number, opponentCount: number): string {
@@ -31,9 +37,8 @@ function checkerChar(heroCount: number, opponentCount: number): string {
 function encodeBoard(position: EnginePosition): string {
   const { board, onRoll } = position;
   const heroSign = onRoll === 'white' ? 1 : -1;
-  const opponent: Player = onRoll === 'white' ? 'black' : 'white';
   const chars: string[] = [];
-  chars.push(checkerChar(0, board.bar[opponent]));
+  chars.push(checkerChar(0, board.bar[opponent(onRoll)]));
   for (let i = 1; i <= 24; i++) {
     const absolute = onRoll === 'white' ? i : 25 - i;
     const signed = board.points[absolute] * heroSign;
@@ -72,9 +77,7 @@ export function encodeXgid(
       ? `${roll[0]}${roll[1]}`
       : '00';
   const heroScore = match ? match.score[onRoll] : 0;
-  const opponentScore = match
-    ? match.score[onRoll === 'white' ? 'black' : 'white']
-    : 0;
+  const opponentScore = match ? match.score[opponent(onRoll)] : 0;
   const matchLength = match?.matchLength ?? 0;
   const rules = matchLength > 0 && match?.crawford ? 1 : 0;
   return [

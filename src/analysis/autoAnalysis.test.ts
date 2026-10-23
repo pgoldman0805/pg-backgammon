@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createFakeEngine } from '../engine';
+import { createFakeEngine } from '../engine/fake';
 import { createPlayStore } from '../play/store';
 import {
   createBoard,

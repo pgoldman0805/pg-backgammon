@@ -12,6 +12,11 @@
 
 export type Player = 'white' | 'black';
 
+/** The other player. */
+export function opponent(player: Player): Player {
+  return player === 'white' ? 'black' : 'white';
+}
+
 export type Die = 1 | 2 | 3 | 4 | 5 | 6;
 
 /** The two dice of a roll, as rolled (order not significant). */

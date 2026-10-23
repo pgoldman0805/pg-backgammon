@@ -1,15 +1,16 @@
 import { applyMovement, initialBoard, undoMovement } from './board';
 import type { DiceSource } from './dice';
 import { computeMovement, legalPlays } from './plays';
-import type {
-  BoardState,
-  CheckerMovement,
-  DiceRoll,
-  Die,
-  GameRecord,
-  GameResult,
-  Player,
-  Point,
+import {
+  type BoardState,
+  type CheckerMovement,
+  type DiceRoll,
+  type Die,
+  type GameRecord,
+  type GameResult,
+  opponent,
+  type Player,
+  type Point,
 } from './types';
 
 export interface TurnState {
@@ -30,9 +31,6 @@ export interface GameState {
   readonly record: GameRecord;
   readonly result: GameResult | null;
 }
-
-const opponent = (player: Player): Player =>
-  player === 'white' ? 'black' : 'white';
 
 function diceForRoll(roll: DiceRoll): Die[] {
   const [a, b] = roll;

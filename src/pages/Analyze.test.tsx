@@ -6,7 +6,8 @@ import {
   isMatchAnalysis,
   type MatchAnalyzer,
 } from '../analysis';
-import { createFakeEngine, type Engine } from '../engine';
+import type { Engine } from '../engine';
+import { createFakeEngine } from '../engine/fake';
 import { exportMat, importMat } from '../formats';
 import {
   acceptResignation,

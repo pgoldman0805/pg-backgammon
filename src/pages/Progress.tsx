@@ -9,6 +9,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { DIFFICULTY_LABELS } from '../engine';
 import {
   buildProgress,
   type ProgressData,
@@ -20,25 +21,15 @@ import {
   type MatchStorage,
   type StoredMatch,
 } from '../storage';
+import { rateText } from '../ui/format';
 import './progress.css';
 
-const DIFFICULTY_LABEL: Record<string, string> = {
-  beginner: 'Beginner',
-  casual: 'Casual',
-  intermediate: 'Intermediate',
-  expert: 'Expert',
-  'world-class': 'World-class',
-};
+const DIFFICULTY_LABEL: Record<string, string> = DIFFICULTY_LABELS;
 
 /** "7-point vs Expert" — the tooltip's and table's match name. */
 function matchLabel(point: ProgressPoint): string {
   const difficulty = DIFFICULTY_LABEL[point.difficulty] ?? 'the computer';
   return `${point.length}-point vs ${difficulty}`;
-}
-
-/** Error rate for display: thousandths of a point per decision. */
-function rateText(errorRate: number): string {
-  return (errorRate * 1000).toFixed(1);
 }
 
 function dateText(ms: number): string {

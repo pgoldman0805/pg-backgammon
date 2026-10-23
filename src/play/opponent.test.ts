@@ -8,7 +8,8 @@
  */
 
 import { describe, expect, it, vi } from 'vitest';
-import { createFakeEngine, type Engine } from '../engine';
+import type { Engine } from '../engine';
+import { createFakeEngine } from '../engine/fake';
 import {
   createBoard,
   createGame,

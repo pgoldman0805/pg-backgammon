@@ -85,6 +85,17 @@ export interface PlayStoreOptions {
   readonly match?: MatchState;
 }
 
+/**
+ * A 32-bit dice-PRNG seed from the platform's CSPRNG, falling back to
+ * Math.random only where crypto is unavailable.
+ */
+function randomDiceSeed(): number {
+  if (typeof crypto !== 'undefined' && 'getRandomValues' in crypto) {
+    return crypto.getRandomValues(new Uint32Array(1))[0];
+  }
+  return (Math.random() * 2 ** 32) >>> 0;
+}
+
 /** Whose decision the current phase is (turn or pre-roll), if anyone's. */
 function currentActor(match: MatchState): Player | null {
   if (match.phase === 'turn') {
@@ -97,8 +108,7 @@ function currentActor(match: MatchState): Player | null {
 }
 
 export function createPlayStore(options: PlayStoreOptions = {}): PlayStore {
-  const dice =
-    options.dice ?? createSeededDice((Math.random() * 2 ** 32) >>> 0);
+  const dice = options.dice ?? createSeededDice(randomDiceSeed());
   let state: PlayState = { match: options.match ?? null };
   const listeners = new Set<() => void>();
 
