@@ -81,6 +81,8 @@ All game history, analysis, and puzzle progress persist in IndexedDB. Desktop-fi
 55. As the owner, I want a Capacitor Android project kept in-repo with a proven debug-APK build (landscape-locked), so that a store release is an afternoon away when wanted — not the delivery path today (see ADR-0003, including the GPL note for selling). (Added 2026-10-23, reshaped same day.)
 56. As the owner, I want the app installable on my phone as a PWA (manifest, icons, service worker precaching the app and engine for offline), hosted on Cloudflare, so that my phone always runs the latest push and mobile UI work has a live target. (Added 2026-10-23.)
 57. As a phone user, I want the app usable at phone viewports: navigation collapses into a hamburger menu, touch targets are finger-sized, safe-area insets are respected in the installed app, every area is readable and overflow-free in portrait, and board play works in landscape (portrait shows the board smaller with a gentle rotate hint). (Added 2026-10-23.)
+58. As a player, I want the game view decluttered: preference controls (Board style, auto-roll, auto-play switches) live only in Settings, while the game view keeps only gameplay affordances (Tutor mode toggle stays in-game, since it's switchable mid-match by design). (Added 2026-10-23.)
+59. As a player, I want a race-autopilot button during a Race: when pressed, the engine plays my remaining turns at full strength (paced and visible) until the game ends, pausing for any cube decision aimed at me; pressing again stops it. (Added 2026-10-23. Note: autopiloted plays are recorded as mine and score near-zero error — races slightly flatter the error rate; accepted, documented.)
 
 ### Platform
 
