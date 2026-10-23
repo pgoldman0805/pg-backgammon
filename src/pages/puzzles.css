@@ -82,6 +82,25 @@
   font-weight: 600;
 }
 
+/* The "From your games" collection (mined blunder puzzles, ticket 12):
+   same ledger, accent-ruled so the player's own material reads apart from
+   the curated themes. */
+.theme-row--blunder {
+  border-top: 2px solid var(--accent);
+}
+
+.theme-row--blunder .theme-name::after {
+  content: "yours";
+  margin-left: 0.6rem;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 600;
+  vertical-align: 0.1em;
+}
+
 /* The drill */
 .puzzle-hud {
   display: flex;
@@ -112,6 +131,19 @@
   font-size: 0.75rem;
   font-weight: 600;
   vertical-align: 0.1em;
+}
+
+/* Source badge: a mined blunder puzzle announces where it came from. */
+.source-badge {
+  margin-left: 0.6rem;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--ink-muted);
+  border-radius: 999px;
+  color: var(--ink-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  vertical-align: 0.1em;
+  white-space: nowrap;
 }
 
 .puzzle-board {

@@ -3,6 +3,7 @@ import { createFakeEngine, type Engine } from '../engine';
 import {
   acceptResignation,
   commitMatchPlay,
+  initialBoard,
   matchMovement,
   nextGame,
   offerDouble,
@@ -111,6 +112,53 @@ describe('createMatchAnalyzer', () => {
     });
     // Game 1 has a play and a double; game 2 has a play.
     expect(seen).toEqual(['1/2:1/2', '1/2:2/2', '2/2:1/1']);
+  });
+
+  it('ranks plays for puzzle mining at full strength (ticket 12)', async () => {
+    const engine = counted(createFakeEngine());
+    const analyzer = createMatchAnalyzer({ engine, now: () => 7 });
+    const position = { board: initialBoard(), onRoll: 'white' as const };
+
+    const direct = await createFakeEngine().rankPlays(position, [3, 1]);
+    expect(await analyzer.rankPlays(position, [3, 1], 'background')).toEqual(
+      direct,
+    );
+    expect(engine.calls).toBe(1);
+  });
+
+  it('queues background mining rankings behind user-priority work', async () => {
+    const fake = createFakeEngine();
+    let release!: () => void;
+    const held = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    let first = true;
+    const engine: Engine = {
+      ...fake,
+      rankPlays: async (position, roll, options) => {
+        if (first) {
+          first = false;
+          await held;
+        }
+        return fake.rankPlays(position, roll, options);
+      },
+    };
+    const analyzer = createMatchAnalyzer({ engine, now: () => 7 });
+    const position = { board: initialBoard(), onRoll: 'white' as const };
+
+    const order: string[] = [];
+    const busy = analyzer
+      .rankPlays(position, [3, 1], 'background')
+      .then(() => order.push('held'));
+    const mining = analyzer
+      .rankPlays(position, [6, 2], 'background')
+      .then(() => order.push('mining'));
+    const user = analyzer
+      .rankPlays(position, [5, 3], 'user')
+      .then(() => order.push('user'));
+    release();
+    await Promise.all([busy, mining, user]);
+    expect(order).toEqual(['held', 'user', 'mining']);
   });
 
   it('deepens through the same engine and keeps the refined match analysis', async () => {
