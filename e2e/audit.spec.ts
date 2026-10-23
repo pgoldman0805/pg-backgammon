@@ -1,10 +1,11 @@
 /**
  * The ticket-14 visual-audit harness (npm run e2e:audit): walks every area of
  * the real built app into its interesting states and screenshots each one at
- * desktop (1280px) and tablet (820px) width in both themes, writing the set
- * to .scratch/backgammon-platform/audit/. At every captured state it also
+ * desktop (1280px), tablet (820px), phone portrait (390x844) and phone
+ * landscape (844x390) in both themes, writing the set to
+ * .scratch/backgammon-platform/audit/. At every captured state it also
  * asserts there is no horizontal scroll, so the audit doubles as the
- * no-horizontal-scroll-at-tablet-width check.
+ * no-horizontal-scroll check at every tier (ticket 24 added the phone pair).
  *
  * Progress needs history to plot, so a dozen finished, analyzed matches are
  * seeded through the app's own IndexedDB schema before anything is played.
@@ -26,10 +27,18 @@ const AUDIT_DIR = path.resolve(
 const SIZES = [
   { tag: 'desktop', width: 1280, height: 800 },
   { tag: 'tablet', width: 820, height: 1180 },
+  // Ticket 24: the phone tier, portrait and the landscape play orientation.
+  { tag: 'phone', width: 390, height: 844 },
+  { tag: 'phone-landscape', width: 844, height: 390 },
 ] as const;
 
 const THEMES = ['light', 'dark'] as const;
 
+/**
+ * Toggle the app to the wanted theme through its real control. The header
+ * toggle hides at phone widths (it lives in the menu there), so callers
+ * must be at desktop/tablet width.
+ */
 async function ensureTheme(
   page: Page,
   theme: (typeof THEMES)[number],
@@ -43,14 +52,17 @@ async function ensureTheme(
 }
 
 /**
- * Screenshot the current state in all four width x theme combinations and
- * assert the page never scrolls horizontally. Restores 1280px light.
+ * Screenshot the current state in every size x theme combination and assert
+ * the page never scrolls horizontally. The theme is switched at desktop
+ * width (where the header toggle exists), then every size is captured.
+ * Restores 1280px light.
  */
 async function shoot(page: Page, name: string): Promise<void> {
-  for (const size of SIZES) {
-    await page.setViewportSize({ width: size.width, height: size.height });
-    for (const theme of THEMES) {
-      await ensureTheme(page, theme);
+  for (const theme of THEMES) {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await ensureTheme(page, theme);
+    for (const size of SIZES) {
+      await page.setViewportSize({ width: size.width, height: size.height });
       await page.waitForTimeout(150);
       const overflow = await page.evaluate(() => {
         const root = document.documentElement;
@@ -65,8 +77,37 @@ async function shoot(page: Page, name: string): Promise<void> {
       });
     }
   }
-  await ensureTheme(page, 'light');
   await page.setViewportSize({ width: 1280, height: 800 });
+  await ensureTheme(page, 'light');
+}
+
+/**
+ * The phone menu, open (ticket 24): captured at portrait phone width in
+ * both themes with the same overflow assertion. Restores 1280px light.
+ */
+async function shootMenuOpen(page: Page): Promise<void> {
+  for (const theme of THEMES) {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await ensureTheme(page, theme);
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.getByRole('button', { name: 'Menu' }).click();
+    await expect(page.getByRole('navigation', { name: 'Menu' })).toBeVisible();
+    await page.waitForTimeout(150);
+    const overflow = await page.evaluate(() => {
+      const root = document.documentElement;
+      return root.scrollWidth - root.clientWidth;
+    });
+    expect
+      .soft(overflow, `menu-open at phone ${theme}: horizontal overflow`)
+      .toBeLessThanOrEqual(0);
+    await page.screenshot({
+      path: path.join(AUDIT_DIR, `menu-open-phone-${theme}.png`),
+      fullPage: true,
+    });
+    await page.keyboard.press('Escape');
+  }
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await ensureTheme(page, 'light');
 }
 
 /* ------------------------------------------------------------------ */
@@ -266,10 +307,10 @@ async function seedHistory(page: Page): Promise<void> {
 /* The walk                                                             */
 /* ------------------------------------------------------------------ */
 
-test('visual audit: every area, both themes, desktop and tablet', async ({
+test('visual audit: every area, both themes, desktop through phone', async ({
   page,
 }) => {
-  test.setTimeout(900_000);
+  test.setTimeout(1_500_000);
   mkdirSync(AUDIT_DIR, { recursive: true });
 
   // --- Play setup card (fresh app) ---------------------------------------
@@ -278,6 +319,9 @@ test('visual audit: every area, both themes, desktop and tablet', async ({
     page.getByRole('button', { name: 'Play as White' }),
   ).toBeVisible();
   await shoot(page, 'play-setup');
+
+  // --- The phone menu, open (ticket 24) -----------------------------------
+  await shootMenuOpen(page);
 
   await seedHistory(page);
 

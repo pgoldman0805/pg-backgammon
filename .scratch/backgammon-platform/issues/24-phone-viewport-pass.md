@@ -11,9 +11,72 @@
 
 **Blocked by:** None.
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] Hamburger nav at phone widths: all areas + theme reachable, accessible, closes on navigate; desktop/tablet nav unchanged
-- [ ] Installed-PWA safe areas respected (viewport-fit cover + insets); no content under notches/bars in either orientation
-- [ ] Phone-tier audit (portrait + landscape) added to the harness with zero horizontal overflow across all captured states; captures committed
-- [ ] Landscape play works at 844×390 (a full turn: roll/move/commit reachable); portrait shows the rotate hint; full gauntlet green (`npm test`, lint, build, e2e, e2e:audit, e2e:pwa)
+- [x] Hamburger nav at phone widths: all areas + theme reachable, accessible, closes on navigate; desktop/tablet nav unchanged
+- [x] Installed-PWA safe areas respected (viewport-fit cover + insets); no content under notches/bars in either orientation
+- [x] Phone-tier audit (portrait + landscape) added to the harness with zero horizontal overflow across all captured states; captures committed
+- [x] Landscape play works at 844×390 (a full turn: roll/move/commit reachable); portrait shows the rotate hint; full gauntlet green (`npm test`, lint, build, e2e, e2e:audit, e2e:pwa)
+
+## Comments
+
+**Breakpoints.** Two named tiers, documented beside the menu styles in
+`src/index.css`: tablet at 860px (the existing board-layout fold) and phone
+at 640px (nav collapse + 44px touch sizing — the width every page already
+used for its narrow fixes, so nothing new to learn). Landscape play got its
+own tier, `(max-height: 480px) and (orientation: landscape)`, keyed on
+height because 844px-wide phones land in the tablet width band: it keeps
+`.play-layout` a row, hides the Play h1 visually, compacts the HUD, and
+sizes the board from `100dvh` so roll → move → commit happens without the
+board leaving view.
+
+**The menu.** A full-width paper sheet dropping from under the header's
+bottom rule — hairline rows, zero radius, no scrim, one soft shadow. The
+active area carries the board-point triangle lying on its side at the row's
+left rail; the last row is "Switch to dark theme". Button: aria-expanded +
+aria-controls, Escape closes and refocuses it, navigation and outside taps
+close it. Component tests cover open/contents/navigate/Escape/theme/outside
+click; desktop and tablet headers render exactly as before.
+
+**What the phone audit found and fixed** (automated overflow assertions
+caught nothing — all of these were human-eyes findings from the captures):
+
+- The setup/dialog banner overlay is taller than a phone-scale board and
+  spilled over the header (it literally blocked the Menu button). At phone
+  tiers the banner is flow content below the board; in short landscape the
+  board drops to 52dvh while a banner is open so the card peeks above the
+  fold.
+- Settings rows: `.setting-copy`'s `flex-basis: 24ch` became ~200px of
+  empty *height* once `.setting-row` went to column at ≤640px. Present on
+  main for every ≤640px viewport; never caught because the audit's
+  narrowest tier was 820px.
+- Copy XGID's 44px touch minimum inflated the caption row and pushed the
+  landscape board under the fold — exempted in the short-landscape tier
+  only (it keeps 44px in portrait).
+- Tutor mode's eval strip pushed the landscape board ~65px past the fold;
+  the board now cedes that height.
+- The menu's theme row said just "Dark" (the header's compact label) —
+  now it says what it does.
+
+**Deviations / judgment calls.**
+
+- In short landscape the HUD switch pills (Tutor mode, autoplay, Board
+  style) stay compact (~30px) rather than 44px: at 390px of height, 44px
+  switch rows would push the board itself off-screen, and the ticket's
+  hard target there is the turn controls, which are 44px. All controls are
+  44px at portrait phone widths.
+- With Tutor mode on in landscape the page can still scroll ~30px (the
+  switch cluster wraps to two rows); the board + turn controls remain
+  fully visible after one nudge, and the board never leaves view mid-turn.
+- Two inherited breaks repaired en route: a duplicate `deploy` key in
+  package.json failed `npm run lint`, and ticket 23's `npm run preview` →
+  `wrangler dev` change broke Playwright's cold-start webServer command
+  (wrangler rejects `--strictPort`); the config now serves dist via
+  `vite preview` directly.
+- No `orientation` field in the PWA manifest — portrait browsing stays
+  free; landscape is encouraged by the rotate hint only.
+
+**Automated vs human eyes.** The harness enforces zero horizontal overflow
+at 390×844 and 844×390 (plus the open menu) forever; everything about
+vertical fit, overlap, and readability above came from reviewing all 78
+phone captures by eye.

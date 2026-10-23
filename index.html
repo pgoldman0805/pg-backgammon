@@ -3,7 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- viewport-fit=cover (ticket 24): the installed PWA draws edge to edge;
+         the safe-area-inset-* envs in src/index.css keep content clear of
+         notches and system bars. -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <!-- Browser-UI tint per OS scheme; the manifest pins the installed app's
          status bar to the dark shell (#15130f). -->
     <meta

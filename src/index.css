@@ -12,6 +12,12 @@
   --danger: #a2402c;
   /* Shared corner radius for buttons and inputs across all areas. */
   --control-radius: 6px;
+  /* Installed-PWA safe areas (ticket 24): 0px everywhere except under a
+     notch or system bar, so padding built on these is a no-op on desktop. */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
   color-scheme: light;
 }
 
@@ -69,10 +75,12 @@ body {
 
 /* Header */
 .shell-header {
+  position: relative;
   display: flex;
   align-items: stretch;
   gap: 2rem;
-  padding: 0 1.5rem;
+  padding: var(--safe-top) calc(1.5rem + var(--safe-right)) 0
+    calc(1.5rem + var(--safe-left));
   border-bottom: 1px solid var(--line);
 }
 
@@ -155,11 +163,111 @@ body {
   border-color: var(--ink-muted);
 }
 
+/* The phone menu (ticket 24). Two viewport tiers govern the whole app:
+   - tablet, max-width 860px: board layouts fold (board.css, puzzles.css);
+   - phone, max-width 640px: the tab row folds into the Menu button below.
+   The button stays out of the way until the phone tier shows it. */
+.menu-toggle {
+  display: none;
+  align-self: center;
+  margin-left: auto;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--control-radius);
+  cursor: pointer;
+}
+
+.menu-toggle:hover {
+  border-color: var(--ink-muted);
+}
+
+.menu-toggle[aria-expanded="true"] {
+  border-color: var(--ink-muted);
+}
+
+/* The menu: a paper sheet dropping from under the header's bottom rule.
+   Hairline rows; the active area carries the board-point triangle lying on
+   its side at the row's left rail. */
+.shell-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 14px 28px rgb(0 0 0 / 10%);
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
+}
+
+.shell-menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.shell-menu-list li + li {
+  border-top: 1px solid var(--line);
+}
+
+.shell-menu a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.65rem 1.5rem 0.65rem 2rem;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+
+.shell-menu a:hover {
+  color: var(--ink);
+}
+
+.shell-menu a[aria-current="page"] {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.shell-menu a[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 9px solid var(--accent);
+}
+
+/* The theme toggle rides along as the panel's last row. */
+.shell-menu-theme {
+  display: flex;
+}
+
+.shell-menu-theme .theme-toggle {
+  flex: 1;
+  margin: 0;
+  min-height: 44px;
+  padding: 0.65rem 1.5rem 0.65rem 2rem;
+  text-align: left;
+  border: 0;
+  border-radius: 0;
+}
+
 /* Content */
 .shell-main {
   max-width: 68ch;
   margin: 0 auto;
-  padding: 3rem 1.5rem;
+  padding: 3rem calc(1.5rem + var(--safe-right)) calc(3rem + var(--safe-bottom))
+    calc(1.5rem + var(--safe-left));
 }
 
 .shell-main h1 {
@@ -174,13 +282,29 @@ body {
   color: var(--ink-muted);
 }
 
+/* Phone tier: the tab row and header toggle fold into the Menu button. */
 @media (max-width: 640px) {
   .shell-header {
     gap: 1rem;
-    padding: 0 1rem;
+    padding: var(--safe-top) calc(1rem + var(--safe-right)) 0
+      calc(1rem + var(--safe-left));
+  }
+
+  .shell-header nav[aria-label="Areas"],
+  .shell-header > .theme-toggle {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  .shell-menu {
+    display: block;
   }
 
   .shell-main {
-    padding: 2rem 1rem;
+    padding: 2rem calc(1rem + var(--safe-right)) calc(2rem + var(--safe-bottom))
+      calc(1rem + var(--safe-left));
   }
 }

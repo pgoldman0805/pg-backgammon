@@ -9,7 +9,6 @@
     "build": "tsc -b && vite build",
     "preview": "npm run build && wrangler dev",
     "start": "vite preview --open --port 4330 --strictPort",
-    "deploy": "npm run build && wrangler deploy",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "biome check .",

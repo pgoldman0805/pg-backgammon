@@ -898,3 +898,170 @@
   padding: 0.1rem 0.5rem;
   font-size: 0.72rem;
 }
+
+/* ------------------------------------------------------------------ */
+/* Ticket 24: the phone tiers                                           */
+/*                                                                      */
+/* Two named tiers (cf. the shell comment in index.css): tablet folds   */
+/* the layout at 860px; phone is 640px. Landscape play gets its own     */
+/* short-viewport tier so the board keeps its side column at 844x390.   */
+/* ------------------------------------------------------------------ */
+
+/* Portrait phones: one quiet line pointing at the play orientation. */
+.rotate-hint {
+  display: none;
+}
+
+@media (max-width: 640px) and (orientation: portrait) {
+  .rotate-hint {
+    display: block;
+    margin: -0.5rem 0 0.75rem;
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+  }
+}
+
+/* Touch sizing at phone widths and in the short landscape tier: the same
+   controls, never smaller than a fingertip. */
+@media (max-width: 640px), (max-height: 480px) and (orientation: landscape) {
+  /* The phone-scale board is smaller than the setup card and the cube and
+     game-end dialogs it hosts at wider tiers: the banner overlay would
+     spill over the header. It becomes flow content below the board. */
+  .play-banner {
+    position: static;
+    background: none;
+    margin-top: 0.75rem;
+  }
+
+  .setup-card {
+    max-width: 100%;
+    padding: 1rem 1.1rem;
+  }
+
+  .play-button {
+    min-height: 44px;
+  }
+
+  .difficulty-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .length-picker select {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 640px) {
+  .setting-switch {
+    min-height: 44px;
+  }
+}
+
+/* Phone landscape — the play orientation. The side column stays beside the
+   board (overriding the tablet fold above), the h1 goes visually hidden,
+   the HUD compacts to one row, and the board takes its height from the
+   viewport so a full turn fits without scrolling it out of view. */
+@media (max-height: 480px) and (orientation: landscape) {
+  .shell-main:has(.play-area) {
+    padding-top: 0.5rem;
+    padding-bottom: calc(0.5rem + var(--safe-bottom));
+  }
+
+  .play-area h1 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .play-hud {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .play-center {
+    order: 0;
+    width: auto;
+    flex: 1 1 auto;
+  }
+
+  .play-status {
+    font-size: 0.85rem;
+    min-height: 0;
+  }
+
+  .match-caption {
+    font-size: 0.75rem;
+  }
+
+  .player-chip {
+    font-size: 0.85rem;
+    padding: 0.2rem 0.55rem;
+  }
+
+  .chip-score {
+    font-size: 0.95rem;
+  }
+
+  .tutor-strip {
+    margin-bottom: 0.4rem;
+    min-height: 0;
+  }
+
+  .play-layout {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .play-board {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .board {
+    width: auto;
+    max-width: 100%;
+    height: calc(100dvh - 150px);
+    max-height: none;
+  }
+
+  /* The quiet Copy XGID chip keeps its compact caption row here; a 44px
+     minimum would push the board under the fold. */
+  .copy-xgid {
+    min-height: 0;
+  }
+
+  /* Tutor mode adds the eval strip above the board: the board yields its
+     height so roll/move/commit stay reachable without losing it. */
+  .play-area:has(.tutor-strip) .board {
+    height: calc(100dvh - 180px);
+  }
+
+  /* While a setup card or dialog banner is open below the board, the board
+     yields enough height for the card to peek above the fold. */
+  .play-board:has(.play-banner) .board {
+    height: 52dvh;
+  }
+
+  .play-side {
+    flex: 0 0 148px;
+  }
+
+  .play-side .play-controls {
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: 0;
+  }
+
+  .play-side .play-button {
+    padding: 0.4rem 0.6rem;
+  }
+}
