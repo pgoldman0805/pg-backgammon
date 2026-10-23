@@ -7,11 +7,11 @@ beforeEach(() => {
 });
 
 describe('navigation shell', () => {
-  it('shows the four training areas in the navigation and opens on Play', () => {
+  it('shows the five areas in the navigation and opens on Play', () => {
     render(<App />);
 
     const nav = screen.getByRole('navigation');
-    for (const area of ['Play', 'Analyze', 'Puzzles', 'Progress']) {
+    for (const area of ['Play', 'Analyze', 'Puzzles', 'Progress', 'Settings']) {
       expect(within(nav).getByRole('link', { name: area })).toBeInTheDocument();
     }
 
@@ -20,7 +20,7 @@ describe('navigation shell', () => {
     ).toBeInTheDocument();
   });
 
-  it.each(['Analyze', 'Puzzles', 'Progress', 'Play'])(
+  it.each(['Analyze', 'Puzzles', 'Progress', 'Settings', 'Play'])(
     'opens the %s area when its link is clicked',
     async (area) => {
       const user = userEvent.setup();

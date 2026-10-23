@@ -1,0 +1,59 @@
+/* The shared backup controls (ticket 20), styled in the shell's quiet
+   outline vocabulary so they sit naturally in Analyze and in Settings. */
+
+.backup-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-top: 1rem;
+}
+
+.backup-note {
+  flex-basis: 100%;
+  margin-bottom: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  border-left: 3px solid var(--accent);
+  color: var(--ink);
+}
+
+.backup-button {
+  padding: 0.35rem 0.85rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--control-radius);
+  cursor: pointer;
+}
+
+.backup-button:hover {
+  border-color: var(--ink-muted);
+}
+
+/* Import is a file input dressed as a button. */
+.import-label {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.import-label input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.import-label:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.backup-hint {
+  flex-basis: 100%;
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}

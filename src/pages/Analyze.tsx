@@ -31,8 +31,6 @@ import {
   decodeXgid,
   encodeXgid,
   exportMat,
-  importedStoredMatch,
-  importMat,
   type MatPlayers,
 } from '../formats';
 import { Board } from '../play/Board';
@@ -48,15 +46,12 @@ import {
   replayMatchGame,
 } from '../rules';
 import {
-  exportBackup,
   getMatchStorage,
-  importBackup,
   isStoredMatch,
   type MatchStorage,
-  parseBackup,
   type StoredMatch,
-  serializeBackup,
 } from '../storage';
+import { BackupControls } from '../ui/BackupControls';
 import { lossText, playerName, rateText, signedEquityText } from '../ui/format';
 import '../play/board.css';
 import './analyze.css';
@@ -1220,17 +1215,6 @@ export function Analyze({
     URL.revokeObjectURL(url);
   }
 
-  async function exportHistory(): Promise<void> {
-    try {
-      const json = serializeBackup(await exportBackup(storage));
-      const day = new Date().toISOString().slice(0, 10);
-      download(`pg-backgammon-history-${day}.json`, json, 'application/json');
-      setNote(null);
-    } catch {
-      setNote('The history could not be exported.');
-    }
-  }
-
   function exportMatchMat(stored: StoredMatch): void {
     try {
       const text = exportMat(stored.record, storedPlayers(stored));
@@ -1246,53 +1230,13 @@ export function Analyze({
     }
   }
 
-  function importFile(file: File): void {
-    const reader = new FileReader();
-    reader.onload = async () => {
-      try {
-        const backup = parseBackup(String(reader.result));
-        await importBackup(storage, backup);
-        setOpenId(null);
-        setConfirmId(null);
-        setNote('Backup imported — it replaced the previous history.');
-        reload();
-      } catch (error) {
-        setNote(
-          error instanceof Error
-            ? error.message
-            : 'The backup could not be imported.',
-        );
-      }
-    };
-    reader.onerror = () => setNote('The file could not be read.');
-    reader.readAsText(file);
-  }
-
-  function newMatchId(): string {
-    return typeof crypto !== 'undefined' && 'randomUUID' in crypto
-      ? crypto.randomUUID()
-      : `imported-${Date.now()}-${Math.floor(Math.random() * 1e9)}`;
-  }
-
-  function importMatFile(file: File): void {
-    const reader = new FileReader();
-    reader.onload = async () => {
-      try {
-        const imported = importMat(String(reader.result));
-        const row = importedStoredMatch(imported, newMatchId(), Date.now());
-        await storage.put(row);
-        setNote('Match imported — open it to see the analysis.');
-        reload();
-      } catch (error) {
-        setNote(
-          `The .mat file could not be imported: ${
-            error instanceof Error ? error.message : 'unreadable file'
-          }`,
-        );
-      }
-    };
-    reader.onerror = () => setNote('The file could not be read.');
-    reader.readAsText(file);
+  /** A fresh import changes the ledger: reload it and leave any open view. */
+  function onImported(kind: 'backup' | 'mat'): void {
+    if (kind === 'backup') {
+      setOpenId(null);
+      setConfirmId(null);
+    }
+    reload();
   }
 
   const open = openId
@@ -1406,49 +1350,7 @@ export function Analyze({
               ))}
             </ul>
           )}
-          <div className="backup-controls">
-            <button
-              type="button"
-              className="history-button"
-              onClick={() => void exportHistory()}
-            >
-              Export history
-            </button>
-            <label className="history-button import-label">
-              Import backup…
-              <input
-                type="file"
-                accept="application/json,.json"
-                onChange={(event) => {
-                  const file = event.target.files?.[0];
-                  if (file) {
-                    importFile(file);
-                  }
-                  event.target.value = '';
-                }}
-              />
-            </label>
-            <label className="history-button import-label">
-              Import match (.mat)…
-              <input
-                type="file"
-                accept=".mat,text/plain"
-                onChange={(event) => {
-                  const file = event.target.files?.[0];
-                  if (file) {
-                    importMatFile(file);
-                  }
-                  event.target.value = '';
-                }}
-              />
-            </label>
-            <p className="backup-hint">
-              Export downloads every match as one JSON file. Import backup
-              replaces your current history with the file's. Import match adds a
-              Jellyfish .mat match to the history, where it analyzes like any
-              other.
-            </p>
-          </div>
+          <BackupControls storage={storage} onImported={onImported} />
           <PositionViewer analyzer={analyzer} />
         </>
       )}

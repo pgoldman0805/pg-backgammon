@@ -383,6 +383,33 @@
   pointer-events: none;
 }
 
+/* Checker travel (ticket 20): the traveler group glides on a transform
+   transition set inline (duration follows the speed setting); the inner
+   group adds a subtle lift at mid-flight. The checker that already landed
+   in the model hides until its traveler retires. */
+.checker-travel {
+  pointer-events: none;
+  will-change: transform;
+}
+
+.checker-travel-lift {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-name: checker-lift;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes checker-lift {
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+.checker--arriving,
+.off-slab--arriving {
+  visibility: hidden;
+}
+
 /* Controls */
 .play-controls {
   display: flex;

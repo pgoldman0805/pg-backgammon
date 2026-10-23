@@ -5,8 +5,9 @@
  * the pure drag state machine and geometry hit-testing).
  */
 
-import { useRef, useState, useSyncExternalStore } from 'react';
+import { useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react';
 import {
+  type BoardState,
   type Die,
   type GameState,
   initialBoard,
@@ -14,9 +15,15 @@ import {
   type Point,
 } from '../rules';
 import { playerName } from '../ui/format';
+import {
+  getAnimationSpeed,
+  subscribeAnimationSpeed,
+  travelMs,
+} from './animation';
 import { BoardStyleDefs } from './BoardStyleDefs';
 import { getBoardStyle, subscribeBoardStyle } from './boardStyles';
 import './boardStyles.css';
+import { type CheckerPlace, checkersAt, diffBoards } from './checkerTravel';
 import { type DragState, dragTransition, idleDrag } from './drag';
 import {
   BOARD,
@@ -145,6 +152,7 @@ function Checker({
   y,
   lifted,
   ringed,
+  arriving,
   label,
 }: {
   player: Player;
@@ -152,12 +160,16 @@ function Checker({
   y: number;
   lifted?: boolean;
   ringed?: boolean;
+  /** True while this checker's traveler is still in flight toward it. */
+  arriving?: boolean;
   label?: string;
 }) {
   const r = BOARD.checkerRadius - 2;
   return (
     <g
-      className={`checker checker--${player} ${lifted ? 'checker--lifted' : ''}`}
+      className={`checker checker--${player} ${lifted ? 'checker--lifted' : ''} ${
+        arriving ? 'checker--arriving' : ''
+      }`}
     >
       <circle cx={x} cy={y} r={r} className="checker-body" />
       <circle cx={x} cy={y} r={r - 9} className="checker-inner" />
@@ -167,6 +179,96 @@ function Checker({
           {label}
         </text>
       )}
+    </g>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Checker travel (ticket 20)                                           */
+/* ------------------------------------------------------------------ */
+
+/**
+ * One checker in flight between two board coordinates. Beyond this many
+ * simultaneous moves the change is not a play but a reset (a new game, a
+ * restored position): everything snaps.
+ */
+interface Travel {
+  readonly key: number;
+  readonly player: Player;
+  readonly from: { x: number; y: number };
+  readonly to: { x: number; y: number };
+  readonly dest: CheckerPlace;
+}
+
+const MAX_TRAVELERS = 6;
+
+/** Center of the top checker (or tray slab) at `place` on `board`. */
+function placeCenter(
+  board: BoardState,
+  player: Player,
+  place: CheckerPlace,
+): { x: number; y: number } {
+  const count = Math.max(1, checkersAt(board, player, place));
+  if (place === 'bar') {
+    return barCheckerCenter(player, count - 1);
+  }
+  if (place === 'off') {
+    const trayInnerX = BOARD.trayX;
+    const trayInnerW = BOARD.width - BOARD.trayX - BOARD.frame;
+    return {
+      x: trayInnerX + trayInnerW / 2,
+      y: traySlabY(player, count - 1) + 9,
+    };
+  }
+  return checkerCenter(place, count - 1, count);
+}
+
+/**
+ * A checker gliding from its origin to its destination: a CSS transform
+ * transition on the traveler group, started one forced frame after mount so
+ * the browser animates rather than teleports. The subtle lift is a scale
+ * keyframe on the inner group, timed to the same duration. A timer (not
+ * transitionend) retires the traveler, so jsdom and background tabs clean
+ * up identically.
+ */
+function TravelingChecker({
+  travel,
+  duration,
+  onDone,
+}: {
+  travel: Travel;
+  duration: number;
+  onDone: (key: number) => void;
+}) {
+  const ref = useRef<SVGGElement>(null);
+  const done = useRef(onDone);
+  done.current = onDone;
+  // biome-ignore lint/correctness/useExhaustiveDependencies: a traveler is immutable; its journey runs exactly once
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (el) {
+      el.style.transform = `translate(${travel.from.x}px, ${travel.from.y}px)`;
+      el.style.transition = 'none';
+      // Flush the starting frame before handing the glide to the transition.
+      void el.getBoundingClientRect();
+      el.style.transition = `transform ${duration}ms cubic-bezier(0.33, 0.1, 0.25, 1)`;
+      el.style.transform = `translate(${travel.to.x}px, ${travel.to.y}px)`;
+    }
+    const timer = setTimeout(() => done.current(travel.key), duration + 80);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <g
+      ref={ref}
+      className="checker-travel"
+      style={{ transform: `translate(${travel.from.x}px, ${travel.from.y}px)` }}
+    >
+      <g
+        className="checker-travel-lift"
+        style={{ animationDuration: `${duration}ms` }}
+      >
+        <Checker player={travel.player} x={0} y={0} />
+      </g>
     </g>
   );
 }
@@ -245,6 +347,63 @@ export function Board({
   const svgRef = useRef<SVGSVGElement>(null);
   const suppressClick = useRef(false);
 
+  // Checker travel (ticket 20): any programmatic reposition — the opponent's
+  // paced movements, auto-played forced plays, click-to-move, undo — animates
+  // as a traveler gliding between the old and new stack tops. A drag's own
+  // drop stays direct manipulation (suppressTravel), and speed off means no
+  // travelers at all.
+  const animationSpeed = useSyncExternalStore(
+    subscribeAnimationSpeed,
+    getAnimationSpeed,
+  );
+  const duration = travelMs(animationSpeed);
+  const [travels, setTravels] = useState<readonly Travel[]>([]);
+  const prevBoardRef = useRef(board);
+  const travelKey = useRef(0);
+  const suppressTravel = useRef(false);
+
+  useLayoutEffect(() => {
+    const previous = prevBoardRef.current;
+    prevBoardRef.current = board;
+    if (previous === board) {
+      return;
+    }
+    const suppressed = suppressTravel.current;
+    suppressTravel.current = false;
+    const moves =
+      duration === 0 || suppressed ? [] : diffBoards(previous, board);
+    if (moves.length === 0 || moves.length > MAX_TRAVELERS) {
+      // A snap: no travelers, and none left hiding checkers they no longer own.
+      setTravels((current) => (current.length === 0 ? current : []));
+      return;
+    }
+    setTravels((current) => [
+      ...current,
+      ...moves.map((move) => ({
+        key: travelKey.current++,
+        player: move.player,
+        from: placeCenter(previous, move.player, move.from),
+        to: placeCenter(board, move.player, move.to),
+        dest: move.to,
+      })),
+    ]);
+  }, [board, duration]);
+
+  function retireTravel(key: number): void {
+    setTravels((current) => current.filter((travel) => travel.key !== key));
+  }
+
+  /** How many checkers bound for `place` are still in flight. */
+  function arrivingCount(player: Player, place: CheckerPlace): number {
+    let count = 0;
+    for (const travel of travels) {
+      if (travel.player === player && travel.dest === place) {
+        count++;
+      }
+    }
+    return count;
+  }
+
   const origins = interactive ? movableOrigins(game) : [];
   const highlightOrigin =
     drag.kind === 'dragging'
@@ -314,6 +473,8 @@ export function Board({
           ? destinationsFrom(game, command.from).find((m) => m.to === target)
           : undefined;
       if (movement) {
+        // Dragging is direct manipulation: the drop snaps, never glides.
+        suppressTravel.current = true;
         onMove(command.from, movement.die);
       } else {
         onSelect(null); // illegal drop: the checker snaps back
@@ -463,8 +624,9 @@ export function Board({
       ))}
 
       {/* Borne-off checkers */}
-      {(['black', 'white'] as const).map((player) =>
-        Array.from({ length: board.off[player] }, (_, i) => (
+      {(['black', 'white'] as const).map((player) => {
+        const hiddenSlabs = arrivingCount(player, 'off');
+        return Array.from({ length: board.off[player] }, (_, i) => (
           <rect
             // biome-ignore lint/suspicious/noArrayIndexKey: borne-off slabs are identical positional slots
             key={`${player}-${i}`}
@@ -473,10 +635,12 @@ export function Board({
             width={trayInnerW - 24}
             height={18}
             rx={5}
-            className={`off-slab off-slab--${player}`}
+            className={`off-slab off-slab--${player} ${
+              i >= board.off[player] - hiddenSlabs ? 'off-slab--arriving' : ''
+            }`}
           />
-        )),
-      )}
+        ));
+      })}
 
       {/* Checkers on points */}
       {Array.from({ length: 24 }, (_, i) => i + 1).map((p) => {
@@ -487,6 +651,7 @@ export function Board({
         const player: Player = count > 0 ? 'white' : 'black';
         const n = Math.abs(count);
         const movable = origins.includes(p);
+        const hiddenTop = arrivingCount(player, p);
         const stack = Array.from({ length: n }, (_, index) => (
           <Checker
             // biome-ignore lint/suspicious/noArrayIndexKey: checkers in a stack are identical positional slots
@@ -495,6 +660,7 @@ export function Board({
             {...checkerCenter(p, index, n)}
             lifted={liftedFrom === p && index === n - 1}
             ringed={highlightOrigin === p && index === n - 1}
+            arriving={index >= n - hiddenTop}
             label={n > 5 && index === n - 1 ? String(n) : undefined}
           />
         ));
@@ -524,6 +690,7 @@ export function Board({
           return null;
         }
         const movable = origins.includes('bar') && turn?.player === player;
+        const hiddenTop = arrivingCount(player, 'bar');
         const stack = Array.from({ length: n }, (_, index) => (
           <Checker
             // biome-ignore lint/suspicious/noArrayIndexKey: checkers in a stack are identical positional slots
@@ -532,6 +699,7 @@ export function Board({
             {...barCheckerCenter(player, index)}
             lifted={liftedFrom === 'bar' && index === n - 1}
             ringed={movable && highlightOrigin === 'bar' && index === n - 1}
+            arriving={index >= n - hiddenTop}
           />
         ));
         return movable ? (
@@ -679,6 +847,16 @@ export function Board({
             </g>
           );
         })}
+
+      {/* Checkers in programmatic flight (ticket 20) */}
+      {travels.map((travel) => (
+        <TravelingChecker
+          key={travel.key}
+          travel={travel}
+          duration={duration}
+          onDone={retireTravel}
+        />
+      ))}
 
       {/* The checker in flight while dragging */}
       {drag.kind === 'dragging' && turn && (

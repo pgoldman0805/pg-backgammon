@@ -9,6 +9,7 @@ import { Analyze } from './pages/Analyze';
 import { Play } from './pages/Play';
 import { Progress } from './pages/Progress';
 import { Puzzles } from './pages/Puzzles';
+import { Settings } from './pages/Settings';
 import { useBlunderMining } from './puzzles';
 import { useTheme } from './theme';
 
@@ -24,6 +25,7 @@ const areas = [
   { path: '/analyze', label: 'Analyze' },
   { path: '/puzzles', label: 'Puzzles' },
   { path: '/progress', label: 'Progress' },
+  { path: '/settings', label: 'Settings' },
 ];
 
 function App() {
@@ -71,6 +73,7 @@ function App() {
           <Route path="/analyze" element={<Analyze />} />
           <Route path="/puzzles" element={<Puzzles />} />
           <Route path="/progress" element={<Progress />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </main>
     </BrowserRouter>
