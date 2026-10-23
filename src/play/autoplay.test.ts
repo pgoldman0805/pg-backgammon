@@ -17,7 +17,9 @@ import {
   type Player,
 } from '../rules';
 import { scriptedDice } from '../test/dice';
+import { scriptedCubeEngine } from '../test/engine';
 import { type AutoplaySettings, createAutoplay } from './autoplay';
+import { createEngineOpponent } from './opponent';
 import { createPlayStore, type PlayStore } from './store';
 
 /** Pacing that yields the event loop but never waits. */
@@ -333,6 +335,38 @@ describe('auto-play of forced plays', () => {
     // The committed play stands alone; autoplay never double-acted.
     expect(store.getState().match?.game.record.plays).toHaveLength(1);
     expect(store.getState().match?.phase).toBe('pre-roll');
+    autoplay.dispose();
+  });
+});
+
+describe('alongside the engine opponent', () => {
+  it("never suppresses the engine's double, even in a race", async () => {
+    // Black's pre-roll in a race; the engine's cube info says double.
+    const store = createPlayStore({
+      match: createMatch({ length: 7, game: raceGame('white', [2, 1]) }),
+      dice: scriptedDice(6, 6),
+    });
+    store.dispatch({ type: 'movement', from: 6, die: 2 });
+    store.dispatch({ type: 'movement', from: 6, die: 1 });
+    store.dispatch({ type: 'commit' });
+    const opponent = createEngineOpponent({
+      store,
+      engine: scriptedCubeEngine('Double, take'),
+      player: 'black',
+      difficulty: 'expert',
+      stepMs: 0,
+      pace: instant,
+    });
+    const autoplay = autoplayWith(store, allOn, ['white']);
+
+    // The double arrives and the incoming cube dialog moment holds: autoplay
+    // never rolls or answers for the user.
+    await vi.waitFor(() => {
+      expect(store.getState().match?.phase).toBe('cube-offered');
+    });
+    await settle();
+    expect(store.getState().match?.phase).toBe('cube-offered');
+    opponent.dispose();
     autoplay.dispose();
   });
 });
