@@ -122,3 +122,37 @@ test('golden path: play a match, review it, see puzzles', async ({ page }) => {
     ).toBeEnabled();
   }
 });
+
+/**
+ * In-app puzzle generation (ticket 18): the real engine self-plays in the
+ * browser at background priority. The run is cancelled as soon as live
+ * progress shows, so the test stays minutes-cheap while still proving the
+ * whole path — action, engine load, self-play progress, cancel, summary.
+ */
+test('find new puzzles: live progress, then cancel cleanly', async ({
+  page,
+}) => {
+  test.setTimeout(300_000);
+
+  await page.goto('/puzzles');
+  await page.getByRole('button', { name: 'Find new puzzles' }).click();
+
+  // Feedback is immediate: the engine-loading note or game progress. The
+  // generous timeout absorbs a machine still busy from the previous test.
+  await expect(page.locator('.generate-strip').getByRole('status')).toBeVisible(
+    { timeout: 60_000 },
+  );
+  // The payload loads lazily; self-play progress follows.
+  await expect(page.getByText(/Playing game \d+/)).toBeVisible({
+    timeout: 120_000,
+  });
+
+  await page.getByRole('button', { name: 'Stop' }).click();
+  await expect(page.getByText(/Stopped|Found \d+ new puzzle/)).toBeVisible({
+    timeout: 120_000,
+  });
+  // The action is ready to run again.
+  await expect(
+    page.getByRole('button', { name: 'Find new puzzles' }),
+  ).toBeVisible({ timeout: 60_000 });
+});

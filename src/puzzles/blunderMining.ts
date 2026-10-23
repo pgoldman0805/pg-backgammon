@@ -45,6 +45,7 @@ import {
   type Player,
 } from '../rules';
 import type { StoredMatch } from '../storage/types';
+import { puzzleContentKey } from './contentKey';
 import { boardKey } from './grade';
 import { classifyPlayTheme, cubeChoicesFromEquities } from './mining';
 import type {
@@ -64,18 +65,9 @@ export function blunderPuzzleId(origin: PuzzleOrigin): string {
   return `blunder:${origin.matchId}:${origin.game}:${origin.decision}`;
 }
 
-/**
- * The position + question a puzzle poses, independent of where it came from:
- * two origins producing the same key are the same drill.
- */
-export function puzzleContentKey(puzzle: Puzzle): string {
-  const base = `${boardKey(puzzle.board)}|${puzzle.hero}|${puzzle.match.cube.value}`;
-  if (puzzle.kind === 'play') {
-    const roll = [...puzzle.roll].sort((a, b) => b - a).join('-');
-    return `play|${base}|${roll}`;
-  }
-  return `cube|${puzzle.decision}|${base}`;
-}
+// Content identity moved to ./contentKey (ticket 18 shares it with the
+// self-play miner); re-exported so existing importers keep working.
+export { puzzleContentKey } from './contentKey';
 
 export interface BlunderMiningDeps {
   /** Already-stored puzzles, deduped against by origin id and content. */

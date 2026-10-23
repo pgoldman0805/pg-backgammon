@@ -11,9 +11,16 @@
  */
 
 import { useEffect, useMemo, useState } from 'react';
+import type { EngineStatus } from '../engine';
 import { Board } from '../play/Board';
+import { getPlayEngine } from '../play/engineInstance';
 import { canCommit, canUndo } from '../play/selectors';
 import { CURATED_PUZZLES } from '../puzzles/curatedSet';
+import { getPuzzleGenerationService } from '../puzzles/generationInstance';
+import type {
+  GenerationStatus,
+  PuzzleGenerationService,
+} from '../puzzles/generationService';
 import {
   type CubeGrade,
   gradeCubeAttempt,
@@ -47,7 +54,9 @@ import {
 } from '../rules';
 import {
   type BlunderPuzzleStorage,
+  type GeneratedPuzzleStorage,
   getBlunderPuzzleStorage,
+  getGeneratedPuzzleStorage,
   getPuzzleProgressStorage,
   type PuzzleProgressStorage,
 } from '../storage';
@@ -146,6 +155,26 @@ function playSummary(grade: PlayGrade): string {
     : `Correct — ${grade.chosen.moveText} is within 0.02 of the best, ${grade.best.moveText}.`;
 }
 
+/** One line on how the last generation batch ended. */
+function generationSummary(
+  outcome: NonNullable<GenerationStatus['lastOutcome']>,
+): string {
+  const found = (n: number) => `${n} new puzzle${n === 1 ? '' : 's'}`;
+  switch (outcome.reason) {
+    case 'target':
+    case 'games':
+      return outcome.keepers === 0
+        ? 'No new puzzles this run — nothing clear enough came up. Try again.'
+        : `Found ${found(outcome.keepers)} in ${outcome.games} game${outcome.games === 1 ? '' : 's'}.`;
+    case 'cancelled':
+      return outcome.keepers > 0
+        ? `Stopped — kept ${found(outcome.keepers)}.`
+        : 'Stopped.';
+    case 'error':
+      return 'Generation failed — try again.';
+  }
+}
+
 function cubeSummary(grade: CubeGrade): string {
   if (!grade.correct) {
     return `Missed — ${CUBE_LABEL[grade.best.action]} was right. Your choice gave up ${grade.chosen.equityLoss.toFixed(3)}.`;
@@ -162,15 +191,27 @@ export interface PuzzlesProps {
   storage?: PuzzleProgressStorage;
   /** Injectable for tests; defaults to the shared blunder-puzzle storage. */
   blunderStorage?: BlunderPuzzleStorage;
+  /** Injectable for tests; defaults to the shared generated-puzzle storage. */
+  generatedStorage?: GeneratedPuzzleStorage;
   /** Injectable for tests; defaults to the shared miner. Null disables. */
   mining?: { catchUp(): Promise<void> } | null;
+  /** Injectable for tests; defaults to the shared generator. Null disables. */
+  generation?: PuzzleGenerationService | null;
+  /** Injectable for tests; defaults to the shared play engine. Null hides. */
+  engine?: {
+    readonly status: EngineStatus;
+    onStatusChange(listener: (status: EngineStatus) => void): () => void;
+  } | null;
 }
 
 export function Puzzles({
   puzzles = CURATED_PUZZLES,
   storage: injectedStorage,
   blunderStorage: injectedBlunderStorage,
+  generatedStorage: injectedGeneratedStorage,
   mining: injectedMining,
+  generation: injectedGeneration,
+  engine: injectedEngine,
 }: PuzzlesProps = {}) {
   const [storage] = useState(
     () => injectedStorage ?? getPuzzleProgressStorage(),
@@ -178,11 +219,31 @@ export function Puzzles({
   const [blunderStorage] = useState(
     () => injectedBlunderStorage ?? getBlunderPuzzleStorage(),
   );
+  const [generatedStorage] = useState(
+    () => injectedGeneratedStorage ?? getGeneratedPuzzleStorage(),
+  );
   const [mining] = useState(() =>
     injectedMining === undefined ? getBlunderMiningService() : injectedMining,
   );
+  const [generation] = useState(() =>
+    injectedGeneration === undefined
+      ? getPuzzleGenerationService()
+      : injectedGeneration,
+  );
+  const [engine] = useState(() =>
+    injectedEngine === undefined ? getPlayEngine() : injectedEngine,
+  );
   const [progress, setProgress] = useState<PuzzleProgressState | null>(null);
   const [blunderPuzzles, setBlunderPuzzles] = useState<readonly Puzzle[]>([]);
+  const [generatedPuzzles, setGeneratedPuzzles] = useState<readonly Puzzle[]>(
+    [],
+  );
+  const [genStatus, setGenStatus] = useState<GenerationStatus | null>(() =>
+    generation ? generation.status() : null,
+  );
+  const [engineStatus, setEngineStatus] = useState<EngineStatus>(
+    () => engine?.status ?? 'idle',
+  );
   const [drill, setDrill] = useState<Drill | null>(null);
   const [game, setGame] = useState<GameState | null>(null);
   const [selected, setSelected] = useState<Point | 'bar' | null>(null);
@@ -237,6 +298,48 @@ export function Puzzles({
     };
   }, [blunderStorage, mining]);
 
+  // Generated puzzles: show what is stored, and track the shared generator's
+  // status — refreshing the list as a running batch lands keepers, so theme
+  // counts move while the engine mines in the background.
+  useEffect(() => {
+    let alive = true;
+    const refresh = () =>
+      generatedStorage
+        .list()
+        .then((list) => {
+          if (alive) {
+            setGeneratedPuzzles((current) =>
+              current.length === list.length &&
+              current.every((puzzle, i) => puzzle.id === list[i].id)
+                ? current
+                : list,
+            );
+          }
+        })
+        .catch(() => {});
+    void refresh();
+    const unsubscribe = generation?.onChange(() => {
+      if (alive) {
+        setGenStatus(generation.status());
+      }
+      void refresh();
+    });
+    return () => {
+      alive = false;
+      unsubscribe?.();
+    };
+  }, [generatedStorage, generation]);
+
+  // The engine's load state, so the generate action can say "loading" while
+  // the WASM payload is still on its way.
+  useEffect(() => {
+    if (!engine) {
+      return;
+    }
+    setEngineStatus(engine.status);
+    return engine.onStatusChange(setEngineStatus);
+  }, [engine]);
+
   const byTheme = useMemo(() => {
     const groups = new Map<PuzzleTheme, Puzzle[]>();
     for (const theme of PUZZLE_THEMES) {
@@ -245,8 +348,12 @@ export function Puzzles({
     for (const puzzle of puzzles) {
       groups.get(puzzle.theme)?.push(puzzle);
     }
+    // Generated puzzles slot into their theme's drill beside the curated set.
+    for (const puzzle of generatedPuzzles) {
+      groups.get(puzzle.theme)?.push(puzzle);
+    }
     return groups;
-  }, [puzzles]);
+  }, [puzzles, generatedPuzzles]);
 
   const current: Puzzle | null = drill
     ? (drill.queue[drill.index] ?? null)
@@ -382,6 +489,17 @@ export function Puzzles({
 
   // ---- Browse view ----------------------------------------------------
   if (!drill) {
+    const running = genStatus?.running ?? false;
+    const generateStatus = !genStatus
+      ? null
+      : running && engineStatus !== 'ready'
+        ? 'Loading the engine…'
+        : running
+          ? `Playing game ${genStatus.gamesPlayed}… ${genStatus.keepersFound} found` +
+            (genStatus.cancelling ? ' · stopping' : '')
+          : genStatus.lastOutcome
+            ? generationSummary(genStatus.lastOutcome)
+            : null;
     return (
       <section className="puzzles-area">
         <h1>Puzzles</h1>
@@ -428,6 +546,43 @@ export function Puzzles({
             );
           })}
         </ul>
+        {generation && (
+          <div className="generate-strip">
+            <div className="theme-text">
+              <span className="theme-name">Find new puzzles</span>
+              <span className="theme-blurb">
+                The engine plays itself in the background and keeps positions
+                worth drilling. New puzzles join their themes above.
+              </span>
+            </div>
+            {generateStatus && (
+              <span className="generate-status" role="status">
+                {generateStatus}
+              </span>
+            )}
+            {running ? (
+              <button
+                type="button"
+                className="play-button play-button--quiet"
+                disabled={genStatus?.cancelling}
+                onClick={() => generation.cancel()}
+              >
+                Stop
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="play-button play-button--primary"
+                onClick={() => {
+                  generation.start();
+                  setGenStatus(generation.status());
+                }}
+              >
+                Find new puzzles
+              </button>
+            )}
+          </div>
+        )}
         <ul className="theme-ledger">
           <li className="theme-row theme-row--blunder">
             <div className="theme-text">
@@ -608,6 +763,9 @@ export function Puzzles({
           {prompt}
           {current.source === 'blunder' && (
             <span className="source-badge">{BLUNDER_COLLECTION_LABEL}</span>
+          )}
+          {current.source === 'generated' && (
+            <span className="source-badge">Generated</span>
           )}
           {servedFromRetry && <span className="retry-chip">Retry</span>}
         </p>

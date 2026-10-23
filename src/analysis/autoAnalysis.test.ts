@@ -50,6 +50,7 @@ function spiedAnalyzer(): MatchAnalyzer & {
     deepen: real.deepen,
     analyzePosition: real.analyzePosition,
     rankPlays: real.rankPlays,
+    cubeInfo: real.cubeInfo,
   };
   return spy;
 }

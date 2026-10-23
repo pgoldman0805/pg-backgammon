@@ -160,6 +160,69 @@ describe('createMatchAnalyzer', () => {
     expect(engine.calls).toBe(1);
   });
 
+  it('ranks screening plays at a weakened difficulty for the generator (ticket 18)', async () => {
+    const engine = counted(createFakeEngine());
+    const analyzer = createMatchAnalyzer({ engine, now: () => 7 });
+    const position = { board: initialBoard(), onRoll: 'white' as const };
+
+    const direct = await createFakeEngine().rankPlays(position, [3, 1], {
+      difficulty: 'beginner',
+    });
+    const clean = await createFakeEngine().rankPlays(position, [3, 1]);
+    expect(direct).not.toEqual(clean); // noise makes the option observable
+    expect(
+      await analyzer.rankPlays(position, [3, 1], 'background', {
+        difficulty: 'beginner',
+      }),
+    ).toEqual(direct);
+    expect(engine.calls).toBe(1);
+  });
+
+  it('analyzes cube decisions for the generator at background priority (ticket 18)', async () => {
+    const engine = counted(createFakeEngine());
+    const analyzer = createMatchAnalyzer({ engine, now: () => 7 });
+    const position = { board: initialBoard(), onRoll: 'white' as const };
+
+    const direct = await createFakeEngine().cubeInfo(position);
+    expect(await analyzer.cubeInfo(position, 'background')).toEqual(direct);
+    expect(engine.calls).toBe(1);
+  });
+
+  it('queues background cube analysis behind user-priority work', async () => {
+    const fake = createFakeEngine();
+    let release!: () => void;
+    const held = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    let first = true;
+    const engine: Engine = {
+      ...fake,
+      rankPlays: async (position, roll, options) => {
+        if (first) {
+          first = false;
+          await held;
+        }
+        return fake.rankPlays(position, roll, options);
+      },
+    };
+    const analyzer = createMatchAnalyzer({ engine, now: () => 7 });
+    const position = { board: initialBoard(), onRoll: 'white' as const };
+
+    const order: string[] = [];
+    const busy = analyzer
+      .rankPlays(position, [3, 1], 'background')
+      .then(() => order.push('held'));
+    const mining = analyzer
+      .cubeInfo(position, 'background')
+      .then(() => order.push('mining'));
+    const user = analyzer
+      .rankPlays(position, [5, 3], 'user')
+      .then(() => order.push('user'));
+    release();
+    await Promise.all([busy, mining, user]);
+    expect(order).toEqual(['held', 'user', 'mining']);
+  });
+
   it('queues background mining rankings behind user-priority work', async () => {
     const fake = createFakeEngine();
     let release!: () => void;

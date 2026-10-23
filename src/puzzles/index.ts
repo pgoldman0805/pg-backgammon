@@ -16,7 +16,21 @@ export {
   type BlunderMiningServiceOptions,
   createBlunderMiningService,
 } from './blunderMiningService';
+export {
+  cubeContentKey,
+  playContentKey,
+} from './contentKey';
 export { CURATED_PUZZLES } from './curatedSet';
+export { getPuzzleGenerationService } from './generationInstance';
+export {
+  BATCH_GAME_CAP,
+  BATCH_KEEPERS,
+  createPuzzleGenerationService,
+  type GenerationRunOutcome,
+  type GenerationStatus,
+  type PuzzleGenerationService,
+  type PuzzleGenerationServiceOptions,
+} from './generationService';
 export {
   boardKey,
   type CubeGrade,
@@ -43,6 +57,19 @@ export {
   type ThemeProgress,
   themeProgress,
 } from './queue';
+export {
+  mineSelfPlayPuzzles,
+  SELF_PLAY_DIVERSITY,
+  SELF_PLAY_QUALITY,
+  type SelfPlayDiversity,
+  type SelfPlayMiningEngine,
+  type SelfPlayMiningOptions,
+  type SelfPlayMiningProgress,
+  type SelfPlayMiningResult,
+  type SelfPlayMiningStats,
+  type SelfPlayMiningTarget,
+  type SelfPlayQuality,
+} from './selfPlayMining';
 export {
   type CubeAction,
   type CubeChoice,
