@@ -55,6 +55,113 @@ describe('navigation shell', () => {
   });
 });
 
+describe('phone menu', () => {
+  it('opens from the Menu button: all five areas plus the theme toggle', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const button = screen.getByRole('button', { name: 'Menu' });
+    expect(button).toHaveAttribute('aria-expanded', 'false');
+    expect(
+      screen.queryByRole('navigation', { name: 'Menu' }),
+    ).not.toBeInTheDocument();
+
+    await user.click(button);
+
+    expect(button).toHaveAttribute('aria-expanded', 'true');
+    const menu = screen.getByRole('navigation', { name: 'Menu' });
+    expect(button).toHaveAttribute('aria-controls', menu.id);
+    for (const area of ['Play', 'Analyze', 'Puzzles', 'Progress', 'Settings']) {
+      expect(
+        within(menu).getByRole('link', { name: area }),
+      ).toBeInTheDocument();
+    }
+    expect(
+      within(menu).getByRole('button', {
+        name: /^Switch to (dark|light) theme$/,
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it('navigates to the chosen area and closes', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: 'Menu' }));
+    const menu = screen.getByRole('navigation', { name: 'Menu' });
+    await user.click(within(menu).getByRole('link', { name: 'Puzzles' }));
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Puzzles' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('navigation', { name: 'Menu' }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Menu' })).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    );
+  });
+
+  it('closes on Escape and returns focus to the Menu button', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const button = screen.getByRole('button', { name: 'Menu' });
+    await user.click(button);
+    expect(
+      screen.getByRole('navigation', { name: 'Menu' }),
+    ).toBeInTheDocument();
+
+    await user.keyboard('{Escape}');
+
+    expect(
+      screen.queryByRole('navigation', { name: 'Menu' }),
+    ).not.toBeInTheDocument();
+    expect(button).toHaveFocus();
+  });
+
+  it('switches the theme from inside the menu without closing it', async () => {
+    localStorage.clear();
+    document.documentElement.removeAttribute('data-theme');
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: 'Menu' }));
+    const menu = screen.getByRole('navigation', { name: 'Menu' });
+    await user.click(
+      within(menu).getByRole('button', { name: 'Switch to dark theme' }),
+    );
+
+    expect(document.documentElement).toHaveAttribute('data-theme', 'dark');
+    expect(
+      screen.getByRole('navigation', { name: 'Menu' }),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole('navigation', { name: 'Menu' })).getByRole(
+        'button',
+        { name: 'Switch to light theme' },
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it('closes when the page behind it is clicked', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: 'Menu' }));
+    expect(
+      screen.getByRole('navigation', { name: 'Menu' }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole('heading', { level: 1, name: 'Play' }));
+
+    expect(
+      screen.queryByRole('navigation', { name: 'Menu' }),
+    ).not.toBeInTheDocument();
+  });
+});
+
 describe('reload during a game', () => {
   it('boots cleanly back to the Play setup after a mid-game reload', async () => {
     const user = userEvent.setup();
