@@ -123,8 +123,9 @@ Automated vs needs-human-eyes:
 - E2E: a second smoke in `golden-path.spec.ts` drives the REAL path —
   click the action, see the status line, see "Playing game N", Stop, see
   the stopped summary, action ready again (cancelled early on purpose to
-  stay cheap). `npm test` (746), `npm run lint`, `npm run build`,
-  `npm run e2e` (2 tests) all pass.
+  stay cheap). `npm test` (729, including ticket 17's merged validation
+  sample), `npm run lint`, `npm run build`, `npm run e2e` (2 tests) all
+  pass on the merged tree.
 - **Human eyes**: run a full real batch (~40 self-play games through the
   worker — minutes of background engine time) and skim the keepers on the
   board for face validity, like ticket 11's set; watch responsiveness while
