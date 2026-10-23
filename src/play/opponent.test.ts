@@ -11,12 +11,7 @@ import { createBoard, createGame, createSeededDice } from '../rules';
 import { scriptedDice } from '../test/dice';
 import { gatedEngine } from '../test/engine';
 import { createEngineOpponent } from './opponent';
-import {
-  canCommit,
-  forcedPlay,
-  isDance,
-  viableMovements,
-} from './selectors';
+import { canCommit, forcedPlay, isDance, viableMovements } from './selectors';
 import { createPlayStore, type PlayStore } from './store';
 
 /** Pacing that yields the event loop but never waits. */
@@ -40,7 +35,6 @@ function blackToOpen() {
     dice: scriptedDice(5, 2),
   });
 }
-
 
 describe('engine turn', () => {
   it("plays the engine's top-ranked play and commits, passing the turn", async () => {
@@ -137,8 +131,8 @@ describe('dance and forced turns', () => {
   });
 
   it('plays a forced turn without consulting the engine', async () => {
-    // Black's lone checker can only play 24/18 6/3 off... keep it simple:
-    // one black checker far from home, a single maximal sequence.
+    // Black's lone checker: 1/7 plays, 7/10 is blocked, and 1/4 would waste
+    // the higher die — exactly one legal play (1/7 with the 6).
     const store = createPlayStore({
       game: createGame({
         board: createBoard({
@@ -289,7 +283,7 @@ describe('a complete game at every difficulty', () => {
   /** Play white's current turn with a first-viable-movement policy. */
   function playWhiteTurn(store: PlayStore): void {
     const game = store.getState().game;
-    if (!game?.turn || game.turn.player !== 'white') {
+    if (game?.turn?.player !== 'white') {
       return;
     }
     if (isDance(game)) {
@@ -317,32 +311,36 @@ describe('a complete game at every difficulty', () => {
     'intermediate',
     'expert',
     'world-class',
-  ] as const)('plays a full game to a result at %s', async (difficulty) => {
-    const store = createPlayStore({ dice: createSeededDice(42) });
-    const opponent = createEngineOpponent({
-      store,
-      engine: createFakeEngine(),
-      player: 'black',
-      difficulty,
-      // Microtask pacing: the whole engine turn resolves between loop ticks.
-      pace: () => Promise.resolve(),
-      stepMs: 0,
-    });
-    store.dispatch({ type: 'start' });
+  ] as const)(
+    'plays a full game to a result at %s',
+    async (difficulty) => {
+      const store = createPlayStore({ dice: createSeededDice(42) });
+      const opponent = createEngineOpponent({
+        store,
+        engine: createFakeEngine(),
+        player: 'black',
+        difficulty,
+        // Microtask pacing: the whole engine turn resolves between loop ticks.
+        pace: () => Promise.resolve(),
+        stepMs: 0,
+      });
+      store.dispatch({ type: 'start' });
 
-    for (let i = 0; i < 2000 && !store.getState().game?.result; i++) {
-      if (store.getState().game?.turn?.player === 'white') {
-        playWhiteTurn(store);
-      } else {
-        // The opponent is acting; let its async chain advance.
-        await instant();
+      for (let i = 0; i < 2000 && !store.getState().game?.result; i++) {
+        if (store.getState().game?.turn?.player === 'white') {
+          playWhiteTurn(store);
+        } else {
+          // The opponent is acting; let its async chain advance.
+          await instant();
+        }
+        expect(opponent.getState().error).toBeNull();
       }
-      expect(opponent.getState().error).toBeNull();
-    }
 
-    const game = store.getState().game;
-    expect(game?.result).not.toBeNull();
-    expect(game?.record.plays.length).toBeGreaterThan(10);
-    opponent.dispose();
-  }, 30_000);
+      const game = store.getState().game;
+      expect(game?.result).not.toBeNull();
+      expect(game?.record.plays.length).toBeGreaterThan(10);
+      opponent.dispose();
+    },
+    30_000,
+  );
 });

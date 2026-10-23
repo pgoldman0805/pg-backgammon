@@ -204,8 +204,7 @@ export function Play({
   const forced =
     game && turn && turn.movements.length === 0 ? forcedPlay(game) : null;
   const vsComputer = setup.mode === 'computer';
-  const humanTurn =
-    turn !== null && (!vsComputer || turn.player === 'white');
+  const humanTurn = turn !== null && (!vsComputer || turn.player === 'white');
   const thinking = vsComputer && opponentState.thinking;
 
   function start(mode: PlayMode): void {

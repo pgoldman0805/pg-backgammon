@@ -9,11 +9,13 @@
  * round-trip), so they keep working even while the engine payload loads.
  */
 
-import type { Difficulty, Engine } from '../engine';
-import type { Play, Player } from '../rules';
+// Types come straight from the engine seam definition (not the module index)
+// so this file stays free of browser-typed internals: it is compiled both in
+// the app and in the node-typed test program (the real-WASM smoke test).
+import type { Difficulty, Engine } from '../engine/types';
+import type { Play, Player, TurnState } from '../rules';
 import { forcedPlay, isDance } from './selectors';
 import type { PlayStore } from './store';
-import type { TurnState } from '../rules';
 
 export interface EngineOpponentState {
   /** True while a rankPlays call is in flight (the visible thinking state). */
@@ -75,8 +77,7 @@ export function createEngineOpponent(
   async function takeTurn(turn: TurnState): Promise<void> {
     const token = turn.roll;
     /** The turn is still ours to play (same roll, not disposed). */
-    const live = () =>
-      !disposed && store.getState().game?.turn?.roll === token;
+    const live = () => !disposed && store.getState().game?.turn?.roll === token;
     try {
       const game = store.getState().game;
 

@@ -1,4 +1,10 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createFakeEngine, type Engine } from '../engine';
 import { createPlayStore, type PlayStoreOptions } from '../play/store';
@@ -111,9 +117,9 @@ describe('playing against the computer', () => {
       );
     });
     // The UI stays responsive but offers White nothing to act on.
-    expect(screen.queryAllByRole('button', { name: /^Move from/ })).toHaveLength(
-      0,
-    );
+    expect(
+      screen.queryAllByRole('button', { name: /^Move from/ }),
+    ).toHaveLength(0);
     expect(
       screen.queryByRole('button', { name: 'Commit play' }),
     ).not.toBeInTheDocument();
