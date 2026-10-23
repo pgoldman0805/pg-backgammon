@@ -23,6 +23,7 @@ export {
   createGame,
   type GameState,
   gameResult,
+  rewindToTurn,
   startGame,
   startNextTurn,
   type TurnState,
@@ -33,9 +34,11 @@ export {
   type CreateMatchOptions,
   type CubeState,
   canDouble,
+  canTakeback,
   commitMatchPlay,
   createMatch,
   declineResignation,
+  markTutorAssisted,
   type MatchGameEnd,
   type MatchGameRecord,
   type MatchGameReplay,
@@ -56,6 +59,7 @@ export {
   rollTurn,
   startMatch,
   takeDouble,
+  takebackPlay,
   undoMatchMovement,
 } from './match';
 export { computeMovement, legalMovements, legalPlays } from './plays';

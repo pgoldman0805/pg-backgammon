@@ -226,6 +226,32 @@ export function commitPlayOnly(state: GameState): GameState {
 }
 
 /**
+ * Rewind the game to the start of the turn that produced the play at `index`:
+ * the board is rebuilt from the record, the same roll is restored with no
+ * movements made, and that play (with everything after it) leaves the record.
+ * The pure capability behind Tutor-mode takebacks (GLOSSARY "Takeback").
+ */
+export function rewindToTurn(state: GameState, index: number): GameState {
+  const plays = state.record.plays;
+  if (!Number.isInteger(index) || index < 0 || index >= plays.length) {
+    throw new Error(`no committed play at index ${index} to rewind to`);
+  }
+  let board = state.record.initialBoard;
+  for (let i = 0; i < index; i++) {
+    for (const movement of plays[i].movements) {
+      board = applyMovement(board, plays[i].player, movement);
+    }
+  }
+  const target = plays[index];
+  return {
+    board,
+    turn: newTurn(target.player, target.roll, board),
+    record: { ...state.record, plays: plays.slice(0, index) },
+    result: null,
+  };
+}
+
+/**
  * Begin the next player's turn with a known roll, on a game whose previous
  * play was committed without rolling (see {@link commitPlayOnly}).
  */
