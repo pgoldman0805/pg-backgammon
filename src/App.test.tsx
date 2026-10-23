@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './App';
 
@@ -78,6 +78,39 @@ describe('reload during a game', () => {
       screen.getByRole('button', { name: 'Play as White' }),
     ).toBeInTheDocument();
     expect(screen.getByLabelText('White pip count')).toHaveTextContent('167');
+  });
+
+  it('offers to resume the interrupted match and restores its standing', async () => {
+    const user = userEvent.setup();
+    const firstVisit = render(<App />);
+
+    await user.click(screen.getByRole('button', { name: 'Hot-seat match' }));
+    const pipsBefore = {
+      white: screen.getByLabelText('White pip count').textContent,
+      black: screen.getByLabelText('Black pip count').textContent,
+    };
+
+    // A reload: flush persistence (as leaving the page does), then reboot.
+    window.dispatchEvent(new Event('pagehide'));
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+    firstVisit.unmount();
+    render(<App />);
+
+    await user.click(
+      await screen.findByRole('button', { name: 'Resume match' }),
+    );
+
+    expect(screen.getByText('7-point match')).toBeInTheDocument();
+    expect(screen.getByLabelText('White pip count')).toHaveTextContent(
+      pipsBefore.white ?? '',
+    );
+    expect(screen.getByLabelText('Black pip count')).toHaveTextContent(
+      pipsBefore.black ?? '',
+    );
+    expect(screen.getByLabelText('White match score')).toHaveTextContent('0');
+    expect(screen.getByLabelText('Black match score')).toHaveTextContent('0');
   });
 });
 

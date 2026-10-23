@@ -1,0 +1,177 @@
+/* Analyze: the match history ledger. Stays in the shell's paper/ink/green
+   identity at reading measure; hairline rules separate matches (structure =
+   one rule per match), and the accent appears only where something is live. */
+
+.analyze-area h1 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: var(--ink-muted);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.analyze-note {
+  margin-bottom: 1rem;
+  padding: 0.5rem 0.75rem;
+  border-left: 3px solid var(--accent);
+  color: var(--ink);
+}
+
+/* The ledger */
+.match-history {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  border-top: 1px solid var(--line);
+}
+
+.match-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.match-result {
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+.live-badge {
+  margin-left: 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.live-badge::before {
+  content: "";
+  display: inline-block;
+  width: 0.45em;
+  height: 0.45em;
+  margin-right: 0.35em;
+  border-radius: 50%;
+  background: var(--accent);
+  vertical-align: 0.1em;
+}
+
+.match-meta {
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+.match-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Buttons: the shell's quiet outline vocabulary (cf. theme-toggle). */
+.history-button {
+  padding: 0.35rem 0.85rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.history-button:hover {
+  border-color: var(--ink-muted);
+}
+
+.history-button--quiet {
+  color: var(--ink-muted);
+}
+
+.history-button--quiet:hover {
+  color: var(--ink);
+}
+
+.history-button--danger {
+  color: #a2402c;
+  border-color: currentcolor;
+}
+
+:root[data-theme="dark"] .history-button--danger {
+  color: #e08062;
+}
+
+/* Import is a file input dressed as a button. */
+.import-label {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.import-label input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.import-label:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Backup footer */
+.backup-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-top: 1rem;
+}
+
+.backup-hint {
+  flex-basis: 100%;
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+/* The read-only match view */
+.match-view {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+}
+
+.match-view-title {
+  font-size: 1.3rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.match-view-meta {
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+.final-position {
+  width: 100%;
+  margin: 0;
+}
+
+.final-position figcaption {
+  margin-top: 0.4rem;
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+@media (max-width: 640px) {
+  .match-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

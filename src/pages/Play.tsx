@@ -19,6 +19,13 @@ import {
   type Point,
   pipCount,
 } from '../rules';
+import {
+  getMatchStorage,
+  type MatchConfig,
+  type MatchStorage,
+  type StoredMatch,
+  useMatchPersistence,
+} from '../storage';
 import '../play/board.css';
 
 const KIND_TEXT = {
@@ -66,6 +73,29 @@ export interface PlayProps {
   defaultSetup?: PlaySetup;
   /** Pause between the computer's visible steps, in milliseconds. */
   opponentStepMs?: number;
+  /** Injectable for tests; defaults to the shared IndexedDB storage. */
+  storage?: MatchStorage;
+  /** Resume this stored match on arrival (Analyze's "Resume" route state). */
+  resumeMatchId?: string;
+}
+
+/** Rebuild the setup pickers' state from a stored match's config. */
+function setupFromConfig(config: MatchConfig): PlaySetup {
+  const difficulty = DIFFICULTIES.find((d) => d.id === config.difficulty)?.id;
+  return {
+    mode: config.mode === 'hotseat' ? 'hotseat' : 'computer',
+    difficulty: difficulty ?? 'casual',
+    length: typeof config.length === 'number' ? config.length : 7,
+  };
+}
+
+/** One line describing a stored match, e.g. "5-point match vs Casual". */
+function storedMatchName(stored: StoredMatch): string {
+  return stored.config.mode === 'hotseat'
+    ? `${stored.config.length}-point hot-seat match`
+    : `${stored.config.length}-point match vs ${difficultyLabel(
+        stored.config.difficulty ?? 'casual',
+      )}`;
 }
 
 function name(player: Player): string {
@@ -228,9 +258,12 @@ export function Play({
   engine: injectedEngine,
   defaultSetup,
   opponentStepMs,
+  storage: injectedStorage,
+  resumeMatchId,
 }: PlayProps = {}) {
-  const [store] = useState(() => injectedStore ?? createPlayStore());
+  const [store, setStore] = useState(() => injectedStore ?? createPlayStore());
   const [engine] = useState(() => injectedEngine ?? getPlayEngine());
+  const [storage] = useState(() => injectedStorage ?? getMatchStorage());
   const { match } = useSyncExternalStore(store.subscribe, store.getState);
   const engineStatus = useSyncExternalStore(
     engine.onStatusChange,
@@ -246,6 +279,8 @@ export function Play({
     useState<EngineOpponentState>(IDLE_OPPONENT);
   const opponentRef = useRef<EngineOpponent | null>(null);
   const previousMatch = useRef<MatchState | null>(null);
+  const persistence = useMatchPersistence(store, storage);
+  const autoResumed = useRef(false);
 
   // Start the lazy engine load on first visit; the shell stays usable and
   // failures surface through the observable status.
@@ -355,8 +390,39 @@ export function Play({
 
   function start(mode: PlayMode): void {
     setSetup((current) => ({ ...current, mode }));
+    persistence.begin({
+      mode,
+      difficulty: setup.difficulty,
+      length: setup.length,
+    });
     store.dispatch({ type: 'start', length: setup.length });
   }
+
+  /** Pick a stored in-progress match back up exactly where it stood. */
+  function resume(stored: StoredMatch): void {
+    if (!stored.state) {
+      return;
+    }
+    persistence.adopt(stored);
+    setSetup(setupFromConfig(stored.config));
+    setStore(createPlayStore({ match: stored.state }));
+  }
+
+  // Arriving from Analyze's "Resume": pick the named match up as soon as
+  // storage has delivered it, once, and only before anything else starts.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: resume is recreated per render; the ref guards re-runs
+  useEffect(() => {
+    if (!resumeMatchId || autoResumed.current || match) {
+      return;
+    }
+    const stored = persistence.resumable.find(
+      (row) => row.id === resumeMatchId,
+    );
+    if (stored) {
+      autoResumed.current = true;
+      resume(stored);
+    }
+  }, [resumeMatchId, persistence.resumable, match]);
 
   function retryEngine(): void {
     engine.initialize().catch(() => {});
@@ -401,6 +467,25 @@ export function Play({
     );
   };
 
+  /** The newest in-progress match on offer to pick back up (reload safety). */
+  const resumeCandidate = persistence.resumable[0] ?? null;
+
+  const resumePrompt = resumeCandidate && (
+    <div className="resume-note">
+      <p className="resume-text">
+        A match is waiting: {storedMatchName(resumeCandidate)}, White{' '}
+        {resumeCandidate.score.white} · Black {resumeCandidate.score.black}.
+      </p>
+      <button
+        type="button"
+        className="play-button play-button--primary"
+        onClick={() => resume(resumeCandidate)}
+      >
+        Resume match
+      </button>
+    </div>
+  );
+
   const setupCard = (
     title: string,
     primaryLabel: string,
@@ -409,6 +494,7 @@ export function Play({
     <div className="play-banner">
       <div className="setup-card">
         <p className="setup-title">{title}</p>
+        {resumePrompt}
         {setupPickers}
         {startButtons(primaryLabel, primaryMode)}
         <EngineNote
