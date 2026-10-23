@@ -21,6 +21,10 @@ _Avoid_: Move (ambiguous: sometimes means one checker's hop), turn
 **Cube decision**:
 A doubling-cube choice: whether to double, and whether to take or pass when doubled. Scored by the analyzer separately from plays.
 
+**Movement**:
+One checker's move by a single die. A Play combines one or more movements.
+_Avoid_: Hop, step
+
 **Race**:
 A position with no remaining contact: neither player can hit or be hit, so checkers only run home and bear off.
 _Avoid_: No-contact (as a noun)
