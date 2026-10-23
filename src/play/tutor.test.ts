@@ -5,20 +5,10 @@
  */
 
 import { describe, expect, it, vi } from 'vitest';
-import {
-  classifyEquityLoss,
-  createFakeEngine,
-  type Engine,
-  type RankedPlay,
-} from '../engine';
-import {
-  applyMovement,
-  type CheckerMovement,
-  createBoard,
-  createGame,
-  createMatch,
-} from '../rules';
+import { classifyEquityLoss, createFakeEngine, type Engine } from '../engine';
+import { createBoard, createGame, createMatch } from '../rules';
 import { scriptedDice } from '../test/dice';
+import { openingFeedbackEngine } from '../test/engine';
 import { createPlayStore, type PlayStore } from './store';
 import { createTutor } from './tutor';
 
@@ -172,75 +162,6 @@ describe('the hint', () => {
   });
 });
 
-/**
- * An engine whose rankings give the play reaching `chosenFinal` a fixed
- * equity below the best, so tests control the exact loss the tutor sees.
- * The returned engine also records what it ranked, for cross-checking.
- */
-function rescoredEngine(
-  chosenEquity: number,
-  bestEquity: number,
-): Engine & {
-  lastRanked: readonly RankedPlay[] | null;
-  calls: Array<{
-    board: unknown;
-    difficulty: unknown;
-  }>;
-} {
-  const fake = createFakeEngine();
-  const engine = {
-    ...fake,
-    lastRanked: null as readonly RankedPlay[] | null,
-    calls: [] as Array<{ board: unknown; difficulty: unknown }>,
-    async rankPlays(
-      position: Parameters<Engine['rankPlays']>[0],
-      roll: Parameters<Engine['rankPlays']>[1],
-      options?: Parameters<Engine['rankPlays']>[2],
-    ) {
-      engine.calls.push({
-        board: position.board,
-        difficulty: options?.difficulty,
-      });
-      const ranked = await fake.rankPlays(position, roll, options);
-      // White's committed opening is 24/18 13/10; give that final position
-      // `chosenEquity` and every other play `bestEquity`.
-      const openingMovements: CheckerMovement[] = [
-        { from: 24, to: 18, die: 6, hit: false },
-        { from: 13, to: 10, die: 3, hit: false },
-      ];
-      const chosenFinal = JSON.stringify(
-        openingMovements.reduce(
-          (board, movement) => applyMovement(board, 'white', movement),
-          position.board,
-        ),
-      );
-      const rescored = ranked
-        .map((entry) => {
-          const final = JSON.stringify(
-            entry.play.movements.reduce(
-              (board, movement) =>
-                applyMovement(board, entry.play.player, movement),
-              position.board,
-            ),
-          );
-          return {
-            ...entry,
-            equity: final === chosenFinal ? chosenEquity : bestEquity,
-          };
-        })
-        .sort((a, b) => b.equity - a.equity)
-        .map((entry, index) => ({
-          ...entry,
-          rank: index + 1,
-          equityLoss: 0,
-        }));
-      engine.lastRanked = rescored;
-      return rescored;
-    },
-  };
-  return engine;
-}
-
 describe('post-play feedback', () => {
   it.each([
     [0.0, 'ok'],
@@ -251,7 +172,7 @@ describe('post-play feedback', () => {
     'a committed play that lost %f is classified "%s" via the shared analysis path',
     async (loss, expected) => {
       const store = startedStore(5, 2);
-      const engine = rescoredEngine(0.5 - loss, 0.5);
+      const engine = openingFeedbackEngine(0.5 - loss, 0.5);
       const tutor = createTutor({ store, engine, player: 'white' });
 
       commitOpening(store);
@@ -273,7 +194,7 @@ describe('post-play feedback', () => {
 
   it('scores the position before the play, at full strength', async () => {
     const store = startedStore(5, 2);
-    const engine = rescoredEngine(0.45, 0.5);
+    const engine = openingFeedbackEngine(0.45, 0.5);
     const startBoard = store.getState().match?.game.turn?.startBoard;
     const tutor = createTutor({ store, engine, player: 'white' });
 
@@ -302,7 +223,7 @@ describe('post-play feedback', () => {
       }),
       dice: scriptedDice(5, 2),
     });
-    const engine = rescoredEngine(0.4, 0.5);
+    const engine = openingFeedbackEngine(0.4, 0.5);
     const tutor = createTutor({ store, engine, player: 'white' });
 
     store.dispatch({ type: 'forced' });
@@ -316,7 +237,7 @@ describe('post-play feedback', () => {
 
   it("gives no feedback for the opponent's plays", async () => {
     const store = startedStore(5, 2);
-    const engine = rescoredEngine(0.45, 0.5);
+    const engine = openingFeedbackEngine(0.45, 0.5);
     const tutor = createTutor({ store, engine, player: 'black' });
 
     commitOpening(store);
@@ -328,7 +249,7 @@ describe('post-play feedback', () => {
 
   it('clears the feedback when the play it describes is taken back', async () => {
     const store = startedStore(5, 2);
-    const engine = rescoredEngine(0.3, 0.5);
+    const engine = openingFeedbackEngine(0.3, 0.5);
     const tutor = createTutor({ store, engine, player: 'white' });
 
     commitOpening(store);
