@@ -587,6 +587,21 @@
   outline-offset: 2px;
 }
 
+/* The setup card's quiet pointer at the Settings room (ticket 25): the
+   preference controls moved there, so one muted line keeps them one tap
+   away without competing with the start buttons. */
+.setup-settings-link {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+
+.setup-settings-link:hover,
+.setup-settings-link:focus-visible {
+  color: var(--ink);
+  text-decoration: underline;
+}
+
 /* Cube and resignation dialogs reuse the setup card. */
 .dialog-note {
   font-size: 0.9rem;
@@ -955,6 +970,12 @@
 
 @media (max-width: 640px) {
   .setting-switch {
+    min-height: 44px;
+  }
+
+  .setup-settings-link {
+    display: inline-flex;
+    align-items: center;
     min-height: 44px;
   }
 }

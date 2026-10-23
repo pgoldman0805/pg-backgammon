@@ -5,6 +5,7 @@
  */
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { createFakeEngine } from '../engine/fake';
 import { TUTOR_DEFAULT_KEY } from '../play/settings';
 import { createPlayStore, type PlayStoreOptions } from '../play/store';
@@ -20,13 +21,15 @@ afterEach(() => {
 function renderPlay(options: PlayStoreOptions, props?: Partial<PlayProps>) {
   const store = createPlayStore(options);
   render(
-    <Play
-      store={store}
-      engine={createFakeEngine()}
-      opponentStepMs={0}
-      storage={createMemoryStorage()}
-      {...props}
-    />,
+    <MemoryRouter>
+      <Play
+        store={store}
+        engine={createFakeEngine()}
+        opponentStepMs={0}
+        storage={createMemoryStorage()}
+        {...props}
+      />
+    </MemoryRouter>,
   );
   return store;
 }

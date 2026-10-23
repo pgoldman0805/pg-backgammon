@@ -6,6 +6,7 @@ import {
   waitFor,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
 import type { Engine } from '../engine';
 import { createFakeEngine } from '../engine/fake';
 import { createPlayStore, type PlayStoreOptions } from '../play/store';
@@ -39,12 +40,14 @@ beforeEach(() => {
 function renderPlay(options: PlayStoreOptions, props?: Partial<PlayProps>) {
   const store = createPlayStore(options);
   render(
-    <Play
-      store={store}
-      engine={createFakeEngine()}
-      opponentStepMs={0}
-      {...props}
-    />,
+    <MemoryRouter>
+      <Play
+        store={store}
+        engine={createFakeEngine()}
+        opponentStepMs={0}
+        {...props}
+      />
+    </MemoryRouter>,
   );
   return store;
 }
