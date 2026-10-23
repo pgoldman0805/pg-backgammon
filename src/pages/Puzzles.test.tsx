@@ -5,9 +5,13 @@
  * puzzles resurface and per-theme progress persists.
  */
 
-import { render, screen, within } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, type Mock, vi } from 'vitest';
+import type {
+  GenerationStatus,
+  PuzzleGenerationService,
+} from '../puzzles/generationService';
 import { boardKey } from '../puzzles/grade';
 import { emptyProgress, recordAnswer } from '../puzzles/queue';
 import type {
@@ -19,6 +23,7 @@ import type {
 import { applyMovement, createBoard, legalPlays } from '../rules';
 import {
   createMemoryBlunderPuzzleStorage,
+  createMemoryGeneratedPuzzleStorage,
   createMemoryPuzzleProgressStorage,
 } from '../storage';
 import { Puzzles } from './Puzzles';
@@ -335,6 +340,177 @@ describe('blunder puzzles ("From your games", ticket 12)', () => {
     );
     const section = (await screen.findByText('From your games')).closest('li');
     await within(section as HTMLElement).findByText('1 puzzle');
+  });
+});
+
+/** A hand-driven stand-in for the shared generation service. */
+function fakeGenerationService(): PuzzleGenerationService & {
+  emit(next: Partial<GenerationStatus>): void;
+  start: Mock<() => void>;
+  cancel: Mock<() => void>;
+} {
+  let status: GenerationStatus = {
+    running: false,
+    cancelling: false,
+    gamesPlayed: 0,
+    keepersFound: 0,
+    lastOutcome: null,
+  };
+  const listeners = new Set<() => void>();
+  return {
+    start: vi.fn<() => void>(),
+    cancel: vi.fn<() => void>(),
+    status: () => status,
+    onChange(listener) {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
+    settled: () => Promise.resolve(),
+    emit(next) {
+      status = { ...status, ...next };
+      for (const listener of listeners) {
+        listener();
+      }
+    },
+  };
+}
+
+const readyEngine = {
+  status: 'ready',
+  onStatusChange: () => () => {},
+} as const;
+
+describe('generated puzzles ("Find new puzzles", ticket 18)', () => {
+  const generatedPlay: PlayPuzzle = {
+    ...playPuzzle,
+    id: 'generated-42-1',
+    theme: 'priming',
+    source: 'generated',
+  };
+
+  it('counts generated puzzles inside their theme and drills them with a badge', async () => {
+    const user = userEvent.setup();
+    const generatedStorage = createMemoryGeneratedPuzzleStorage();
+    await generatedStorage.putAll([generatedPlay]);
+    render(
+      <Puzzles
+        puzzles={basePuzzles}
+        generatedStorage={generatedStorage}
+        generation={null}
+        mining={null}
+      />,
+    );
+
+    // Priming has no curated puzzle, but the generated one counts and drills.
+    const priming = (await screen.findByText('Priming')).closest('li');
+    await within(priming as HTMLElement).findByText('1 puzzle');
+    await user.click(
+      within(priming as HTMLElement).getByRole('button', { name: /drill/i }),
+    );
+
+    expect(screen.getByText(/white to play 5-3/i)).toBeInTheDocument();
+    expect(screen.getByText('Generated')).toBeInTheDocument();
+    await makeBestPlay(user);
+    expect(screen.getByText(/correct/i)).toBeInTheDocument();
+  });
+
+  it('starts a batch from the find-new-puzzles action and shows live progress', async () => {
+    const user = userEvent.setup();
+    const generation = fakeGenerationService();
+    render(
+      <Puzzles
+        puzzles={basePuzzles}
+        generatedStorage={createMemoryGeneratedPuzzleStorage()}
+        generation={generation}
+        engine={readyEngine}
+        mining={null}
+      />,
+    );
+
+    await user.click(
+      await screen.findByRole('button', { name: /find new puzzles/i }),
+    );
+    expect(generation.start).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      generation.emit({ running: true, gamesPlayed: 3, keepersFound: 2 });
+    });
+    expect(screen.getByText(/playing game 3/i)).toBeInTheDocument();
+    expect(screen.getByText(/2 found/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /stop/i }));
+    expect(generation.cancel).toHaveBeenCalledTimes(1);
+  });
+
+  it('refreshes the theme counts as a batch lands keepers', async () => {
+    const generation = fakeGenerationService();
+    const generatedStorage = createMemoryGeneratedPuzzleStorage();
+    render(
+      <Puzzles
+        puzzles={basePuzzles}
+        generatedStorage={generatedStorage}
+        generation={generation}
+        engine={readyEngine}
+        mining={null}
+      />,
+    );
+    const priming = (await screen.findByText('Priming')).closest('li');
+    expect(
+      within(priming as HTMLElement).getByText('0 puzzles'),
+    ).toBeInTheDocument();
+
+    await generatedStorage.putAll([generatedPlay]);
+    act(() => {
+      generation.emit({ running: true, gamesPlayed: 4, keepersFound: 1 });
+    });
+
+    await within(priming as HTMLElement).findByText('1 puzzle');
+  });
+
+  it('reports the finished batch', async () => {
+    const generation = fakeGenerationService();
+    render(
+      <Puzzles
+        puzzles={basePuzzles}
+        generatedStorage={createMemoryGeneratedPuzzleStorage()}
+        generation={generation}
+        engine={readyEngine}
+        mining={null}
+      />,
+    );
+    await screen.findByRole('button', { name: /find new puzzles/i });
+
+    act(() => {
+      generation.emit({
+        running: false,
+        gamesPlayed: 12,
+        keepersFound: 10,
+        lastOutcome: { reason: 'target', keepers: 10, games: 12 },
+      });
+    });
+
+    expect(screen.getByText(/found 10 new puzzles/i)).toBeInTheDocument();
+  });
+
+  it('notes the engine is still loading during a run', async () => {
+    const generation = fakeGenerationService();
+    render(
+      <Puzzles
+        puzzles={basePuzzles}
+        generatedStorage={createMemoryGeneratedPuzzleStorage()}
+        generation={generation}
+        engine={{ status: 'loading', onStatusChange: () => () => {} }}
+        mining={null}
+      />,
+    );
+    await screen.findByRole('button', { name: /find new puzzles/i });
+
+    act(() => {
+      generation.emit({ running: true, gamesPlayed: 0, keepersFound: 0 });
+    });
+
+    expect(screen.getByText(/loading the engine/i)).toBeInTheDocument();
+    expect(screen.queryByText(/playing game/i)).not.toBeInTheDocument();
   });
 });
 
