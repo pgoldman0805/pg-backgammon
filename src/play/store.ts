@@ -17,8 +17,8 @@ import {
   type Die,
   declineResignation,
   type GameEndKind,
-  markTutorAssisted,
   type MatchState,
+  markTutorAssisted,
   matchMovement,
   nextGame,
   offerDouble,
@@ -28,8 +28,8 @@ import {
   passDouble,
   rollTurn,
   startMatch,
-  takeDouble,
   takebackPlay,
+  takeDouble,
   undoMatchMovement,
 } from '../rules';
 import { forcedPlay } from './selectors';

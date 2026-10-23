@@ -481,8 +481,7 @@ function lastPlayIndex(state: MatchState, player: Player): number {
  */
 export function canTakeback(state: MatchState, player: Player): boolean {
   return (
-    TAKEBACK_PHASES.includes(state.phase) &&
-    lastPlayIndex(state, player) !== -1
+    TAKEBACK_PHASES.includes(state.phase) && lastPlayIndex(state, player) !== -1
   );
 }
 

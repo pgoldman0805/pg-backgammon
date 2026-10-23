@@ -10,8 +10,8 @@ import {
   commitMatchPlay,
   createMatch,
   declineResignation,
-  markTutorAssisted,
   type MatchState,
+  markTutorAssisted,
   matchMovement,
   nextGame,
   offerDouble,
@@ -21,8 +21,8 @@ import {
   replayMatchGame,
   rollTurn,
   startMatch,
-  takeDouble,
   takebackPlay,
+  takeDouble,
   undoMatchMovement,
 } from './match';
 import { legalPlays } from './plays';

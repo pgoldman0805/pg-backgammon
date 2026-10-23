@@ -38,7 +38,6 @@ export {
   commitMatchPlay,
   createMatch,
   declineResignation,
-  markTutorAssisted,
   type MatchGameEnd,
   type MatchGameRecord,
   type MatchGameReplay,
@@ -48,6 +47,7 @@ export {
   type MatchReplay,
   type MatchScore,
   type MatchState,
+  markTutorAssisted,
   matchMovement,
   nextGame,
   offerDouble,
@@ -58,8 +58,8 @@ export {
   replayMatchGame,
   rollTurn,
   startMatch,
-  takeDouble,
   takebackPlay,
+  takeDouble,
   undoMatchMovement,
 } from './match';
 export { computeMovement, legalMovements, legalPlays } from './plays';
