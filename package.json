@@ -7,8 +7,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview",
+    "preview": "npm run build && wrangler dev",
     "start": "vite preview --open --port 4330 --strictPort",
+    "deploy": "npm run build && wrangler deploy",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "biome check .",
@@ -18,7 +19,8 @@
     "validate:puzzles": "node scripts/validate.mjs",
     "e2e": "playwright test --project=smoke",
     "e2e:audit": "playwright test --project=audit",
-    "e2e:pwa": "playwright test --project=pwa"
+    "e2e:pwa": "playwright test --project=pwa",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.3",
@@ -30,6 +32,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.0",
+    "@cloudflare/vite-plugin": "^1.65.0",
     "@playwright/test": "^1.64.1",
     "@testing-library/jest-dom": "^6.6.0",
     "@testing-library/react": "^16.3.0",
@@ -44,6 +47,7 @@
     "typescript": "~6.0.3",
     "vite": "^8.3.4",
     "vite-plugin-pwa": "^2.0.0",
-    "vitest": "^4.0.0"
+    "vitest": "^4.0.0",
+    "wrangler": "^4.152.0"
   }
 }

@@ -2,6 +2,8 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import { defineConfig } from 'vitest/config';
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
@@ -46,6 +48,7 @@ export default defineConfig({
         navigateFallback: 'index.html',
       },
     }),
+    cloudflare()
   ],
   test: {
     globals: true,

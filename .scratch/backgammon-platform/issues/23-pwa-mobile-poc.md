@@ -10,7 +10,9 @@
 
 **Blocked by:** None (ticket 22 is worked inline in the main session on non-overlapping surfaces: `android/`, machine toolchain).
 
-**Status:** ready-for-human
+**Status:** done (deployed; on-device checks remain the human review)
+
+Deployed 2026-10-23 to **https://pg-backgammon.paulgoldmanmusic.workers.dev** (Cloudflare Workers static assets, SPA fallback; config in `wrangler.jsonc`). Redeploy with `npm run deploy`. The phone picks up each deploy automatically on next launch (autoUpdate service worker).
 
 - [x] App installable from a served build (manifest + icons + SW registered); auto-update on new deploy
 - [x] Fully offline after first load, engine included (verify by intercepting/blocking network in a Playwright check against preview)
