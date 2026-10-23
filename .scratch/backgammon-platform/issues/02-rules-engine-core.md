@@ -4,7 +4,7 @@
 
 **Blocked by:** 01 (project scaffold).
 
-**Status:** ready-for-agent
+**Status:** done
 
 - [x] Legal-play enumeration passes exhaustive unit + property tests, including the must-use-both-dice and use-larger-die rules, bar re-entry, and bear-off edge cases
 - [x] A recorded game replays to an identical final position (determinism test)

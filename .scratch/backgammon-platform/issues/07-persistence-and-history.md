@@ -4,7 +4,7 @@
 
 **Blocked by:** 06 (cube and match play).
 
-**Status:** ready-for-human
+**Status:** done
 
 - [x] Reload mid-match resumes the exact position, cube, score, and turn
 - [x] Finished matches appear in the history list and reopen for viewing

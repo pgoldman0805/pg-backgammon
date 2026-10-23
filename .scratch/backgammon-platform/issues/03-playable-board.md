@@ -4,7 +4,7 @@
 
 **Blocked by:** 02 (rules engine core).
 
-**Status:** ready-for-human
+**Status:** done
 
 - [x] A complete game can be played start to finish with mouse only, and separately with clicks only
 - [x] Legal destinations highlight on pickup/selection; illegal drops snap back

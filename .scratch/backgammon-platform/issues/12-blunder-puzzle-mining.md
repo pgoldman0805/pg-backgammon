@@ -4,7 +4,7 @@
 
 **Blocked by:** 08 (post-game review), 11 (puzzle player and curated set).
 
-**Status:** ready-for-human
+**Status:** done
 
 - [x] Finishing and analyzing a game containing a blunder yields a playable blunder puzzle without user action
 - [x] The same blunder analyzed twice (e.g. re-analysis) does not create duplicates

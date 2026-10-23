@@ -4,7 +4,7 @@
 
 **Blocked by:** 05 (play vs computer).
 
-**Status:** ready-for-human
+**Status:** done
 
 - [x] With Tutor mode off, no hint/feedback/eval bar/takeback affordances exist
 - [x] Post-play feedback matches what the post-game analyzer would say for the same play (shared code path)

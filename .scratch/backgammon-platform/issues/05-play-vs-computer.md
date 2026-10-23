@@ -4,7 +4,7 @@
 
 **Blocked by:** 03 (playable board), 04 (gnubg engine worker).
 
-**Status:** ready-for-human
+**Status:** done
 
 - [x] A complete game vs the computer can be played at every difficulty
 - [x] The UI never blocks while the engine thinks; a thinking indicator shows

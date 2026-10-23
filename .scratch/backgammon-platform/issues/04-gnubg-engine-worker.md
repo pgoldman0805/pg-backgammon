@@ -4,7 +4,7 @@
 
 **Blocked by:** 02 (rules engine core, for position types/encoding).
 
-**Status:** ready-for-human
+**Status:** done
 
 - [x] Contract tests against the real WASM: loads, evaluates a known opening position with sane equities, ranks 3-1 opening plays with 8/5 6/5 on top
 - [x] Difficulty noise measurably degrades play quality in a reproducible (seeded) way

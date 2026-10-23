@@ -4,7 +4,7 @@
 
 **Blocked by:** 08 (post-game review).
 
-**Status:** ready-for-human
+**Status:** done
 
 - [x] The trend chart renders from stored analysis with correct values (golden test on a known history)
 - [x] Tutor-assisted games are excluded and the exclusion is visible/explained

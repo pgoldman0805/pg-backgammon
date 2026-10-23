@@ -4,7 +4,7 @@
 
 **Blocked by:** 04 (engine worker), 06 (cube and match play), 07 (persistence).
 
-**Status:** ready-for-human
+**Status:** done
 
 - [x] Both puzzle types playable end to end: attempt → grade → equity table reveal → next
 - [x] Near-equal alternatives (within 0.02) grade as correct; the reveal shows why

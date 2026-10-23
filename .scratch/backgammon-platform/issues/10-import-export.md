@@ -4,7 +4,7 @@
 
 **Blocked by:** 07 (persistence and history), 08 (post-game review).
 
-**Status:** ready-for-human
+**Status:** done
 
 - [x] Round-trip property: export→import reproduces the same match record; XGID encode→decode is identity
 - [x] A .mat file from another program imports, appears in history, and analyzes like a native match

@@ -1,6 +1,6 @@
 # Spec: Backgammon training platform (v1)
 
-Status: ready-for-agent
+Status: done
 
 ## Problem Statement
 

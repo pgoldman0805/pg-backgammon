@@ -7,7 +7,7 @@
 
 **Blocked by:** 09 (Tutor mode — both rework the same turn-flow surfaces; serialize to avoid conflicts).
 
-**Status:** ready-for-human
+**Status:** done
 
 - [x] In a race with auto-roll on, the user's turns proceed without Roll clicks; in contact positions the Double/Roll stop still appears; toggling off mid-game restores the stop
 - [x] Race detection is a pure rules-layer function with tests (no contact: no hitting possible for either player)

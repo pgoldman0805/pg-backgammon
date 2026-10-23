@@ -4,7 +4,7 @@
 
 **Blocked by:** 07 (persistence and history).
 
-**Status:** ready-for-human
+**Status:** done
 
 - [x] Finishing a game triggers background analysis; the review is ready without user action and survives reload
 - [x] Golden test: a small recorded game produces hand-verified equity losses, classifications, and error rate

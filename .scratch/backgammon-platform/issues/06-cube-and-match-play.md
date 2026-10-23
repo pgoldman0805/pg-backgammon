@@ -4,7 +4,7 @@
 
 **Blocked by:** 05 (play vs computer).
 
-**Status:** ready-for-human
+**Status:** done
 
 - [x] A complete match (e.g. 5-point) vs the computer can be played, including doubles taken and passed by both sides
 - [x] Crawford game is enforced (no doubling) and post-Crawford doubling works

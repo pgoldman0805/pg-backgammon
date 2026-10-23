@@ -4,7 +4,7 @@
 
 **Blocked by:** None (can start immediately).
 
-**Status:** ready-for-agent
+**Status:** done
 
 - [x] `npm run dev` serves the app; `npm test`, `npm run build`, and lint all pass
 - [x] Navigation between Play / Analyze / Puzzles / Progress works and is keyboard-accessible
