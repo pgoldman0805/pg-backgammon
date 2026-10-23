@@ -629,3 +629,49 @@ describe('a complete match against the engine', () => {
     opponent.dispose();
   }, 30_000);
 });
+
+describe('takeback while the engine thinks (Tutor mode)', () => {
+  it('cancels the in-flight decision and answers the replayed play fresh', async () => {
+    // White opens 6-3 through the store; the engine starts thinking on its
+    // 5-2 reply, but a takeback lands before the engine answers.
+    const store = createPlayStore({ dice: scriptedDice(6, 3, 5, 2, 4, 2) });
+    store.dispatch({ type: 'start', length: 7 });
+    const engine = gatedEngine();
+    const opponent = createEngineOpponent({
+      store,
+      engine,
+      player: 'black',
+      difficulty: 'expert',
+      ...opponentOptions(),
+    });
+
+    const before = store.getState().match;
+    store.dispatch({ type: 'movement', from: 24, die: 6 });
+    store.dispatch({ type: 'movement', from: 13, die: 3 });
+    store.dispatch({ type: 'commit' });
+    await vi.waitFor(() => {
+      expect(store.getState().match?.game.turn?.player).toBe('black');
+    });
+
+    store.dispatch({ type: 'takeback', player: 'white' });
+    expect(store.getState().match).toEqual(before);
+
+    // The stale answer must not land: the restored turn stays white's.
+    engine.release();
+    await instant();
+    await instant();
+    expect(store.getState().match).toEqual(before);
+
+    // Replaying and committing gets a fresh engine response (4-2 this time).
+    store.dispatch({ type: 'movement', from: 24, die: 6 });
+    store.dispatch({ type: 'movement', from: 13, die: 3 });
+    store.dispatch({ type: 'commit' });
+    await vi.waitFor(() => {
+      expect(store.getState().match?.phase).toBe('pre-roll');
+      expect(store.getState().match?.toRoll).toBe('white');
+    });
+    expect(store.getState().match?.game.record.plays).toHaveLength(2);
+    expect(opponent.getState().error).toBeNull();
+    opponent.dispose();
+  });
+});

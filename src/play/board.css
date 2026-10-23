@@ -4,6 +4,7 @@
    here" — selected checkers, legal destinations, nothing else. */
 
 :root {
+  --tutor-bad: #b3362b;
   --board-frame: #20312a;
   --board-felt: #f2f0e9;
   --board-tray: #e7e4d9;
@@ -19,6 +20,7 @@
 }
 
 :root[data-theme="dark"] {
+  --tutor-bad: #e0604f;
   --board-frame: #0e120f;
   --board-felt: #20241f;
   --board-tray: #272c26;
@@ -621,6 +623,154 @@
 @media (prefers-reduced-motion: reduce) {
   .chip-thinking {
     animation: none;
+  }
+}
+
+/* The Play-area setting switches (Tutor mode, the autoplay settings): green
+   like the rest of the training chrome — gold stays reserved for "you can
+   act here" on the board. */
+.setting-switches {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 0.6rem;
+}
+
+.setting-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.15rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-muted);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.setting-switch:hover {
+  border-color: var(--ink-muted);
+}
+
+.setting-switch[aria-checked="true"] {
+  border-color: var(--accent);
+  color: var(--ink);
+}
+
+.setting-switch-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+}
+
+.setting-switch[aria-checked="true"] .setting-switch-dot {
+  background: var(--accent);
+}
+
+/* The live-analysis strip between the HUD and the board. */
+.tutor-strip {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.1rem;
+  min-height: 2rem;
+  margin-bottom: 0.9rem;
+}
+
+/* The eval bar: White's share of the game, in the two checker colors. */
+.eval-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 1 1 240px;
+  min-width: 200px;
+}
+
+.eval-track {
+  position: relative;
+  flex: 1;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--checker-black);
+  border: 1px solid var(--checker-black-rim);
+  overflow: hidden;
+}
+
+.eval-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: var(--checker-white);
+  transition: width 400ms ease;
+}
+
+.eval-tick {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--accent);
+  opacity: 0.9;
+}
+
+.eval-caption {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+/* Hint and post-play feedback notes. */
+.tutor-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.tutor-note-loss {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-muted);
+}
+
+.feedback-chip {
+  padding: 0.02rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 650;
+  color: var(--ink-muted);
+}
+
+.feedback-chip--dubious {
+  border-color: var(--ink-muted);
+  color: var(--ink);
+}
+
+.feedback-chip--error {
+  border-color: var(--tutor-bad);
+  color: var(--tutor-bad);
+}
+
+.feedback-chip--blunder {
+  background: var(--tutor-bad);
+  border-color: var(--tutor-bad);
+  color: var(--bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eval-fill {
+    transition: none;
   }
 }
 

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useAutoAnalysis } from '../analysis';
 import type { Difficulty, Engine, EngineStatus } from '../engine';
+import { type Autoplay, createAutoplay } from '../play/autoplay';
 import { Board } from '../play/Board';
 import { getPlayEngine } from '../play/engineInstance';
 import {
@@ -9,9 +10,21 @@ import {
   type EngineOpponentState,
 } from '../play/opponent';
 import { canCommit, canUndo, forcedPlay, isDance } from '../play/selectors';
+import {
+  AUTO_FORCED_PLAYS_KEY,
+  AUTO_ROLL_RACES_KEY,
+  useStoredSwitch,
+} from '../play/settings';
 import { createPlayStore, type PlayStore } from '../play/store';
 import {
+  createTutor,
+  type Tutor,
+  type TutorFeedback,
+  type TutorState,
+} from '../play/tutor';
+import {
   canDouble,
+  canTakeback,
   type GameEndKind,
   initialBoard,
   type MatchGameResult,
@@ -254,6 +267,99 @@ function EngineNote({
 
 const IDLE_OPPONENT: EngineOpponentState = { thinking: false, error: null };
 
+/**
+ * One labeled on/off switch in the Play area's visual language: the Tutor
+ * mode toggle and the two autoplay settings, on the setup card and in the
+ * HUD during a match.
+ */
+function SettingSwitch({
+  label,
+  on,
+  onChange,
+}: {
+  label: string;
+  on: boolean;
+  onChange: (on: boolean) => void;
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={on}
+      className="setting-switch"
+      onClick={() => onChange(!on)}
+    >
+      <span className="setting-switch-dot" aria-hidden="true" />
+      {label}
+    </button>
+  );
+}
+
+/**
+ * The eval bar (GLOSSARY "Eval bar"): White's share of the game, in the two
+ * checker colors, with the win chance and equity spelled out beside it.
+ */
+function EvalBar({ state }: { state: TutorState | null }) {
+  const evaluation = state?.evaluation ?? null;
+  const percent = evaluation ? Math.round(evaluation.winProbability * 100) : 50;
+  const equityText = evaluation
+    ? `${evaluation.equity < 0 ? '−' : '+'}${Math.abs(evaluation.equity).toFixed(2)}`
+    : '…';
+  return (
+    <div className="eval-bar">
+      {/* biome-ignore lint/a11y/useSemanticElements: a meter element would add native-widget styling the board design replaces */}
+      <div
+        role="meter"
+        aria-label="Evaluation"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={percent}
+        aria-valuetext={`White wins ${percent}% of the time`}
+        className="eval-track"
+      >
+        <span className="eval-fill" style={{ width: `${percent}%` }} />
+        <span className="eval-tick" aria-hidden="true" />
+      </div>
+      <span className="eval-caption">
+        {percent}% · {equityText}
+      </span>
+    </div>
+  );
+}
+
+const FEEDBACK_LABEL = {
+  ok: 'Good',
+  dubious: 'Dubious',
+  error: 'Error',
+  blunder: 'Blunder',
+} as const;
+
+/** Post-play feedback (GLOSSARY): classification, cost, and the better play. */
+function FeedbackNote({ feedback }: { feedback: TutorFeedback }) {
+  const label =
+    feedback.equityLoss === 0
+      ? 'Best play'
+      : FEEDBACK_LABEL[feedback.classification];
+  return (
+    <p className="tutor-note" role="note" aria-label="Play feedback">
+      <span
+        className={`feedback-chip feedback-chip--${feedback.classification}`}
+      >
+        {label}
+      </span>
+      {feedback.equityLoss > 0 && (
+        <span className="tutor-note-loss">
+          {' '}
+          −{feedback.equityLoss.toFixed(2)}
+        </span>
+      )}
+      {feedback.classification !== 'ok' && (
+        <span> · Best: {feedback.bestMoveText}</span>
+      )}
+    </p>
+  );
+}
+
 export function Play({
   store: injectedStore,
   engine: injectedEngine,
@@ -280,6 +386,20 @@ export function Play({
     useState<EngineOpponentState>(IDLE_OPPONENT);
   const opponentRef = useRef<EngineOpponent | null>(null);
   const previousMatch = useRef<MatchState | null>(null);
+  const [tutorOn, setTutorOn] = useState(false);
+  const [tutorState, setTutorState] = useState<TutorState | null>(null);
+  const tutorRef = useRef<Tutor | null>(null);
+  const [autoRollRaces, setAutoRollRaces] = useStoredSwitch(
+    AUTO_ROLL_RACES_KEY,
+    true,
+  );
+  const [autoForcedPlays, setAutoForcedPlays] = useStoredSwitch(
+    AUTO_FORCED_PLAYS_KEY,
+    true,
+  );
+  const autoplaySettings = useRef({ autoRollRaces, autoForcedPlays });
+  autoplaySettings.current = { autoRollRaces, autoForcedPlays };
+  const autoplayRef = useRef<Autoplay | null>(null);
   const persistence = useMatchPersistence(store, storage);
   // Ticket 08: finished games analyze themselves in the background.
   useAutoAnalysis(store, storage);
@@ -317,10 +437,53 @@ export function Play({
     };
   }, [store, engine, setup, opponentStepMs]);
 
+  // Tutor mode (GLOSSARY): one toggle enabling all live analysis. The
+  // controller lives exactly as long as the toggle is on in a vs-computer
+  // setting; everything it offers runs at full engine strength.
+  useEffect(() => {
+    if (!tutorOn || setup.mode !== 'computer') {
+      setTutorState(null);
+      return;
+    }
+    const tutor = createTutor({ store, engine, player: 'white' });
+    tutorRef.current = tutor;
+    setTutorState(tutor.getState());
+    const unsubscribe = tutor.subscribe(() => setTutorState(tutor.getState()));
+    return () => {
+      unsubscribe();
+      tutor.dispose();
+      tutorRef.current = null;
+    };
+  }, [store, engine, tutorOn, setup.mode]);
+
   const game = match?.game ?? null;
   const phase = match?.phase ?? null;
   const turn = game?.turn ?? null;
   const vsComputer = setup.mode === 'computer';
+
+  // The autoplay controller (spec stories 43-44) acts for every human side —
+  // just White vs the computer, both in hot-seat — reading the two settings
+  // live so toggling mid-game applies immediately.
+  useEffect(() => {
+    const autoplay = createAutoplay({
+      store,
+      players: vsComputer ? ['white'] : ['white', 'black'],
+      settings: () => autoplaySettings.current,
+      stepMs: opponentStepMs,
+    });
+    autoplayRef.current = autoplay;
+    return () => {
+      autoplay.dispose();
+      autoplayRef.current = null;
+    };
+  }, [store, vsComputer, opponentStepMs]);
+
+  // A settings flip can unlock an action at the current position (e.g. the
+  // race pre-roll the stop is showing for): have the controller look again.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: the controller reads settings through a ref; this effect exists purely to re-check on every flip
+  useEffect(() => {
+    autoplayRef.current?.recheck();
+  }, [autoRollRaces, autoForcedPlays]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: selection is per-position; any turn change (movement, undo, commit) invalidates it
   useEffect(() => {
@@ -378,7 +541,10 @@ export function Play({
     player != null && (!vsComputer || player === 'white');
   const humanTurn = phase === 'turn' && humanSide(turn?.player);
   const humanPreRoll = phase === 'pre-roll' && humanSide(match?.toRoll);
-  const thinking = vsComputer && opponentState.thinking;
+  // A takeback can land while the engine thinks: the moment the decision is
+  // the human's again, the stale in-flight think is no longer worth showing.
+  const thinking =
+    vsComputer && opponentState.thinking && !humanTurn && !humanPreRoll;
   /** Whose decision the moment is, for the active-chip highlight. */
   const actor: Player | null =
     phase === 'turn'
@@ -393,6 +559,14 @@ export function Play({
 
   function start(mode: PlayMode): void {
     setSetup((current) => ({ ...current, mode }));
+    if (mode !== 'computer') {
+      // Tutor mode is live analysis of the player's own game against the
+      // engine; a hot-seat match switches it off before the match starts so
+      // the fresh game is never marked tutor-assisted.
+      setTutorOn(false);
+      tutorRef.current?.dispose();
+      tutorRef.current = null;
+    }
     persistence.begin({
       mode,
       difficulty: setup.difficulty,
@@ -489,6 +663,21 @@ export function Play({
     </div>
   );
 
+  const autoplaySwitches = (
+    <>
+      <SettingSwitch
+        label="Auto-roll in races"
+        on={autoRollRaces}
+        onChange={setAutoRollRaces}
+      />
+      <SettingSwitch
+        label="Auto-play forced plays"
+        on={autoForcedPlays}
+        onChange={setAutoForcedPlays}
+      />
+    </>
+  );
+
   const setupCard = (
     title: string,
     primaryLabel: string,
@@ -499,6 +688,14 @@ export function Play({
         <p className="setup-title">{title}</p>
         {resumePrompt}
         {setupPickers}
+        <div className="setting-switches">
+          <SettingSwitch
+            label="Tutor mode"
+            on={tutorOn}
+            onChange={setTutorOn}
+          />
+          {autoplaySwitches}
+        </div>
         {startButtons(primaryLabel, primaryMode)}
         <EngineNote
           status={engineStatus}
@@ -724,6 +921,18 @@ export function Play({
               )}
             </p>
           )}
+          {match && (
+            <div className="setting-switches">
+              {vsComputer && (
+                <SettingSwitch
+                  label="Tutor mode"
+                  on={tutorOn}
+                  onChange={setTutorOn}
+                />
+              )}
+              {autoplaySwitches}
+            </div>
+          )}
         </div>
         <div
           className={`player-chip player-chip--mirror ${actor === 'black' ? 'player-chip--active' : ''}`}
@@ -754,6 +963,31 @@ export function Play({
           )}
         </div>
       </div>
+
+      {match && vsComputer && tutorOn && (
+        <div className="tutor-strip">
+          <EvalBar state={tutorState} />
+          {tutorState?.hint && (
+            <p className="tutor-note" role="note" aria-label="Hint">
+              Best: {tutorState.hint.moveText}
+            </p>
+          )}
+          {tutorState?.feedback && (
+            <FeedbackNote feedback={tutorState.feedback} />
+          )}
+          {canTakeback(match, 'white') && (
+            <button
+              type="button"
+              className="play-button play-button--quiet"
+              onClick={() =>
+                store.dispatch({ type: 'takeback', player: 'white' })
+              }
+            >
+              Take back
+            </button>
+          )}
+        </div>
+      )}
 
       <div className="play-board">
         <Board
@@ -820,6 +1054,19 @@ export function Play({
               >
                 Commit play
               </button>
+              {vsComputer && tutorOn && (
+                <button
+                  type="button"
+                  className="play-button"
+                  disabled={
+                    (tutorState?.hintPending ?? false) ||
+                    tutorState?.hint != null
+                  }
+                  onClick={() => tutorRef.current?.requestHint()}
+                >
+                  Hint
+                </button>
+              )}
             </>
           )}
           {resignButton}

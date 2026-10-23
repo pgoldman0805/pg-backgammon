@@ -369,3 +369,39 @@ describe('a complete match through the store', () => {
     ).toBeGreaterThanOrEqual(3);
   });
 });
+
+describe('tutor actions', () => {
+  it('takeback rewinds to the exact prior turn, same dice included', () => {
+    const store = startedStore(5, 2);
+    const before = store.getState().match;
+    store.dispatch({ type: 'movement', from: 24, die: 6 });
+    store.dispatch({ type: 'movement', from: 13, die: 3 });
+    store.dispatch({ type: 'commit' });
+    expect(store.getState().match?.phase).toBe('pre-roll');
+
+    store.dispatch({ type: 'takeback', player: 'white' });
+
+    expect(store.getState().match).toEqual(before);
+  });
+
+  it('ignores a takeback when the player has no committed play', () => {
+    const store = startedStore();
+    const before = store.getState();
+
+    store.dispatch({ type: 'takeback', player: 'white' });
+    store.dispatch({ type: 'takeback', player: 'black' });
+
+    expect(store.getState()).toBe(before);
+  });
+
+  it('tutor-assisted marks the game in progress, and is ignored without one', () => {
+    const idle = createPlayStore({ dice: scriptedDice() });
+    idle.dispatch({ type: 'tutor-assisted' });
+    expect(idle.getState().match).toBeNull();
+
+    const store = startedStore();
+    expect(store.getState().match?.tutorAssisted).toBe(false);
+    store.dispatch({ type: 'tutor-assisted' });
+    expect(store.getState().match?.tutorAssisted).toBe(true);
+  });
+});
