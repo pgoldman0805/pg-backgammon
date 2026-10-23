@@ -75,6 +75,9 @@ All game history, analysis, and puzzle progress persist in IndexedDB. Desktop-fi
 49. As a player, I want to choose among geographically-inspired Board styles (at least five beyond the default, each with unique artwork, palette, and mood), so that the board feels like mine. Board styles restyle the board and checkers only, work in both light and dark app themes, and never compromise training readability. (Added 2026-10-23.)
 50. As a user, I want a Settings area collecting every controllable preference in one place (theme, Board style, Tutor mode default, auto-roll in races, auto-play forced plays, checker animation, and data management), so that I don't hunt for controls across pages. In-context quick toggles stay where they are; Settings is the comprehensive home. (Added 2026-10-23.)
 51. As a player, I want checker movements animated as smooth travel with a configurable speed (off / fast / normal / slow; "off" is instant), applying to opponent moves, auto-played forced plays, two-movement clicks, and my own click-to-move, so that moves are easy to follow at my pace. Dragging stays direct; prefers-reduced-motion defaults animation off. (Added 2026-10-23.)
+52. As a learner, I want a "Try again" action on every puzzle after the reveal (resetting the position for another attempt; only the first attempt counts toward progress and the retry queue), so that I can immediately practice the correct play. (Added 2026-10-23.)
+53. As a player, I want the board rendered larger on screen with bigger point numbers, so that positions read effortlessly at a distance. (Added 2026-10-23.)
+54. As a learner, I want the puzzle reveal (verdict and equity table, including my missed play) shown beside the board on desktop rather than beneath it, so that I can compare the table against the position without scrolling. (Added 2026-10-23.)
 
 ### Platform
 
