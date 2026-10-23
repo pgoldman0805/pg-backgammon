@@ -13,7 +13,8 @@
     "test:watch": "vitest",
     "lint": "biome check .",
     "format": "biome check --write .",
-    "mine:puzzles": "node scripts/mine.mjs",
+    "mine:puzzles": "node scripts/mine.mjs && biome check --write src/puzzles/curatedSet.ts",
+    "validate:puzzles": "node scripts/validate.mjs",
     "e2e": "playwright test --project=smoke",
     "e2e:audit": "playwright test --project=audit"
   },

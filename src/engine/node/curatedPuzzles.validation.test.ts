@@ -1,30 +1,28 @@
 // @vitest-environment node
 /**
- * Curated-set validation against the real gnubg WASM build: every bundled
- * puzzle's stored answer data is re-evaluated at full strength, so a stale
- * or wrong answer can never ship. Structural guarantees (coverage of all
- * legal plays, clear margins, theme distribution) are checked from the
- * stored data alone.
+ * Curated-set validation against the real gnubg WASM build. Structural
+ * guarantees (coverage of all legal plays, clear margins, theme distribution)
+ * are checked for EVERY bundled puzzle from the stored data alone; the
+ * engine re-evaluation — the expensive part — runs over a deterministic
+ * seeded sample spanning every theme and both puzzle kinds, keeping
+ * `npm test` fast. `npm run validate:puzzles` re-evaluates the entire set
+ * with the same checks (scripts/validatePuzzles.ts).
  */
 
 import { beforeAll, describe, expect, it } from 'vitest';
 import { CURATED_PUZZLES } from '../../puzzles/curatedSet';
 import { boardKey } from '../../puzzles/grade';
-import { deriveCubeChoices, toEnginePosition } from '../../puzzles/mining';
 import type { CubePuzzle, PlayPuzzle } from '../../puzzles/types';
 import { PUZZLE_THEMES } from '../../puzzles/types';
+import { selectValidationSample } from '../../puzzles/validationSample';
 import { applyMovement, legalPlays } from '../../rules';
 import type { GnubgSession } from '../session';
+import { checkPuzzle, MARGIN_MIN } from './curatedValidation';
 import { loadGnubgSession } from './loadGnubg';
 
-const MARGIN_MIN = 0.05;
-/**
- * gnubg's evaluation cache lets deep rows wobble by about a thousandth
- * between session histories; grading tolerance is 0.02, so validating to
- * half a hundredth still catches any answer that could mis-grade.
- */
-const EQUITY_DIGITS = 2; // toBeCloseTo: |diff| < 0.005
-const MARGIN_WOBBLE = 0.01;
+/** WASM re-evaluation budget per `npm test` run: 6 per theme = 30 puzzles. */
+const SAMPLE_PER_THEME = 6;
+const SAMPLE_SEED = 20261023;
 
 const playPuzzles = CURATED_PUZZLES.filter(
   (p): p is PlayPuzzle => p.kind === 'play',
@@ -33,14 +31,14 @@ const cubePuzzles = CURATED_PUZZLES.filter(
   (p): p is CubePuzzle => p.kind === 'cube',
 );
 
-describe('curated set shape (stored data alone)', () => {
-  it('ships at least 25 puzzles, at least 5 per theme', () => {
-    expect(CURATED_PUZZLES.length).toBeGreaterThanOrEqual(25);
+describe('curated set shape (stored data alone, full set)', () => {
+  it('ships at least 125 puzzles, at least 25 per theme', () => {
+    expect(CURATED_PUZZLES.length).toBeGreaterThanOrEqual(125);
     for (const theme of PUZZLE_THEMES) {
       expect(
         CURATED_PUZZLES.filter((p) => p.theme === theme).length,
         `theme ${theme}`,
-      ).toBeGreaterThanOrEqual(5);
+      ).toBeGreaterThanOrEqual(25);
     }
   });
 
@@ -51,6 +49,11 @@ describe('curated set shape (stored data alone)', () => {
       expect(puzzle.hero).toBe('white');
       expect(puzzle.source).toBe('curated');
     }
+  });
+
+  it('mixes cube flavors: both offer and response decisions ship', () => {
+    const decisions = new Set(cubePuzzles.map((p) => p.decision));
+    expect(decisions).toEqual(new Set(['offer', 'response']));
   });
 
   it('every play puzzle covers each distinct legal final position', () => {
@@ -92,67 +95,29 @@ describe('curated set shape (stored data alone)', () => {
   });
 });
 
-describe('stored answers match a fresh full-strength evaluation', () => {
+describe('stored answers match a fresh full-strength evaluation (sample)', () => {
+  const sample = selectValidationSample(
+    CURATED_PUZZLES,
+    SAMPLE_PER_THEME,
+    SAMPLE_SEED,
+  );
+
+  it('spans every theme and both puzzle kinds', () => {
+    expect(new Set(sample.map((p) => p.theme))).toEqual(new Set(PUZZLE_THEMES));
+    expect(new Set(sample.map((p) => p.kind))).toEqual(
+      new Set(['play', 'cube']),
+    );
+  });
+
   let session: GnubgSession;
 
   beforeAll(async () => {
     session = await loadGnubgSession();
   }, 180_000);
 
-  for (const puzzle of playPuzzles) {
-    it(`${puzzle.id} (${puzzle.theme}): best play and equities still hold`, () => {
-      const fresh = session.rankPlays(toEnginePosition(puzzle), puzzle.roll);
-      const freshBestKey = boardKey(
-        fresh[0].play.movements.reduce(
-          (b, m) => applyMovement(b, 'white', m),
-          puzzle.board,
-        ),
-      );
-      expect(freshBestKey).toBe(puzzle.answers[0].finalKey);
-      expect(fresh[0].equity).toBeCloseTo(
-        puzzle.answers[0].equity,
-        EQUITY_DIGITS,
-      );
-      expect(fresh[1].equityLoss).toBeGreaterThanOrEqual(
-        MARGIN_MIN - MARGIN_WOBBLE,
-      );
-
-      // The whole stored table is fresh, not just the top row.
-      const freshByKey = new Map(
-        fresh.map((entry) => [
-          boardKey(
-            entry.play.movements.reduce(
-              (b, m) => applyMovement(b, 'white', m),
-              puzzle.board,
-            ),
-          ),
-          entry,
-        ]),
-      );
-      for (const answer of puzzle.answers) {
-        const entry = freshByKey.get(answer.finalKey);
-        expect(entry, `${puzzle.id} ${answer.moveText}`).toBeDefined();
-        expect(entry?.equity).toBeCloseTo(answer.equity, EQUITY_DIGITS);
-      }
-    }, 60_000);
-  }
-
-  for (const puzzle of cubePuzzles) {
-    it(`${puzzle.id} (${puzzle.decision}): cube verdict and equities still hold`, () => {
-      const analysis = session.cubeInfo(toEnginePosition(puzzle));
-      const derived = deriveCubeChoices(analysis, puzzle.decision);
-      expect(derived.verdict).toBe(puzzle.verdict);
-      expect(derived.choices[0].action).toBe(puzzle.choices[0].action);
-      for (const [index, choice] of derived.choices.entries()) {
-        expect(choice.action).toBe(puzzle.choices[index].action);
-        expect(choice.equity).toBeCloseTo(
-          puzzle.choices[index].equity,
-          EQUITY_DIGITS,
-        );
-      }
-      expect(derived.choices[1].equityLoss).toBeGreaterThanOrEqual(
-        MARGIN_MIN - MARGIN_WOBBLE,
-      );
+  for (const puzzle of sample) {
+    it(`${puzzle.id} (${puzzle.theme} ${puzzle.kind}): stored answers still hold`, () => {
+      expect(checkPuzzle(session, puzzle)).toEqual([]);
     }, 60_000);
   }
 });
