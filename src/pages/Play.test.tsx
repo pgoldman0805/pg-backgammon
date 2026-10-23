@@ -16,6 +16,11 @@ import {
   createSeededDice,
   type GameState,
 } from '../rules';
+import {
+  createMemoryStorage,
+  type StoredMatch,
+  snapshotMatch,
+} from '../storage';
 import { scriptedDice } from '../test/dice';
 import {
   gatedEngine,
@@ -798,4 +803,124 @@ describe('a complete hot-seat match with clicks only', () => {
 
     expect(screen.getAllByText(/wins the match/).length).toBeGreaterThan(0);
   }, 30_000);
+});
+
+describe('persistence and resume', () => {
+  /** A distinctive mid-match position: 5-point match at 2-1, cube on 2. */
+  function storedMidMatch() {
+    const match = createMatch({
+      length: 5,
+      game: createGame({
+        board: createBoard({
+          white: { points: { 6: 5, 5: 5, 4: 3, 2: 2 } },
+          black: { points: { 19: 5, 20: 5, 21: 5 } },
+        }),
+        player: 'white',
+        roll: [6, 3],
+      }),
+      score: { white: 2, black: 1 },
+      cube: { value: 2, owner: 'white' },
+    });
+    return snapshotMatch({
+      id: 'stored-match',
+      config: { length: 5, mode: 'hotseat', difficulty: 'casual' },
+      match,
+      createdAt: 1_000,
+      updatedAt: 2_000,
+    });
+  }
+
+  it('persists a started match as in-progress', async () => {
+    const user = userEvent.setup();
+    const storage = createMemoryStorage();
+    renderPlay({ dice: scriptedDice(6, 3) }, { storage });
+
+    await user.click(screen.getByRole('button', { name: 'Hot-seat match' }));
+
+    await vi.waitFor(async () => {
+      expect(await storage.list()).toHaveLength(1);
+    });
+    const [stored] = await storage.list();
+    expect(stored.status).toBe('in-progress');
+    expect(stored.config).toMatchObject({
+      mode: 'hotseat',
+      difficulty: 'casual',
+      length: 7,
+    });
+    expect(stored.state?.game.turn?.roll).toEqual([6, 3]);
+  });
+
+  it('offers to resume and restores the exact position, cube, score and turn', async () => {
+    const user = userEvent.setup();
+    const storage = createMemoryStorage([storedMidMatch()]);
+    renderPlay({ dice: scriptedDice() }, { storage });
+
+    await user.click(
+      await screen.findByRole('button', { name: 'Resume match' }),
+    );
+
+    expect(screen.getByLabelText('White match score')).toHaveTextContent('2');
+    expect(screen.getByLabelText('Black match score')).toHaveTextContent('1');
+    expect(screen.getByText('5-point match')).toBeInTheDocument();
+    expect(screen.getByText('White to play 6 and 3.')).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('Doubling cube: White holds it at 2'),
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText('White pip count')).toHaveTextContent('71');
+    expect(screen.getByLabelText('Black pip count')).toHaveTextContent('75');
+  });
+
+  it('keeps persisting a resumed match under its stored id', async () => {
+    const user = userEvent.setup();
+    const storage = createMemoryStorage([storedMidMatch()]);
+    renderPlay({ dice: scriptedDice() }, { storage });
+
+    await user.click(
+      await screen.findByRole('button', { name: 'Resume match' }),
+    );
+
+    await vi.waitFor(async () => {
+      const rows = await storage.list();
+      expect(rows).toHaveLength(1);
+      expect(rows[0].id).toBe('stored-match');
+      expect(rows[0].updatedAt).not.toBe(2_000);
+    });
+  });
+
+  it('auto-resumes the match named by resumeMatchId', async () => {
+    const storage = createMemoryStorage([storedMidMatch()]);
+    renderPlay(
+      { dice: scriptedDice() },
+      { storage, resumeMatchId: 'stored-match' },
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('5-point match')).toBeInTheDocument();
+    });
+    expect(screen.getByText('White to play 6 and 3.')).toBeInTheDocument();
+  });
+
+  it('falls back to fresh setup when stored data is corrupt', async () => {
+    const storage = createMemoryStorage([
+      { id: 'broken' } as unknown as StoredMatch,
+    ]);
+    renderPlay({ dice: scriptedDice() }, { storage });
+
+    expect(
+      await screen.findByRole('button', { name: 'Play as White' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Resume match' }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('falls back to fresh setup when storage itself fails', async () => {
+    const storage = createMemoryStorage();
+    storage.list = () => Promise.reject(new Error('storage gone'));
+    renderPlay({ dice: scriptedDice() }, { storage });
+
+    expect(
+      await screen.findByRole('button', { name: 'Play as White' }),
+    ).toBeInTheDocument();
+  });
 });
