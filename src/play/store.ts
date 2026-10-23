@@ -1,33 +1,45 @@
 /**
- * UI-independent game-flow store for the Play area.
+ * UI-independent match-flow store for the Play area.
  *
  * Wraps the pure rules engine (src/rules) behind a dispatch/subscribe
- * interface so the board UI — and, later, an engine opponent (ticket 05) —
- * drive the game through the same actions. All legality comes from the rules
- * engine; the store never re-derives it.
+ * interface so the board UI and the engine opponent drive the match through
+ * the same actions. All legality comes from the rules engine; the store never
+ * re-derives it. Turns have an explicit pre-roll phase (the cube moment):
+ * committing a play leads to the opponent's pre-roll, and a 'roll' action
+ * starts their turn.
  */
 
 import {
-  applyTurnMovement,
-  commitPlay,
+  acceptResignation,
+  commitMatchPlay,
   createSeededDice,
+  declineResignation,
   type DiceSource,
   type Die,
-  type GameState,
+  type GameEndKind,
+  type MatchState,
+  matchMovement,
+  nextGame,
+  offerDouble,
+  offerResignation,
+  passDouble,
+  type Player,
   type Point,
-  startGame,
-  undoTurnMovement,
+  rollTurn,
+  startMatch,
+  takeDouble,
+  undoMatchMovement,
 } from '../rules';
 import { forcedPlay } from './selectors';
 
 export interface PlayState {
-  /** The current game, or null before the first start. */
-  readonly game: GameState | null;
+  /** The current match, or null before the first start. */
+  readonly match: MatchState | null;
 }
 
 export type PlayAction =
-  /** Start a fresh game (also restarts after a game ends). */
-  | { type: 'start' }
+  /** Start a fresh match (also abandons any match in progress). */
+  | { type: 'start'; length?: number }
   /** Move one checker by one die within the current turn. */
   | { type: 'movement'; from: Point | 'bar'; die: Die }
   /** Undo the most recent movement of the current turn. */
@@ -35,7 +47,23 @@ export type PlayAction =
   /** Commit the current turn's movements as the Play, ending the turn. */
   | { type: 'commit' }
   /** Apply and commit the single legal play of a forced turn. */
-  | { type: 'forced' };
+  | { type: 'forced' }
+  /** Roll the dice from the pre-roll phase, starting the turn. */
+  | { type: 'roll' }
+  /** Offer a double (the player to roll, before rolling). */
+  | { type: 'double' }
+  /** Take the offered double. */
+  | { type: 'take' }
+  /** Pass the offered double, conceding the game. */
+  | { type: 'pass' }
+  /** The current actor offers to resign the game at this kind. */
+  | { type: 'resign'; kind: GameEndKind }
+  /** Accept the pending resignation. */
+  | { type: 'accept-resign' }
+  /** Decline the pending resignation; play resumes. */
+  | { type: 'decline-resign' }
+  /** Continue the match with its next game. */
+  | { type: 'next-game' };
 
 export interface PlayStore {
   getState(): PlayState;
@@ -47,14 +75,25 @@ export interface PlayStore {
 export interface PlayStoreOptions {
   /** Dice source for all rolls. Defaults to a randomly seeded fair PRNG. */
   readonly dice?: DiceSource;
-  /** Start from an existing game instead of empty (tests, resumption). */
-  readonly game?: GameState;
+  /** Start from an existing match instead of empty (tests, resumption). */
+  readonly match?: MatchState;
+}
+
+/** Whose decision the current phase is (turn or pre-roll), if anyone's. */
+function currentActor(match: MatchState): Player | null {
+  if (match.phase === 'turn') {
+    return match.game.turn?.player ?? null;
+  }
+  if (match.phase === 'pre-roll') {
+    return match.toRoll;
+  }
+  return null;
 }
 
 export function createPlayStore(options: PlayStoreOptions = {}): PlayStore {
   const dice =
     options.dice ?? createSeededDice((Math.random() * 2 ** 32) >>> 0);
-  let state: PlayState = { game: options.game ?? null };
+  let state: PlayState = { match: options.match ?? null };
   const listeners = new Set<() => void>();
 
   function setState(next: PlayState): void {
@@ -71,29 +110,51 @@ export function createPlayStore(options: PlayStoreOptions = {}): PlayStore {
    */
   function reduce(action: PlayAction): PlayState | null {
     try {
+      if (action.type === 'start') {
+        return { match: startMatch(action.length ?? 7, dice) };
+      }
+      const match = state.match;
+      if (!match) {
+        return null;
+      }
       switch (action.type) {
-        case 'start':
-          return { game: startGame(dice) };
         case 'movement':
-          return state.game
-            ? { game: applyTurnMovement(state.game, action.from, action.die) }
-            : null;
+          return { match: matchMovement(match, action.from, action.die) };
         case 'undo':
-          return state.game ? { game: undoTurnMovement(state.game) } : null;
+          return { match: undoMatchMovement(match) };
         case 'commit':
-          return state.game ? { game: commitPlay(state.game, dice) } : null;
+          return { match: commitMatchPlay(match) };
         case 'forced': {
-          const play = forcedPlay(state.game);
-          if (!state.game || !play || state.game.turn?.movements.length) {
+          const play = forcedPlay(match.phase === 'turn' ? match.game : null);
+          if (!play || match.game.turn?.movements.length) {
             return null;
           }
           const moved = play.movements.reduce(
-            (game, movement) =>
-              applyTurnMovement(game, movement.from, movement.die),
-            state.game,
+            (m, movement) => matchMovement(m, movement.from, movement.die),
+            match,
           );
-          return { game: commitPlay(moved, dice) };
+          return { match: commitMatchPlay(moved) };
         }
+        case 'roll':
+          return { match: rollTurn(match, dice) };
+        case 'double':
+          return { match: offerDouble(match) };
+        case 'take':
+          return { match: takeDouble(match) };
+        case 'pass':
+          return { match: passDouble(match) };
+        case 'resign': {
+          const actor = currentActor(match);
+          return actor
+            ? { match: offerResignation(match, actor, action.kind) }
+            : null;
+        }
+        case 'accept-resign':
+          return { match: acceptResignation(match) };
+        case 'decline-resign':
+          return { match: declineResignation(match) };
+        case 'next-game':
+          return { match: nextGame(match, dice) };
         default:
           return null;
       }
