@@ -10,3 +10,12 @@
 - [ ] Difficulty noise measurably degrades play quality in a reproducible (seeded) way
 - [ ] All engine calls run off the main thread; a fake engine implementing the same interface exists for downstream tests
 - [ ] Engine payload lazy-loads with an observable loading state
+
+## Comments
+
+Exploration notes (verified against primary sources) for the implementer:
+
+- `C:\Users\paulg\AppData\Local\Temp\claude\C--git-pg-backgammon\5282bc77-b20e-4957-a59f-539b877f585c\scratchpad\exploration\gnubg-engine-notes.md` — gnubg-web WASM API (`Module._run_command`, FIBS `board:` output, `hint` parsing regexes), difficulty commands, recommended worker integration
+- `C:\Users\paulg\AppData\Local\Temp\claude\C--git-pg-backgammon\5282bc77-b20e-4957-a59f-539b877f585c\scratchpad\exploration\formats-notes.md` — .mat and XGID specs (also feeds ticket 10)
+
+Risk: the prebuilt artifacts (`gnubg.js`/`gnubg.wasm`/`gnubg.data`) are hosted at `http://xenon.stanford.edu/~hwatheod/gnubg_web/`, which was unreachable from the exploration sandbox. Verify reachability first; fallbacks in order: artifacts committed in the hwatheod/gnubg-web or skeptrunedev/backgammon repos or their deployed sites, else build from source per gnubg-web's README.
