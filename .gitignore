@@ -12,3 +12,7 @@ npm-debug.log*
 
 # Agent worktrees
 .claude/worktrees/
+
+# Playwright
+test-results/
+playwright-report/

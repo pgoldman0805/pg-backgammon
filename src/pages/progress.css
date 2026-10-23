@@ -300,7 +300,7 @@
   padding: 0.45rem 1rem;
   color: var(--bg);
   background: var(--accent);
-  border-radius: 4px;
+  border-radius: var(--control-radius);
   text-decoration: none;
   font-weight: 600;
 }

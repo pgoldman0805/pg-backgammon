@@ -121,11 +121,14 @@ function resultLine(stored: StoredMatch): string {
 }
 
 function formatDate(ms: number): string {
-  return new Date(ms).toLocaleDateString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
+  // Non-breaking spaces keep the date whole when a ledger meta line wraps.
+  return new Date(ms)
+    .toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    })
+    .replace(/ /g, ' ');
 }
 
 function metaLine(stored: StoredMatch): string {

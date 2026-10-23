@@ -10,6 +10,13 @@
   letter-spacing: 0.01em;
 }
 
+/* An open review spreads its two panes across the full shell width (the
+   same rule the Play board uses); the history ledger and the position
+   viewer keep their reading measure. */
+.shell-main:has(.match-view) {
+  max-width: 1120px;
+}
+
 .analyze-note {
   margin-bottom: 1rem;
   padding: 0.5rem 0.75rem;
@@ -78,7 +85,7 @@
   color: var(--ink);
   background: transparent;
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: var(--control-radius);
   cursor: pointer;
 }
 
@@ -95,12 +102,8 @@
 }
 
 .history-button--danger {
-  color: #a2402c;
+  color: var(--danger);
   border-color: currentcolor;
-}
-
-:root[data-theme="dark"] .history-button--danger {
-  color: #e08062;
 }
 
 /* Import is a file input dressed as a button. */
@@ -178,12 +181,11 @@
 /* ------------------------------------------------------------------ */
 
 .analyze-area {
-  --blunder: #a2402c;
+  --blunder: var(--danger);
   --error-mark: #8a6210;
 }
 
 :root[data-theme="dark"] .analyze-area {
-  --blunder: #e08062;
   --error-mark: #d2a04a;
 }
 
@@ -622,7 +624,7 @@
   font-variant-numeric: tabular-nums;
   padding: 0.4rem 0.6rem;
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: var(--control-radius);
   background: transparent;
   color: inherit;
   width: 100%;
