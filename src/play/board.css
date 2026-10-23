@@ -803,3 +803,10 @@
   font-size: 0.95rem;
   color: var(--ink-muted);
 }
+
+/* The HUD's Copy XGID affordance (ticket 10): quiet and compact. */
+.copy-xgid {
+  margin-left: 0.6rem;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.72rem;
+}

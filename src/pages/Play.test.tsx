@@ -933,3 +933,27 @@ describe('persistence and resume', () => {
     ).toBeInTheDocument();
   });
 });
+
+describe('copy XGID from the HUD', () => {
+  it('copies the current position, dice included, as an XGID', async () => {
+    const user = userEvent.setup();
+    renderPlay({ dice: scriptedDice(6, 3) });
+    await user.click(screen.getByRole('button', { name: 'Hot-seat match' }));
+
+    await user.click(screen.getByRole('button', { name: 'Copy XGID' }));
+
+    // White opened 6-3 from the start of a 7-point match.
+    expect(await window.navigator.clipboard.readText()).toBe(
+      'XGID=-b----E-C---eE---c-e----B-:0:0:1:63:0:0:0:7:10',
+    );
+    expect(await screen.findByText('Copied')).toBeInTheDocument();
+  });
+
+  it('is absent before a match starts', () => {
+    renderPlay({ dice: scriptedDice() });
+
+    expect(
+      screen.queryByRole('button', { name: 'Copy XGID' }),
+    ).not.toBeInTheDocument();
+  });
+});

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useAutoAnalysis } from '../analysis';
 import type { Difficulty, Engine, EngineStatus } from '../engine';
+import { CopyXgidButton, encodeXgid } from '../formats';
 import { type Autoplay, createAutoplay } from '../play/autoplay';
 import { Board } from '../play/Board';
 import { getPlayEngine } from '../play/engineInstance';
@@ -67,6 +68,45 @@ const DIFFICULTIES: ReadonlyArray<{ id: Difficulty; label: string }> = [
 
 function difficultyLabel(difficulty: Difficulty): string {
   return DIFFICULTIES.find((d) => d.id === difficulty)?.label ?? difficulty;
+}
+
+/**
+ * The XGID of the current decision point (ticket 10): the pre-play position
+ * with the dice during a turn, the pre-roll position otherwise, a pending
+ * double while the cube is offered. Null once the game is settled.
+ */
+function currentXgid(match: MatchState | null): string | null {
+  if (!match) {
+    return null;
+  }
+  const context = {
+    matchLength: match.length,
+    score: match.score,
+    crawford: match.crawford,
+    cube: match.cube,
+  };
+  if (match.phase === 'turn' && match.game.turn) {
+    const turn = match.game.turn;
+    return encodeXgid(
+      { board: turn.startBoard, onRoll: turn.player, match: context },
+      turn.roll,
+    );
+  }
+  if (match.phase === 'pre-roll' && match.toRoll) {
+    return encodeXgid({
+      board: match.game.board,
+      onRoll: match.toRoll,
+      match: context,
+    });
+  }
+  if (match.phase === 'cube-offered' && match.toRoll) {
+    return encodeXgid(
+      { board: match.game.board, onRoll: match.toRoll, match: context },
+      undefined,
+      { pendingDouble: true },
+    );
+  }
+  return null;
 }
 
 export type PlayMode = 'computer' | 'hotseat';
@@ -882,6 +922,7 @@ export function Play({
   );
 
   const status = statusText(match ?? null, thinking, vsComputer);
+  const xgid = currentXgid(match ?? null);
 
   return (
     <section className="play-area">
@@ -918,6 +959,12 @@ export function Play({
                 : `${match.length}-point match`}
               {match.crawford && (
                 <span className="crawford-badge">Crawford — no doubling</span>
+              )}
+              {xgid && (
+                <CopyXgidButton
+                  xgid={xgid}
+                  className="play-button play-button--quiet copy-xgid"
+                />
               )}
             </p>
           )}
