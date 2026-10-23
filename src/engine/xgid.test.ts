@@ -117,7 +117,9 @@ describe('encodeXgid', () => {
 describe('decodeXgid', () => {
   it('decodes the starting position, 7-point match, player 1 to play 3-1', () => {
     // Worked example 1 of the format notes (verified against PositionFromXG).
-    const decoded = decodeXgid('XGID=-b----E-C---eE---c-e----B-:0:0:1:31:0:0:0:7:10');
+    const decoded = decodeXgid(
+      'XGID=-b----E-C---eE---c-e----B-:0:0:1:31:0:0:0:7:10',
+    );
     expect(decoded.position.board).toEqual(initialBoard());
     expect(decoded.position.onRoll).toBe('white');
     expect(decoded.position.match).toEqual({
@@ -131,14 +133,18 @@ describe('decodeXgid', () => {
   });
 
   it('accepts the string without the XGID= prefix', () => {
-    const decoded = decodeXgid('-b----E-C---eE---c-e----B-:0:0:1:00:0:0:0:0:10');
+    const decoded = decodeXgid(
+      '-b----E-C---eE---c-e----B-:0:0:1:00:0:0:0:0:10',
+    );
     expect(decoded.position.board).toEqual(initialBoard());
     expect(decoded.roll).toBeNull();
   });
 
   it('decodes cube value from log2, owner and turn in player-1 terms', () => {
     // Player 2 (top / lowercase) on roll holding a 4-cube, Crawford off.
-    const decoded = decodeXgid('-b----E-C---eE---c-e----B-:2:-1:-1:52:3:4:0:7:10');
+    const decoded = decodeXgid(
+      '-b----E-C---eE---c-e----B-:2:-1:-1:52:3:4:0:7:10',
+    );
     expect(decoded.position.onRoll).toBe('black');
     expect(decoded.position.match?.cube).toEqual({ value: 4, owner: 'black' });
     expect(decoded.position.match?.score).toEqual({ white: 3, black: 4 });
@@ -148,7 +154,9 @@ describe('decodeXgid', () => {
   it('decodes bars, borne-off checkers and the Crawford flag', () => {
     // White: 2 on their 24-point, 12 off, 1 on the bar; black mirrored
     // except 13 spread between two points and the bar.
-    const decoded = decodeXgid('ab----------------------BA:0:0:1:00:6:3:1:7:10');
+    const decoded = decodeXgid(
+      'ab----------------------BA:0:0:1:00:6:3:1:7:10',
+    );
     const { board } = decoded.position;
     expect(board.points[24]).toBe(2);
     expect(board.points[1]).toBe(-2);
@@ -158,7 +166,9 @@ describe('decodeXgid', () => {
   });
 
   it('decodes a pending double: the turn field names the doubler', () => {
-    const decoded = decodeXgid('-b----E-C---eE---c-e----B-:0:0:-1:D:2:5:0:7:10');
+    const decoded = decodeXgid(
+      '-b----E-C---eE---c-e----B-:0:0:-1:D:2:5:0:7:10',
+    );
     expect(decoded.pendingDouble).toBe(true);
     expect(decoded.roll).toBeNull();
     // Player 2 (black) doubled; player 1 must take or pass.
@@ -302,9 +312,9 @@ describe('XGID round-trip properties', () => {
             : position;
           const text = encodeXgid(seated, roll ?? undefined);
           const decoded = decodeXgid(text);
-          expect(
-            encodeXgid(decoded.position, decoded.roll ?? undefined),
-          ).toBe(text);
+          expect(encodeXgid(decoded.position, decoded.roll ?? undefined)).toBe(
+            text,
+          );
           // The decoded position is the same position seen from the string
           // author's seat: same cube value, same pot, same pip totals.
           expect(decoded.position.match?.cube?.value).toBe(match.cube?.value);

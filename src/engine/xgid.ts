@@ -209,7 +209,9 @@ export function decodeXgid(text: string): DecodedXgid {
     pendingDouble = true;
   } else if (d !== '00') {
     if (!/^[1-6][1-6]$/.test(d)) {
-      throw invalid(`the dice field must be 00, D or two digits 1-6, got "${d}"`);
+      throw invalid(
+        `the dice field must be 00, D or two digits 1-6, got "${d}"`,
+      );
     }
     roll = [Number(d[0]) as Die, Number(d[1]) as Die];
   }
@@ -229,7 +231,10 @@ export function decodeXgid(text: string): DecodedXgid {
   if (matchLength < 0) {
     throw invalid('the match length cannot be negative');
   }
-  if (matchLength > 0 && (scoreWhite >= matchLength || scoreBlack >= matchLength)) {
+  if (
+    matchLength > 0 &&
+    (scoreWhite >= matchLength || scoreBlack >= matchLength)
+  ) {
     throw invalid('scores must be below the match length');
   }
 

@@ -123,10 +123,7 @@ describe('importMat', () => {
       CUBE_GAME_MAT.replace('Doubles => 2', 'Doubles => 4'),
       /line 5: .*does not follow/i,
     ],
-    [
-      CUBE_GAME_MAT.replace('Wins 2 points', 'Wins 3 points'),
-      /line 7: /i,
-    ],
+    [CUBE_GAME_MAT.replace('Wins 2 points', 'Wins 3 points'), /line 7: /i],
     [
       CUBE_GAME_MAT.replace(' 2 point match', ' 9 point match'),
       /before either player reaches 9/i,
@@ -164,9 +161,7 @@ describe('.mat round-trip property', () => {
 
       const imported = importMat(exportMat(native));
 
-      expect(imported.record, `seed ${seed}`).toEqual(
-        matRepresentable(native),
-      );
+      expect(imported.record, `seed ${seed}`).toEqual(matRepresentable(native));
     }
   });
 });

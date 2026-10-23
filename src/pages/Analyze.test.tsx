@@ -7,6 +7,7 @@ import {
   type MatchAnalyzer,
 } from '../analysis';
 import { createFakeEngine, type Engine } from '../engine';
+import { exportMat, importMat } from '../formats';
 import {
   acceptResignation,
   createBoard,
@@ -24,7 +25,6 @@ import {
   serializeBackup,
   snapshotMatch,
 } from '../storage';
-import { exportMat, importMat } from '../formats';
 import { scriptedDice } from '../test/dice';
 import { cubeGameMatch, recordOf } from '../test/match';
 import { Analyze } from './Analyze';
@@ -497,7 +497,10 @@ describe('.mat import and export', () => {
 describe('XGID position viewer', () => {
   const START_31 = 'XGID=-b----E-C---eE---c-e----B-:0:0:1:31:0:0:0:7:10';
 
-  async function loadXgid(user: ReturnType<typeof userEvent.setup>, xgid: string) {
+  async function loadXgid(
+    user: ReturnType<typeof userEvent.setup>,
+    xgid: string,
+  ) {
     await user.type(await screen.findByLabelText(/paste an xgid/i), xgid);
     await user.click(screen.getByRole('button', { name: 'Load position' }));
   }

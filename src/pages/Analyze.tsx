@@ -1171,7 +1171,9 @@ function PositionViewer({ analyzer }: { analyzer: MatchAnalyzer }) {
                   </li>
                 ))}
               </ol>
-              <p className="cube-proper">Engine: {analysis.cube.properAction}</p>
+              <p className="cube-proper">
+                Engine: {analysis.cube.properAction}
+              </p>
             </div>
           )}
         </>
@@ -1470,9 +1472,9 @@ export function Analyze({
             </label>
             <p className="backup-hint">
               Export downloads every match as one JSON file. Import backup
-              replaces your current history with the file's. Import match adds
-              a Jellyfish .mat match to the history, where it analyzes like
-              any other.
+              replaces your current history with the file's. Import match adds a
+              Jellyfish .mat match to the history, where it analyzes like any
+              other.
             </p>
           </div>
           <PositionViewer analyzer={analyzer} />

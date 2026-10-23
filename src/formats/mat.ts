@@ -26,6 +26,7 @@
  * illegal under our rules is a hard parse error naming the line.
  */
 
+import { matchStandings } from '../analysis';
 import { matchPlayByMoveText } from '../engine/moveText';
 import {
   applyMovement,
@@ -41,7 +42,6 @@ import {
   replayMatch,
   replayMatchGame,
 } from '../rules';
-import { matchStandings } from '../analysis';
 
 /** The two players' display names, white first (the left .mat column). */
 export interface MatPlayers {
@@ -107,7 +107,10 @@ function gameEntries(record: MatchGameRecord): Entry[] {
       switch (decision.type) {
         case 'double':
           cube *= 2;
-          entries.push({ player: decision.player, text: ` Doubles => ${cube}` });
+          entries.push({
+            player: decision.player,
+            text: ` Doubles => ${cube}`,
+          });
           break;
         case 'take':
           entries.push({ player: decision.player, text: ' Takes' });
@@ -386,7 +389,10 @@ function parseGame(
       scoreLine?.line ?? block.headerLine,
     );
   }
-  if (pairs[0].score !== expectedScore.white || pairs[1].score !== expectedScore.black) {
+  if (
+    pairs[0].score !== expectedScore.white ||
+    pairs[1].score !== expectedScore.black
+  ) {
     throw new MatParseError(
       `game ${gameNumber} starts at ${pairs[0].score}-${pairs[1].score}, ` +
         `but the games so far put the score at ` +
@@ -514,10 +520,7 @@ function parseGame(
       }
       case 'take': {
         if (!doubler) {
-          throw new MatParseError(
-            'a take with no double pending',
-            entry.line,
-          );
+          throw new MatParseError('a take with no double pending', entry.line);
         }
         cube *= 2;
         decisions.push({
@@ -531,10 +534,7 @@ function parseGame(
       }
       case 'drop': {
         if (!doubler) {
-          throw new MatParseError(
-            'a drop with no double pending',
-            entry.line,
-          );
+          throw new MatParseError('a drop with no double pending', entry.line);
         }
         decisions.push({
           type: 'pass',
@@ -560,7 +560,8 @@ function parseGame(
   }
 
   const checkersResult = gameResult(board);
-  const lastLine = block.lines[block.lines.length - 1]?.line ?? block.headerLine;
+  const lastLine =
+    block.lines[block.lines.length - 1]?.line ?? block.headerLine;
   if (!wins && !checkersResult && !droppedBy) {
     throw new MatParseError(
       `game ${gameNumber} ends without a result`,
@@ -673,9 +674,7 @@ export function importMat(text: string): MatImport {
     }
   }
   if (length === null) {
-    throw new MatParseError(
-      'not a .mat file: no "N point match" header found',
-    );
+    throw new MatParseError('not a .mat file: no "N point match" header found');
   }
   if (length === 0) {
     throw new MatParseError(
@@ -714,7 +713,7 @@ export function importMat(text: string): MatImport {
   let score = { white: 0, black: 0 };
   let crawfordPlayed = false;
   for (let i = 0; i < blocks.length; i++) {
-    const crawford =
+    const crawford: boolean =
       !crawfordPlayed &&
       (score.white === length - 1 || score.black === length - 1);
     crawfordPlayed = crawfordPlayed || crawford;
