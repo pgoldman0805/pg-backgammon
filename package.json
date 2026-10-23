@@ -13,10 +13,12 @@
     "test:watch": "vitest",
     "lint": "biome check .",
     "format": "biome check --write .",
+    "icons": "node scripts/generateIcons.mjs",
     "mine:puzzles": "node scripts/mine.mjs && biome check --write src/puzzles/curatedSet.ts",
     "validate:puzzles": "node scripts/validate.mjs",
     "e2e": "playwright test --project=smoke",
-    "e2e:audit": "playwright test --project=audit"
+    "e2e:audit": "playwright test --project=audit",
+    "e2e:pwa": "playwright test --project=pwa"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.3",
@@ -41,6 +43,7 @@
     "jsdom": "^26.0.0",
     "typescript": "~6.0.3",
     "vite": "^8.3.4",
+    "vite-plugin-pwa": "^2.0.0",
     "vitest": "^4.0.0"
   }
 }

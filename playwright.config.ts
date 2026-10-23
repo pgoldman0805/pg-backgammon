@@ -31,6 +31,8 @@ export default defineConfig({
   projects: [
     { name: 'smoke', testMatch: /golden-path\.spec\.ts/ },
     { name: 'audit', testMatch: /audit\.spec\.ts/ },
+    // Ticket 23: installability + offline capability against the preview build.
+    { name: 'pwa', testMatch: /pwa\.spec\.ts/ },
   ],
   webServer: {
     command: 'npm run build && npm run preview -- --port 4173 --strictPort',

@@ -4,6 +4,18 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Browser-UI tint per OS scheme; the manifest pins the installed app's
+         status bar to the dark shell (#15130f). -->
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="#fcfcfa"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#15130f"
+    />
     <title>pg-backgammon</title>
     <script>
       // Apply the persisted (or OS-preferred) theme before first paint.
