@@ -9,8 +9,8 @@ import {
   commitMatchPlay,
   createMatch,
   declineResignation,
-  matchMovement,
   type MatchState,
+  matchMovement,
   nextGame,
   offerDouble,
   offerResignation,
@@ -255,9 +255,9 @@ describe('the doubling cube: offer, take, pass', () => {
 
   test('the cube is dead for the whole of a 1-point match', () => {
     const match = blackPreRoll({ length: 7 });
-    expect(canDouble({ ...match, length: 1, score: { white: 0, black: 0 } })).toBe(
-      false,
-    );
+    expect(
+      canDouble({ ...match, length: 1, score: { white: 0, black: 0 } }),
+    ).toBe(false);
   });
 });
 
@@ -381,9 +381,7 @@ describe('the sequence of games and the Crawford rule', () => {
     const live = aboutToWin({ length: 7, black: singleLoser });
     expect(() => nextGame(live, diceFrom([3, 5]))).toThrow();
 
-    const matchOver = winNow(
-      aboutToWin({ length: 1, black: singleLoser }),
-    );
+    const matchOver = winNow(aboutToWin({ length: 1, black: singleLoser }));
     expect(() => nextGame(matchOver, diceFrom([3, 5]))).toThrow();
   });
 
@@ -448,7 +446,12 @@ describe('resignation', () => {
     });
     expect(accepted.games[0].decisions).toEqual([
       { type: 'resign', player: 'white', kind: 'single', afterPlays: 0 },
-      { type: 'resign-response', player: 'black', accepted: true, afterPlays: 0 },
+      {
+        type: 'resign-response',
+        player: 'black',
+        accepted: true,
+        afterPlays: 0,
+      },
     ]);
   });
 

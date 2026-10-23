@@ -3,7 +3,50 @@
  * stay realistic while the test decides the timing.
  */
 
-import { createFakeEngine, type Engine, type EngineStatus } from '../engine';
+import {
+  type CubeAnalysis,
+  createFakeEngine,
+  type Engine,
+  type EngineStatus,
+  type PositionEvaluation,
+} from '../engine';
+
+/**
+ * A fake engine with a scripted cube verdict (gnubg proper-action text) and
+ * optional evaluation overrides; checker play stays the fake's. Counts its
+ * cubeInfo calls so tests can pin when the cube was (not) consulted.
+ */
+export function scriptedCubeEngine(
+  properAction: string,
+  evaluation?: Partial<PositionEvaluation>,
+): Engine & { cubeAsked: number } {
+  const fake = createFakeEngine();
+  const engine = {
+    ...fake,
+    cubeAsked: 0,
+    async cubeInfo(): Promise<CubeAnalysis> {
+      engine.cubeAsked += 1;
+      return {
+        cubelessEquity: 0,
+        chances: {
+          win: 0.5,
+          winGammon: 0.1,
+          winBackgammon: 0.01,
+          lose: 0.5,
+          loseGammon: 0.1,
+          loseBackgammon: 0.01,
+        },
+        options: [],
+        properAction,
+      };
+    },
+    async evaluate(position: Parameters<Engine['evaluate']>[0]) {
+      const base = await fake.evaluate(position);
+      return { ...base, ...evaluation };
+    },
+  };
+  return engine;
+}
 
 /** A fake engine whose rankPlays waits until the test releases it. */
 export function gatedEngine(): Engine & { release: () => void } {

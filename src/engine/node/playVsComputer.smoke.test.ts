@@ -1,13 +1,18 @@
 // @vitest-environment node
 /**
- * Play-vs-computer smoke against the real vendored gnubg WASM (ticket 05):
- * the engine opponent drives the ticket-03 store with real engine answers for
- * a few plies, proving the store/opponent/engine wiring against reality. The
- * fast, deterministic flow coverage lives in src/play/opponent.test.ts
- * against the fake engine.
+ * Play-vs-computer smoke against the real vendored gnubg WASM (tickets 05/06):
+ * engine opponents drive the match store with real engine answers for a few
+ * plies — checker plays via rankPlays and pre-roll cube checks via cubeInfo
+ * with match context — proving the store/opponent/engine wiring against
+ * reality. The fast, deterministic flow coverage lives in
+ * src/play/opponent.test.ts against the fake engine.
  */
 import { beforeAll, describe, expect, it } from 'vitest';
-import { createEngineOpponent } from '../../play/opponent';
+import {
+  createEngineOpponent,
+  recommendsDouble,
+  recommendsPass,
+} from '../../play/opponent';
 import { createPlayStore } from '../../play/store';
 import type { DiceRoll, Player } from '../../rules';
 import { createSeededDice, initialBoard } from '../../rules';
@@ -58,7 +63,7 @@ function waitUntil(predicate: () => boolean, timeoutMs: number): Promise<void> {
 }
 
 describe('play vs computer with the real engine', () => {
-  it('two engine opponents play several plies through the store', async () => {
+  it('two engine opponents play several plies of a match through the store', async () => {
     const store = createPlayStore({ dice: createSeededDice(11) });
     const engine = engineOverSession();
     const opponents = (['white', 'black'] as Player[]).map((player) =>
@@ -71,14 +76,16 @@ describe('play vs computer with the real engine', () => {
         stepMs: 0,
       }),
     );
-    store.dispatch({ type: 'start' });
+    store.dispatch({ type: 'start', length: 7 });
 
     const plies = 6;
     await waitUntil(() => {
-      const game = store.getState().game;
+      const match = store.getState().match;
       return (
-        game !== null &&
-        (game.record.plays.length >= plies || game.result !== null)
+        match !== null &&
+        (match.game.record.plays.length >= plies ||
+          match.phase === 'game-over' ||
+          match.phase === 'match-over')
       );
     }, 90_000);
 
@@ -87,12 +94,24 @@ describe('play vs computer with the real engine', () => {
       opponent.dispose();
     }
 
-    const game = store.getState().game;
-    // The store accepts only complete legal plays, so reaching this depth
-    // proves every engine answer mapped onto a legal rules-engine play.
-    expect(game?.record.plays.length).toBeGreaterThanOrEqual(plies);
-    const players = new Set(game?.record.plays.map((play) => play.player));
+    const match = store.getState().match;
+    // The store accepts only complete legal plays, so reaching this depth —
+    // through the pre-roll cube checks — proves every engine answer mapped
+    // onto a legal rules-engine action.
+    expect(match?.game.record.plays.length).toBeGreaterThanOrEqual(plies);
+    const players = new Set(
+      match?.game.record.plays.map((play) => play.player),
+    );
     expect(players).toEqual(new Set(['white', 'black']));
+  }, 120_000);
+
+  it('real cube info speaks the proper-action vocabulary the opponent parses', () => {
+    // The opening position is nobody's double; the engine must neither
+    // recommend turning the cube nor passing it.
+    const analysis = session.cubeInfo(OPENING);
+    expect(analysis.properAction.length).toBeGreaterThan(0);
+    expect(recommendsDouble(analysis.properAction)).toBe(false);
+    expect(recommendsPass(analysis.properAction)).toBe(false);
   }, 120_000);
 
   it('beginner picks measurably weaker plays than world-class (seeded)', () => {

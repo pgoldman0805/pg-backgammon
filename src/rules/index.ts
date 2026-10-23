@@ -30,11 +30,11 @@ export {
 } from './game';
 export {
   acceptResignation,
+  type CreateMatchOptions,
+  type CubeState,
   canDouble,
   commitMatchPlay,
-  type CreateMatchOptions,
   createMatch,
-  type CubeState,
   declineResignation,
   type MatchGameEnd,
   type MatchGameRecord,

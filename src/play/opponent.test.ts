@@ -8,22 +8,16 @@
  */
 
 import { describe, expect, it, vi } from 'vitest';
-import {
-  type CubeAnalysis,
-  createFakeEngine,
-  type Engine,
-  type PositionEvaluation,
-} from '../engine';
+import { createFakeEngine, type Engine } from '../engine';
 import {
   createBoard,
   createGame,
   createMatch,
   createSeededDice,
   type GameState,
-  type MatchState,
 } from '../rules';
 import { scriptedDice } from '../test/dice';
-import { gatedEngine } from '../test/engine';
+import { gatedEngine, scriptedCubeEngine } from '../test/engine';
 import { createEngineOpponent } from './opponent';
 import { canCommit, forcedPlay, isDance, viableMovements } from './selectors';
 import { createPlayStore, type PlayStore } from './store';
@@ -52,39 +46,6 @@ function blackToOpen(match?: Partial<Parameters<typeof createMatch>[0]>) {
     match: createMatch({ length: 7, game: blackOpeningGame(), ...match }),
     dice: scriptedDice(5, 2),
   });
-}
-
-/** An engine whose cube answers are scripted; checker play stays the fake's. */
-function cubeScriptedEngine(
-  properAction: string,
-  evaluate?: Partial<PositionEvaluation>,
-): Engine & { cubeAsked: number } {
-  const fake = createFakeEngine();
-  const engine = {
-    ...fake,
-    cubeAsked: 0,
-    async cubeInfo(): Promise<CubeAnalysis> {
-      engine.cubeAsked += 1;
-      return {
-        cubelessEquity: 0,
-        chances: {
-          win: 0.5,
-          winGammon: 0.1,
-          winBackgammon: 0.01,
-          lose: 0.5,
-          loseGammon: 0.1,
-          loseBackgammon: 0.01,
-        },
-        options: [],
-        properAction,
-      };
-    },
-    async evaluate(position: Parameters<Engine['evaluate']>[0]) {
-      const base = await fake.evaluate(position);
-      return { ...base, ...evaluate };
-    },
-  };
-  return engine;
 }
 
 describe('engine turn (checker play)', () => {
@@ -204,7 +165,7 @@ describe('the engine at the cube', () => {
 
   it('doubles before rolling when cube info recommends it', async () => {
     const store = blackPreRoll();
-    const engine = cubeScriptedEngine('Double, take');
+    const engine = scriptedCubeEngine('Double, take');
     const opponent = createEngineOpponent({
       store,
       engine,
@@ -225,7 +186,7 @@ describe('the engine at the cube', () => {
 
   it('rolls when cube info says no double', async () => {
     const store = blackPreRoll();
-    const engine = cubeScriptedEngine('No double, take');
+    const engine = scriptedCubeEngine('No double, take');
     const opponent = createEngineOpponent({
       store,
       engine,
@@ -249,7 +210,7 @@ describe('the engine at the cube', () => {
       score: { white: 6, black: 0 },
       crawford: true,
     });
-    const engine = cubeScriptedEngine('Double, take');
+    const engine = scriptedCubeEngine('Double, take');
     const opponent = createEngineOpponent({
       store,
       engine,
@@ -282,7 +243,7 @@ describe('the engine at the cube', () => {
 
   it("takes the human's double when the position is takeable", async () => {
     const store = whiteDoubled();
-    const engine = cubeScriptedEngine('Double, take');
+    const engine = scriptedCubeEngine('Double, take');
     const responder = createEngineOpponent({
       store,
       engine,
@@ -304,7 +265,7 @@ describe('the engine at the cube', () => {
   it("passes the human's double when the position is a pass", async () => {
     const store = whiteDoubled();
 
-    const engine = cubeScriptedEngine('Double, pass');
+    const engine = scriptedCubeEngine('Double, pass');
     const opponent = createEngineOpponent({
       store,
       engine,
@@ -344,7 +305,7 @@ describe('the engine answering resignations', () => {
   it('accepts when the offered points cover its expected equity', async () => {
     const store = whiteResigned('single');
     // Black expects a plain win: white's equity -0.6 → black's +0.6 < 1.
-    const engine = cubeScriptedEngine('No double, take', { equity: -0.6 });
+    const engine = scriptedCubeEngine('No double, take', { equity: -0.6 });
     const opponent = createEngineOpponent({
       store,
       engine,
@@ -363,7 +324,7 @@ describe('the engine answering resignations', () => {
   it('declines a single when it expects more than a single win', async () => {
     const store = whiteResigned('single');
     // Black expects a gammon-heavy finish: white's equity -1.4 → black +1.4 > 1.
-    const engine = cubeScriptedEngine('No double, take', { equity: -1.4 });
+    const engine = scriptedCubeEngine('No double, take', { equity: -1.4 });
     const opponent = createEngineOpponent({
       store,
       engine,
@@ -382,7 +343,7 @@ describe('the engine answering resignations', () => {
 
   it('accepts a gammon resignation that covers the same expectation', async () => {
     const store = whiteResigned('gammon');
-    const engine = cubeScriptedEngine('No double, take', { equity: -1.4 });
+    const engine = scriptedCubeEngine('No double, take', { equity: -1.4 });
     const opponent = createEngineOpponent({
       store,
       engine,

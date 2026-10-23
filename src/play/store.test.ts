@@ -365,7 +365,7 @@ describe('a complete match through the store', () => {
     expect(finished?.phase).toBe('match-over');
     expect(finished?.winner).not.toBeNull();
     expect(
-      finished && finished.score[finished.winner as 'white' | 'black'],
+      finished?.score[finished.winner as 'white' | 'black'],
     ).toBeGreaterThanOrEqual(3);
   });
 });

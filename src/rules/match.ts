@@ -16,8 +16,8 @@ import type { DiceSource } from './dice';
 import {
   applyTurnMovement,
   commitPlayOnly,
-  gameResult,
   type GameState,
+  gameResult,
   startGame,
   startNextTurn,
   undoTurnMovement,
