@@ -17,6 +17,7 @@ import {
   type Die,
   declineResignation,
   type GameEndKind,
+  markTutorAssisted,
   type MatchState,
   matchMovement,
   nextGame,
@@ -28,6 +29,7 @@ import {
   rollTurn,
   startMatch,
   takeDouble,
+  takebackPlay,
   undoMatchMovement,
 } from '../rules';
 import { forcedPlay } from './selectors';
@@ -63,7 +65,11 @@ export type PlayAction =
   /** Decline the pending resignation; play resumes. */
   | { type: 'decline-resign' }
   /** Continue the match with its next game. */
-  | { type: 'next-game' };
+  | { type: 'next-game' }
+  /** Take back the player's last committed play (Tutor mode only, UI-gated). */
+  | { type: 'takeback'; player: Player }
+  /** Record that Tutor mode is enabled during the game in progress. */
+  | { type: 'tutor-assisted' };
 
 export interface PlayStore {
   getState(): PlayState;
@@ -155,6 +161,10 @@ export function createPlayStore(options: PlayStoreOptions = {}): PlayStore {
           return { match: declineResignation(match) };
         case 'next-game':
           return { match: nextGame(match, dice) };
+        case 'takeback':
+          return { match: takebackPlay(match, action.player) };
+        case 'tutor-assisted':
+          return { match: markTutorAssisted(match) };
         default:
           return null;
       }
