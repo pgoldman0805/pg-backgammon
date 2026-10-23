@@ -78,6 +78,8 @@ All game history, analysis, and puzzle progress persist in IndexedDB. Desktop-fi
 52. As a learner, I want a "Try again" action on every puzzle after the reveal (resetting the position for another attempt; only the first attempt counts toward progress and the retry queue), so that I can immediately practice the correct play. (Added 2026-10-23.)
 53. As a player, I want the board rendered larger on screen with bigger point numbers, so that positions read effortlessly at a distance. (Added 2026-10-23.)
 54. As a learner, I want the puzzle reveal (verdict and equity table, including my missed play) shown beside the board on desktop rather than beneath it, so that I can compare the table against the position without scrolling. (Added 2026-10-23.)
+55. As the owner, I want a Capacitor Android project kept in-repo with a proven debug-APK build (landscape-locked), so that a store release is an afternoon away when wanted — not the delivery path today (see ADR-0003, including the GPL note for selling). (Added 2026-10-23, reshaped same day.)
+56. As the owner, I want the app installable on my phone as a PWA (manifest, icons, service worker precaching the app and engine for offline), hosted on Cloudflare, so that my phone always runs the latest push and mobile UI work has a live target. (Added 2026-10-23.)
 
 ### Platform
 
