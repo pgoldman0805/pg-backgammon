@@ -98,7 +98,10 @@ describe('the Tutor toggle', () => {
     );
     fireEvent.click(screen.getByRole('button', { name: 'Hot-seat match' }));
 
-    expect(screen.queryByRole('switch')).not.toBeInTheDocument();
+    // The autoplay switches (ticket 15) remain; the Tutor switch does not.
+    expect(
+      screen.queryByRole('switch', { name: 'Tutor mode' }),
+    ).not.toBeInTheDocument();
     noTutorAffordances();
   });
 });

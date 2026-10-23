@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import type { Difficulty, Engine, EngineStatus } from '../engine';
+import { type Autoplay, createAutoplay } from '../play/autoplay';
 import { Board } from '../play/Board';
 import { getPlayEngine } from '../play/engineInstance';
 import {
@@ -8,6 +9,11 @@ import {
   type EngineOpponentState,
 } from '../play/opponent';
 import { canCommit, canUndo, forcedPlay, isDance } from '../play/selectors';
+import {
+  AUTO_FORCED_PLAYS_KEY,
+  AUTO_ROLL_RACES_KEY,
+  useStoredSwitch,
+} from '../play/settings';
 import { createPlayStore, type PlayStore } from '../play/store';
 import {
   createTutor,
@@ -261,13 +267,16 @@ function EngineNote({
 const IDLE_OPPONENT: EngineOpponentState = { thinking: false, error: null };
 
 /**
- * The single Tutor mode switch (GLOSSARY "Tutor mode"): off by default,
- * flippable any time, on the setup card and in the HUD during a match.
+ * One labeled on/off switch in the Play area's visual language: the Tutor
+ * mode toggle and the two autoplay settings, on the setup card and in the
+ * HUD during a match.
  */
-function TutorToggle({
+function SettingSwitch({
+  label,
   on,
   onChange,
 }: {
+  label: string;
   on: boolean;
   onChange: (on: boolean) => void;
 }) {
@@ -276,11 +285,11 @@ function TutorToggle({
       type="button"
       role="switch"
       aria-checked={on}
-      className="tutor-toggle"
+      className="setting-switch"
       onClick={() => onChange(!on)}
     >
-      <span className="tutor-toggle-dot" aria-hidden="true" />
-      Tutor mode
+      <span className="setting-switch-dot" aria-hidden="true" />
+      {label}
     </button>
   );
 }
@@ -379,6 +388,17 @@ export function Play({
   const [tutorOn, setTutorOn] = useState(false);
   const [tutorState, setTutorState] = useState<TutorState | null>(null);
   const tutorRef = useRef<Tutor | null>(null);
+  const [autoRollRaces, setAutoRollRaces] = useStoredSwitch(
+    AUTO_ROLL_RACES_KEY,
+    true,
+  );
+  const [autoForcedPlays, setAutoForcedPlays] = useStoredSwitch(
+    AUTO_FORCED_PLAYS_KEY,
+    true,
+  );
+  const autoplaySettings = useRef({ autoRollRaces, autoForcedPlays });
+  autoplaySettings.current = { autoRollRaces, autoForcedPlays };
+  const autoplayRef = useRef<Autoplay | null>(null);
   const persistence = useMatchPersistence(store, storage);
   const autoResumed = useRef(false);
 
@@ -437,6 +457,30 @@ export function Play({
   const phase = match?.phase ?? null;
   const turn = game?.turn ?? null;
   const vsComputer = setup.mode === 'computer';
+
+  // The autoplay controller (spec stories 43-44) acts for every human side —
+  // just White vs the computer, both in hot-seat — reading the two settings
+  // live so toggling mid-game applies immediately.
+  useEffect(() => {
+    const autoplay = createAutoplay({
+      store,
+      players: vsComputer ? ['white'] : ['white', 'black'],
+      settings: () => autoplaySettings.current,
+      stepMs: opponentStepMs,
+    });
+    autoplayRef.current = autoplay;
+    return () => {
+      autoplay.dispose();
+      autoplayRef.current = null;
+    };
+  }, [store, vsComputer, opponentStepMs]);
+
+  // A settings flip can unlock an action at the current position (e.g. the
+  // race pre-roll the stop is showing for): have the controller look again.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: the controller reads settings through a ref; this effect exists purely to re-check on every flip
+  useEffect(() => {
+    autoplayRef.current?.recheck();
+  }, [autoRollRaces, autoForcedPlays]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: selection is per-position; any turn change (movement, undo, commit) invalidates it
   useEffect(() => {
@@ -616,6 +660,21 @@ export function Play({
     </div>
   );
 
+  const autoplaySwitches = (
+    <>
+      <SettingSwitch
+        label="Auto-roll in races"
+        on={autoRollRaces}
+        onChange={setAutoRollRaces}
+      />
+      <SettingSwitch
+        label="Auto-play forced plays"
+        on={autoForcedPlays}
+        onChange={setAutoForcedPlays}
+      />
+    </>
+  );
+
   const setupCard = (
     title: string,
     primaryLabel: string,
@@ -626,7 +685,14 @@ export function Play({
         <p className="setup-title">{title}</p>
         {resumePrompt}
         {setupPickers}
-        <TutorToggle on={tutorOn} onChange={setTutorOn} />
+        <div className="setting-switches">
+          <SettingSwitch
+            label="Tutor mode"
+            on={tutorOn}
+            onChange={setTutorOn}
+          />
+          {autoplaySwitches}
+        </div>
         {startButtons(primaryLabel, primaryMode)}
         <EngineNote
           status={engineStatus}
@@ -852,8 +918,17 @@ export function Play({
               )}
             </p>
           )}
-          {match && vsComputer && (
-            <TutorToggle on={tutorOn} onChange={setTutorOn} />
+          {match && (
+            <div className="setting-switches">
+              {vsComputer && (
+                <SettingSwitch
+                  label="Tutor mode"
+                  on={tutorOn}
+                  onChange={setTutorOn}
+                />
+              )}
+              {autoplaySwitches}
+            </div>
           )}
         </div>
         <div

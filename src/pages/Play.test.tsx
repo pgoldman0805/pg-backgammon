@@ -29,6 +29,12 @@ import {
 } from '../test/engine';
 import { Play, type PlayProps } from './Play';
 
+// The autoplay settings (ticket 15) persist in localStorage; tests that set
+// them must not leak into their neighbours.
+beforeEach(() => {
+  localStorage.clear();
+});
+
 function renderPlay(options: PlayStoreOptions, props?: Partial<PlayProps>) {
   const store = createPlayStore(options);
   render(
@@ -743,7 +749,10 @@ describe('dance and forced turns (hot-seat)', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Black to roll.');
   });
 
-  it('resolves a forced play with a single action', async () => {
+  it('resolves a forced play with a single action (auto-play switched off)', async () => {
+    // Auto-play of forced plays (ticket 15) is on by default; the manual
+    // button is the path this test pins, so switch the setting off first.
+    localStorage.setItem('pg-backgammon.auto-forced-plays', 'off');
     const user = userEvent.setup();
     const board = createBoard({
       white: { points: { 24: 1 }, off: 14 },

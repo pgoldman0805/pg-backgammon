@@ -626,9 +626,17 @@
   }
 }
 
-/* Tutor mode (GLOSSARY): one switch, green like the rest of the training
-   chrome — gold stays reserved for "you can act here" on the board. */
-.tutor-toggle {
+/* The Play-area setting switches (Tutor mode, the autoplay settings): green
+   like the rest of the training chrome — gold stays reserved for "you can
+   act here" on the board. */
+.setting-switches {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 0.6rem;
+}
+
+.setting-switch {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
@@ -644,23 +652,23 @@
   white-space: nowrap;
 }
 
-.tutor-toggle:hover {
+.setting-switch:hover {
   border-color: var(--ink-muted);
 }
 
-.tutor-toggle[aria-checked="true"] {
+.setting-switch[aria-checked="true"] {
   border-color: var(--accent);
   color: var(--ink);
 }
 
-.tutor-toggle-dot {
+.setting-switch-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--line);
 }
 
-.tutor-toggle[aria-checked="true"] .tutor-toggle-dot {
+.setting-switch[aria-checked="true"] .setting-switch-dot {
   background: var(--accent);
 }
 

@@ -310,7 +310,7 @@ describe('auto-play of forced plays', () => {
   it('aborts, leaving the user in control, when they move during the pacing', async () => {
     // Hold autoplay's pace open, play the turn by hand, then release it: the
     // stale auto-play must never land on top of the user's commit.
-    let release: (() => void) | null = null;
+    let release: () => void = () => {};
     const gate = new Promise<void>((resolve) => {
       release = resolve;
     });
@@ -328,7 +328,7 @@ describe('auto-play of forced plays', () => {
     store.dispatch({ type: 'commit' });
     expect(store.getState().match?.phase).toBe('pre-roll');
 
-    release?.();
+    release();
     await settle();
     // The committed play stands alone; autoplay never double-acted.
     expect(store.getState().match?.game.record.plays).toHaveLength(1);
@@ -363,4 +363,3 @@ describe('takeback-restored turns', () => {
     autoplay.dispose();
   });
 });
-
