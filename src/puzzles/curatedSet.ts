@@ -8761,6 +8761,12788 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
   {
     id: 'curated-007',
     kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, -2, 0, 2, 2, 2, 2, 2, 2, 1, 0, 0, -1, 0, -2, 0, 0, -4, 0, -2, 2, -2,
+        -2, 0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [3, 5],
+    answers: [
+      {
+        rank: 1,
+        moveText: '20/12*',
+        movements: [
+          {
+            from: 20,
+            to: 15,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 15,
+            to: 12,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,-2,0,2,2,2,2,2,2,1,0,0,1,0,-2,0,0,-4,0,-2,1,-2,-2,0,0|0,1|0,0',
+        equity: 1.174,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '20/15 9/6',
+        movements: [
+          {
+            from: 9,
+            to: 6,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 15,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,2,2,2,3,2,2,0,0,0,-1,0,-2,1,0,-4,0,-2,1,-2,-2,0,0|0,0|0,0',
+        equity: 1.021,
+        equityLoss: 0.15300000000000002,
+      },
+      {
+        rank: 3,
+        moveText: '8/5 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,3,2,3,2,2,0,1,0,0,-1,0,-2,0,0,-4,0,-2,2,-2,-2,0,0|0,0|0,0',
+        equity: 0.987,
+        equityLoss: 0.18699999999999994,
+      },
+      {
+        rank: 4,
+        moveText: '9/4 8/5',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 4,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,2,3,3,2,2,1,0,0,0,-1,0,-2,0,0,-4,0,-2,2,-2,-2,0,0|0,0|0,0',
+        equity: 0.977,
+        equityLoss: 0.19699999999999995,
+      },
+      {
+        rank: 5,
+        moveText: '9/6 8/3',
+        movements: [
+          {
+            from: 9,
+            to: 6,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,3,2,2,3,2,1,0,0,0,-1,0,-2,0,0,-4,0,-2,2,-2,-2,0,0|0,0|0,0',
+        equity: 0.971,
+        equityLoss: 0.20299999999999996,
+      },
+      {
+        rank: 6,
+        moveText: '20/15 8/5',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 15,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,2,2,3,2,2,1,1,0,0,-1,0,-2,1,0,-4,0,-2,1,-2,-2,0,0|0,0|0,0',
+        equity: 0.83,
+        equityLoss: 0.344,
+      },
+      {
+        rank: 7,
+        moveText: '7/4 7/2',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,1,2,3,2,2,0,2,1,0,0,-1,0,-2,0,0,-4,0,-2,2,-2,-2,0,0|0,0|0,0',
+        equity: 0.812,
+        equityLoss: 0.3619999999999999,
+      },
+      {
+        rank: 8,
+        moveText: '9/4 7/4',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 4,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,2,4,2,2,1,2,0,0,0,-1,0,-2,0,0,-4,0,-2,2,-2,-2,0,0|0,0|0,0',
+        equity: 0.689,
+        equityLoss: 0.485,
+      },
+      {
+        rank: 9,
+        moveText: '8/3 7/4',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,3,3,2,2,1,1,1,0,0,-1,0,-2,0,0,-4,0,-2,2,-2,-2,0,0|0,0|0,0',
+        equity: 0.635,
+        equityLoss: 0.5389999999999999,
+      },
+      {
+        rank: 10,
+        moveText: '9/6 7/2',
+        movements: [
+          {
+            from: 9,
+            to: 6,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,1,2,2,2,3,1,2,0,0,0,-1,0,-2,0,0,-4,0,-2,2,-2,-2,0,0|0,0|0,0',
+        equity: 0.595,
+        equityLoss: 0.579,
+      },
+      {
+        rank: 11,
+        moveText: '8/5 7/2',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,1,2,2,3,2,1,1,1,0,0,-1,0,-2,0,0,-4,0,-2,2,-2,-2,0,0|0,0|0,0',
+        equity: 0.507,
+        equityLoss: 0.6669999999999999,
+      },
+      {
+        rank: 12,
+        moveText: '9/4 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 4,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,3,3,2,1,2,2,0,0,0,-1,0,-2,0,0,-4,0,-2,2,-2,-2,0,0|0,0|0,0',
+        equity: 0.477,
+        equityLoss: 0.697,
+      },
+      {
+        rank: 13,
+        moveText: '9/4 5/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 4,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,1,2,3,1,2,2,2,0,0,0,-1,0,-2,0,0,-4,0,-2,2,-2,-2,0,0|0,0|0,0',
+        equity: 0.409,
+        equityLoss: 0.7649999999999999,
+      },
+      {
+        rank: 14,
+        moveText: '7/2 5/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,2,2,2,1,2,1,2,1,0,0,-1,0,-2,0,0,-4,0,-2,2,-2,-2,0,0|0,0|0,0',
+        equity: 0.342,
+        equityLoss: 0.8319999999999999,
+      },
+      {
+        rank: 15,
+        moveText: '8/3 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,4,2,2,1,2,1,1,0,0,-1,0,-2,0,0,-4,0,-2,2,-2,-2,0,0|0,0|0,0',
+        equity: 0.282,
+        equityLoss: 0.8919999999999999,
+      },
+      {
+        rank: 16,
+        moveText: '8/3 5/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,1,3,2,1,2,2,1,1,0,0,-1,0,-2,0,0,-4,0,-2,2,-2,-2,0,0|0,0|0,0',
+        equity: 0.233,
+        equityLoss: 0.941,
+      },
+      {
+        rank: 17,
+        moveText: '20/15 7/4',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 15,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,2,3,2,2,1,2,1,0,0,-1,0,-2,1,0,-4,0,-2,1,-2,-2,0,0|0,0|0,0',
+        equity: 0.122,
+        equityLoss: 1.052,
+      },
+      {
+        rank: 18,
+        moveText: '20/15 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 15,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,3,2,2,1,2,2,1,0,0,-1,0,-2,1,0,-4,0,-2,1,-2,-2,0,0|0,0|0,0',
+        equity: -0.239,
+        equityLoss: 1.4129999999999998,
+      },
+      {
+        rank: 19,
+        moveText: '7/2 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,1,3,2,2,1,1,2,1,0,0,-1,0,-2,0,0,-4,0,-2,2,-2,-2,0,0|0,0|0,0',
+        equity: -0.259,
+        equityLoss: 1.4329999999999998,
+      },
+      {
+        rank: 20,
+        moveText: '20/15 5/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 15,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,1,2,2,1,2,2,2,1,0,0,-1,0,-2,1,0,-4,0,-2,1,-2,-2,0,0|0,0|0,0',
+        equity: -0.324,
+        equityLoss: 1.498,
+      },
+    ],
+  },
+  {
+    id: 'curated-008',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 0, 0, 0, 5, 2, 3, -1, 0, 1, -4, 2, 0, 0, 0, 0, -2, -3, 0, -2,
+        0, -2, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [3, 1],
+    answers: [
+      {
+        rank: 1,
+        moveText: '8/5 6/5',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,2,4,2,2,-1,0,1,-4,2,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -0.276,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '13/9*',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 9,
+            die: 1,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,5,2,3,1,0,1,-4,1,0,0,0,0,-2,-3,0,-2,0,-2,2|0,1|0,0',
+        equity: -0.544,
+        equityLoss: 0.268,
+      },
+      {
+        rank: 3,
+        moveText: '11/7',
+        movements: [
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,5,3,3,-1,0,0,-4,2,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -0.578,
+        equityLoss: 0.30199999999999994,
+      },
+      {
+        rank: 4,
+        moveText: '11/8 6/5',
+        movements: [
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,1,4,2,4,-1,0,0,-4,2,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -0.618,
+        equityLoss: 0.34199999999999997,
+      },
+      {
+        rank: 5,
+        moveText: '8/7 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,0,0,4,3,2,-1,0,1,-4,2,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -0.682,
+        equityLoss: 0.406,
+      },
+      {
+        rank: 6,
+        moveText: '13/10 11/10',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,5,2,3,-1,2,0,-4,1,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -0.777,
+        equityLoss: 0.501,
+      },
+      {
+        rank: 7,
+        moveText: '6/5 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,0,1,3,2,3,-1,0,1,-4,2,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -0.809,
+        equityLoss: 0.533,
+      },
+      {
+        rank: 8,
+        moveText: '11/10 8/5',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,1,5,2,2,-1,1,0,-4,2,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -0.841,
+        equityLoss: 0.565,
+      },
+      {
+        rank: 9,
+        moveText: '11/10 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,0,0,4,2,3,-1,1,0,-4,2,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -0.783,
+        equityLoss: 0.507,
+      },
+      {
+        rank: 10,
+        moveText: '8/4',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,1,0,5,2,2,-1,0,1,-4,2,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -0.812,
+        equityLoss: 0.536,
+      },
+      {
+        rank: 11,
+        moveText: '6/2',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,0,0,4,2,3,-1,0,1,-4,2,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -0.861,
+        equityLoss: 0.585,
+      },
+      {
+        rank: 12,
+        moveText: '8/7 8/5',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,1,5,3,1,-1,0,1,-4,2,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -0.977,
+        equityLoss: 0.701,
+      },
+      {
+        rank: 13,
+        moveText: '11/8 7/6',
+        movements: [
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,6,1,4,-1,0,0,-4,2,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.724,
+      },
+      {
+        rank: 14,
+        moveText: '7/6 7/4',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,1,0,6,0,3,-1,0,1,-4,2,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.724,
+      },
+      {
+        rank: 15,
+        moveText: '7/3',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,0,0,5,1,3,-1,0,1,-4,2,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.724,
+      },
+      {
+        rank: 16,
+        moveText: '13/10 8/7',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,5,3,2,-1,1,1,-4,1,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.724,
+      },
+      {
+        rank: 17,
+        moveText: '13/10 6/5',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,1,4,2,3,-1,1,1,-4,1,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.724,
+      },
+      {
+        rank: 18,
+        moveText: '11/10 7/4',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,1,0,5,1,3,-1,1,0,-4,2,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.724,
+      },
+      {
+        rank: 19,
+        moveText: '8/5 7/6',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,1,6,1,2,-1,0,1,-4,2,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.724,
+      },
+      {
+        rank: 20,
+        moveText: '7/4 6/5',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,1,1,4,1,3,-1,0,1,-4,2,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.724,
+      },
+      {
+        rank: 21,
+        moveText: '13/10 7/6',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,6,1,3,-1,1,1,-4,1,0,0,0,0,-2,-3,0,-2,0,-2,2|0,0|0,0',
+        equity: -1.104,
+        equityLoss: 0.8280000000000001,
+      },
+    ],
+  },
+  {
+    id: 'curated-009',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, -1, 0, 0, -1, 5, 2, 2, 0, 0, 0, -4, 4, 0, 0, 0, -2, 0, -5, 0, 0,
+        -2, 0, 1,
+      ],
+      bar: {
+        white: 1,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: 'bar/20 24/21',
+        movements: [
+          {
+            from: 'bar',
+            to: 20,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 21,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,0,-1,5,2,2,0,0,0,-4,4,0,0,0,-2,0,-5,1,1,-2,0,0|0,0|0,0',
+        equity: -0.204,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: 'bar/20 6/3',
+        movements: [
+          {
+            from: 'bar',
+            to: 20,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,0,-1,4,2,2,0,0,0,-4,4,0,0,0,-2,0,-5,1,0,-2,0,1|0,0|0,0',
+        equity: -0.272,
+        equityLoss: 0.06800000000000003,
+      },
+      {
+        rank: 3,
+        moveText: 'bar/20 13/10',
+        movements: [
+          {
+            from: 'bar',
+            to: 20,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,0,-1,5,2,2,0,1,0,-4,3,0,0,0,-2,0,-5,1,0,-2,0,1|0,0|0,0',
+        equity: -0.285,
+        equityLoss: 0.08099999999999999,
+      },
+      {
+        rank: 4,
+        moveText: 'bar/20 8/5*',
+        movements: [
+          {
+            from: 'bar',
+            to: 20,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,0,1,5,2,1,0,0,0,-4,4,0,0,0,-2,0,-5,1,0,-2,0,1|0,1|0,0',
+        equity: -0.449,
+        equityLoss: 0.24500000000000002,
+      },
+      {
+        rank: 5,
+        moveText: 'bar/20 7/4',
+        movements: [
+          {
+            from: 'bar',
+            to: 20,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,1,-1,5,1,2,0,0,0,-4,4,0,0,0,-2,0,-5,1,0,-2,0,1|0,0|0,0',
+        equity: -0.592,
+        equityLoss: 0.388,
+      },
+    ],
+  },
+  {
+    id: 'curated-010',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, 1, -3, 2, 2, 2, 3, 0, 0, 1, 0, 0, -2, 2, 0, 1, 0, 0, 0, -3, 1, -2,
+        -2, -3, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 1],
+    answers: [
+      {
+        rank: 1,
+        moveText: '15/13 6/4',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,3,2,2,0,0,1,0,0,-2,3,0,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: 0.607,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '9/5',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,2,3,3,0,0,0,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: 0.47,
+        equityLoss: 0.137,
+      },
+      {
+        rank: 3,
+        moveText: '15/13 9/7',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,2,2,3,1,0,0,0,0,-2,3,0,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: 0.451,
+        equityLoss: 0.15599999999999997,
+      },
+      {
+        rank: 4,
+        moveText: '15/14 9/6',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,2,2,4,0,0,0,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: 0.44,
+        equityLoss: 0.16699999999999998,
+      },
+      {
+        rank: 5,
+        moveText: '15/13 9/8 6/5',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,2,3,2,0,1,0,0,0,-2,3,0,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: 0.401,
+        equityLoss: 0.20599999999999996,
+      },
+      {
+        rank: 6,
+        moveText: '15/14 6/3',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,2,2,2,0,0,1,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: 0.272,
+        equityLoss: 0.33499999999999996,
+      },
+      {
+        rank: 7,
+        moveText: '15/14 9/7 6/5',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,2,3,2,1,0,0,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: 0.032,
+        equityLoss: 0.575,
+      },
+      {
+        rank: 8,
+        moveText: '15/14 9/8 6/4',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,3,2,2,0,1,0,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.001,
+        equityLoss: 0.608,
+      },
+      {
+        rank: 9,
+        moveText: '9/8 6/3',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,2,2,2,0,1,0,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: 0.088,
+        equityLoss: 0.519,
+      },
+      {
+        rank: 10,
+        moveText: '15/13 4/3(2)',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,4,0,2,3,0,0,1,0,0,-2,3,0,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: 0.078,
+        equityLoss: 0.529,
+      },
+      {
+        rank: 11,
+        moveText: '9/7 6/4',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,3,2,2,1,0,0,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: 0.075,
+        equityLoss: 0.532,
+      },
+      {
+        rank: 12,
+        moveText: '15/13 5/4(2)',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,4,0,3,0,0,1,0,0,-2,3,0,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: 0.034,
+        equityLoss: 0.573,
+      },
+      {
+        rank: 13,
+        moveText: '15/13 6/5 4/3',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,1,3,2,0,0,1,0,0,-2,3,0,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.131,
+        equityLoss: 0.738,
+      },
+      {
+        rank: 14,
+        moveText: '9/6 5/4',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,3,1,4,0,0,0,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.189,
+        equityLoss: 0.796,
+      },
+      {
+        rank: 15,
+        moveText: '15/13 5/3',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,2,1,3,0,0,1,0,0,-2,3,0,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.238,
+        equityLoss: 0.845,
+      },
+      {
+        rank: 16,
+        moveText: '15/14 6/5 4/3(2)',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,4,0,3,2,0,0,1,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.24,
+        equityLoss: 0.847,
+      },
+      {
+        rank: 17,
+        moveText: '15/14 5/3 5/4',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,3,0,3,0,0,1,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.32,
+        equityLoss: 0.927,
+      },
+      {
+        rank: 18,
+        moveText: '5/3(2)',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,4,2,0,3,0,0,1,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.354,
+        equityLoss: 0.961,
+      },
+      {
+        rank: 19,
+        moveText: '9/6 4/3',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,1,2,4,0,0,0,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.357,
+        equityLoss: 0.964,
+      },
+      {
+        rank: 20,
+        moveText: '15/13 9/8 5/4',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,3,1,3,0,1,0,0,0,-2,3,0,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.401,
+        equityLoss: 1.008,
+      },
+      {
+        rank: 21,
+        moveText: '15/13 6/5(2)',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,2,4,1,0,0,1,0,0,-2,3,0,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.403,
+        equityLoss: 1.01,
+      },
+      {
+        rank: 22,
+        moveText: '15/13 9/8 4/3',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,1,2,3,0,1,0,0,0,-2,3,0,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.406,
+        equityLoss: 1.013,
+      },
+      {
+        rank: 23,
+        moveText: '6/4 6/5(2)',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,3,4,0,0,0,1,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.41,
+        equityLoss: 1.017,
+      },
+      {
+        rank: 24,
+        moveText: '6/4 5/4(2)',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,5,0,2,0,0,1,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.447,
+        equityLoss: 1.054,
+      },
+      {
+        rank: 25,
+        moveText: '15/14 6/5(3)',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,2,5,0,0,0,1,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.454,
+        equityLoss: 1.061,
+      },
+      {
+        rank: 26,
+        moveText: '9/8 5/3 5/4',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,3,0,3,0,1,0,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.493,
+        equityLoss: 1.1,
+      },
+      {
+        rank: 27,
+        moveText: '15/14 9/8 4/3(2)',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,4,0,2,3,0,1,0,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.498,
+        equityLoss: 1.105,
+      },
+      {
+        rank: 28,
+        moveText: '9/7 4/3(2)',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,4,0,2,3,1,0,0,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.529,
+        equityLoss: 1.1360000000000001,
+      },
+      {
+        rank: 29,
+        moveText: '9/7 5/4(2)',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,4,0,3,1,0,0,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.535,
+        equityLoss: 1.142,
+      },
+      {
+        rank: 30,
+        moveText: '15/14 9/8 5/4(2)',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,4,0,3,0,1,0,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.557,
+        equityLoss: 1.1640000000000001,
+      },
+      {
+        rank: 31,
+        moveText: '6/3 5/4',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,3,1,2,0,0,1,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.561,
+        equityLoss: 1.1680000000000001,
+      },
+      {
+        rank: 32,
+        moveText: '9/8 6/5 4/3(2)',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,4,0,3,2,0,1,0,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.568,
+        equityLoss: 1.1749999999999998,
+      },
+      {
+        rank: 33,
+        moveText: '15/14 9/7 4/3',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,1,2,3,1,0,0,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.658,
+        equityLoss: 1.2650000000000001,
+      },
+      {
+        rank: 34,
+        moveText: '15/14 9/8 6/5 4/3',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,1,3,2,0,1,0,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.69,
+        equityLoss: 1.297,
+      },
+      {
+        rank: 35,
+        moveText: '6/3 4/3',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,4,1,2,2,0,0,1,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.779,
+        equityLoss: 1.3860000000000001,
+      },
+      {
+        rank: 36,
+        moveText: '9/8 6/5(3)',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,2,5,0,0,1,0,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.799,
+        equityLoss: 1.4060000000000001,
+      },
+      {
+        rank: 37,
+        moveText: '9/7 5/3',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,2,1,3,1,0,0,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.8,
+        equityLoss: 1.407,
+      },
+      {
+        rank: 38,
+        moveText: '15/14 6/4 5/4',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,4,1,2,0,0,1,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.859,
+        equityLoss: 1.466,
+      },
+      {
+        rank: 39,
+        moveText: '9/8 6/4 5/4',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,4,1,2,0,1,0,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.906,
+        equityLoss: 1.513,
+      },
+      {
+        rank: 40,
+        moveText: '15/14 6/4 6/5',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,3,3,1,0,0,1,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.954,
+        equityLoss: 1.561,
+      },
+      {
+        rank: 41,
+        moveText: '9/7 6/5 4/3',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,1,3,2,1,0,0,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -0.983,
+        equityLoss: 1.5899999999999999,
+      },
+      {
+        rank: 42,
+        moveText: '6/3 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,2,3,1,0,0,1,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 1.607,
+      },
+      {
+        rank: 43,
+        moveText: '15/14 9/8 5/3',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,2,1,3,0,1,0,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 1.607,
+      },
+      {
+        rank: 44,
+        moveText: '6/4(2)',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,4,2,1,0,0,1,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 1.607,
+      },
+      {
+        rank: 45,
+        moveText: '15/14 9/7 5/4',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,3,1,3,1,0,0,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 1.607,
+      },
+      {
+        rank: 46,
+        moveText: '5/3 4/3(2)',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,5,0,1,3,0,0,1,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 1.607,
+      },
+      {
+        rank: 47,
+        moveText: '15/14 9/8 6/5(2)',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,2,4,1,0,1,0,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 1.607,
+      },
+      {
+        rank: 48,
+        moveText: '9/8 6/4 6/5',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,3,3,1,0,1,0,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 1.607,
+      },
+      {
+        rank: 49,
+        moveText: '9/7 6/5(2)',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,2,2,4,1,1,0,0,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 1.607,
+      },
+      {
+        rank: 50,
+        moveText: '6/5(3) 4/3',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,1,5,0,0,0,1,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -1.054,
+        equityLoss: 1.661,
+      },
+      {
+        rank: 51,
+        moveText: '6/5(2) 4/3(2)',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,4,0,4,1,0,0,1,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -1.104,
+        equityLoss: 1.711,
+      },
+      {
+        rank: 52,
+        moveText: '15/14 5/3 4/3',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,4,1,1,3,0,0,1,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -1.143,
+        equityLoss: 1.75,
+      },
+      {
+        rank: 53,
+        moveText: '15/14 6/5(2) 4/3',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,1,4,1,0,0,1,0,0,-2,2,1,0,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -1.18,
+        equityLoss: 1.787,
+      },
+      {
+        rank: 54,
+        moveText: '9/8 5/3 4/3',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,4,1,1,3,0,1,0,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -1.281,
+        equityLoss: 1.888,
+      },
+      {
+        rank: 55,
+        moveText: '9/8 6/5(2) 4/3',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-3,3,1,4,1,0,1,0,0,0,-2,2,0,1,0,0,0,-3,1,-2,-2,-3,0|0,0|0,0',
+        equity: -1.417,
+        equityLoss: 2.024,
+      },
+    ],
+  },
+  {
+    id: 'curated-011',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, -2, 0, 2, 2, 2, 3, 0, 2, 0, 0, 0, -2, 3, 0, -1, 0, -3, 0, -3, 0, -2,
+        -2, 1, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [4, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: '13/5 13/9(2)',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,2,2,3,3,0,2,2,0,0,-2,0,0,-1,0,-3,0,-3,0,-2,-2,1,0|0,0|0,0',
+        equity: 0.689,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '13/9(3) 8/4',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,2,3,2,3,0,1,3,0,0,-2,0,0,-1,0,-3,0,-3,0,-2,-2,1,0|0,0|0,0',
+        equity: 0.626,
+        equityLoss: 0.06299999999999994,
+      },
+      {
+        rank: 3,
+        moveText: '13/5 8/4(2)',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,2,4,3,3,0,0,0,0,0,-2,2,0,-1,0,-3,0,-3,0,-2,-2,1,0|0,0|0,0',
+        equity: 0.531,
+        equityLoss: 0.15799999999999992,
+      },
+      {
+        rank: 4,
+        moveText: '13/9(3) 6/2',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,1,2,2,2,2,0,2,3,0,0,-2,0,0,-1,0,-3,0,-3,0,-2,-2,1,0|0,0|0,0',
+        equity: 0.528,
+        equityLoss: 0.16099999999999992,
+      },
+      {
+        rank: 5,
+        moveText: '13/5(2)',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,2,2,4,3,0,2,0,0,0,-2,1,0,-1,0,-3,0,-3,0,-2,-2,1,0|0,0|0,0',
+        equity: 0.502,
+        equityLoss: 0.18699999999999994,
+      },
+      {
+        rank: 6,
+        moveText: '13/5 8/4 6/2',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,1,2,3,3,2,0,1,0,0,0,-2,2,0,-1,0,-3,0,-3,0,-2,-2,1,0|0,0|0,0',
+        equity: 0.442,
+        equityLoss: 0.24699999999999994,
+      },
+      {
+        rank: 7,
+        moveText: '13/9(2) 8/4(2)',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,2,4,2,3,0,0,2,0,0,-2,1,0,-1,0,-3,0,-3,0,-2,-2,1,0|0,0|0,0',
+        equity: 0.429,
+        equityLoss: 0.25999999999999995,
+      },
+      {
+        rank: 8,
+        moveText: '13/5 13/9 8/4',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,2,3,3,3,0,1,1,0,0,-2,1,0,-1,0,-3,0,-3,0,-2,-2,1,0|0,0|0,0',
+        equity: 0.372,
+        equityLoss: 0.31699999999999995,
+      },
+      {
+        rank: 9,
+        moveText: '13/9 8/4(2) 6/2',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,1,2,4,2,2,0,0,1,0,0,-2,2,0,-1,0,-3,0,-3,0,-2,-2,1,0|0,0|0,0',
+        equity: 0.231,
+        equityLoss: 0.45799999999999996,
+      },
+      {
+        rank: 10,
+        moveText: '13/5 13/9 6/2',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,1,2,2,3,2,0,2,1,0,0,-2,1,0,-1,0,-3,0,-3,0,-2,-2,1,0|0,0|0,0',
+        equity: 0.215,
+        equityLoss: 0.474,
+      },
+      {
+        rank: 11,
+        moveText: '13/9(2) 8/4 6/2',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,1,2,3,2,2,0,1,2,0,0,-2,1,0,-1,0,-3,0,-3,0,-2,-2,1,0|0,0|0,0',
+        equity: 0.182,
+        equityLoss: 0.5069999999999999,
+      },
+      {
+        rank: 12,
+        moveText: '13/9 6/2(3)',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,3,2,2,2,0,0,2,1,0,0,-2,2,0,-1,0,-3,0,-3,0,-2,-2,1,0|0,0|0,0',
+        equity: 0.174,
+        equityLoss: 0.5149999999999999,
+      },
+      {
+        rank: 13,
+        moveText: '13/5 6/2(2)',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,2,2,2,3,1,0,2,0,0,0,-2,2,0,-1,0,-3,0,-3,0,-2,-2,1,0|0,0|0,0',
+        equity: 0.155,
+        equityLoss: 0.5339999999999999,
+      },
+      {
+        rank: 14,
+        moveText: '8/4 6/2(3)',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,3,2,3,2,0,0,1,0,0,0,-2,3,0,-1,0,-3,0,-3,0,-2,-2,1,0|0,0|0,0',
+        equity: 0.111,
+        equityLoss: 0.578,
+      },
+      {
+        rank: 15,
+        moveText: '8/4(2) 6/2(2)',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,2,2,4,2,1,0,0,0,0,0,-2,3,0,-1,0,-3,0,-3,0,-2,-2,1,0|0,0|0,0',
+        equity: -0.005,
+        equityLoss: 0.694,
+      },
+      {
+        rank: 16,
+        moveText: '13/9 8/4 6/2(2)',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,2,2,3,2,1,0,1,1,0,0,-2,2,0,-1,0,-3,0,-3,0,-2,-2,1,0|0,0|0,0',
+        equity: -0.05,
+        equityLoss: 0.739,
+      },
+      {
+        rank: 17,
+        moveText: '13/9(2) 6/2(2)',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,2,2,2,2,1,0,2,2,0,0,-2,1,0,-1,0,-3,0,-3,0,-2,-2,1,0|0,0|0,0',
+        equity: -0.083,
+        equityLoss: 0.7719999999999999,
+      },
+    ],
+  },
+  {
+    id: 'curated-012',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, -1, 0, -1, 0, 5, 2, 3, 0, 0, 1, -3, 2, -1, 0, 0, -3, 0, -4, -2, 1,
+        0, 1, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [3, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: '21/14*',
+        movements: [
+          {
+            from: 21,
+            to: 18,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 18,
+            to: 14,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,-1,0,5,2,3,0,0,1,-3,2,1,0,0,-3,0,-4,-2,0,0,1,0|0,1|0,0',
+        equity: -0.013,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '8/4* 7/4',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,0,5,1,2,0,0,1,-3,2,-1,0,0,-3,0,-4,-2,1,0,1,0|0,1|0,0',
+        equity: -0.135,
+        equityLoss: 0.12200000000000001,
+      },
+      {
+        rank: 3,
+        moveText: '11/8 6/2*',
+        movements: [
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,-1,0,4,2,4,0,0,0,-3,2,-1,0,0,-3,0,-4,-2,1,0,1,0|0,1|0,0',
+        equity: -0.31,
+        equityLoss: 0.297,
+      },
+      {
+        rank: 4,
+        moveText: '11/4*',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,1,0,5,2,3,0,0,0,-3,2,-1,0,0,-3,0,-4,-2,1,0,1,0|0,1|0,0',
+        equity: -0.324,
+        equityLoss: 0.311,
+      },
+      {
+        rank: 5,
+        moveText: '21/18 11/7',
+        movements: [
+          {
+            from: 21,
+            to: 18,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,-1,0,5,3,3,0,0,0,-3,2,-1,0,0,-3,1,-4,-2,0,0,1,0|0,0|0,0',
+        equity: -0.354,
+        equityLoss: 0.34099999999999997,
+      },
+      {
+        rank: 6,
+        moveText: '11/7 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,-1,0,4,3,3,0,0,0,-3,2,-1,0,0,-3,0,-4,-2,1,0,1,0|0,0|0,0',
+        equity: -0.387,
+        equityLoss: 0.374,
+      },
+      {
+        rank: 7,
+        moveText: '8/4*/1',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,0,0,0,5,2,2,0,0,1,-3,2,-1,0,0,-3,0,-4,-2,1,0,1,0|0,1|0,0',
+        equity: -0.4,
+        equityLoss: 0.387,
+      },
+      {
+        rank: 8,
+        moveText: '7/4* 6/2*',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,1,0,4,1,3,0,0,1,-3,2,-1,0,0,-3,0,-4,-2,1,0,1,0|0,2|0,0',
+        equity: -0.412,
+        equityLoss: 0.39899999999999997,
+      },
+      {
+        rank: 9,
+        moveText: '21/18 6/2*',
+        movements: [
+          {
+            from: 21,
+            to: 18,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,-1,0,4,2,3,0,0,1,-3,2,-1,0,0,-3,1,-4,-2,0,0,1,0|0,1|0,0',
+        equity: -0.478,
+        equityLoss: 0.46499999999999997,
+      },
+      {
+        rank: 10,
+        moveText: '21/18 8/4*',
+        movements: [
+          {
+            from: 21,
+            to: 18,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,1,0,5,2,2,0,0,1,-3,2,-1,0,0,-3,1,-4,-2,0,0,1,0|0,1|0,0',
+        equity: -0.483,
+        equityLoss: 0.47,
+      },
+      {
+        rank: 11,
+        moveText: '11/7 8/5',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,-1,1,5,3,2,0,0,0,-3,2,-1,0,0,-3,0,-4,-2,1,0,1,0|0,0|0,0',
+        equity: -0.503,
+        equityLoss: 0.49,
+      },
+      {
+        rank: 12,
+        moveText: '8/1',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,0,-1,0,5,2,2,0,0,1,-3,2,-1,0,0,-3,0,-4,-2,1,0,1,0|0,0|0,0',
+        equity: -0.535,
+        equityLoss: 0.522,
+      },
+      {
+        rank: 13,
+        moveText: '6/3 6/2*',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,-1,0,3,2,3,0,0,1,-3,2,-1,0,0,-3,0,-4,-2,1,0,1,0|0,1|0,0',
+        equity: -0.545,
+        equityLoss: 0.532,
+      },
+      {
+        rank: 14,
+        moveText: '8/4* 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,1,0,4,2,2,0,0,1,-3,2,-1,0,0,-3,0,-4,-2,1,0,1,0|0,1|0,0',
+        equity: -0.548,
+        equityLoss: 0.535,
+      },
+      {
+        rank: 15,
+        moveText: '13/10 8/4*',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,1,0,5,2,2,0,1,1,-3,1,-1,0,0,-3,0,-4,-2,1,0,1,0|0,1|0,0',
+        equity: -0.552,
+        equityLoss: 0.539,
+      },
+      {
+        rank: 16,
+        moveText: '8/5 6/2*',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,-1,1,4,2,2,0,0,1,-3,2,-1,0,0,-3,0,-4,-2,1,0,1,0|0,1|0,0',
+        equity: -0.577,
+        equityLoss: 0.564,
+      },
+      {
+        rank: 17,
+        moveText: '7/3 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,-1,0,4,1,3,0,0,1,-3,2,-1,0,0,-3,0,-4,-2,1,0,1,0|0,0|0,0',
+        equity: -0.581,
+        equityLoss: 0.568,
+      },
+      {
+        rank: 18,
+        moveText: '13/6',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 6,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,-1,0,6,2,3,0,0,1,-3,1,-1,0,0,-3,0,-4,-2,1,0,1,0|0,0|0,0',
+        equity: -0.606,
+        equityLoss: 0.593,
+      },
+      {
+        rank: 19,
+        moveText: '13/10 11/7',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,-1,0,5,3,3,0,1,0,-3,1,-1,0,0,-3,0,-4,-2,1,0,1,0|0,0|0,0',
+        equity: -0.686,
+        equityLoss: 0.673,
+      },
+      {
+        rank: 20,
+        moveText: '13/9 11/8',
+        movements: [
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,-1,0,5,2,4,1,0,0,-3,1,-1,0,0,-3,0,-4,-2,1,0,1,0|0,0|0,0',
+        equity: -0.752,
+        equityLoss: 0.739,
+      },
+      {
+        rank: 21,
+        moveText: '13/10 13/9',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,-1,0,5,2,3,1,1,1,-3,0,-1,0,0,-3,0,-4,-2,1,0,1,0|0,0|0,0',
+        equity: -0.754,
+        equityLoss: 0.741,
+      },
+      {
+        rank: 22,
+        moveText: '7/4* 7/3',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,1,0,5,0,3,0,0,1,-3,2,-1,0,0,-3,0,-4,-2,1,0,1,0|0,1|0,0',
+        equity: -0.798,
+        equityLoss: 0.785,
+      },
+      {
+        rank: 23,
+        moveText: '13/10 6/2*',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,-1,0,4,2,3,0,1,1,-3,1,-1,0,0,-3,0,-4,-2,1,0,1,0|0,1|0,0',
+        equity: -0.801,
+        equityLoss: 0.788,
+      },
+      {
+        rank: 24,
+        moveText: '21/18 13/9',
+        movements: [
+          {
+            from: 21,
+            to: 18,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,-1,0,5,2,3,1,0,1,-3,1,-1,0,0,-3,1,-4,-2,0,0,1,0|0,0|0,0',
+        equity: -0.912,
+        equityLoss: 0.899,
+      },
+      {
+        rank: 25,
+        moveText: '13/9 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,-1,0,4,2,3,1,0,1,-3,1,-1,0,0,-3,0,-4,-2,1,0,1,0|0,0|0,0',
+        equity: -0.949,
+        equityLoss: 0.9359999999999999,
+      },
+      {
+        rank: 26,
+        moveText: '11/8 7/3',
+        movements: [
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,-1,0,5,1,4,0,0,0,-3,2,-1,0,0,-3,0,-4,-2,1,0,1,0|0,0|0,0',
+        equity: -0.954,
+        equityLoss: 0.941,
+      },
+      {
+        rank: 27,
+        moveText: '13/9 7/4*',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,1,0,5,1,3,1,0,1,-3,1,-1,0,0,-3,0,-4,-2,1,0,1,0|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.987,
+      },
+      {
+        rank: 28,
+        moveText: '13/9 8/5',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,-1,1,5,2,2,1,0,1,-3,1,-1,0,0,-3,0,-4,-2,1,0,1,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.987,
+      },
+      {
+        rank: 29,
+        moveText: '8/5 8/4*',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,1,1,5,2,1,0,0,1,-3,2,-1,0,0,-3,0,-4,-2,1,0,1,0|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.987,
+      },
+      {
+        rank: 30,
+        moveText: '8/5 7/3',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,-1,1,5,1,2,0,0,1,-3,2,-1,0,0,-3,0,-4,-2,1,0,1,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.987,
+      },
+      {
+        rank: 31,
+        moveText: '21/18 7/3',
+        movements: [
+          {
+            from: 21,
+            to: 18,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,-1,0,5,1,3,0,0,1,-3,2,-1,0,0,-3,1,-4,-2,0,0,1,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.987,
+      },
+      {
+        rank: 32,
+        moveText: '13/10 7/3',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,-1,0,5,1,3,0,1,1,-3,1,-1,0,0,-3,0,-4,-2,1,0,1,0|0,0|0,0',
+        equity: -1.076,
+        equityLoss: 1.0630000000000002,
+      },
+    ],
+  },
+  {
+    id: 'curated-013',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 0, 2, 2, 4, 3, 3, 0, 1, 0, 0, -1, 0, 0, 0, 0, -2, -3, -2, -2,
+        -2, -2, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [6, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '10/4 8/5',
+        movements: [
+          {
+            from: 10,
+            to: 4,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,3,3,4,3,2,0,0,0,0,-1,0,0,0,0,-2,-3,-2,-2,-2,-2,0|0,0|0,0',
+        equity: 0.961,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '10/4 7/4',
+        movements: [
+          {
+            from: 10,
+            to: 4,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,4,2,4,2,3,0,0,0,0,-1,0,0,0,0,-2,-3,-2,-2,-2,-2,0|0,0|0,0',
+        equity: 0.874,
+        equityLoss: 0.08699999999999997,
+      },
+      {
+        rank: 3,
+        moveText: '10/7 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,2,2,4,4,2,0,0,0,0,-1,0,0,0,0,-2,-3,-2,-2,-2,-2,0|0,0|0,0',
+        equity: 0.533,
+        equityLoss: 0.42799999999999994,
+      },
+      {
+        rank: 4,
+        moveText: '8/2 7/4',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,3,2,4,2,2,0,1,0,0,-1,0,0,0,0,-2,-3,-2,-2,-2,-2,0|0,0|0,0',
+        equity: 0.533,
+        equityLoss: 0.42799999999999994,
+      },
+      {
+        rank: 5,
+        moveText: '10/1*',
+        movements: [
+          {
+            from: 10,
+            to: 4,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,2,2,4,3,3,0,0,0,0,-1,0,0,0,0,-2,-3,-2,-2,-2,-2,0|0,1|0,0',
+        equity: 0.515,
+        equityLoss: 0.44599999999999995,
+      },
+      {
+        rank: 6,
+        moveText: '8/5 7/1*',
+        movements: [
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,2,3,4,2,2,0,1,0,0,-1,0,0,0,0,-2,-3,-2,-2,-2,-2,0|0,1|0,0',
+        equity: 0.48,
+        equityLoss: 0.481,
+      },
+      {
+        rank: 7,
+        moveText: '10/4 6/3',
+        movements: [
+          {
+            from: 10,
+            to: 4,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,3,2,3,3,3,0,0,0,0,-1,0,0,0,0,-2,-3,-2,-2,-2,-2,0|0,0|0,0',
+        equity: 0.344,
+        equityLoss: 0.617,
+      },
+      {
+        rank: 8,
+        moveText: '8/5 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,2,3,4,3,1,0,1,0,0,-1,0,0,0,0,-2,-3,-2,-2,-2,-2,0|0,0|0,0',
+        equity: 0.151,
+        equityLoss: 0.8099999999999999,
+      },
+      {
+        rank: 9,
+        moveText: '8/2 5/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,2,1,4,3,2,0,1,0,0,-1,0,0,0,0,-2,-3,-2,-2,-2,-2,0|0,0|0,0',
+        equity: -0.057,
+        equityLoss: 1.018,
+      },
+      {
+        rank: 10,
+        moveText: '8/2 6/3',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,1,2,2,3,3,2,0,1,0,0,-1,0,0,0,0,-2,-3,-2,-2,-2,-2,0|0,0|0,0',
+        equity: -0.093,
+        equityLoss: 1.054,
+      },
+      {
+        rank: 11,
+        moveText: '7/1* 4/1',
+        movements: [
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,0,1,2,4,2,3,0,1,0,0,-1,0,0,0,0,-2,-3,-2,-2,-2,-2,0|0,1|0,0',
+        equity: -0.145,
+        equityLoss: 1.1059999999999999,
+      },
+      {
+        rank: 12,
+        moveText: '7/1* 6/3',
+        movements: [
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,2,2,3,2,3,0,1,0,0,-1,0,0,0,0,-2,-3,-2,-2,-2,-2,0|0,1|0,0',
+        equity: -0.215,
+        equityLoss: 1.176,
+      },
+      {
+        rank: 13,
+        moveText: '7/4 7/1*',
+        movements: [
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,3,2,4,1,3,0,1,0,0,-1,0,0,0,0,-2,-3,-2,-2,-2,-2,0|0,1|0,0',
+        equity: -0.27,
+        equityLoss: 1.2309999999999999,
+      },
+      {
+        rank: 14,
+        moveText: '10/4 5/2',
+        movements: [
+          {
+            from: 10,
+            to: 4,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,3,1,4,3,3,0,0,0,0,-1,0,0,0,0,-2,-3,-2,-2,-2,-2,0|0,0|0,0',
+        equity: -0.744,
+        equityLoss: 1.705,
+      },
+      {
+        rank: 15,
+        moveText: '8/2 4/1*',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,1,2,4,3,2,0,1,0,0,-1,0,0,0,0,-2,-3,-2,-2,-2,-2,0|0,1|0,0',
+        equity: -1.162,
+        equityLoss: 2.1229999999999998,
+      },
+      {
+        rank: 16,
+        moveText: '7/1* 5/2',
+        movements: [
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,2,1,4,2,3,0,1,0,0,-1,0,0,0,0,-2,-3,-2,-2,-2,-2,0|0,1|0,0',
+        equity: -1.234,
+        equityLoss: 2.195,
+      },
+    ],
+  },
+  {
+    id: 'curated-014',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, -2, -1, 3, 2, 2, 3, 0, 2, 0, 0, 1, -2, 2, 0, 0, 0, -4, 0, -5, 0, 0,
+        0, 0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 5],
+    answers: [
+      {
+        rank: 1,
+        moveText: '13/3 13/8 11/6',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 6,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,-1,4,2,2,4,0,3,0,0,0,-2,0,0,0,0,-4,0,-5,0,0,0,0,0|0,1|0,0',
+        equity: 1.196,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '13/3(2)',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,-1,5,2,2,3,0,2,0,0,1,-2,0,0,0,0,-4,0,-5,0,0,0,0,0|0,1|0,0',
+        equity: 1.137,
+        equityLoss: 0.05899999999999994,
+      },
+      {
+        rank: 3,
+        moveText: '13/3 11/6 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 6,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,-1,5,2,2,4,0,1,0,0,0,-2,1,0,0,0,-4,0,-5,0,0,0,0,0|0,1|0,0',
+        equity: 1.113,
+        equityLoss: 0.08299999999999996,
+      },
+      {
+        rank: 4,
+        moveText: '13/3 8/3(2)',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,-1,6,2,2,3,0,0,0,0,1,-2,1,0,0,0,-4,0,-5,0,0,0,0,0|0,1|0,0',
+        equity: 1.019,
+        equityLoss: 0.17700000000000005,
+      },
+    ],
+  },
+  {
+    id: 'curated-015',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, 2, -2, 3, 3, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, -2, -1, -2, -2, 0,
+        -4, 0, -2,
+      ],
+      bar: {
+        white: 1,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [4, 2],
+    answers: [
+      {
+        rank: 1,
+        moveText: 'bar/21 5/3',
+        movements: [
+          {
+            from: 'bar',
+            to: 21,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,3,-2,2,3,2,2,2,0,0,0,0,0,0,0,-2,-1,-2,-2,1,-4,0,-2|0,0|0,0',
+        equity: 0.429,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: 'bar/23 6/2',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,-2,3,2,2,2,2,0,0,0,0,0,0,0,-2,-1,-2,-2,0,-4,1,-2|0,0|0,0',
+        equity: 0.368,
+        equityLoss: 0.061,
+      },
+      {
+        rank: 3,
+        moveText: 'bar/23 5/1',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,-2,2,3,2,2,2,0,0,0,0,0,0,0,-2,-1,-2,-2,0,-4,1,-2|0,0|0,0',
+        equity: 0.317,
+        equityLoss: 0.11199999999999999,
+      },
+      {
+        rank: 4,
+        moveText: 'bar/21 3/1',
+        movements: [
+          {
+            from: 'bar',
+            to: 21,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,-2,3,3,2,2,2,0,0,0,0,0,0,0,-2,-1,-2,-2,1,-4,0,-2|0,0|0,0',
+        equity: 0.303,
+        equityLoss: 0.126,
+      },
+      {
+        rank: 5,
+        moveText: 'bar/21 8/6',
+        movements: [
+          {
+            from: 'bar',
+            to: 21,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,-2,3,4,2,1,2,0,0,0,0,0,0,0,-2,-1,-2,-2,1,-4,0,-2|0,0|0,0',
+        equity: -0.079,
+        equityLoss: 0.508,
+      },
+      {
+        rank: 6,
+        moveText: 'bar/21 7/5',
+        movements: [
+          {
+            from: 'bar',
+            to: 21,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 5,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,-2,4,3,1,2,2,0,0,0,0,0,0,0,-2,-1,-2,-2,1,-4,0,-2|0,0|0,0',
+        equity: -0.089,
+        equityLoss: 0.518,
+      },
+      {
+        rank: 7,
+        moveText: 'bar/21 9/7',
+        movements: [
+          {
+            from: 'bar',
+            to: 21,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 7,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,-2,3,3,3,2,1,0,0,0,0,0,0,0,-2,-1,-2,-2,1,-4,0,-2|0,0|0,0',
+        equity: -0.19,
+        equityLoss: 0.619,
+      },
+      {
+        rank: 8,
+        moveText: 'bar/23 9/5',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,-2,4,3,2,2,1,0,0,0,0,0,0,0,-2,-1,-2,-2,0,-4,1,-2|0,0|0,0',
+        equity: -0.232,
+        equityLoss: 0.661,
+      },
+      {
+        rank: 9,
+        moveText: 'bar/23 7/3',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,3,-2,3,3,1,2,2,0,0,0,0,0,0,0,-2,-1,-2,-2,0,-4,1,-2|0,0|0,0',
+        equity: -0.316,
+        equityLoss: 0.745,
+      },
+    ],
+  },
+  {
+    id: 'curated-016',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 2, 0, 3, 3, 2, 2, 0, 0, 1, -3, 2, -1, 0, 0, -4, -1, -5, 0, 0,
+        0, 0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [4, 6],
+    answers: [
+      {
+        rank: 1,
+        moveText: '7/1* 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,0,2,3,1,2,0,0,1,-3,2,-1,0,0,-4,-1,-5,0,0,0,0,0|0,1|0,0',
+        equity: 1.326,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '13/9 13/7',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,0,3,3,3,2,1,0,1,-3,0,-1,0,0,-4,-1,-5,0,0,0,0,0|0,0|0,0',
+        equity: 1.215,
+        equityLoss: 0.11099999999999999,
+      },
+      {
+        rank: 3,
+        moveText: '8/2 6/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,2,0,3,2,2,1,0,0,1,-3,2,-1,0,0,-4,-1,-5,0,0,0,0,0|0,0|0,0',
+        equity: 1.188,
+        equityLoss: 0.13800000000000012,
+      },
+      {
+        rank: 4,
+        moveText: '11/1*',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,0,3,3,2,2,0,0,0,-3,2,-1,0,0,-4,-1,-5,0,0,0,0,0|0,1|0,0',
+        equity: 1.173,
+        equityLoss: 0.15300000000000002,
+      },
+      {
+        rank: 5,
+        moveText: '13/7 5/1*',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,0,2,3,3,2,0,0,1,-3,1,-1,0,0,-4,-1,-5,0,0,0,0,0|0,1|0,0',
+        equity: 1.15,
+        equityLoss: 0.17600000000000016,
+      },
+      {
+        rank: 6,
+        moveText: '7/3 7/1*',
+        movements: [
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,0,3,3,0,2,0,0,1,-3,2,-1,0,0,-4,-1,-5,0,0,0,0,0|0,1|0,0',
+        equity: 1.114,
+        equityLoss: 0.21199999999999997,
+      },
+      {
+        rank: 7,
+        moveText: '13/7 11/7',
+        movements: [
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,0,3,3,4,2,0,0,0,-3,1,-1,0,0,-4,-1,-5,0,0,0,0,0|0,0|0,0',
+        equity: 1.098,
+        equityLoss: 0.22799999999999998,
+      },
+      {
+        rank: 8,
+        moveText: '13/3',
+        movements: [
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,0,3,3,2,2,0,0,1,-3,1,-1,0,0,-4,-1,-5,0,0,0,0,0|0,0|0,0',
+        equity: 1.096,
+        equityLoss: 0.22999999999999998,
+      },
+      {
+        rank: 9,
+        moveText: '13/9 11/5',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,0,4,3,2,2,1,0,0,-3,1,-1,0,0,-4,-1,-5,0,0,0,0,0|0,0|0,0',
+        equity: 1.102,
+        equityLoss: 0.22399999999999998,
+      },
+      {
+        rank: 10,
+        moveText: '13/7 6/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,0,3,2,3,2,0,0,1,-3,1,-1,0,0,-4,-1,-5,0,0,0,0,0|0,0|0,0',
+        equity: 1.089,
+        equityLoss: 0.2370000000000001,
+      },
+      {
+        rank: 11,
+        moveText: '11/7 8/2',
+        movements: [
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,0,3,3,3,1,0,0,0,-3,2,-1,0,0,-4,-1,-5,0,0,0,0,0|0,0|0,0',
+        equity: 1.073,
+        equityLoss: 0.2530000000000001,
+      },
+      {
+        rank: 12,
+        moveText: '13/9 7/1*',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,0,3,3,1,2,1,0,1,-3,1,-1,0,0,-4,-1,-5,0,0,0,0,0|0,1|0,0',
+        equity: 1.067,
+        equityLoss: 0.2590000000000001,
+      },
+      {
+        rank: 13,
+        moveText: '13/9 8/2',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,0,3,3,2,1,1,0,1,-3,1,-1,0,0,-4,-1,-5,0,0,0,0,0|0,0|0,0',
+        equity: 1.05,
+        equityLoss: 0.276,
+      },
+      {
+        rank: 14,
+        moveText: '11/5 8/4',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,4,3,2,1,0,0,0,-3,2,-1,0,0,-4,-1,-5,0,0,0,0,0|0,0|0,0',
+        equity: 1.041,
+        equityLoss: 0.28500000000000014,
+      },
+      {
+        rank: 15,
+        moveText: '11/5 6/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,0,4,2,2,2,0,0,0,-3,2,-1,0,0,-4,-1,-5,0,0,0,0,0|0,0|0,0',
+        equity: 1.04,
+        equityLoss: 0.28600000000000003,
+      },
+      {
+        rank: 16,
+        moveText: '13/7 8/4',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,3,3,3,1,0,0,1,-3,1,-1,0,0,-4,-1,-5,0,0,0,0,0|0,0|0,0',
+        equity: 1.038,
+        equityLoss: 0.28800000000000003,
+      },
+      {
+        rank: 17,
+        moveText: '8/4 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,1,3,3,2,0,0,0,1,-3,2,-1,0,0,-4,-1,-5,0,0,0,0,0|0,0|0,0',
+        equity: 0.998,
+        equityLoss: 0.32800000000000007,
+      },
+      {
+        rank: 18,
+        moveText: '11/5 7/3',
+        movements: [
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,0,4,3,1,2,0,0,0,-3,2,-1,0,0,-4,-1,-5,0,0,0,0,0|0,0|0,0',
+        equity: 0.987,
+        equityLoss: 0.3390000000000001,
+      },
+      {
+        rank: 19,
+        moveText: '8/2 5/1*',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,0,2,3,2,1,0,0,1,-3,2,-1,0,0,-4,-1,-5,0,0,0,0,0|0,1|0,0',
+        equity: 0.98,
+        equityLoss: 0.3460000000000001,
+      },
+      {
+        rank: 20,
+        moveText: '7/1* 6/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,0,3,2,1,2,0,0,1,-3,2,-1,0,0,-4,-1,-5,0,0,0,0,0|0,1|0,0',
+        equity: 0.962,
+        equityLoss: 0.3640000000000001,
+      },
+      {
+        rank: 21,
+        moveText: '8/4 7/1*',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,1,3,3,1,1,0,0,1,-3,2,-1,0,0,-4,-1,-5,0,0,0,0,0|0,1|0,0',
+        equity: 0.952,
+        equityLoss: 0.3740000000000001,
+      },
+      {
+        rank: 22,
+        moveText: '8/2 7/3',
+        movements: [
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,3,0,3,3,1,1,0,0,1,-3,2,-1,0,0,-4,-1,-5,0,0,0,0,0|0,0|0,0',
+        equity: 0.836,
+        equityLoss: 0.4900000000000001,
+      },
+    ],
+  },
+  {
+    id: 'curated-017',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, -1, 3, 2, 2, 2, -1, 2, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, -2, -2,
+        -5, -4,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '10/7*/2*',
+        movements: [
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,2,1,3,2,2,2,0,2,0,0,0,0,0,0,0,1,0,0,0,0,-2,-2,-5,-4|0,2|0,0',
+        equity: 1.305,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '16/11 10/7*',
+        movements: [
+          {
+            from: 16,
+            to: 11,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,2,-1,3,2,2,2,1,2,0,0,1,0,0,0,0,0,0,0,0,0,-2,-2,-5,-4|0,1|0,0',
+        equity: 1.227,
+        equityLoss: 0.07799999999999985,
+      },
+      {
+        rank: 3,
+        moveText: '10/7* 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,2,-1,4,2,2,2,1,1,0,0,0,0,0,0,0,1,0,0,0,0,-2,-2,-5,-4|0,1|0,0',
+        equity: 1.098,
+        equityLoss: 0.20699999999999985,
+      },
+      {
+        rank: 4,
+        moveText: '10/2*',
+        movements: [
+          {
+            from: 10,
+            to: 5,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,2,1,3,2,2,2,-1,2,0,0,0,0,0,0,0,1,0,0,0,0,-2,-2,-5,-4|0,1|0,0',
+        equity: 1.077,
+        equityLoss: 0.22799999999999998,
+      },
+      {
+        rank: 5,
+        moveText: '16/13 10/5',
+        movements: [
+          {
+            from: 10,
+            to: 5,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 16,
+            to: 13,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,3,2,3,2,-1,2,0,0,0,0,1,0,0,0,0,0,0,0,-2,-2,-5,-4|0,0|0,0',
+        equity: 0.789,
+        equityLoss: 0.5159999999999999,
+      },
+      {
+        rank: 6,
+        moveText: '16/8',
+        movements: [
+          {
+            from: 16,
+            to: 11,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,3,2,2,2,-1,3,0,1,0,0,0,0,0,0,0,0,0,0,-2,-2,-5,-4|0,0|0,0',
+        equity: 0.764,
+        equityLoss: 0.5409999999999999,
+      },
+      {
+        rank: 7,
+        moveText: '10/7* 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,3,-1,3,2,2,1,1,2,0,0,0,0,0,0,0,1,0,0,0,0,-2,-2,-5,-4|0,1|0,0',
+        equity: 0.54,
+        equityLoss: 0.7649999999999999,
+      },
+      {
+        rank: 8,
+        moveText: '16/11 5/2*',
+        movements: [
+          {
+            from: 16,
+            to: 11,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,2,1,3,2,1,2,-1,2,0,1,1,0,0,0,0,0,0,0,0,0,-2,-2,-5,-4|0,1|0,0',
+        equity: 0.157,
+        equityLoss: 1.148,
+      },
+      {
+        rank: 9,
+        moveText: '8/5 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,4,2,3,2,-1,0,0,1,0,0,0,0,0,1,0,0,0,0,-2,-2,-5,-4|0,0|0,0',
+        equity: 0.388,
+        equityLoss: 0.9169999999999999,
+      },
+      {
+        rank: 10,
+        moveText: '10/5 8/5',
+        movements: [
+          {
+            from: 10,
+            to: 5,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,3,2,4,2,-1,1,0,0,0,0,0,0,0,1,0,0,0,0,-2,-2,-5,-4|0,0|0,0',
+        equity: 0.288,
+        equityLoss: 1.017,
+      },
+      {
+        rank: 11,
+        moveText: '10/5 6/3',
+        movements: [
+          {
+            from: 10,
+            to: 5,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,4,2,3,1,-1,2,0,0,0,0,0,0,0,1,0,0,0,0,-2,-2,-5,-4|0,0|0,0',
+        equity: 0.248,
+        equityLoss: 1.057,
+      },
+      {
+        rank: 12,
+        moveText: '10/5 4/1',
+        movements: [
+          {
+            from: 10,
+            to: 5,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,-1,3,1,3,2,-1,2,0,0,0,0,0,0,0,1,0,0,0,0,-2,-2,-5,-4|0,0|0,0',
+        equity: 0.224,
+        equityLoss: 1.081,
+      },
+      {
+        rank: 13,
+        moveText: '8/3 5/2*',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,2,1,4,2,1,2,-1,1,0,1,0,0,0,0,0,1,0,0,0,0,-2,-2,-5,-4|0,1|0,0',
+        equity: 0.103,
+        equityLoss: 1.202,
+      },
+      {
+        rank: 14,
+        moveText: '6/3 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,-1,4,2,2,0,-1,2,0,1,0,0,0,0,0,1,0,0,0,0,-2,-2,-5,-4|0,0|0,0',
+        equity: 0.101,
+        equityLoss: 1.204,
+      },
+      {
+        rank: 15,
+        moveText: '16/11 6/3',
+        movements: [
+          {
+            from: 16,
+            to: 11,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,4,2,2,1,-1,2,0,1,1,0,0,0,0,0,0,0,0,0,-2,-2,-5,-4|0,0|0,0',
+        equity: -0.109,
+        equityLoss: 1.414,
+      },
+      {
+        rank: 16,
+        moveText: '16/11 8/5',
+        movements: [
+          {
+            from: 16,
+            to: 11,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,3,2,3,2,-1,1,0,1,1,0,0,0,0,0,0,0,0,0,-2,-2,-5,-4|0,0|0,0',
+        equity: -0.123,
+        equityLoss: 1.428,
+      },
+      {
+        rank: 17,
+        moveText: '16/13 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 16,
+            to: 13,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,4,2,2,2,-1,1,0,1,0,0,1,0,0,0,0,0,0,0,-2,-2,-5,-4|0,0|0,0',
+        equity: -0.127,
+        equityLoss: 1.432,
+      },
+      {
+        rank: 18,
+        moveText: '16/11 4/1',
+        movements: [
+          {
+            from: 16,
+            to: 11,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,-1,3,1,2,2,-1,2,0,1,1,0,0,0,0,0,0,0,0,0,-2,-2,-5,-4|0,0|0,0',
+        equity: -0.231,
+        equityLoss: 1.536,
+      },
+      {
+        rank: 19,
+        moveText: '16/13 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 16,
+            to: 13,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,-1,3,2,2,1,-1,2,0,1,0,0,1,0,0,0,0,0,0,0,-2,-2,-5,-4|0,0|0,0',
+        equity: -0.437,
+        equityLoss: 1.742,
+      },
+      {
+        rank: 20,
+        moveText: '6/1 5/2*',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,3,1,3,2,1,1,-1,2,0,1,0,0,0,0,0,1,0,0,0,0,-2,-2,-5,-4|0,1|0,0',
+        equity: -0.947,
+        equityLoss: 2.252,
+      },
+      {
+        rank: 21,
+        moveText: '8/5 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,-1,3,2,3,1,-1,1,0,1,0,0,0,0,0,1,0,0,0,0,-2,-2,-5,-4|0,0|0,0',
+        equity: -0.993,
+        equityLoss: 2.298,
+      },
+      {
+        rank: 22,
+        moveText: '8/3 6/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,5,2,2,1,-1,1,0,1,0,0,0,0,0,1,0,0,0,0,-2,-2,-5,-4|0,0|0,0',
+        equity: -1,
+        equityLoss: 2.3049999999999997,
+      },
+      {
+        rank: 23,
+        moveText: '8/3 4/1',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,-1,4,1,2,2,-1,1,0,1,0,0,0,0,0,1,0,0,0,0,-2,-2,-5,-4|0,0|0,0',
+        equity: -1,
+        equityLoss: 2.3049999999999997,
+      },
+      {
+        rank: 24,
+        moveText: '6/1 4/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,-1,3,1,2,1,-1,2,0,1,0,0,0,0,0,1,0,0,0,0,-2,-2,-5,-4|0,0|0,0',
+        equity: -1,
+        equityLoss: 2.3049999999999997,
+      },
+    ],
+  },
+  {
+    id: 'curated-018',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, -2, 0, 0, 2, 3, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, -1, -2,
+        -2, -4, -2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [3, 5],
+    answers: [
+      {
+        rank: 1,
+        moveText: '8/3 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-2,2,0,2,2,4,3,0,0,0,0,0,0,0,0,0,0,-2,-1,-2,-2,-4,-2|0,0|0,0',
+        equity: 0.992,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '8/5 6/1',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,-2,0,0,3,2,4,3,0,0,0,0,0,0,0,0,0,0,-2,-1,-2,-2,-4,-2|0,0|0,0',
+        equity: 0.848,
+        equityLoss: 0.14400000000000002,
+      },
+      {
+        rank: 3,
+        moveText: '8/5 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-2,1,0,3,3,4,2,0,0,0,0,0,0,0,0,0,0,-2,-1,-2,-2,-4,-2|0,0|0,0',
+        equity: 0.796,
+        equityLoss: 0.19599999999999995,
+      },
+      {
+        rank: 4,
+        moveText: '7/4 6/1',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,-2,0,1,2,2,3,4,0,0,0,0,0,0,0,0,0,0,-2,-1,-2,-2,-4,-2|0,0|0,0',
+        equity: 0.558,
+        equityLoss: 0.43399999999999994,
+      },
+      {
+        rank: 5,
+        moveText: '8/3 7/4',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-2,1,1,2,3,3,3,0,0,0,0,0,0,0,0,0,0,-2,-1,-2,-2,-4,-2|0,0|0,0',
+        equity: 0.39,
+        equityLoss: 0.602,
+      },
+      {
+        rank: 6,
+        moveText: '6/3 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,-2,1,0,2,1,4,4,0,0,0,0,0,0,0,0,0,0,-2,-1,-2,-2,-4,-2|0,0|0,0',
+        equity: -0.263,
+        equityLoss: 1.255,
+      },
+    ],
+  },
+  {
+    id: 'curated-019',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, -1, 3, 0, 2, 4, 2, 0, 2, 0, 0, -2, 2, 0, 0, 0, 0, -2, -4, -2, -2,
+        -2, 0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 6],
+    answers: [
+      {
+        rank: 1,
+        moveText: '9/3 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,4,0,2,3,2,0,1,0,0,-2,2,0,0,0,0,-2,-4,-2,-2,-2,0,0|0,0|0,0',
+        equity: 0.447,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '13/8 13/7',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,0,2,4,3,1,2,0,0,-2,0,0,0,0,0,-2,-4,-2,-2,-2,0,0|0,0|0,0',
+        equity: 0.28,
+        equityLoss: 0.16699999999999998,
+      },
+      {
+        rank: 3,
+        moveText: '13/7 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,3,0,2,3,3,0,2,0,0,-2,1,0,0,0,0,-2,-4,-2,-2,-2,0,0|0,0|0,0',
+        equity: 0.248,
+        equityLoss: 0.199,
+      },
+      {
+        rank: 4,
+        moveText: '13/2*',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,3,0,2,4,2,0,2,0,0,-2,1,0,0,0,0,-2,-4,-2,-2,-2,0,0|0,1|0,0',
+        equity: 0.215,
+        equityLoss: 0.232,
+      },
+      {
+        rank: 5,
+        moveText: '7/1 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,3,0,2,3,1,0,2,0,0,-2,2,0,0,0,0,-2,-4,-2,-2,-2,0,0|0,0|0,0',
+        equity: 0.161,
+        equityLoss: 0.28600000000000003,
+      },
+      {
+        rank: 6,
+        moveText: '9/4 9/3',
+        movements: [
+          {
+            from: 9,
+            to: 4,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,4,1,2,4,2,0,0,0,0,-2,2,0,0,0,0,-2,-4,-2,-2,-2,0,0|0,0|0,0',
+        equity: 0.065,
+        equityLoss: 0.382,
+      },
+      {
+        rank: 7,
+        moveText: '9/3 7/2*',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,4,0,2,4,1,0,1,0,0,-2,2,0,0,0,0,-2,-4,-2,-2,-2,0,0|0,1|0,0',
+        equity: -0.267,
+        equityLoss: 0.714,
+      },
+      {
+        rank: 8,
+        moveText: '7/2* 7/1',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,3,0,2,4,0,0,2,0,0,-2,2,0,0,0,0,-2,-4,-2,-2,-2,0,0|0,1|0,0',
+        equity: -0.352,
+        equityLoss: 0.7989999999999999,
+      },
+      {
+        rank: 9,
+        moveText: '13/7 9/4',
+        movements: [
+          {
+            from: 9,
+            to: 4,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,1,2,4,3,0,1,0,0,-2,1,0,0,0,0,-2,-4,-2,-2,-2,0,0|0,0|0,0',
+        equity: -0.61,
+        equityLoss: 1.057,
+      },
+      {
+        rank: 10,
+        moveText: '13/8 9/3',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,4,0,2,4,2,1,1,0,0,-2,1,0,0,0,0,-2,-4,-2,-2,-2,0,0|0,0|0,0',
+        equity: -0.913,
+        equityLoss: 1.36,
+      },
+      {
+        rank: 11,
+        moveText: '9/4 7/1',
+        movements: [
+          {
+            from: 9,
+            to: 4,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,3,1,2,4,1,0,1,0,0,-2,2,0,0,0,0,-2,-4,-2,-2,-2,0,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 1.447,
+      },
+      {
+        rank: 12,
+        moveText: '13/8 7/1',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,3,0,2,4,1,1,2,0,0,-2,1,0,0,0,0,-2,-4,-2,-2,-2,0,0|0,0|0,0',
+        equity: -1.119,
+        equityLoss: 1.566,
+      },
+    ],
+  },
+  {
+    id: 'curated-020',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, -1, 2, 2, 3, 3, 0, 0, 0, 0, -4, 2, 0, 0, 1, -3, 0, -3, 2, -1,
+        -2, -1, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '16/11 6/3*',
+        movements: [
+          {
+            from: 16,
+            to: 11,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,2,2,2,3,0,0,0,1,-4,2,0,0,0,-3,0,-3,2,-1,-2,-1,0|0,1|0,0',
+        equity: 0.676,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '13/8 6/3*',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,2,2,2,3,1,0,0,0,-4,1,0,0,1,-3,0,-3,2,-1,-2,-1,0|0,1|0,0',
+        equity: 0.524,
+        equityLoss: 0.15200000000000002,
+      },
+      {
+        rank: 3,
+        moveText: '16/11 7/4',
+        movements: [
+          {
+            from: 16,
+            to: 11,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,3,2,3,2,0,0,0,1,-4,2,0,0,0,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: 0.503,
+        equityLoss: 0.17300000000000004,
+      },
+      {
+        rank: 4,
+        moveText: '16/8',
+        movements: [
+          {
+            from: 16,
+            to: 11,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,2,2,3,3,1,0,0,0,-4,2,0,0,0,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: 0.409,
+        equityLoss: 0.26700000000000007,
+      },
+      {
+        rank: 5,
+        moveText: '20/15 6/3*',
+        movements: [
+          {
+            from: 20,
+            to: 15,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,2,2,2,3,0,0,0,0,-4,2,0,1,1,-3,0,-3,1,-1,-2,-1,0|0,1|0,0',
+        equity: 0.395,
+        equityLoss: 0.281,
+      },
+      {
+        rank: 6,
+        moveText: '7/2 6/3*',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,2,2,2,2,0,0,0,0,-4,2,0,0,1,-3,0,-3,2,-1,-2,-1,0|0,1|0,0',
+        equity: 0.361,
+        equityLoss: 0.31500000000000006,
+      },
+      {
+        rank: 7,
+        moveText: '16/13 7/2',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 16,
+            to: 13,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,-1,2,2,3,2,0,0,0,0,-4,3,0,0,0,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: 0.274,
+        equityLoss: 0.402,
+      },
+      {
+        rank: 8,
+        moveText: '13/5',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,2,3,3,3,0,0,0,0,-4,1,0,0,1,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: 0.206,
+        equityLoss: 0.4700000000000001,
+      },
+      {
+        rank: 9,
+        moveText: '16/11 13/10',
+        movements: [
+          {
+            from: 16,
+            to: 11,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,2,2,3,3,0,0,1,1,-4,1,0,0,0,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: 0.215,
+        equityLoss: 0.4610000000000001,
+      },
+      {
+        rank: 10,
+        moveText: '13/10 13/8',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,2,2,3,3,1,0,1,0,-4,0,0,0,1,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: 0.165,
+        equityLoss: 0.511,
+      },
+      {
+        rank: 11,
+        moveText: '20/15 16/13',
+        movements: [
+          {
+            from: 20,
+            to: 15,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 16,
+            to: 13,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,2,2,3,3,0,0,0,0,-4,3,0,1,0,-3,0,-3,1,-1,-2,-1,0|0,0|0,0',
+        equity: 0.152,
+        equityLoss: 0.524,
+      },
+      {
+        rank: 12,
+        moveText: '13/8 7/4',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,3,2,3,2,1,0,0,0,-4,1,0,0,1,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: 0.132,
+        equityLoss: 0.544,
+      },
+      {
+        rank: 13,
+        moveText: '7/4 7/2',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,-1,3,2,3,1,0,0,0,0,-4,2,0,0,1,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: 0.13,
+        equityLoss: 0.546,
+      },
+      {
+        rank: 14,
+        moveText: '7/4 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,-1,3,2,2,2,0,0,0,0,-4,2,0,0,1,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: 0.121,
+        equityLoss: 0.555,
+      },
+      {
+        rank: 15,
+        moveText: '16/13 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 16,
+            to: 13,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,-1,2,2,2,3,0,0,0,0,-4,3,0,0,0,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: 0.113,
+        equityLoss: 0.5630000000000001,
+      },
+      {
+        rank: 16,
+        moveText: '13/10 7/2',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,-1,2,2,3,2,0,0,1,0,-4,1,0,0,1,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: 0.091,
+        equityLoss: 0.5850000000000001,
+      },
+      {
+        rank: 17,
+        moveText: '20/15 7/4',
+        movements: [
+          {
+            from: 20,
+            to: 15,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,3,2,3,2,0,0,0,0,-4,2,0,1,1,-3,0,-3,1,-1,-2,-1,0|0,0|0,0',
+        equity: 0.062,
+        equityLoss: 0.6140000000000001,
+      },
+      {
+        rank: 18,
+        moveText: '7/2 5/2',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,-1,2,1,3,2,0,0,0,0,-4,2,0,0,1,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: 0.05,
+        equityLoss: 0.626,
+      },
+      {
+        rank: 19,
+        moveText: '16/11 5/2',
+        movements: [
+          {
+            from: 16,
+            to: 11,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,-1,2,1,3,3,0,0,0,1,-4,2,0,0,0,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: 0.016,
+        equityLoss: 0.66,
+      },
+      {
+        rank: 20,
+        moveText: '13/10 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,-1,2,2,2,3,0,0,1,0,-4,1,0,0,1,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: -0.034,
+        equityLoss: 0.7100000000000001,
+      },
+      {
+        rank: 21,
+        moveText: '16/11 4/1',
+        movements: [
+          {
+            from: 16,
+            to: 11,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,-1,1,2,3,3,0,0,0,1,-4,2,0,0,0,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: -0.079,
+        equityLoss: 0.755,
+      },
+      {
+        rank: 22,
+        moveText: '20/15 13/10',
+        movements: [
+          {
+            from: 20,
+            to: 15,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,2,2,3,3,0,0,1,0,-4,1,0,1,1,-3,0,-3,1,-1,-2,-1,0|0,0|0,0',
+        equity: -0.133,
+        equityLoss: 0.809,
+      },
+      {
+        rank: 23,
+        moveText: '6/1 4/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,-1,1,2,2,3,0,0,0,0,-4,2,0,0,1,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: -0.158,
+        equityLoss: 0.8340000000000001,
+      },
+      {
+        rank: 24,
+        moveText: '7/2 4/1',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,-1,1,2,3,2,0,0,0,0,-4,2,0,0,1,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: -0.244,
+        equityLoss: 0.92,
+      },
+      {
+        rank: 25,
+        moveText: '13/8 4/1',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,-1,1,2,3,3,1,0,0,0,-4,1,0,0,1,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: -0.297,
+        equityLoss: 0.9730000000000001,
+      },
+      {
+        rank: 26,
+        moveText: '6/1 5/2',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,-1,2,1,2,3,0,0,0,0,-4,2,0,0,1,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: -0.318,
+        equityLoss: 0.994,
+      },
+      {
+        rank: 27,
+        moveText: '13/8 5/2',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,-1,2,1,3,3,1,0,0,0,-4,1,0,0,1,-3,0,-3,2,-1,-2,-1,0|0,0|0,0',
+        equity: -0.341,
+        equityLoss: 1.0170000000000001,
+      },
+      {
+        rank: 28,
+        moveText: '6/3* 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,2,2,1,3,0,0,0,0,-4,2,0,0,1,-3,0,-3,2,-1,-2,-1,0|0,1|0,0',
+        equity: -0.374,
+        equityLoss: 1.05,
+      },
+      {
+        rank: 29,
+        moveText: '20/15 4/1',
+        movements: [
+          {
+            from: 20,
+            to: 15,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,-1,1,2,3,3,0,0,0,0,-4,2,0,1,1,-3,0,-3,1,-1,-2,-1,0|0,0|0,0',
+        equity: -0.542,
+        equityLoss: 1.218,
+      },
+      {
+        rank: 30,
+        moveText: '20/15 5/2',
+        movements: [
+          {
+            from: 20,
+            to: 15,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,-1,2,1,3,3,0,0,0,0,-4,2,0,1,1,-3,0,-3,1,-1,-2,-1,0|0,0|0,0',
+        equity: -0.542,
+        equityLoss: 1.218,
+      },
+    ],
+  },
+  {
+    id: 'curated-021',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, -1, 2, 2, 2, 3, 1, 1, 0, 0, 1, -4, 0, 0, 0, 0, -2, 0, -4, 2, 0, 1,
+        -2, -2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [4, 1],
+    answers: [
+      {
+        rank: 1,
+        moveText: '8/7 6/2*',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,2,2,2,0,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,1|0,0',
+        equity: 0.788,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '22/18 8/7',
+        movements: [
+          {
+            from: 22,
+            to: 18,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,2,3,2,0,0,0,1,-4,0,0,0,0,-2,1,-4,2,0,0,-2,-2|0,0|0,0',
+        equity: 0.634,
+        equityLoss: 0.15400000000000003,
+      },
+      {
+        rank: 3,
+        moveText: '7/2*',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,2,3,0,1,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,1|0,0',
+        equity: 0.6,
+        equityLoss: 0.18800000000000006,
+      },
+      {
+        rank: 4,
+        moveText: '11/7 8/7',
+        movements: [
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,2,3,3,0,0,0,0,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: 0.581,
+        equityLoss: 0.20700000000000007,
+      },
+      {
+        rank: 5,
+        moveText: '11/10 6/2*',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,2,2,1,1,0,1,0,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,1|0,0',
+        equity: 0.544,
+        equityLoss: 0.244,
+      },
+      {
+        rank: 6,
+        moveText: '22/21 6/2*',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 22,
+            to: 21,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,2,2,1,1,0,0,1,-4,0,0,0,0,-2,0,-4,2,1,0,-2,-2|0,1|0,0',
+        equity: 0.525,
+        equityLoss: 0.263,
+      },
+      {
+        rank: 7,
+        moveText: '6/2*/1',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,2,2,1,1,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,1|0,0',
+        equity: 0.478,
+        equityLoss: 0.31000000000000005,
+      },
+      {
+        rank: 8,
+        moveText: '6/2* 3/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,1,2,2,2,1,1,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,1|0,0',
+        equity: 0.429,
+        equityLoss: 0.35900000000000004,
+      },
+      {
+        rank: 9,
+        moveText: '11/7 6/5',
+        movements: [
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,3,2,2,1,0,0,0,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: 0.476,
+        equityLoss: 0.31200000000000006,
+      },
+      {
+        rank: 10,
+        moveText: '22/21 11/7',
+        movements: [
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 22,
+            to: 21,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,2,3,2,1,0,0,0,-4,0,0,0,0,-2,0,-4,2,1,0,-2,-2|0,0|0,0',
+        equity: 0.475,
+        equityLoss: 0.31300000000000006,
+      },
+      {
+        rank: 11,
+        moveText: '11/7 3/2*',
+        movements: [
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,2,2,3,2,1,0,0,0,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,1|0,0',
+        equity: 0.266,
+        equityLoss: 0.522,
+      },
+      {
+        rank: 12,
+        moveText: '8/4 7/6',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,3,2,4,0,0,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: 0.229,
+        equityLoss: 0.559,
+      },
+      {
+        rank: 13,
+        moveText: '20/16 8/7',
+        movements: [
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,2,3,2,0,0,0,1,-4,0,0,0,1,-2,0,-4,1,0,1,-2,-2|0,0|0,0',
+        equity: 0.209,
+        equityLoss: 0.5790000000000001,
+      },
+      {
+        rank: 14,
+        moveText: '8/4 6/5',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,3,3,2,1,0,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: 0.156,
+        equityLoss: 0.632,
+      },
+      {
+        rank: 15,
+        moveText: '11/10 8/4',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,3,2,3,1,0,0,1,0,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: 0.15,
+        equityLoss: 0.638,
+      },
+      {
+        rank: 16,
+        moveText: '8/3',
+        movements: [
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,2,2,3,1,0,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: 0.133,
+        equityLoss: 0.655,
+      },
+      {
+        rank: 17,
+        moveText: '22/21 8/4',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 22,
+            to: 21,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,3,2,3,1,0,0,0,1,-4,0,0,0,0,-2,0,-4,2,1,0,-2,-2|0,0|0,0',
+        equity: 0.096,
+        equityLoss: 0.6920000000000001,
+      },
+      {
+        rank: 18,
+        moveText: '7/3 6/5',
+        movements: [
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,2,3,2,0,1,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: 0.062,
+        equityLoss: 0.726,
+      },
+      {
+        rank: 19,
+        moveText: '22/18 7/6',
+        movements: [
+          {
+            from: 22,
+            to: 18,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,2,4,0,1,0,0,1,-4,0,0,0,0,-2,1,-4,2,0,0,-2,-2|0,0|0,0',
+        equity: 0.048,
+        equityLoss: 0.74,
+      },
+      {
+        rank: 20,
+        moveText: '11/10 7/3',
+        movements: [
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,2,2,3,0,1,0,1,0,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: 0.044,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 21,
+        moveText: '22/21 7/3',
+        movements: [
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 22,
+            to: 21,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,2,2,3,0,1,0,0,1,-4,0,0,0,0,-2,0,-4,2,1,0,-2,-2|0,0|0,0',
+        equity: 0.021,
+        equityLoss: 0.767,
+      },
+      {
+        rank: 22,
+        moveText: '11/6',
+        movements: [
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,2,4,1,1,0,0,0,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: -0.013,
+        equityLoss: 0.801,
+      },
+      {
+        rank: 23,
+        moveText: '8/4 3/2*',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,3,2,3,1,0,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,1|0,0',
+        equity: -0.021,
+        equityLoss: 0.809,
+      },
+      {
+        rank: 24,
+        moveText: '22/18 6/5',
+        movements: [
+          {
+            from: 22,
+            to: 18,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,3,2,1,1,0,0,1,-4,0,0,0,0,-2,1,-4,2,0,0,-2,-2|0,0|0,0',
+        equity: -0.039,
+        equityLoss: 0.8270000000000001,
+      },
+      {
+        rank: 25,
+        moveText: '22/18 11/10',
+        movements: [
+          {
+            from: 22,
+            to: 18,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,2,3,1,1,0,1,0,-4,0,0,0,0,-2,1,-4,2,0,0,-2,-2|0,0|0,0',
+        equity: -0.04,
+        equityLoss: 0.8280000000000001,
+      },
+      {
+        rank: 26,
+        moveText: '8/7 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,2,2,1,3,2,0,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: -0.09,
+        equityLoss: 0.878,
+      },
+      {
+        rank: 27,
+        moveText: '22/18 3/2*',
+        movements: [
+          {
+            from: 22,
+            to: 18,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,2,2,3,1,1,0,0,1,-4,0,0,0,0,-2,1,-4,2,0,0,-2,-2|0,1|0,0',
+        equity: -0.118,
+        equityLoss: 0.906,
+      },
+      {
+        rank: 28,
+        moveText: '11/7 5/4',
+        movements: [
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,3,1,3,2,1,0,0,0,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: -0.134,
+        equityLoss: 0.922,
+      },
+      {
+        rank: 29,
+        moveText: '6/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,2,2,2,2,1,1,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: -0.146,
+        equityLoss: 0.934,
+      },
+      {
+        rank: 30,
+        moveText: '11/7 4/3',
+        movements: [
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,1,2,3,2,1,0,0,0,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: -0.223,
+        equityLoss: 1.0110000000000001,
+      },
+      {
+        rank: 31,
+        moveText: '6/5 6/2*',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,3,1,1,1,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,1|0,0',
+        equity: -0.302,
+        equityLoss: 1.09,
+      },
+      {
+        rank: 32,
+        moveText: '6/2* 5/4',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,3,1,2,1,1,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,1|0,0',
+        equity: -0.302,
+        equityLoss: 1.09,
+      },
+      {
+        rank: 33,
+        moveText: '6/2* 4/3',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,3,1,2,2,1,1,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,1|0,0',
+        equity: -0.362,
+        equityLoss: 1.15,
+      },
+      {
+        rank: 34,
+        moveText: '20/15',
+        movements: [
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 16,
+            to: 15,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,2,3,1,1,0,0,1,-4,0,0,1,0,-2,0,-4,1,0,1,-2,-2|0,0|0,0',
+        equity: -0.39,
+        equityLoss: 1.178,
+      },
+      {
+        rank: 35,
+        moveText: '8/4 5/4',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,4,1,3,1,0,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: -0.398,
+        equityLoss: 1.186,
+      },
+      {
+        rank: 36,
+        moveText: '20/16 7/6',
+        movements: [
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,2,4,0,1,0,0,1,-4,0,0,0,1,-2,0,-4,1,0,1,-2,-2|0,0|0,0',
+        equity: -0.431,
+        equityLoss: 1.219,
+      },
+      {
+        rank: 37,
+        moveText: '7/3 5/4',
+        movements: [
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,3,1,3,0,1,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: -0.447,
+        equityLoss: 1.235,
+      },
+      {
+        rank: 38,
+        moveText: '20/16 3/2*',
+        movements: [
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,2,2,3,1,1,0,0,1,-4,0,0,0,1,-2,0,-4,1,0,1,-2,-2|0,1|0,0',
+        equity: -0.449,
+        equityLoss: 1.237,
+      },
+      {
+        rank: 39,
+        moveText: '7/6 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,2,2,1,4,0,1,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: -0.473,
+        equityLoss: 1.2610000000000001,
+      },
+      {
+        rank: 40,
+        moveText: '20/16 6/5',
+        movements: [
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,3,2,1,1,0,0,1,-4,0,0,0,1,-2,0,-4,1,0,1,-2,-2|0,0|0,0',
+        equity: -0.523,
+        equityLoss: 1.311,
+      },
+      {
+        rank: 41,
+        moveText: '20/16 11/10',
+        movements: [
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,2,3,1,1,0,1,0,-4,0,0,0,1,-2,0,-4,1,0,1,-2,-2|0,0|0,0',
+        equity: -0.539,
+        equityLoss: 1.327,
+      },
+      {
+        rank: 42,
+        moveText: '5/4 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,2,3,0,3,1,1,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: -0.544,
+        equityLoss: 1.332,
+      },
+      {
+        rank: 43,
+        moveText: '11/10 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,2,2,1,3,1,1,0,1,0,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: -0.568,
+        equityLoss: 1.3559999999999999,
+      },
+      {
+        rank: 44,
+        moveText: '22/21 20/16',
+        movements: [
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 22,
+            to: 21,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,2,3,1,1,0,0,1,-4,0,0,0,1,-2,0,-4,1,1,0,-2,-2|0,0|0,0',
+        equity: -0.628,
+        equityLoss: 1.416,
+      },
+      {
+        rank: 45,
+        moveText: '7/3 4/3',
+        movements: [
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,4,1,2,3,0,1,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: -0.659,
+        equityLoss: 1.447,
+      },
+      {
+        rank: 46,
+        moveText: '22/18 4/3',
+        movements: [
+          {
+            from: 22,
+            to: 18,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,1,2,3,1,1,0,0,1,-4,0,0,0,0,-2,1,-4,2,0,0,-2,-2|0,0|0,0',
+        equity: -0.752,
+        equityLoss: 1.54,
+      },
+      {
+        rank: 47,
+        moveText: '22/18 5/4',
+        movements: [
+          {
+            from: 22,
+            to: 18,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,3,1,3,1,1,0,0,1,-4,0,0,0,0,-2,1,-4,2,0,0,-2,-2|0,0|0,0',
+        equity: -0.762,
+        equityLoss: 1.55,
+      },
+      {
+        rank: 48,
+        moveText: '22/21 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 22,
+            to: 21,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,2,2,1,3,1,1,0,0,1,-4,0,0,0,0,-2,0,-4,2,1,0,-2,-2|0,0|0,0',
+        equity: -0.806,
+        equityLoss: 1.594,
+      },
+      {
+        rank: 49,
+        moveText: '5/1 3/2*',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,2,1,3,1,1,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.788,
+      },
+      {
+        rank: 50,
+        moveText: '5/1 4/3',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,3,1,1,3,1,1,0,0,1,-4,0,0,0,0,-2,0,-4,2,0,1,-2,-2|0,0|0,0',
+        equity: -1.01,
+        equityLoss: 1.798,
+      },
+      {
+        rank: 51,
+        moveText: '20/16 5/4',
+        movements: [
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,3,1,3,1,1,0,0,1,-4,0,0,0,1,-2,0,-4,1,0,1,-2,-2|0,0|0,0',
+        equity: -1.016,
+        equityLoss: 1.804,
+      },
+      {
+        rank: 52,
+        moveText: '20/16 4/3',
+        movements: [
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,1,2,3,1,1,0,0,1,-4,0,0,0,1,-2,0,-4,1,0,1,-2,-2|0,0|0,0',
+        equity: -1.07,
+        equityLoss: 1.858,
+      },
+    ],
+  },
+  {
+    id: 'curated-022',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 3, 2, 2, 2, 2, -2, 0, 2, 0, 0, 0, 2, 0, 0, 0, -1, -3, -2, -2, -2,
+        -2, 0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 6],
+    answers: [
+      {
+        rank: 1,
+        moveText: '9/3 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,3,2,2,2,-2,0,1,0,0,0,2,0,0,0,-1,-3,-2,-2,-2,-2,0,0|0,1|0,0',
+        equity: 0.587,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '9/8 9/3',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,3,2,2,2,-2,1,0,0,0,0,2,0,0,0,-1,-3,-2,-2,-2,-2,0,0|0,0|0,0',
+        equity: 0.417,
+        equityLoss: 0.16999999999999998,
+      },
+      {
+        rank: 3,
+        moveText: '13/6',
+        movements: [
+          {
+            from: 13,
+            to: 12,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 12,
+            to: 6,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,2,2,2,3,-2,0,2,0,0,0,1,0,0,0,-1,-3,-2,-2,-2,-2,0,0|0,0|0,0',
+        equity: 0.317,
+        equityLoss: 0.26999999999999996,
+      },
+      {
+        rank: 4,
+        moveText: '9/2',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,4,2,2,2,2,-2,0,1,0,0,0,2,0,0,0,-1,-3,-2,-2,-2,-2,0,0|0,0|0,0',
+        equity: 0.273,
+        equityLoss: 0.31399999999999995,
+      },
+      {
+        rank: 5,
+        moveText: '9/3 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,3,2,3,1,-2,0,1,0,0,0,2,0,0,0,-1,-3,-2,-2,-2,-2,0,0|0,0|0,0',
+        equity: -0.353,
+        equityLoss: 0.94,
+      },
+      {
+        rank: 6,
+        moveText: '9/3 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,3,3,1,2,-2,0,1,0,0,0,2,0,0,0,-1,-3,-2,-2,-2,-2,0,0|0,0|0,0',
+        equity: -0.477,
+        equityLoss: 1.064,
+      },
+      {
+        rank: 7,
+        moveText: '9/3 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,4,1,2,2,-2,0,1,0,0,0,2,0,0,0,-1,-3,-2,-2,-2,-2,0,0|0,0|0,0',
+        equity: -0.689,
+        equityLoss: 1.2759999999999998,
+      },
+      {
+        rank: 8,
+        moveText: '13/12 9/3',
+        movements: [
+          {
+            from: 13,
+            to: 12,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,3,2,2,2,-2,0,1,0,0,1,1,0,0,0,-1,-3,-2,-2,-2,-2,0,0|0,0|0,0',
+        equity: -0.877,
+        equityLoss: 1.464,
+      },
+    ],
+  },
+  {
+    id: 'curated-023',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, -1, 2, 2, 2, 2, 0, 2, 0, 0, 0, -2, 3, 0, -1, 0, -2, 0, -3, -2, -2,
+        0, -2, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [3, 2],
+    answers: [
+      {
+        rank: 1,
+        moveText: '13/8',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 8,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,2,2,0,3,0,0,0,-2,2,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -0.256,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '24/22 13/10',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,2,2,0,2,0,1,0,-2,2,0,-1,0,-2,0,-3,-2,-2,1,-2,1|0,0|0,0',
+        equity: -0.34,
+        equityLoss: 0.08400000000000002,
+      },
+      {
+        rank: 3,
+        moveText: '13/11 13/10',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,2,2,0,2,0,1,1,-2,1,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -0.43,
+        equityLoss: 0.174,
+      },
+      {
+        rank: 4,
+        moveText: '8/6 8/5',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,3,3,0,0,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -0.499,
+        equityLoss: 0.243,
+      },
+      {
+        rank: 5,
+        moveText: '13/10 8/6',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,2,3,0,1,0,1,0,-2,2,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -0.618,
+        equityLoss: 0.362,
+      },
+      {
+        rank: 6,
+        moveText: '13/11 8/5',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,3,2,0,1,0,0,1,-2,2,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -0.633,
+        equityLoss: 0.377,
+      },
+      {
+        rank: 7,
+        moveText: '8/3',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,2,2,2,0,1,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -0.713,
+        equityLoss: 0.45699999999999996,
+      },
+      {
+        rank: 8,
+        moveText: '13/10 5/3',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,2,1,2,0,2,0,1,0,-2,2,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -0.821,
+        equityLoss: 0.565,
+      },
+      {
+        rank: 9,
+        moveText: '13/11 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,2,2,1,0,2,0,0,1,-2,2,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -0.952,
+        equityLoss: 0.696,
+      },
+      {
+        rank: 10,
+        moveText: '13/10 6/4',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,3,2,1,0,2,0,1,0,-2,2,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -0.955,
+        equityLoss: 0.699,
+      },
+      {
+        rank: 11,
+        moveText: '24/22 8/5',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,3,2,0,1,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,1,-2,1|0,0|0,0',
+        equity: -0.967,
+        equityLoss: 0.711,
+      },
+      {
+        rank: 12,
+        moveText: '13/10 4/2*',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,1,2,2,0,2,0,1,0,-2,2,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,1|0,0',
+        equity: -0.998,
+        equityLoss: 0.742,
+      },
+      {
+        rank: 13,
+        moveText: '6/4 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,3,2,0,0,2,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 14,
+        moveText: '5/3 5/2*',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,3,2,0,2,0,2,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 15,
+        moveText: '13/11 5/2*',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,1,2,0,2,0,0,1,-2,2,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 16,
+        moveText: '13/10 3/1',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,1,2,2,2,0,2,0,1,0,-2,2,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 17,
+        moveText: '13/11 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,2,1,2,2,0,2,0,0,1,-2,2,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 18,
+        moveText: '8/5 4/2*',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,1,3,2,0,1,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 19,
+        moveText: '6/1',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,2,2,2,1,0,2,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 20,
+        moveText: '8/6 5/2*',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,1,3,0,1,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 21,
+        moveText: '4/2* 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,0,2,2,0,2,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 22,
+        moveText: '5/2* 4/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,2,1,1,2,0,2,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 23,
+        moveText: '24/22 5/2*',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,1,2,0,2,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,1,-2,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 24,
+        moveText: '8/5 3/1',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,1,2,3,2,0,1,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 25,
+        moveText: '8/6 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,2,1,2,3,0,1,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 26,
+        moveText: '8/5 6/4',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,3,3,1,0,1,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 27,
+        moveText: '4/1 3/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,1,1,2,2,0,2,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 28,
+        moveText: '24/22 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,2,2,1,0,2,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,1,-2,1|0,0|0,0',
+        equity: -1.046,
+        equityLoss: 0.79,
+      },
+      {
+        rank: 29,
+        moveText: '24/22 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,2,1,2,2,0,2,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,1,-2,1|0,0|0,0',
+        equity: -1.07,
+        equityLoss: 0.8140000000000001,
+      },
+      {
+        rank: 30,
+        moveText: '5/3 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,3,1,1,2,0,2,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -1.085,
+        equityLoss: 0.829,
+      },
+      {
+        rank: 31,
+        moveText: '6/3 5/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,4,2,1,1,0,2,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,0|0,0',
+        equity: -1.106,
+        equityLoss: 0.8500000000000001,
+      },
+      {
+        rank: 32,
+        moveText: '6/3 4/2*',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,3,1,2,1,0,2,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,1|0,0',
+        equity: -1.192,
+        equityLoss: 0.9359999999999999,
+      },
+      {
+        rank: 33,
+        moveText: '6/4 5/2*',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,3,1,1,0,2,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,1|0,0',
+        equity: -1.202,
+        equityLoss: 0.946,
+      },
+      {
+        rank: 34,
+        moveText: '5/2* 3/1',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,2,1,2,0,2,0,0,0,-2,3,0,-1,0,-2,0,-3,-2,-2,0,-2,2|0,1|0,0',
+        equity: -1.206,
+        equityLoss: 0.95,
+      },
+    ],
+  },
+  {
+    id: 'curated-024',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 0, -1, 0, 5, 2, 3, 0, 0, 0, -4, 3, 0, 0, 0, -3, 2, -5, 0, 0,
+        -1, 0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [3, 6],
+    answers: [
+      {
+        rank: 1,
+        moveText: '13/4*',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 4,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,1,0,5,2,3,0,0,0,-4,2,0,0,0,-3,2,-5,0,0,-1,0,0|0,1|0,0',
+        equity: 0.474,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '13/7 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,-1,0,4,3,3,0,0,0,-4,2,0,0,0,-3,2,-5,0,0,-1,0,0|0,0|0,0',
+        equity: 0.366,
+        equityLoss: 0.10799999999999998,
+      },
+      {
+        rank: 3,
+        moveText: '7/4* 7/1*',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,1,0,5,0,3,0,0,0,-4,3,0,0,0,-3,2,-5,0,0,-1,0,0|0,2|0,0',
+        equity: 0.279,
+        equityLoss: 0.19499999999999995,
+      },
+      {
+        rank: 4,
+        moveText: '13/7 8/5',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,-1,1,5,3,2,0,0,0,-4,2,0,0,0,-3,2,-5,0,0,-1,0,0|0,0|0,0',
+        equity: 0.278,
+        equityLoss: 0.19599999999999995,
+      },
+      {
+        rank: 5,
+        moveText: '13/10 13/7',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,-1,0,5,3,3,0,1,0,-4,1,0,0,0,-3,2,-5,0,0,-1,0,0|0,0|0,0',
+        equity: 0.273,
+        equityLoss: 0.20099999999999996,
+      },
+      {
+        rank: 6,
+        moveText: '18/15 13/7',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,-1,0,5,3,3,0,0,0,-4,2,0,1,0,-3,1,-5,0,0,-1,0,0|0,0|0,0',
+        equity: 0.24,
+        equityLoss: 0.23399999999999999,
+      },
+      {
+        rank: 7,
+        moveText: '18/9',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,-1,0,5,2,3,1,0,0,-4,3,0,0,0,-3,1,-5,0,0,-1,0,0|0,0|0,0',
+        equity: 0.202,
+        equityLoss: 0.27199999999999996,
+      },
+      {
+        rank: 8,
+        moveText: '13/10 8/2',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,-1,0,5,2,2,0,1,0,-4,2,0,0,0,-3,2,-5,0,0,-1,0,0|0,0|0,0',
+        equity: 0.16,
+        equityLoss: 0.31399999999999995,
+      },
+      {
+        rank: 9,
+        moveText: '8/2 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,1,-1,0,4,2,2,0,0,0,-4,3,0,0,0,-3,2,-5,0,0,-1,0,0|0,0|0,0',
+        equity: 0.162,
+        equityLoss: 0.31199999999999994,
+      },
+      {
+        rank: 10,
+        moveText: '7/1* 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,-1,0,4,1,3,0,0,0,-4,3,0,0,0,-3,2,-5,0,0,-1,0,0|0,1|0,0',
+        equity: 0.057,
+        equityLoss: 0.417,
+      },
+      {
+        rank: 11,
+        moveText: '13/10 7/1*',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,-1,0,5,1,3,0,1,0,-4,2,0,0,0,-3,2,-5,0,0,-1,0,0|0,1|0,0',
+        equity: 0.023,
+        equityLoss: 0.45099999999999996,
+      },
+      {
+        rank: 12,
+        moveText: '8/5 7/1*',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,-1,1,5,1,2,0,0,0,-4,3,0,0,0,-3,2,-5,0,0,-1,0,0|0,1|0,0',
+        equity: 0.023,
+        equityLoss: 0.45099999999999996,
+      },
+      {
+        rank: 13,
+        moveText: '18/15 8/2',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,-1,0,5,2,2,0,0,0,-4,3,0,1,0,-3,1,-5,0,0,-1,0,0|0,0|0,0',
+        equity: 0.015,
+        equityLoss: 0.45899999999999996,
+      },
+      {
+        rank: 14,
+        moveText: '8/5 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,-1,1,5,2,1,0,0,0,-4,3,0,0,0,-3,2,-5,0,0,-1,0,0|0,0|0,0',
+        equity: 0.009,
+        equityLoss: 0.46499999999999997,
+      },
+      {
+        rank: 15,
+        moveText: '8/2 7/4*',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,1,0,5,1,2,0,0,0,-4,3,0,0,0,-3,2,-5,0,0,-1,0,0|0,1|0,0',
+        equity: -0.084,
+        equityLoss: 0.5579999999999999,
+      },
+      {
+        rank: 16,
+        moveText: '18/15 7/1*',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,-1,0,5,1,3,0,0,0,-4,3,0,1,0,-3,1,-5,0,0,-1,0,0|0,1|0,0',
+        equity: -0.106,
+        equityLoss: 0.58,
+      },
+    ],
+  },
+  {
+    id: 'curated-025',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, -1, -1, 2, 3, 2, 3, 2, 0, 0, -2, 0, 0, 0, 2, -2, 0, -2, -2, -2,
+        -2, 0, -1,
+      ],
+      bar: {
+        white: 1,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [2, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: 'bar/23 8/4*',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,1,2,3,2,2,2,0,0,-2,0,0,0,2,-2,0,-2,-2,-2,-2,1,-1|0,1|0,0',
+        equity: 0.48,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: 'bar/23 6/2',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,-1,-1,2,2,2,3,2,0,0,-2,0,0,0,2,-2,0,-2,-2,-2,-2,1,-1|0,0|0,0',
+        equity: 0.202,
+        equityLoss: 0.27799999999999997,
+      },
+      {
+        rank: 3,
+        moveText: 'bar/23 7/3*',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,-1,2,3,1,3,2,0,0,-2,0,0,0,2,-2,0,-2,-2,-2,-2,1,-1|0,1|0,0',
+        equity: -0.339,
+        equityLoss: 0.819,
+      },
+      {
+        rank: 4,
+        moveText: 'bar/23 9/5',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,-1,3,3,2,3,1,0,0,-2,0,0,0,2,-2,0,-2,-2,-2,-2,1,-1|0,0|0,0',
+        equity: -0.548,
+        equityLoss: 1.028,
+      },
+      {
+        rank: 5,
+        moveText: 'bar/23 5/1',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,-1,-1,1,3,2,3,2,0,0,-2,0,0,0,2,-2,0,-2,-2,-2,-2,1,-1|0,0|0,0',
+        equity: -0.912,
+        equityLoss: 1.392,
+      },
+    ],
+  },
+  {
+    id: 'curated-026',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, 4, -2, 2, 2, 3, 2, 0, 0, 0, 0, 0, -3, 0, -2, 1, 1, -3, 0, -4, 0, 0,
+        0, 0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '16/13 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 16,
+            to: 13,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,-2,2,3,2,2,0,0,0,0,0,-3,1,-2,1,0,-3,0,-4,0,0,0,0,0|0,1|0,0',
+        equity: 1.202,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '5/1',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,-2,2,2,2,2,0,0,0,0,0,-3,0,-2,1,1,-3,0,-4,0,0,0,0,0|0,1|0,0',
+        equity: 0.992,
+        equityLoss: 0.20999999999999996,
+      },
+      {
+        rank: 3,
+        moveText: '6/5 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,-2,3,2,4,0,0,0,0,0,0,-3,0,-2,1,1,-3,0,-4,0,0,0,0,0|0,1|0,0',
+        equity: 0.715,
+        equityLoss: 0.487,
+      },
+      {
+        rank: 4,
+        moveText: '4/3 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,-2,3,0,3,2,0,0,0,0,0,-3,0,-2,1,1,-3,0,-4,0,0,0,0,0|0,1|0,0',
+        equity: 0.61,
+        equityLoss: 0.592,
+      },
+      {
+        rank: 5,
+        moveText: '16/13 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 16,
+            to: 13,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,-2,3,1,3,2,0,0,0,0,0,-3,1,-2,1,0,-3,0,-4,0,0,0,0,0|0,1|0,0',
+        equity: 0.586,
+        equityLoss: 0.616,
+      },
+      {
+        rank: 6,
+        moveText: '16/15 6/3',
+        movements: [
+          {
+            from: 16,
+            to: 15,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,-2,3,2,3,1,0,0,0,0,0,-3,0,-2,2,0,-3,0,-4,0,0,0,0,0|0,1|0,0',
+        equity: 0.574,
+        equityLoss: 0.628,
+      },
+      {
+        rank: 7,
+        moveText: '16/13 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 16,
+            to: 13,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,-2,2,2,4,1,0,0,0,0,0,-3,1,-2,1,0,-3,0,-4,0,0,0,0,0|0,1|0,0',
+        equity: 0.548,
+        equityLoss: 0.6539999999999999,
+      },
+      {
+        rank: 8,
+        moveText: '16/15 4/1',
+        movements: [
+          {
+            from: 16,
+            to: 15,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,-2,2,1,3,2,0,0,0,0,0,-3,0,-2,2,0,-3,0,-4,0,0,0,0,0|0,1|0,0',
+        equity: 0.529,
+        equityLoss: 0.6729999999999999,
+      },
+      {
+        rank: 9,
+        moveText: '6/3 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,-2,3,3,2,1,0,0,0,0,0,-3,0,-2,1,1,-3,0,-4,0,0,0,0,0|0,1|0,0',
+        equity: 0.439,
+        equityLoss: 0.7629999999999999,
+      },
+      {
+        rank: 10,
+        moveText: '6/3 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,-2,4,1,3,1,0,0,0,0,0,-3,0,-2,1,1,-3,0,-4,0,0,0,0,0|0,1|0,0',
+        equity: -0.227,
+        equityLoss: 1.429,
+      },
+      {
+        rank: 11,
+        moveText: '6/5 4/1',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,-2,2,1,4,1,0,0,0,0,0,-3,0,-2,1,1,-3,0,-4,0,0,0,0,0|0,1|0,0',
+        equity: -0.282,
+        equityLoss: 1.484,
+      },
+    ],
+  },
+  {
+    id: 'curated-027',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, -1, 0, 0, 2, 4, 2, 1, -1, 0, 0, -3, 4, 0, 0, 0, -3, -2, -5, 0, 0,
+        0, 0, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: '13/9*/8',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,0,2,4,2,2,0,0,0,-3,3,0,0,0,-3,-2,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.374,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '13/9* 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,0,3,3,2,1,1,0,0,-3,3,0,0,0,-3,-2,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.16,
+        equityLoss: 0.214,
+      },
+      {
+        rank: 3,
+        moveText: '13/9* 8/7',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,0,2,4,3,0,1,0,0,-3,3,0,0,0,-3,-2,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.137,
+        equityLoss: 0.237,
+      },
+      {
+        rank: 4,
+        moveText: '24/23 13/9*',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,0,2,4,2,1,1,0,0,-3,3,0,0,0,-3,-2,-5,0,0,0,1,1|0,1|0,0',
+        equity: 0.129,
+        equityLoss: 0.245,
+      },
+      {
+        rank: 5,
+        moveText: '13/9* 7/6',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,0,2,5,1,1,1,0,0,-3,3,0,0,0,-3,-2,-5,0,0,0,0,2|0,1|0,0',
+        equity: -0.148,
+        equityLoss: 0.522,
+      },
+      {
+        rank: 6,
+        moveText: '24/23 6/2*',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,0,2,3,2,1,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,1,1|0,1|0,0',
+        equity: -0.175,
+        equityLoss: 0.5489999999999999,
+      },
+      {
+        rank: 7,
+        moveText: '6/5 6/2*',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,0,3,2,2,1,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,0,2|0,1|0,0',
+        equity: -0.196,
+        equityLoss: 0.5700000000000001,
+      },
+      {
+        rank: 8,
+        moveText: '8/7 6/2*',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,0,2,3,3,0,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,0,2|0,1|0,0',
+        equity: -0.204,
+        equityLoss: 0.578,
+      },
+      {
+        rank: 9,
+        moveText: '24/20 8/7',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 20,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,0,2,4,3,0,-1,0,0,-3,4,0,0,0,-3,-2,-5,1,0,0,0,1|0,0|0,0',
+        equity: -0.164,
+        equityLoss: 0.538,
+      },
+      {
+        rank: 10,
+        moveText: '24/20 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 20,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,0,3,3,2,1,-1,0,0,-3,4,0,0,0,-3,-2,-5,1,0,0,0,1|0,0|0,0',
+        equity: -0.198,
+        equityLoss: 0.5720000000000001,
+      },
+      {
+        rank: 11,
+        moveText: '6/2*/1',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,0,2,3,2,1,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,0,2|0,1|0,0',
+        equity: -0.205,
+        equityLoss: 0.579,
+      },
+      {
+        rank: 12,
+        moveText: '8/4 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,1,3,3,2,0,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.222,
+        equityLoss: 0.596,
+      },
+      {
+        rank: 13,
+        moveText: '24/23 24/20',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 20,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,0,2,4,2,1,-1,0,0,-3,4,0,0,0,-3,-2,-5,1,0,0,1,0|0,0|0,0',
+        equity: -0.236,
+        equityLoss: 0.61,
+      },
+      {
+        rank: 14,
+        moveText: '24/23 8/4',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,1,2,4,2,0,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,1,1|0,0|0,0',
+        equity: -0.266,
+        equityLoss: 0.64,
+      },
+      {
+        rank: 15,
+        moveText: '7/2*',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,0,2,4,1,1,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,0,2|0,1|0,0',
+        equity: -0.266,
+        equityLoss: 0.64,
+      },
+      {
+        rank: 16,
+        moveText: '8/4 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,1,4,2,0,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.275,
+        equityLoss: 0.649,
+      },
+      {
+        rank: 17,
+        moveText: '8/3',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,0,2,4,2,0,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.308,
+        equityLoss: 0.6819999999999999,
+      },
+      {
+        rank: 18,
+        moveText: '6/1',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,0,0,2,3,2,1,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.392,
+        equityLoss: 0.766,
+      },
+      {
+        rank: 19,
+        moveText: '8/4 7/6',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,1,2,5,1,0,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.452,
+        equityLoss: 0.8260000000000001,
+      },
+      {
+        rank: 20,
+        moveText: '7/3 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,0,3,3,1,1,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.478,
+        equityLoss: 0.852,
+      },
+      {
+        rank: 21,
+        moveText: '24/20 7/6',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 20,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,0,2,5,1,1,-1,0,0,-3,4,0,0,0,-3,-2,-5,1,0,0,0,1|0,0|0,0',
+        equity: -0.482,
+        equityLoss: 0.856,
+      },
+      {
+        rank: 22,
+        moveText: '7/6 7/3',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,0,2,5,0,1,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.482,
+        equityLoss: 0.856,
+      },
+      {
+        rank: 23,
+        moveText: '13/9* 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,1,1,4,2,1,1,0,0,-3,3,0,0,0,-3,-2,-5,0,0,0,0,2|0,1|0,0',
+        equity: -0.52,
+        equityLoss: 0.894,
+      },
+      {
+        rank: 24,
+        moveText: '24/23 7/3',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,0,2,4,1,1,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,1,1|0,0|0,0',
+        equity: -0.527,
+        equityLoss: 0.901,
+      },
+      {
+        rank: 25,
+        moveText: '6/2* 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,1,1,3,2,1,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,0,2|0,1|0,0',
+        equity: -0.62,
+        equityLoss: 0.994,
+      },
+      {
+        rank: 26,
+        moveText: '24/20 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 20,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,1,1,4,2,1,-1,0,0,-3,4,0,0,0,-3,-2,-5,1,0,0,0,1|0,0|0,0',
+        equity: -0.645,
+        equityLoss: 1.0190000000000001,
+      },
+      {
+        rank: 27,
+        moveText: '8/7 5/1',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,0,0,1,4,3,0,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.66,
+        equityLoss: 1.034,
+      },
+      {
+        rank: 28,
+        moveText: '5/4 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,0,1,0,4,2,1,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.775,
+        equityLoss: 1.149,
+      },
+      {
+        rank: 29,
+        moveText: '24/23 5/1',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,0,0,1,4,2,1,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,1,1|0,0|0,0',
+        equity: -0.79,
+        equityLoss: 1.1640000000000001,
+      },
+      {
+        rank: 30,
+        moveText: '7/3 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,1,1,4,1,1,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.88,
+        equityLoss: 1.254,
+      },
+      {
+        rank: 31,
+        moveText: '7/6 5/1',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,0,0,1,5,1,1,-1,0,0,-3,4,0,0,0,-3,-2,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.992,
+        equityLoss: 1.366,
+      },
+    ],
+  },
+  {
+    id: 'curated-028',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 2, 2, 2, 2, 2, 1, 0, 0, 0, -3, 3, 0, 0, -1, 0, 0, -3, -2, -3,
+        0, -2, 1,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 5],
+    answers: [
+      {
+        rank: 1,
+        moveText: '13/3 13/8(2)',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,2,2,2,2,3,0,0,0,-3,0,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,0|0,0',
+        equity: 0.849,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '7/2(2) 6/1*(2)',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,2,2,0,0,1,0,0,0,-3,3,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,1|0,0',
+        equity: 0.621,
+        equityLoss: 0.22799999999999998,
+      },
+      {
+        rank: 3,
+        moveText: '13/8(2) 6/1*(2)',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,2,2,0,2,3,0,0,0,-3,1,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,1|0,0',
+        equity: 0.255,
+        equityLoss: 0.594,
+      },
+      {
+        rank: 4,
+        moveText: '13/3 7/2(2)',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,3,2,2,2,0,1,0,0,0,-3,2,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,0|0,0',
+        equity: 0.248,
+        equityLoss: 0.601,
+      },
+      {
+        rank: 5,
+        moveText: '13/3 6/1*(2)',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,3,2,2,0,2,1,0,0,0,-3,2,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,1|0,0',
+        equity: 0.11,
+        equityLoss: 0.739,
+      },
+      {
+        rank: 6,
+        moveText: '13/3(2)',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,4,2,2,2,2,1,0,0,0,-3,1,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,0|0,0',
+        equity: 0.017,
+        equityLoss: 0.832,
+      },
+      {
+        rank: 7,
+        moveText: '13/8 7/2 6/1*(2)',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,2,2,0,1,2,0,0,0,-3,2,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,1|0,0',
+        equity: -0.048,
+        equityLoss: 0.897,
+      },
+      {
+        rank: 8,
+        moveText: '13/8(2) 7/2(2)',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,2,2,2,2,0,3,0,0,0,-3,1,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,0|0,0',
+        equity: -0.169,
+        equityLoss: 1.018,
+      },
+      {
+        rank: 9,
+        moveText: '13/8 7/2(2) 6/1*',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,2,2,2,2,1,0,2,0,0,0,-3,2,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,1|0,0',
+        equity: -0.38,
+        equityLoss: 1.229,
+      },
+      {
+        rank: 10,
+        moveText: '8/3 7/2 6/1*(2)',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,3,2,2,0,1,0,0,0,0,-3,3,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,1|0,0',
+        equity: -0.469,
+        equityLoss: 1.318,
+      },
+      {
+        rank: 11,
+        moveText: '8/3 7/2(2) 6/1*',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,2,3,2,2,1,0,0,0,0,0,-3,3,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,1|0,0',
+        equity: -0.572,
+        equityLoss: 1.4209999999999998,
+      },
+      {
+        rank: 12,
+        moveText: '13/8(3) 7/2',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,2,2,2,1,4,0,0,0,-3,0,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,0|0,0',
+        equity: -0.824,
+        equityLoss: 1.673,
+      },
+      {
+        rank: 13,
+        moveText: '13/8(3) 6/1*',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,2,1,2,4,0,0,0,-3,0,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,1|0,0',
+        equity: -0.886,
+        equityLoss: 1.7349999999999999,
+      },
+      {
+        rank: 14,
+        moveText: '13/3 8/3 7/2',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,4,2,2,2,1,0,0,0,0,-3,2,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,0|0,0',
+        equity: -0.99,
+        equityLoss: 1.839,
+      },
+      {
+        rank: 15,
+        moveText: '13/3 13/8 7/2',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,3,2,2,2,1,2,0,0,0,-3,1,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,0|0,0',
+        equity: -1,
+        equityLoss: 1.849,
+      },
+      {
+        rank: 16,
+        moveText: '13/3 13/8 6/1*',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,2,2,1,2,2,0,0,0,-3,1,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.849,
+      },
+      {
+        rank: 17,
+        moveText: '13/3 8/3 6/1*',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,4,2,2,1,2,0,0,0,0,-3,2,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.849,
+      },
+      {
+        rank: 18,
+        moveText: '13/3 7/2 6/1*',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,1,3,2,2,1,1,1,0,0,0,-3,2,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,1|0,0',
+        equity: -1.159,
+        equityLoss: 2.008,
+      },
+      {
+        rank: 19,
+        moveText: '13/8(2) 7/2 6/1*',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,2,2,1,1,3,0,0,0,-3,1,0,0,-1,0,0,-3,-2,-3,0,-2,1|0,1|0,0',
+        equity: -1.166,
+        equityLoss: 2.0149999999999997,
+      },
+    ],
+  },
+  {
+    id: 'curated-029',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 1, 0, 1, -2, 3, 2, 4, 0, 0, 0, -3, 2, 0, 0, 0, -2, 0, -4, 2, -2,
+        -2, 0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [2, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '8/3',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,1,-2,3,2,3,0,0,0,-3,2,0,0,0,-2,0,-4,2,-2,-2,0,0|0,0|0,0',
+        equity: -0.022,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '6/3 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,1,0,-2,2,2,4,0,0,0,-3,2,0,0,0,-2,0,-4,2,-2,-2,0,0|0,0|0,0',
+        equity: -0.082,
+        equityLoss: 0.060000000000000005,
+      },
+      {
+        rank: 3,
+        moveText: '6/1',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,1,-2,2,2,4,0,0,0,-3,2,0,0,0,-2,0,-4,2,-2,-2,0,0|0,0|0,0',
+        equity: -0.099,
+        equityLoss: 0.07700000000000001,
+      },
+      {
+        rank: 4,
+        moveText: '8/6 4/1',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,0,-2,4,2,3,0,0,0,-3,2,0,0,0,-2,0,-4,2,-2,-2,0,0|0,0|0,0',
+        equity: -0.1,
+        equityLoss: 0.07800000000000001,
+      },
+      {
+        rank: 5,
+        moveText: '8/6 7/4',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,2,-2,4,1,3,0,0,0,-3,2,0,0,0,-2,0,-4,2,-2,-2,0,0|0,0|0,0',
+        equity: -0.147,
+        equityLoss: 0.125,
+      },
+      {
+        rank: 6,
+        moveText: '7/2',
+        movements: [
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,0,1,-2,3,1,4,0,0,0,-3,2,0,0,0,-2,0,-4,2,-2,-2,0,0|0,0|0,0',
+        equity: -0.193,
+        equityLoss: 0.171,
+      },
+      {
+        rank: 7,
+        moveText: '7/4 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,3,-2,2,1,4,0,0,0,-3,2,0,0,0,-2,0,-4,2,-2,-2,0,0|0,0|0,0',
+        equity: -0.211,
+        equityLoss: 0.189,
+      },
+      {
+        rank: 8,
+        moveText: '13/8',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,1,-2,3,2,5,0,0,0,-3,1,0,0,0,-2,0,-4,2,-2,-2,0,0|0,0|0,0',
+        equity: -0.287,
+        equityLoss: 0.26499999999999996,
+      },
+      {
+        rank: 9,
+        moveText: '6/4 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,2,-2,1,2,4,0,0,0,-3,2,0,0,0,-2,0,-4,2,-2,-2,0,0|0,0|0,0',
+        equity: -0.32,
+        equityLoss: 0.298,
+      },
+      {
+        rank: 10,
+        moveText: '13/10 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,2,-2,2,2,4,0,1,0,-3,1,0,0,0,-2,0,-4,2,-2,-2,0,0|0,0|0,0',
+        equity: -0.431,
+        equityLoss: 0.409,
+      },
+      {
+        rank: 11,
+        moveText: '13/10 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,0,0,-2,3,2,4,0,1,0,-3,1,0,0,0,-2,0,-4,2,-2,-2,0,0|0,0|0,0',
+        equity: -0.442,
+        equityLoss: 0.42,
+      },
+      {
+        rank: 12,
+        moveText: '13/10 8/6',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,1,-2,4,2,3,0,1,0,-3,1,0,0,0,-2,0,-4,2,-2,-2,0,0|0,0|0,0',
+        equity: -0.468,
+        equityLoss: 0.446,
+      },
+      {
+        rank: 13,
+        moveText: '13/11 13/10',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,1,-2,3,2,4,0,1,1,-3,0,0,0,0,-2,0,-4,2,-2,-2,0,0|0,0|0,0',
+        equity: -0.483,
+        equityLoss: 0.46099999999999997,
+      },
+      {
+        rank: 14,
+        moveText: '13/11 6/3',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,1,-2,2,2,4,0,0,1,-3,1,0,0,0,-2,0,-4,2,-2,-2,0,0|0,0|0,0',
+        equity: -0.565,
+        equityLoss: 0.5429999999999999,
+      },
+      {
+        rank: 15,
+        moveText: '13/11 4/1',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,0,-2,3,2,4,0,0,1,-3,1,0,0,0,-2,0,-4,2,-2,-2,0,0|0,0|0,0',
+        equity: -0.642,
+        equityLoss: 0.62,
+      },
+      {
+        rank: 16,
+        moveText: '13/11 7/4',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,2,-2,3,1,4,0,0,1,-3,1,0,0,0,-2,0,-4,2,-2,-2,0,0|0,0|0,0',
+        equity: -0.794,
+        equityLoss: 0.772,
+      },
+      {
+        rank: 17,
+        moveText: '20/15',
+        movements: [
+          {
+            from: 20,
+            to: 18,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,1,-2,3,2,4,0,0,0,-3,2,0,1,0,-2,0,-4,1,-2,-2,0,0|0,0|0,0',
+        equity: -0.959,
+        equityLoss: 0.9369999999999999,
+      },
+      {
+        rank: 18,
+        moveText: '20/18 4/1',
+        movements: [
+          {
+            from: 20,
+            to: 18,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,0,-2,3,2,4,0,0,0,-3,2,0,0,0,-2,1,-4,1,-2,-2,0,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.978,
+      },
+      {
+        rank: 19,
+        moveText: '20/18 7/4',
+        movements: [
+          {
+            from: 20,
+            to: 18,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,2,-2,3,1,4,0,0,0,-3,2,0,0,0,-2,1,-4,1,-2,-2,0,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.978,
+      },
+      {
+        rank: 20,
+        moveText: '20/18 6/3',
+        movements: [
+          {
+            from: 20,
+            to: 18,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,1,-2,2,2,4,0,0,0,-3,2,0,0,0,-2,1,-4,1,-2,-2,0,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.978,
+      },
+      {
+        rank: 21,
+        moveText: '20/18 13/10',
+        movements: [
+          {
+            from: 20,
+            to: 18,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,1,-2,3,2,4,0,1,0,-3,1,0,0,0,-2,1,-4,1,-2,-2,0,0|0,0|0,0',
+        equity: -1.189,
+        equityLoss: 1.167,
+      },
+    ],
+  },
+  {
+    id: 'curated-030',
+    kind: 'play',
+    theme: 'priming',
+    source: 'curated',
+    board: {
+      points: [
+        0, -2, 0, 0, 0, 0, 5, 2, 2, 0, 0, -1, -3, 4, 0, 1, 0, -4, 0, -5, 0, 0,
+        0, 0, 1,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [6, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '24/15',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,0,0,0,5,2,2,0,0,-1,-3,4,0,2,0,-4,0,-5,0,0,0,0,0|0,0|0,0',
+        equity: 0.661,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '15/9 13/10',
+        movements: [
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,0,0,0,5,2,2,1,1,-1,-3,3,0,0,0,-4,0,-5,0,0,0,0,1|0,0|0,0',
+        equity: 0.429,
+        equityLoss: 0.23200000000000004,
+      },
+      {
+        rank: 3,
+        moveText: '24/21 15/9',
+        movements: [
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 21,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,0,0,0,5,2,2,1,0,-1,-3,4,0,0,0,-4,0,-5,0,1,0,0,0|0,0|0,0',
+        equity: 0.412,
+        equityLoss: 0.24900000000000005,
+      },
+      {
+        rank: 4,
+        moveText: '24/21 13/7',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 21,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,0,0,0,5,3,2,0,0,-1,-3,3,0,1,0,-4,0,-5,0,1,0,0,0|0,0|0,0',
+        equity: 0.339,
+        equityLoss: 0.322,
+      },
+      {
+        rank: 5,
+        moveText: '15/6',
+        movements: [
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 6,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,0,0,0,6,2,2,0,0,-1,-3,4,0,0,0,-4,0,-5,0,0,0,0,1|0,0|0,0',
+        equity: 0.331,
+        equityLoss: 0.33,
+      },
+      {
+        rank: 6,
+        moveText: '13/10 13/7',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,0,0,0,5,3,2,0,1,-1,-3,2,0,1,0,-4,0,-5,0,0,0,0,1|0,0|0,0',
+        equity: 0.301,
+        equityLoss: 0.36000000000000004,
+      },
+      {
+        rank: 7,
+        moveText: '15/9 6/3',
+        movements: [
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,1,0,0,4,2,2,1,0,-1,-3,4,0,0,0,-4,0,-5,0,0,0,0,1|0,0|0,0',
+        equity: 0.291,
+        equityLoss: 0.37000000000000005,
+      },
+      {
+        rank: 8,
+        moveText: '13/7 6/3',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,1,0,0,4,3,2,0,0,-1,-3,3,0,1,0,-4,0,-5,0,0,0,0,1|0,0|0,0',
+        equity: 0.171,
+        equityLoss: 0.49,
+      },
+      {
+        rank: 9,
+        moveText: '13/4',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,0,1,0,5,2,2,0,0,-1,-3,3,0,1,0,-4,0,-5,0,0,0,0,1|0,0|0,0',
+        equity: 0.174,
+        equityLoss: 0.48700000000000004,
+      },
+      {
+        rank: 10,
+        moveText: '24/18 13/10',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,0,0,0,5,2,2,0,1,-1,-3,3,0,1,0,-4,1,-5,0,0,0,0,0|0,0|0,0',
+        equity: 0.161,
+        equityLoss: 0.5,
+      },
+      {
+        rank: 11,
+        moveText: '15/9 8/5',
+        movements: [
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,0,0,1,5,2,1,1,0,-1,-3,4,0,0,0,-4,0,-5,0,0,0,0,1|0,0|0,0',
+        equity: 0.07,
+        equityLoss: 0.591,
+      },
+      {
+        rank: 12,
+        moveText: '13/7 8/5',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,0,0,1,5,3,1,0,0,-1,-3,3,0,1,0,-4,0,-5,0,0,0,0,1|0,0|0,0',
+        equity: 0.008,
+        equityLoss: 0.653,
+      },
+      {
+        rank: 13,
+        moveText: '24/18 6/3',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,1,0,0,4,2,2,0,0,-1,-3,4,0,1,0,-4,1,-5,0,0,0,0,0|0,0|0,0',
+        equity: -0.003,
+        equityLoss: 0.664,
+      },
+      {
+        rank: 14,
+        moveText: '15/9 7/4',
+        movements: [
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,0,1,0,5,1,2,1,0,-1,-3,4,0,0,0,-4,0,-5,0,0,0,0,1|0,0|0,0',
+        equity: -0.1,
+        equityLoss: 0.761,
+      },
+      {
+        rank: 15,
+        moveText: '13/10 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,1,0,0,0,5,2,1,0,1,-1,-3,3,0,1,0,-4,0,-5,0,0,0,0,1|0,0|0,0',
+        equity: -0.162,
+        equityLoss: 0.8230000000000001,
+      },
+      {
+        rank: 16,
+        moveText: '24/18 8/5',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,0,0,1,5,2,1,0,0,-1,-3,4,0,1,0,-4,1,-5,0,0,0,0,0|0,0|0,0',
+        equity: -0.168,
+        equityLoss: 0.8290000000000001,
+      },
+      {
+        rank: 17,
+        moveText: '8/5 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,1,0,0,1,5,2,0,0,0,-1,-3,4,0,1,0,-4,0,-5,0,0,0,0,1|0,0|0,0',
+        equity: -0.173,
+        equityLoss: 0.8340000000000001,
+      },
+      {
+        rank: 18,
+        moveText: '24/21 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 21,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,1,0,0,0,5,2,1,0,0,-1,-3,4,0,1,0,-4,0,-5,0,1,0,0,0|0,0|0,0',
+        equity: -0.19,
+        equityLoss: 0.851,
+      },
+      {
+        rank: 19,
+        moveText: '8/2 6/3',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,1,1,0,0,4,2,1,0,0,-1,-3,4,0,1,0,-4,0,-5,0,0,0,0,1|0,0|0,0',
+        equity: -0.306,
+        equityLoss: 0.9670000000000001,
+      },
+      {
+        rank: 20,
+        moveText: '24/18 7/4',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,0,1,0,5,1,2,0,0,-1,-3,4,0,1,0,-4,1,-5,0,0,0,0,0|0,0|0,0',
+        equity: -0.313,
+        equityLoss: 0.974,
+      },
+      {
+        rank: 21,
+        moveText: '8/2 7/4',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,1,0,1,0,5,1,1,0,0,-1,-3,4,0,1,0,-4,0,-5,0,0,0,0,1|0,0|0,0',
+        equity: -0.594,
+        equityLoss: 1.255,
+      },
+    ],
+  },
+  {
+    id: 'curated-031',
+    kind: 'play',
     theme: 'blitzing',
     source: 'curated',
     board: {
@@ -10392,7 +23174,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-008',
+    id: 'curated-032',
     kind: 'play',
     theme: 'blitzing',
     source: 'curated',
@@ -10977,7 +23759,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-009',
+    id: 'curated-033',
     kind: 'play',
     theme: 'blitzing',
     source: 'curated',
@@ -11386,7 +24168,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-010',
+    id: 'curated-034',
     kind: 'play',
     theme: 'blitzing',
     source: 'curated',
@@ -12015,7 +24797,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-011',
+    id: 'curated-035',
     kind: 'play',
     theme: 'blitzing',
     source: 'curated',
@@ -13150,7 +25932,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-012',
+    id: 'curated-036',
     kind: 'play',
     theme: 'blitzing',
     source: 'curated',
@@ -13581,7 +26363,15473 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-013',
+    id: 'curated-037',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, 0, 2, 3, 2, 3, 0, 0, 0, 0, -1, 0, 0, 1, 0, 0, -5, 0, -3, 0, 2, 0,
+        -3, -2,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [6, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: '21/11*',
+        movements: [
+          {
+            from: 21,
+            to: 15,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 15,
+            to: 11,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,3,2,3,0,0,0,0,1,0,0,1,0,0,-5,0,-3,0,1,0,-3,-2|0,2|0,0',
+        equity: 1.6,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '21/15 14/10',
+        movements: [
+          {
+            from: 21,
+            to: 15,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 10,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,3,2,3,0,0,0,1,-1,0,0,0,1,0,-5,0,-3,0,1,0,-3,-2|0,1|0,0',
+        equity: 1.381,
+        equityLoss: 0.21900000000000008,
+      },
+      {
+        rank: 3,
+        moveText: '14/4',
+        movements: [
+          {
+            from: 14,
+            to: 8,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,4,2,3,0,0,0,0,-1,0,0,0,0,0,-5,0,-3,0,2,0,-3,-2|0,1|0,0',
+        equity: 1.199,
+        equityLoss: 0.401,
+      },
+      {
+        rank: 4,
+        moveText: '14/8 6/2',
+        movements: [
+          {
+            from: 14,
+            to: 8,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,3,2,2,0,1,0,0,-1,0,0,0,0,0,-5,0,-3,0,2,0,-3,-2|0,1|0,0',
+        equity: 1.109,
+        equityLoss: 0.4910000000000001,
+      },
+      {
+        rank: 5,
+        moveText: '21/15 6/2',
+        movements: [
+          {
+            from: 21,
+            to: 15,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,3,2,2,0,0,0,0,-1,0,0,1,1,0,-5,0,-3,0,1,0,-3,-2|0,1|0,0',
+        equity: 1.094,
+        equityLoss: 0.506,
+      },
+      {
+        rank: 6,
+        moveText: '21/15 5/1',
+        movements: [
+          {
+            from: 21,
+            to: 15,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,0,2,3,1,3,0,0,0,0,-1,0,0,1,1,0,-5,0,-3,0,1,0,-3,-2|0,1|0,0',
+        equity: 0.452,
+        equityLoss: 1.1480000000000001,
+      },
+      {
+        rank: 7,
+        moveText: '14/8 5/1',
+        movements: [
+          {
+            from: 14,
+            to: 8,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,0,2,3,1,3,0,1,0,0,-1,0,0,0,0,0,-5,0,-3,0,2,0,-3,-2|0,1|0,0',
+        equity: 0.42,
+        equityLoss: 1.1800000000000002,
+      },
+    ],
+  },
+  {
+    id: 'curated-038',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, 2, 2, 2, 1, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, -2, -2, -3, -3, -3,
+        0, 2, 1,
+      ],
+      bar: {
+        white: 0,
+        black: 2,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: '8/3 5/1',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,3,2,0,2,0,0,0,0,0,0,0,0,0,0,-2,-2,-3,-3,-3,0,2,1|0,2|0,0',
+        equity: -1.137,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '6/2 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,3,2,2,1,0,0,1,0,0,0,0,0,0,0,0,-2,-2,-3,-3,-3,0,2,1|0,2|0,0',
+        equity: -1.201,
+        equityLoss: 0.06400000000000006,
+      },
+      {
+        rank: 3,
+        moveText: '6/1 5/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,2,2,0,1,0,1,0,0,0,0,0,0,0,0,-2,-2,-3,-3,-3,0,2,1|0,2|0,0',
+        equity: -1.208,
+        equityLoss: 0.07099999999999995,
+      },
+      {
+        rank: 4,
+        moveText: '8/4 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,2,3,1,1,0,0,0,0,0,0,0,0,0,0,-2,-2,-3,-3,-3,0,2,1|0,2|0,0',
+        equity: -1.26,
+        equityLoss: 0.123,
+      },
+      {
+        rank: 5,
+        moveText: '8/3 6/2',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,3,2,1,1,0,0,0,0,0,0,0,0,0,0,-2,-2,-3,-3,-3,0,2,1|0,2|0,0',
+        equity: -1.266,
+        equityLoss: 0.129,
+      },
+    ],
+  },
+  {
+    id: 'curated-039',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, 1, 0, 2, 2, 2, 3, 0, 0, 1, 0, 0, -2, 2, 0, -1, 0, 0, 0, -3, 1, -3,
+        -2, -2, 1,
+      ],
+      bar: {
+        white: 0,
+        black: 2,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [6, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '24/15*',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,2,3,0,0,1,0,0,-2,2,0,1,0,0,0,-3,1,-3,-2,-2,0|0,3|0,0',
+        equity: 1.271,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '24/18 9/6',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 6,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,2,4,0,0,0,0,0,-2,2,0,-1,0,0,1,-3,1,-3,-2,-2,0|0,2|0,0',
+        equity: 1.028,
+        equityLoss: 0.24299999999999988,
+      },
+      {
+        rank: 3,
+        moveText: '13/10 13/7',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,2,3,1,0,1,1,0,-2,0,0,-1,0,0,0,-3,1,-3,-2,-2,1|0,2|0,0',
+        equity: 1.027,
+        equityLoss: 0.244,
+      },
+      {
+        rank: 4,
+        moveText: '13/4',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,3,2,3,0,0,1,0,0,-2,1,0,-1,0,0,0,-3,1,-3,-2,-2,1|0,2|0,0',
+        equity: 1.001,
+        equityLoss: 0.27,
+      },
+      {
+        rank: 5,
+        moveText: '24/18 6/3',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,2,2,2,0,0,1,0,0,-2,2,0,-1,0,0,1,-3,1,-3,-2,-2,0|0,2|0,0',
+        equity: 0.975,
+        equityLoss: 0.29599999999999993,
+      },
+      {
+        rank: 6,
+        moveText: '13/7 9/6',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 6,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,2,4,1,0,0,0,0,-2,1,0,-1,0,0,0,-3,1,-3,-2,-2,1|0,2|0,0',
+        equity: 0.966,
+        equityLoss: 0.30499999999999994,
+      },
+      {
+        rank: 7,
+        moveText: '13/10 9/3',
+        movements: [
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,2,2,3,0,0,0,1,0,-2,1,0,-1,0,0,0,-3,1,-3,-2,-2,1|0,2|0,0',
+        equity: 0.96,
+        equityLoss: 0.31099999999999994,
+      },
+      {
+        rank: 8,
+        moveText: '13/7 6/3',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,2,2,2,1,0,1,0,0,-2,1,0,-1,0,0,0,-3,1,-3,-2,-2,1|0,2|0,0',
+        equity: 0.931,
+        equityLoss: 0.33999999999999986,
+      },
+      {
+        rank: 9,
+        moveText: '20/17 9/3',
+        movements: [
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 17,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,2,2,3,0,0,0,0,0,-2,2,0,-1,0,1,0,-3,0,-3,-2,-2,1|0,2|0,0',
+        equity: 1.045,
+        equityLoss: 0.22599999999999998,
+      },
+      {
+        rank: 10,
+        moveText: '20/17 13/7',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 17,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,2,3,1,0,1,0,0,-2,1,0,-1,0,1,0,-3,0,-3,-2,-2,1|0,2|0,0',
+        equity: 1.033,
+        equityLoss: 0.238,
+      },
+      {
+        rank: 11,
+        moveText: '24/18 13/10',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,2,3,0,0,1,1,0,-2,1,0,-1,0,0,1,-3,1,-3,-2,-2,0|0,2|0,0',
+        equity: 1.029,
+        equityLoss: 0.242,
+      },
+      {
+        rank: 12,
+        moveText: '24/18 20/17',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 17,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,2,3,0,0,1,0,0,-2,2,0,-1,0,1,1,-3,0,-3,-2,-2,0|0,2|0,0',
+        equity: 1.001,
+        equityLoss: 0.27,
+      },
+      {
+        rank: 13,
+        moveText: '20/11',
+        movements: [
+          {
+            from: 20,
+            to: 14,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 11,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,2,3,0,0,1,0,1,-2,2,0,-1,0,0,0,-3,0,-3,-2,-2,1|0,2|0,0',
+        equity: 0.986,
+        equityLoss: 0.2849999999999999,
+      },
+      {
+        rank: 14,
+        moveText: '20/14 9/6',
+        movements: [
+          {
+            from: 20,
+            to: 14,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 6,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,2,4,0,0,0,0,0,-2,2,1,-1,0,0,0,-3,0,-3,-2,-2,1|0,2|0,0',
+        equity: 0.983,
+        equityLoss: 0.2879999999999999,
+      },
+      {
+        rank: 15,
+        moveText: '13/7 4/1',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,1,2,3,1,0,1,0,0,-2,1,0,-1,0,0,0,-3,1,-3,-2,-2,1|0,2|0,0',
+        equity: 0.976,
+        equityLoss: 0.29499999999999993,
+      },
+      {
+        rank: 16,
+        moveText: '24/18 4/1',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,1,2,3,0,0,1,0,0,-2,2,0,-1,0,0,1,-3,1,-3,-2,-2,0|0,2|0,0',
+        equity: 0.957,
+        equityLoss: 0.31399999999999995,
+      },
+      {
+        rank: 17,
+        moveText: '20/14 13/10',
+        movements: [
+          {
+            from: 20,
+            to: 14,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,2,3,0,0,1,1,0,-2,1,1,-1,0,0,0,-3,0,-3,-2,-2,1|0,2|0,0',
+        equity: 0.942,
+        equityLoss: 0.32899999999999996,
+      },
+      {
+        rank: 18,
+        moveText: '20/14 6/3',
+        movements: [
+          {
+            from: 20,
+            to: 14,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,2,2,2,0,0,1,0,0,-2,2,1,-1,0,0,0,-3,0,-3,-2,-2,1|0,2|0,0',
+        equity: 0.936,
+        equityLoss: 0.33499999999999985,
+      },
+      {
+        rank: 19,
+        moveText: '9/3 6/3',
+        movements: [
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,4,2,2,2,0,0,0,0,0,-2,2,0,-1,0,0,0,-3,1,-3,-2,-2,1|0,2|0,0',
+        equity: 0.908,
+        equityLoss: 0.3629999999999999,
+      },
+      {
+        rank: 20,
+        moveText: '20/14 4/1',
+        movements: [
+          {
+            from: 20,
+            to: 14,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,1,2,3,0,0,1,0,0,-2,2,1,-1,0,0,0,-3,0,-3,-2,-2,1|0,2|0,0',
+        equity: 0.847,
+        equityLoss: 0.42399999999999993,
+      },
+      {
+        rank: 21,
+        moveText: '9/3 4/1',
+        movements: [
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,3,1,2,3,0,0,0,0,0,-2,2,0,-1,0,0,0,-3,1,-3,-2,-2,1|0,2|0,0',
+        equity: 0.826,
+        equityLoss: 0.44499999999999995,
+      },
+      {
+        rank: 22,
+        moveText: '9/3 5/2',
+        movements: [
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,3,2,1,3,0,0,0,0,0,-2,2,0,-1,0,0,0,-3,1,-3,-2,-2,1|0,2|0,0',
+        equity: -0.252,
+        equityLoss: 1.523,
+      },
+      {
+        rank: 23,
+        moveText: '24/18 5/2',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,2,1,3,0,0,1,0,0,-2,2,0,-1,0,0,1,-3,1,-3,-2,-2,0|0,2|0,0',
+        equity: -0.487,
+        equityLoss: 1.758,
+      },
+      {
+        rank: 24,
+        moveText: '13/7 5/2',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,2,1,3,1,0,1,0,0,-2,1,0,-1,0,0,0,-3,1,-3,-2,-2,1|0,2|0,0',
+        equity: -0.503,
+        equityLoss: 1.774,
+      },
+      {
+        rank: 25,
+        moveText: '20/14 5/2',
+        movements: [
+          {
+            from: 20,
+            to: 14,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,2,1,3,0,0,1,0,0,-2,2,1,-1,0,0,0,-3,0,-3,-2,-2,1|0,2|0,0',
+        equity: -0.532,
+        equityLoss: 1.803,
+      },
+    ],
+  },
+  {
+    id: 'curated-040',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 1, 2, 0, 4, 0, 2, 0, 0, 0, -4, 4, 0, -1, 0, -3, 0, -5, 0, 0,
+        0, 0, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 2],
+    answers: [
+      {
+        rank: 1,
+        moveText: '6/1* 3/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,0,2,0,3,0,2,0,0,0,-4,4,0,-1,0,-3,0,-5,0,0,0,0,2|0,2|0,0',
+        equity: 0.861,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '24/22 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,0,4,0,1,0,0,0,-4,4,0,-1,0,-3,0,-5,0,0,1,0,1|0,1|0,0',
+        equity: 0.657,
+        equityLoss: 0.20399999999999996,
+      },
+      {
+        rank: 3,
+        moveText: '13/11 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,0,4,0,1,0,0,1,-4,3,0,-1,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.623,
+        equityLoss: 0.238,
+      },
+      {
+        rank: 4,
+        moveText: '8/6 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,0,5,0,0,0,0,0,-4,4,0,-1,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.575,
+        equityLoss: 0.28600000000000003,
+      },
+      {
+        rank: 5,
+        moveText: '8/3 6/4',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,3,0,3,0,1,0,0,0,-4,4,0,-1,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.566,
+        equityLoss: 0.29500000000000004,
+      },
+      {
+        rank: 6,
+        moveText: '13/8 3/1*',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,2,0,4,0,3,0,0,0,-4,3,0,-1,0,-3,0,-5,0,0,0,0,2|0,2|0,0',
+        equity: 0.508,
+        equityLoss: 0.353,
+      },
+      {
+        rank: 7,
+        moveText: '13/11 6/1*',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,2,0,3,0,2,0,0,1,-4,3,0,-1,0,-3,0,-5,0,0,0,0,2|0,2|0,0',
+        equity: 0.348,
+        equityLoss: 0.513,
+      },
+      {
+        rank: 8,
+        moveText: '24/22 6/1*',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,2,0,3,0,2,0,0,0,-4,4,0,-1,0,-3,0,-5,0,0,1,0,1|0,2|0,0',
+        equity: 0.309,
+        equityLoss: 0.552,
+      },
+      {
+        rank: 9,
+        moveText: '24/22 13/8',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,2,0,4,0,3,0,0,0,-4,3,0,-1,0,-3,0,-5,0,0,1,0,1|0,1|0,0',
+        equity: 0.324,
+        equityLoss: 0.5369999999999999,
+      },
+      {
+        rank: 10,
+        moveText: '13/11 13/8',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,2,0,4,0,3,0,0,1,-4,2,0,-1,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.269,
+        equityLoss: 0.592,
+      },
+      {
+        rank: 11,
+        moveText: '13/8 6/4',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,3,0,3,0,3,0,0,0,-4,3,0,-1,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.238,
+        equityLoss: 0.623,
+      },
+      {
+        rank: 12,
+        moveText: '13/6',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,2,0,5,0,2,0,0,0,-4,3,0,-1,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.237,
+        equityLoss: 0.624,
+      },
+      {
+        rank: 13,
+        moveText: '8/1*',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,2,0,4,0,1,0,0,0,-4,4,0,-1,0,-3,0,-5,0,0,0,0,2|0,2|0,0',
+        equity: 0.205,
+        equityLoss: 0.656,
+      },
+      {
+        rank: 14,
+        moveText: '6/4 6/1*',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,3,0,2,0,2,0,0,0,-4,4,0,-1,0,-3,0,-5,0,0,0,0,2|0,2|0,0',
+        equity: 0.181,
+        equityLoss: 0.6799999999999999,
+      },
+      {
+        rank: 15,
+        moveText: '8/3 4/2',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,1,0,4,0,1,0,0,0,-4,4,0,-1,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: -0.152,
+        equityLoss: 1.013,
+      },
+      {
+        rank: 16,
+        moveText: '13/8 4/2',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,1,1,0,4,0,3,0,0,0,-4,3,0,-1,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: -0.301,
+        equityLoss: 1.162,
+      },
+      {
+        rank: 17,
+        moveText: '6/1* 4/2',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,1,0,3,0,2,0,0,0,-4,4,0,-1,0,-3,0,-5,0,0,0,0,2|0,2|0,0',
+        equity: -0.431,
+        equityLoss: 1.292,
+      },
+    ],
+  },
+  {
+    id: 'curated-041',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, 1, 3, 2, 2, 2, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, -2, -3,
+        -3, -4,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 2],
+    answers: [
+      {
+        rank: 1,
+        moveText: '7/5 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 5,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,2,2,3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-3,-3,-4|0,1|0,0',
+        equity: 1.003,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '7/5 7/2',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 5,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,4,2,2,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-3,-3,-4|0,1|0,0',
+        equity: 0.793,
+        equityLoss: 0.20999999999999985,
+      },
+      {
+        rank: 3,
+        moveText: '7/2 6/4',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,4,2,3,2,2,1,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-3,-3,-4|0,1|0,0',
+        equity: 0.722,
+        equityLoss: 0.2809999999999999,
+      },
+      {
+        rank: 4,
+        moveText: '6/1 3/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,3,1,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-3,-3,-4|0,1|0,0',
+        equity: 0.555,
+        equityLoss: 0.44799999999999984,
+      },
+      {
+        rank: 5,
+        moveText: '6/1 4/2',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,4,2,1,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-3,-3,-4|0,1|0,0',
+        equity: 0.479,
+        equityLoss: 0.5239999999999999,
+      },
+      {
+        rank: 6,
+        moveText: '7/2 3/1',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,4,1,2,2,3,1,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-3,-3,-4|0,1|0,0',
+        equity: 0.471,
+        equityLoss: 0.5319999999999999,
+      },
+      {
+        rank: 7,
+        moveText: '6/1 5/3',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,3,2,1,2,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-3,-3,-4|0,1|0,0',
+        equity: 0.431,
+        equityLoss: 0.5719999999999998,
+      },
+      {
+        rank: 8,
+        moveText: '6/4 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,2,3,2,1,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-3,-3,-4|0,1|0,0',
+        equity: 0.426,
+        equityLoss: 0.577,
+      },
+      {
+        rank: 9,
+        moveText: '7/2 5/3',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,4,3,2,1,3,1,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-3,-3,-4|0,1|0,0',
+        equity: -0.165,
+        equityLoss: 1.168,
+      },
+      {
+        rank: 10,
+        moveText: '7/2 4/2',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,5,2,1,2,3,1,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-3,-3,-4|0,1|0,0',
+        equity: -0.197,
+        equityLoss: 1.2,
+      },
+    ],
+  },
+  {
+    id: 'curated-042',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 2, 0, 2, 3, 0, 1, 0, 0, 0, -4, 5, 1, 0, 0, -4, 0, -5, 0, 0, 0,
+        0, 1,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 2],
+    answers: [
+      {
+        rank: 1,
+        moveText: '14/11',
+        movements: [
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,0,2,3,0,1,0,0,1,-4,5,0,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: 0.813,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '13/10',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,0,2,3,0,1,0,1,0,-4,4,1,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: 0.76,
+        equityLoss: 0.052999999999999936,
+      },
+      {
+        rank: 3,
+        moveText: '13/11 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,0,3,2,0,1,0,0,1,-4,4,1,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: 0.751,
+        equityLoss: 0.061999999999999944,
+      },
+      {
+        rank: 4,
+        moveText: '8/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,0,3,3,0,0,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: 0.745,
+        equityLoss: 0.06799999999999995,
+      },
+      {
+        rank: 5,
+        moveText: '24/23 13/11',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,0,2,3,0,1,0,0,1,-4,4,1,0,0,-4,0,-5,0,0,0,1,0|0,1|0,0',
+        equity: 0.728,
+        equityLoss: 0.08499999999999996,
+      },
+      {
+        rank: 6,
+        moveText: '24/22 14/13',
+        movements: [
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,0,2,3,0,1,0,0,0,-4,6,0,0,0,-4,0,-5,0,0,1,0,0|0,1|0,0',
+        equity: 0.717,
+        equityLoss: 0.09599999999999997,
+      },
+      {
+        rank: 7,
+        moveText: '14/13 8/6',
+        movements: [
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,0,2,4,0,0,0,0,0,-4,6,0,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: 0.714,
+        equityLoss: 0.09899999999999998,
+      },
+      {
+        rank: 8,
+        moveText: '24/21',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 23,
+            to: 21,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,0,2,3,0,1,0,0,0,-4,5,1,0,0,-4,0,-5,0,1,0,0,0|0,1|0,0',
+        equity: 0.69,
+        equityLoss: 0.123,
+      },
+      {
+        rank: 9,
+        moveText: '24/22 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,0,3,2,0,1,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,1,0,0|0,1|0,0',
+        equity: 0.678,
+        equityLoss: 0.1349999999999999,
+      },
+      {
+        rank: 10,
+        moveText: '13/11 8/7',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,0,2,3,1,0,0,0,1,-4,4,1,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: 0.673,
+        equityLoss: 0.1399999999999999,
+      },
+      {
+        rank: 11,
+        moveText: '24/23 8/6',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,0,2,4,0,0,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,1,0|0,1|0,0',
+        equity: 0.666,
+        equityLoss: 0.1469999999999999,
+      },
+      {
+        rank: 12,
+        moveText: '24/22 8/7',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,0,2,3,1,0,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,1,0,0|0,1|0,0',
+        equity: 0.556,
+        equityLoss: 0.2569999999999999,
+      },
+      {
+        rank: 13,
+        moveText: '6/3',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,0,2,2,0,1,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: 0.507,
+        equityLoss: 0.30599999999999994,
+      },
+      {
+        rank: 14,
+        moveText: '14/13 6/4',
+        movements: [
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,2,0,1,0,0,0,-4,6,0,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: 0.45,
+        equityLoss: 0.36299999999999993,
+      },
+      {
+        rank: 15,
+        moveText: '24/23 6/4',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,2,0,1,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,1,0|0,1|0,0',
+        equity: 0.408,
+        equityLoss: 0.40499999999999997,
+      },
+      {
+        rank: 16,
+        moveText: '6/4 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,1,2,0,1,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: 0.376,
+        equityLoss: 0.43699999999999994,
+      },
+      {
+        rank: 17,
+        moveText: '8/7 6/4',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,2,1,0,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: 0.375,
+        equityLoss: 0.43799999999999994,
+      },
+      {
+        rank: 18,
+        moveText: '8/7 3/1*',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,0,2,3,1,0,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,0,1|0,2|0,0',
+        equity: 0.191,
+        equityLoss: 0.6219999999999999,
+      },
+      {
+        rank: 19,
+        moveText: '14/13 3/1*',
+        movements: [
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,0,2,3,0,1,0,0,0,-4,6,0,0,0,-4,0,-5,0,0,0,0,1|0,2|0,0',
+        equity: 0.188,
+        equityLoss: 0.625,
+      },
+      {
+        rank: 20,
+        moveText: '6/5 3/1*',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,0,3,2,0,1,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,0,1|0,2|0,0',
+        equity: 0.172,
+        equityLoss: 0.641,
+      },
+      {
+        rank: 21,
+        moveText: '24/23 3/1*',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,0,2,3,0,1,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,1,0|0,2|0,0',
+        equity: 0.165,
+        equityLoss: 0.6479999999999999,
+      },
+      {
+        rank: 22,
+        moveText: '3/2 3/1*',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,0,2,3,0,1,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,0,1|0,2|0,0',
+        equity: 0.142,
+        equityLoss: 0.6709999999999999,
+      },
+      {
+        rank: 23,
+        moveText: '8/6 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,1,0,2,4,0,0,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: 0.043,
+        equityLoss: 0.7699999999999999,
+      },
+      {
+        rank: 24,
+        moveText: '13/11 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,1,0,2,3,0,1,0,0,1,-4,4,1,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: 0.031,
+        equityLoss: 0.7819999999999999,
+      },
+      {
+        rank: 25,
+        moveText: '14/13 5/3',
+        movements: [
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,0,1,3,0,1,0,0,0,-4,6,0,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: -0.013,
+        equityLoss: 0.826,
+      },
+      {
+        rank: 26,
+        moveText: '24/22 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,1,0,2,3,0,1,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,1,0,0|0,1|0,0',
+        equity: -0.036,
+        equityLoss: 0.849,
+      },
+      {
+        rank: 27,
+        moveText: '8/6 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,1,4,0,0,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: -0.058,
+        equityLoss: 0.871,
+      },
+      {
+        rank: 28,
+        moveText: '13/11 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,1,3,0,1,0,0,1,-4,4,1,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: -0.06,
+        equityLoss: 0.873,
+      },
+      {
+        rank: 29,
+        moveText: '24/23 5/3',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,0,1,3,0,1,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,1,0|0,1|0,0',
+        equity: -0.062,
+        equityLoss: 0.875,
+      },
+      {
+        rank: 30,
+        moveText: '5/4 5/3',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,1,0,3,0,1,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: -0.081,
+        equityLoss: 0.8939999999999999,
+      },
+      {
+        rank: 31,
+        moveText: '5/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,0,1,3,0,1,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: -0.109,
+        equityLoss: 0.9219999999999999,
+      },
+      {
+        rank: 32,
+        moveText: '24/22 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,1,3,0,1,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,1,0,0|0,1|0,0',
+        equity: -0.115,
+        equityLoss: 0.9279999999999999,
+      },
+      {
+        rank: 33,
+        moveText: '8/7 5/3',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,0,1,3,1,0,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: -0.125,
+        equityLoss: 0.938,
+      },
+      {
+        rank: 34,
+        moveText: '6/4 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,1,1,2,2,0,1,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: -0.135,
+        equityLoss: 0.948,
+      },
+      {
+        rank: 35,
+        moveText: '6/5 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,3,1,0,1,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,0,1|0,1|0,0',
+        equity: -0.24,
+        equityLoss: 1.053,
+      },
+      {
+        rank: 36,
+        moveText: '5/4 3/1*',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,1,1,3,0,1,0,0,0,-4,5,1,0,0,-4,0,-5,0,0,0,0,1|0,2|0,0',
+        equity: -0.43,
+        equityLoss: 1.2429999999999999,
+      },
+    ],
+  },
+  {
+    id: 'curated-043',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 3, 2, 2, 2, 2, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, -3, -2, -2, -2, -2,
+        -2, 2, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [3, 5],
+    answers: [
+      {
+        rank: 1,
+        moveText: '10/5 7/4',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 5,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,2,3,3,2,0,0,0,0,0,0,0,0,0,0,-3,-2,-2,-2,-2,-2,2,0|0,1|0,0',
+        equity: -1,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '10/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 5,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,4,2,2,2,2,1,0,0,0,0,0,0,0,0,0,-3,-2,-2,-2,-2,-2,2,0|0,1|0,0',
+        equity: -1.076,
+        equityLoss: 0.07600000000000007,
+      },
+      {
+        rank: 3,
+        moveText: '6/3 6/1*',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,3,3,2,2,0,1,0,0,1,0,0,0,0,0,0,-3,-2,-2,-2,-2,-2,2,0|0,2|0,0',
+        equity: -1.116,
+        equityLoss: 0.1160000000000001,
+      },
+      {
+        rank: 4,
+        moveText: '10/5 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 5,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,3,2,3,1,1,0,0,0,0,0,0,0,0,0,-3,-2,-2,-2,-2,-2,2,0|0,1|0,0',
+        equity: -1.117,
+        equityLoss: 0.11699999999999999,
+      },
+      {
+        rank: 5,
+        moveText: '7/2 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,4,3,2,2,1,0,0,0,1,0,0,0,0,0,0,-3,-2,-2,-2,-2,-2,2,0|0,1|0,0',
+        equity: -1.135,
+        equityLoss: 0.135,
+      },
+      {
+        rank: 6,
+        moveText: '10/7 6/1*',
+        movements: [
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,3,2,2,2,1,2,0,0,0,0,0,0,0,0,0,-3,-2,-2,-2,-2,-2,2,0|0,2|0,0',
+        equity: -1.163,
+        equityLoss: 0.16300000000000003,
+      },
+      {
+        rank: 7,
+        moveText: '7/2 5/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,5,2,2,1,2,0,0,0,1,0,0,0,0,0,0,-3,-2,-2,-2,-2,-2,2,0|0,1|0,0',
+        equity: -1.179,
+        equityLoss: 0.17900000000000005,
+      },
+      {
+        rank: 8,
+        moveText: '7/4 6/1*',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,3,2,3,2,1,0,0,0,1,0,0,0,0,0,0,-3,-2,-2,-2,-2,-2,2,0|0,2|0,0',
+        equity: -1.192,
+        equityLoss: 0.19199999999999995,
+      },
+      {
+        rank: 9,
+        moveText: '10/5 4/1*',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 10,
+            to: 5,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,3,2,1,3,2,1,0,0,0,0,0,0,0,0,0,-3,-2,-2,-2,-2,-2,2,0|0,2|0,0',
+        equity: -1.192,
+        equityLoss: 0.19199999999999995,
+      },
+      {
+        rank: 10,
+        moveText: '6/1* 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,2,1,2,1,1,0,0,1,0,0,0,0,0,0,-3,-2,-2,-2,-2,-2,2,0|0,2|0,0',
+        equity: -1.208,
+        equityLoss: 0.20799999999999996,
+      },
+      {
+        rank: 11,
+        moveText: '7/2 4/1*',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,4,2,1,2,2,0,0,0,1,0,0,0,0,0,0,-3,-2,-2,-2,-2,-2,2,0|0,2|0,0',
+        equity: -1.272,
+        equityLoss: 0.272,
+      },
+      {
+        rank: 12,
+        moveText: '6/1* 5/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,4,2,2,1,1,1,0,0,1,0,0,0,0,0,0,-3,-2,-2,-2,-2,-2,2,0|0,2|0,0',
+        equity: -1.334,
+        equityLoss: 0.3340000000000001,
+      },
+    ],
+  },
+  {
+    id: 'curated-044',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, 2, 5, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, -2, 0, -2, -2,
+        -4, -3,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 6],
+    answers: [
+      {
+        rank: 1,
+        moveText: '7/6 7/1',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,5,0,2,3,0,0,0,0,0,0,0,-1,0,0,0,0,-2,0,-2,-2,-4,-3|0,1|0,0',
+        equity: 1,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '7/1 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,3,4,0,2,2,1,0,0,0,0,0,0,-1,0,0,0,0,-2,0,-2,-2,-4,-3|0,1|0,0',
+        equity: 0.907,
+        equityLoss: 0.09299999999999997,
+      },
+      {
+        rank: 3,
+        moveText: '7/1 2/1',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,1,5,0,2,2,1,0,0,0,0,0,0,-1,0,0,0,0,-2,0,-2,-2,-4,-3|0,1|0,0',
+        equity: 0.353,
+        equityLoss: 0.647,
+      },
+      {
+        rank: 4,
+        moveText: '7/1 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,5,0,3,1,1,0,0,0,0,0,0,-1,0,0,0,0,-2,0,-2,-2,-4,-3|0,1|0,0',
+        equity: 0.256,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 5,
+        moveText: '7/1 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,5,1,1,2,1,0,0,0,0,0,0,-1,0,0,0,0,-2,0,-2,-2,-4,-3|0,1|0,0',
+        equity: -0.082,
+        equityLoss: 1.082,
+      },
+    ],
+  },
+  {
+    id: 'curated-045',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 1, 2, 2, 2, 2, 1, 0, 0, 0, 1, -3, 2, 0, 0, 0, -3, 0, -3, 2, -1,
+        -2, -2, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [3, 1],
+    answers: [
+      {
+        rank: 1,
+        moveText: '11/7',
+        movements: [
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,2,2,2,0,0,0,0,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.829,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '11/8 7/6',
+        movements: [
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,2,3,0,1,0,0,0,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.703,
+        equityLoss: 0.126,
+      },
+      {
+        rank: 3,
+        moveText: '11/10 7/4',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,3,2,2,0,0,0,1,0,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.683,
+        equityLoss: 0.1459999999999999,
+      },
+      {
+        rank: 4,
+        moveText: '13/10 7/6',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,2,3,0,0,0,1,1,-3,1,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.642,
+        equityLoss: 0.18699999999999994,
+      },
+      {
+        rank: 5,
+        moveText: '7/3',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,3,2,2,2,0,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.629,
+        equityLoss: 0.19999999999999996,
+      },
+      {
+        rank: 6,
+        moveText: '13/10 11/10',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,2,2,1,0,0,2,0,-3,1,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.577,
+        equityLoss: 0.252,
+      },
+      {
+        rank: 7,
+        moveText: '11/8 2/1',
+        movements: [
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,2,2,1,1,0,0,0,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.573,
+        equityLoss: 0.256,
+      },
+      {
+        rank: 8,
+        moveText: '13/9',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 9,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,2,2,1,0,1,0,1,-3,1,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.56,
+        equityLoss: 0.2689999999999999,
+      },
+      {
+        rank: 9,
+        moveText: '7/4 2/1',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,3,2,2,0,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.592,
+        equityLoss: 0.237,
+      },
+      {
+        rank: 10,
+        moveText: '7/6 5/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,2,2,1,3,0,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.587,
+        equityLoss: 0.242,
+      },
+      {
+        rank: 11,
+        moveText: '11/8 3/2',
+        movements: [
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,1,2,2,2,1,1,0,0,0,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.582,
+        equityLoss: 0.247,
+      },
+      {
+        rank: 12,
+        moveText: '13/10 2/1',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,2,2,1,0,0,1,1,-3,1,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.57,
+        equityLoss: 0.259,
+      },
+      {
+        rank: 13,
+        moveText: '11/10 5/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,2,2,1,2,1,0,0,1,0,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.539,
+        equityLoss: 0.2899999999999999,
+      },
+      {
+        rank: 14,
+        moveText: '6/2',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,2,2,2,1,1,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.534,
+        equityLoss: 0.29499999999999993,
+      },
+      {
+        rank: 15,
+        moveText: '13/10 3/2',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,1,2,2,2,1,0,0,1,1,-3,1,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.527,
+        equityLoss: 0.30199999999999994,
+      },
+      {
+        rank: 16,
+        moveText: '7/4 3/2',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,1,3,2,2,0,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.524,
+        equityLoss: 0.30499999999999994,
+      },
+      {
+        rank: 17,
+        moveText: '5/4 5/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,2,3,0,2,1,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.453,
+        equityLoss: 0.37599999999999995,
+      },
+      {
+        rank: 18,
+        moveText: '4/1 2/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,1,2,2,1,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: 0.274,
+        equityLoss: 0.5549999999999999,
+      },
+      {
+        rank: 19,
+        moveText: '6/5 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,3,2,3,0,1,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.119,
+        equityLoss: 0.948,
+      },
+      {
+        rank: 20,
+        moveText: '11/8 6/5',
+        movements: [
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,3,1,1,1,0,0,0,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.164,
+        equityLoss: 0.993,
+      },
+      {
+        rank: 21,
+        moveText: '7/4 6/5',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,3,3,1,0,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.183,
+        equityLoss: 1.012,
+      },
+      {
+        rank: 22,
+        moveText: '11/8 5/4',
+        movements: [
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,3,1,2,1,1,0,0,0,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.241,
+        equityLoss: 1.0699999999999998,
+      },
+      {
+        rank: 23,
+        moveText: '11/8 4/3',
+        movements: [
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,3,1,2,2,1,1,0,0,0,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.241,
+        equityLoss: 1.0699999999999998,
+      },
+      {
+        rank: 24,
+        moveText: '7/4 5/4',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,4,1,2,0,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.256,
+        equityLoss: 1.085,
+      },
+      {
+        rank: 25,
+        moveText: '11/10 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,3,2,2,1,1,0,0,1,0,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.258,
+        equityLoss: 1.087,
+      },
+      {
+        rank: 26,
+        moveText: '13/10 6/5',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,3,1,1,0,0,1,1,-3,1,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.27,
+        equityLoss: 1.099,
+      },
+      {
+        rank: 27,
+        moveText: '7/6 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,1,2,3,0,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.294,
+        equityLoss: 1.123,
+      },
+      {
+        rank: 28,
+        moveText: '13/10 5/4',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,3,1,2,1,0,0,1,1,-3,1,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.301,
+        equityLoss: 1.13,
+      },
+      {
+        rank: 29,
+        moveText: '6/3 2/1',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,2,2,1,1,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.336,
+        equityLoss: 1.165,
+      },
+      {
+        rank: 30,
+        moveText: '4/3 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,3,0,2,2,1,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.348,
+        equityLoss: 1.177,
+      },
+      {
+        rank: 31,
+        moveText: '13/10 4/3',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,3,1,2,2,1,0,0,1,1,-3,1,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.351,
+        equityLoss: 1.18,
+      },
+      {
+        rank: 32,
+        moveText: '11/10 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,1,2,2,1,0,0,1,0,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.39,
+        equityLoss: 1.2189999999999999,
+      },
+      {
+        rank: 33,
+        moveText: '5/1',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,2,1,2,1,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.415,
+        equityLoss: 1.244,
+      },
+      {
+        rank: 34,
+        moveText: '5/2 4/3',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,3,1,1,2,1,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.444,
+        equityLoss: 1.273,
+      },
+      {
+        rank: 35,
+        moveText: '4/1 3/2',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,1,1,2,2,1,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.452,
+        equityLoss: 1.281,
+      },
+      {
+        rank: 36,
+        moveText: '5/2 3/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,3,1,2,1,2,1,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -0.458,
+        equityLoss: 1.287,
+      },
+      {
+        rank: 37,
+        moveText: '6/3 5/4',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,3,3,1,1,1,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.829,
+      },
+      {
+        rank: 38,
+        moveText: '6/5 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,1,3,1,1,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.829,
+      },
+      {
+        rank: 39,
+        moveText: '6/3 4/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,4,1,2,1,1,0,0,0,1,-3,2,0,0,0,-3,0,-3,2,-1,-2,-2,0|0,1|0,0',
+        equity: -1.02,
+        equityLoss: 1.849,
+      },
+    ],
+  },
+  {
+    id: 'curated-046',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, 2, 2, 2, 3, 0, 2, 0, 0, 1, -4, 0, 0, 1, 0, -2, 0, -5, 2, 0, 0,
+        -1, -2,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [6, 2],
+    answers: [
+      {
+        rank: 1,
+        moveText: '15/7',
+        movements: [
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 7,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,2,2,3,1,2,0,0,1,-4,0,0,0,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 1.201,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '15/13 11/5',
+        movements: [
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 15,
+            to: 13,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,2,3,3,0,2,0,0,0,-4,1,0,0,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 1.147,
+        equityLoss: 0.05400000000000005,
+      },
+      {
+        rank: 3,
+        moveText: '15/9 6/4',
+        movements: [
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,3,2,2,0,2,1,0,1,-4,0,0,0,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 1.14,
+        equityLoss: 0.061000000000000165,
+      },
+      {
+        rank: 4,
+        moveText: '15/9 11/9',
+        movements: [
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 9,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,2,2,3,0,2,2,0,0,-4,0,0,0,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 1.129,
+        equityLoss: 0.07200000000000006,
+      },
+      {
+        rank: 5,
+        moveText: '11/5 6/4',
+        movements: [
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,3,3,2,0,2,0,0,0,-4,0,0,1,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 1.123,
+        equityLoss: 0.07800000000000007,
+      },
+      {
+        rank: 6,
+        moveText: '11/3',
+        movements: [
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,3,2,2,3,0,2,0,0,0,-4,0,0,1,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 1.12,
+        equityLoss: 0.08099999999999996,
+      },
+      {
+        rank: 7,
+        moveText: '15/9 8/6',
+        movements: [
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,2,2,4,0,1,1,0,1,-4,0,0,0,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 1.112,
+        equityLoss: 0.08899999999999997,
+      },
+      {
+        rank: 8,
+        moveText: '20/18 15/9',
+        movements: [
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 18,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,2,2,3,0,2,1,0,1,-4,0,0,0,0,-2,1,-5,1,0,0,-1,-2|0,1|0,0',
+        equity: 1.095,
+        equityLoss: 0.1060000000000001,
+      },
+      {
+        rank: 9,
+        moveText: '20/14 11/9',
+        movements: [
+          {
+            from: 20,
+            to: 14,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 9,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,2,2,3,0,2,1,0,0,-4,0,1,1,0,-2,0,-5,1,0,0,-1,-2|0,1|0,0',
+        equity: 1.084,
+        equityLoss: 0.11699999999999999,
+      },
+      {
+        rank: 10,
+        moveText: '20/18 11/5',
+        movements: [
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 18,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,2,3,3,0,2,0,0,0,-4,0,0,1,0,-2,1,-5,1,0,0,-1,-2|0,1|0,0',
+        equity: 1.081,
+        equityLoss: 0.1200000000000001,
+      },
+      {
+        rank: 11,
+        moveText: '20/14 6/4',
+        movements: [
+          {
+            from: 20,
+            to: 14,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,3,2,2,0,2,0,0,1,-4,0,1,1,0,-2,0,-5,1,0,0,-1,-2|0,1|0,0',
+        equity: 1.081,
+        equityLoss: 0.1200000000000001,
+      },
+      {
+        rank: 12,
+        moveText: '20/14 15/13',
+        movements: [
+          {
+            from: 20,
+            to: 14,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 15,
+            to: 13,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,2,2,3,0,2,0,0,1,-4,1,1,0,0,-2,0,-5,1,0,0,-1,-2|0,1|0,0',
+        equity: 1.081,
+        equityLoss: 0.1200000000000001,
+      },
+      {
+        rank: 13,
+        moveText: '11/5 8/6',
+        movements: [
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,2,3,4,0,1,0,0,0,-4,0,0,1,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 1.07,
+        equityLoss: 0.131,
+      },
+      {
+        rank: 14,
+        moveText: '20/18 20/14',
+        movements: [
+          {
+            from: 20,
+            to: 14,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 18,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,2,2,3,0,2,0,0,1,-4,0,1,1,0,-2,1,-5,0,0,0,-1,-2|0,1|0,0',
+        equity: 1.058,
+        equityLoss: 0.14300000000000002,
+      },
+      {
+        rank: 15,
+        moveText: '20/14 8/6',
+        movements: [
+          {
+            from: 20,
+            to: 14,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,2,2,4,0,1,0,0,1,-4,0,1,1,0,-2,0,-5,1,0,0,-1,-2|0,1|0,0',
+        equity: 1.037,
+        equityLoss: 0.16400000000000015,
+      },
+      {
+        rank: 16,
+        moveText: '15/13 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 15,
+            to: 13,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,2,3,0,1,0,0,1,-4,1,0,0,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 0.954,
+        equityLoss: 0.2470000000000001,
+      },
+      {
+        rank: 17,
+        moveText: '11/9 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 9,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,2,3,0,1,1,0,0,-4,0,0,1,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 1.02,
+        equityLoss: 0.18100000000000005,
+      },
+      {
+        rank: 18,
+        moveText: '8/2 6/4',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,3,2,2,0,1,0,0,1,-4,0,0,1,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 1.004,
+        equityLoss: 0.19700000000000006,
+      },
+      {
+        rank: 19,
+        moveText: '8/6 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,2,4,0,0,0,0,1,-4,0,0,1,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 0.995,
+        equityLoss: 0.20600000000000007,
+      },
+      {
+        rank: 20,
+        moveText: '8/2 4/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,2,1,2,3,0,1,0,0,1,-4,0,0,1,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 0.965,
+        equityLoss: 0.2360000000000001,
+      },
+      {
+        rank: 21,
+        moveText: '20/18 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 18,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,2,3,0,1,0,0,1,-4,0,0,1,0,-2,1,-5,1,0,0,-1,-2|0,1|0,0',
+        equity: 0.932,
+        equityLoss: 0.269,
+      },
+      {
+        rank: 22,
+        moveText: '15/9 5/3',
+        movements: [
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,3,2,1,3,0,2,1,0,1,-4,0,0,0,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 0.742,
+        equityLoss: 0.4590000000000001,
+      },
+      {
+        rank: 23,
+        moveText: '11/5 3/1',
+        movements: [
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,2,3,3,0,2,0,0,0,-4,0,0,1,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 0.684,
+        equityLoss: 0.517,
+      },
+      {
+        rank: 24,
+        moveText: '15/9 3/1',
+        movements: [
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,2,2,3,0,2,1,0,1,-4,0,0,0,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 0.647,
+        equityLoss: 0.554,
+      },
+      {
+        rank: 25,
+        moveText: '11/5 4/2',
+        movements: [
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,1,3,3,0,2,0,0,0,-4,0,0,1,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 0.641,
+        equityLoss: 0.56,
+      },
+      {
+        rank: 26,
+        moveText: '15/9 4/2',
+        movements: [
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,1,2,3,0,2,1,0,1,-4,0,0,0,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 0.631,
+        equityLoss: 0.5700000000000001,
+      },
+      {
+        rank: 27,
+        moveText: '20/14 5/3',
+        movements: [
+          {
+            from: 20,
+            to: 14,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,3,2,1,3,0,2,0,0,1,-4,0,1,1,0,-2,0,-5,1,0,0,-1,-2|0,1|0,0',
+        equity: 0.547,
+        equityLoss: 0.654,
+      },
+      {
+        rank: 28,
+        moveText: '20/14 3/1',
+        movements: [
+          {
+            from: 20,
+            to: 14,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,2,2,3,0,2,0,0,1,-4,0,1,1,0,-2,0,-5,1,0,0,-1,-2|0,1|0,0',
+        equity: 0.484,
+        equityLoss: 0.7170000000000001,
+      },
+      {
+        rank: 29,
+        moveText: '20/14 4/2',
+        movements: [
+          {
+            from: 20,
+            to: 14,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,1,2,3,0,2,0,0,1,-4,0,1,1,0,-2,0,-5,1,0,0,-1,-2|0,1|0,0',
+        equity: 0.405,
+        equityLoss: 0.796,
+      },
+      {
+        rank: 30,
+        moveText: '8/2 5/3',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,3,2,1,3,0,1,0,0,1,-4,0,0,1,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 0.356,
+        equityLoss: 0.8450000000000001,
+      },
+      {
+        rank: 31,
+        moveText: '8/2 3/1',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,2,2,3,0,1,0,0,1,-4,0,0,1,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 0.278,
+        equityLoss: 0.923,
+      },
+    ],
+  },
+  {
+    id: 'curated-047',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, 2, 2, 2, 4, 0, -2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, -2, -2, -2, -3,
+        -3, 1, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [6, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: '23/13',
+        movements: [
+          {
+            from: 23,
+            to: 17,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 17,
+            to: 13,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,2,4,0,-2,0,0,0,0,0,3,0,0,0,0,-2,-2,-2,-3,-3,0,0|0,1|0,0',
+        equity: 0.839,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '23/17 5/1',
+        movements: [
+          {
+            from: 23,
+            to: 17,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,2,2,3,0,-2,0,0,0,0,0,2,0,0,0,1,-2,-2,-2,-3,-3,0,0|0,1|0,0',
+        equity: 0.771,
+        equityLoss: 0.06799999999999995,
+      },
+      {
+        rank: 3,
+        moveText: '23/17 13/9',
+        movements: [
+          {
+            from: 23,
+            to: 17,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,2,4,0,-2,0,1,0,0,0,1,0,0,0,1,-2,-2,-2,-3,-3,0,0|0,1|0,0',
+        equity: 0.675,
+        equityLoss: 0.16399999999999992,
+      },
+      {
+        rank: 4,
+        moveText: '13/3',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,3,2,4,0,-2,0,0,0,0,0,1,0,0,0,0,-2,-2,-2,-3,-3,1,0|0,1|0,0',
+        equity: 0.068,
+        equityLoss: 0.7709999999999999,
+      },
+    ],
+  },
+  {
+    id: 'curated-048',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 2, 0, 2, 0, 3, 0, 1, 0, 0, 0, -3, 5, -2, 0, 0, -2, 0, -2, 0, -2,
+        -2, 0, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 1],
+    answers: [
+      {
+        rank: 1,
+        moveText: '8/5 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,2,2,2,0,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: 0.23,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '24/23 8/7 2/1*(2)',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,0,2,0,3,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,2|0,0',
+        equity: -0.055,
+        equityLoss: 0.28500000000000003,
+      },
+      {
+        rank: 3,
+        moveText: '8/6 2/1*(2)',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,0,2,0,4,0,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -0.171,
+        equityLoss: 0.401,
+      },
+      {
+        rank: 4,
+        moveText: '24/23(2) 2/1*(2)',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,0,2,0,3,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,2,0|0,2|0,0',
+        equity: -0.172,
+        equityLoss: 0.402,
+      },
+      {
+        rank: 5,
+        moveText: '4/3(2) 2/1*(2)',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,0,0,3,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -0.194,
+        equityLoss: 0.42400000000000004,
+      },
+      {
+        rank: 6,
+        moveText: '6/4 2/1*(2)',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,0,3,0,2,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -0.227,
+        equityLoss: 0.457,
+      },
+      {
+        rank: 7,
+        moveText: '24/23 6/5 2/1*(2)',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,0,2,1,2,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,2|0,0',
+        equity: -0.245,
+        equityLoss: 0.475,
+      },
+      {
+        rank: 8,
+        moveText: '8/4',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,3,0,3,0,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -0.332,
+        equityLoss: 0.562,
+      },
+      {
+        rank: 9,
+        moveText: '8/7 6/5 2/1*(2)',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,0,2,1,2,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -0.304,
+        equityLoss: 0.534,
+      },
+      {
+        rank: 10,
+        moveText: '24/23(2) 8/6',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,2,0,4,0,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,2,0|0,1|0,0',
+        equity: -0.31,
+        equityLoss: 0.54,
+      },
+      {
+        rank: 11,
+        moveText: '24/23 6/5(3)',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,2,3,0,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,1|0,0',
+        equity: -0.333,
+        equityLoss: 0.5630000000000001,
+      },
+      {
+        rank: 12,
+        moveText: '24/23 8/7 4/3(2)',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,2,0,0,3,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,1|0,0',
+        equity: -0.348,
+        equityLoss: 0.578,
+      },
+      {
+        rank: 13,
+        moveText: '24/23 8/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,2,1,3,0,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,1|0,0',
+        equity: -0.35,
+        equityLoss: 0.58,
+      },
+      {
+        rank: 14,
+        moveText: '24/23 8/7 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,3,0,2,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,1|0,0',
+        equity: -0.351,
+        equityLoss: 0.581,
+      },
+      {
+        rank: 15,
+        moveText: '6/5(2) 2/1*(2)',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,0,2,2,1,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -0.36,
+        equityLoss: 0.59,
+      },
+      {
+        rank: 16,
+        moveText: '8/6 4/3(2)',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,2,0,0,4,0,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -0.367,
+        equityLoss: 0.597,
+      },
+      {
+        rank: 17,
+        moveText: '24/23(2) 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,3,0,2,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,2,0|0,1|0,0',
+        equity: -0.395,
+        equityLoss: 0.625,
+      },
+      {
+        rank: 18,
+        moveText: '24/23(2) 4/3(2)',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,2,0,0,3,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,2,0|0,1|0,0',
+        equity: -0.395,
+        equityLoss: 0.625,
+      },
+      {
+        rank: 19,
+        moveText: '8/7 6/5(3)',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,2,3,0,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -0.409,
+        equityLoss: 0.639,
+      },
+      {
+        rank: 20,
+        moveText: '6/4 6/5(2)',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,3,2,0,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -0.441,
+        equityLoss: 0.671,
+      },
+      {
+        rank: 21,
+        moveText: '24/23 6/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,1,2,0,2,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,1|0,0',
+        equity: -0.452,
+        equityLoss: 0.682,
+      },
+      {
+        rank: 22,
+        moveText: '6/2',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,0,2,0,2,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -0.46,
+        equityLoss: 0.6900000000000001,
+      },
+      {
+        rank: 23,
+        moveText: '24/23 8/7 6/5(2)',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,2,2,1,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,1|0,0',
+        equity: -0.473,
+        equityLoss: 0.703,
+      },
+      {
+        rank: 24,
+        moveText: '24/23 6/5 4/3(2)',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,2,0,1,2,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,1|0,0',
+        equity: -0.484,
+        equityLoss: 0.714,
+      },
+      {
+        rank: 25,
+        moveText: '24/23(2) 6/5(2)',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,2,2,1,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,2,0|0,1|0,0',
+        equity: -0.529,
+        equityLoss: 0.759,
+      },
+      {
+        rank: 26,
+        moveText: '8/7 6/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,1,2,0,2,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -0.56,
+        equityLoss: 0.79,
+      },
+      {
+        rank: 27,
+        moveText: '24/23(2) 8/7 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,2,1,2,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,2,0|0,1|0,0',
+        equity: -0.574,
+        equityLoss: 0.8039999999999999,
+      },
+      {
+        rank: 28,
+        moveText: '6/3 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,2,1,0,2,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -0.596,
+        equityLoss: 0.826,
+      },
+      {
+        rank: 29,
+        moveText: '8/7 6/5 4/3(2)',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,2,0,1,2,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -0.654,
+        equityLoss: 0.884,
+      },
+      {
+        rank: 30,
+        moveText: '6/5(2) 4/3(2)',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,2,0,2,1,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -0.686,
+        equityLoss: 0.916,
+      },
+      {
+        rank: 31,
+        moveText: '24/23 8/6 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,2,0,4,0,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,2|0,0',
+        equity: -0.734,
+        equityLoss: 0.964,
+      },
+      {
+        rank: 32,
+        moveText: '24/23(2) 8/7 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,2,0,3,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,2,0|0,2|0,0',
+        equity: -0.904,
+        equityLoss: 1.1340000000000001,
+      },
+      {
+        rank: 33,
+        moveText: '24/23 6/4 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,3,0,2,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,2|0,0',
+        equity: -0.92,
+        equityLoss: 1.1500000000000001,
+      },
+      {
+        rank: 34,
+        moveText: '24/23 4/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,0,1,0,3,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,2|0,0',
+        equity: -0.921,
+        equityLoss: 1.151,
+      },
+      {
+        rank: 35,
+        moveText: '24/23 4/3(2) 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,0,0,3,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,2|0,0',
+        equity: -0.947,
+        equityLoss: 1.177,
+      },
+      {
+        rank: 36,
+        moveText: '24/23 4/3 2/1*(2)',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,1,1,0,3,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,2|0,0',
+        equity: -0.956,
+        equityLoss: 1.186,
+      },
+      {
+        rank: 37,
+        moveText: '8/7 6/4 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,3,0,2,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -0.986,
+        equityLoss: 1.216,
+      },
+      {
+        rank: 38,
+        moveText: '8/7 4/3(2) 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,0,0,3,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 39,
+        moveText: '8/7 4/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,0,1,0,3,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 40,
+        moveText: '6/5(3) 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,2,3,0,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 41,
+        moveText: '8/6 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,0,1,0,4,0,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 42,
+        moveText: '8/7 4/3 2/1*(2)',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,1,1,0,3,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 43,
+        moveText: '4/1* 4/3',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,1,0,0,3,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 44,
+        moveText: '24/23(2) 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,0,1,0,3,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,2,0|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 45,
+        moveText: '4/2(2)',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,4,0,0,0,3,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 46,
+        moveText: '8/5 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,2,1,3,0,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 47,
+        moveText: '24/23 8/6 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,1,1,0,4,0,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 48,
+        moveText: '4/1* 2/1',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,0,1,0,3,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 49,
+        moveText: '24/23 4/2 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,1,0,0,3,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 50,
+        moveText: '24/23 8/7 6/5 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,2,1,2,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,2|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 51,
+        moveText: '24/23 8/7 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,0,1,0,3,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 52,
+        moveText: '24/23 6/5(2) 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,2,2,1,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,2|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 53,
+        moveText: '24/23(2) 6/5 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,2,1,2,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,2,0|0,2|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 54,
+        moveText: '8/7 6/5(2) 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,2,2,1,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 55,
+        moveText: '8/7 4/2 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,1,0,0,3,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 56,
+        moveText: '24/23(2) 8/7 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,1,1,0,3,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,2,0|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 57,
+        moveText: '6/3 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,2,0,2,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 58,
+        moveText: '6/5(3) 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,1,1,3,0,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 59,
+        moveText: '6/4(2)',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,4,0,1,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 60,
+        moveText: '8/5 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,1,1,1,3,0,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 61,
+        moveText: '6/5 4/3 2/1*(2)',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,1,1,1,2,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 62,
+        moveText: '6/5 4/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,0,1,1,2,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 63,
+        moveText: '6/5 4/3(2) 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,0,1,2,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 64,
+        moveText: '24/23 6/5 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,0,1,1,2,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.23,
+      },
+      {
+        rank: 65,
+        moveText: '24/23(2) 6/5 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,1,1,1,2,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,2,0|0,1|0,0',
+        equity: -1.016,
+        equityLoss: 1.246,
+      },
+      {
+        rank: 66,
+        moveText: '6/5(2) 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,0,1,2,1,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -1.027,
+        equityLoss: 1.257,
+      },
+      {
+        rank: 67,
+        moveText: '24/23 6/4 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,3,1,1,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,1|0,0',
+        equity: -1.029,
+        equityLoss: 1.259,
+      },
+      {
+        rank: 68,
+        moveText: '6/5 4/2 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,1,0,1,2,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -1.03,
+        equityLoss: 1.26,
+      },
+      {
+        rank: 69,
+        moveText: '8/7 6/5 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,3,0,1,1,2,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -1.034,
+        equityLoss: 1.264,
+      },
+      {
+        rank: 70,
+        moveText: '8/7 6/4 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,3,1,1,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -1.04,
+        equityLoss: 1.27,
+      },
+      {
+        rank: 71,
+        moveText: '24/23 8/7 6/5 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,1,1,1,2,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,1|0,0',
+        equity: -1.058,
+        equityLoss: 1.288,
+      },
+      {
+        rank: 72,
+        moveText: '24/23 6/5(2) 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,1,1,2,1,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,1|0,0',
+        equity: -1.069,
+        equityLoss: 1.299,
+      },
+      {
+        rank: 73,
+        moveText: '8/7 6/5(2) 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,1,1,2,1,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -1.084,
+        equityLoss: 1.314,
+      },
+      {
+        rank: 74,
+        moveText: '6/3 6/5',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,1,2,1,1,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,1|0,0',
+        equity: -1.085,
+        equityLoss: 1.315,
+      },
+      {
+        rank: 75,
+        moveText: '8/6 4/3 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,1,0,4,0,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -1.143,
+        equityLoss: 1.373,
+      },
+      {
+        rank: 76,
+        moveText: '24/23(2) 4/3 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,1,0,3,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,2,0|0,2|0,0',
+        equity: -1.17,
+        equityLoss: 1.4,
+      },
+      {
+        rank: 77,
+        moveText: '24/23 8/7 4/3 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,1,0,3,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,2|0,0',
+        equity: -1.178,
+        equityLoss: 1.408,
+      },
+      {
+        rank: 78,
+        moveText: '6/4 6/5 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,3,1,1,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -1.231,
+        equityLoss: 1.461,
+      },
+      {
+        rank: 79,
+        moveText: '6/5(2) 4/3 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,1,2,1,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -1.318,
+        equityLoss: 1.548,
+      },
+      {
+        rank: 80,
+        moveText: '24/23 6/5 4/3 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,1,1,2,0,1,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,1,1|0,2|0,0',
+        equity: -1.318,
+        equityLoss: 1.548,
+      },
+      {
+        rank: 81,
+        moveText: '8/7 6/5 4/3 2/1*',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,1,1,2,1,0,0,0,0,-3,5,-2,0,0,-2,0,-2,0,-2,-2,0,2|0,2|0,0',
+        equity: -1.339,
+        equityLoss: 1.569,
+      },
+    ],
+  },
+  {
+    id: 'curated-049',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 0, 2, 0, 5, 2, 3, 0, 0, 0, -4, 1, 0, 0, 0, -3, 2, -5, 0, 0,
+        -1, 0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [4, 6],
+    answers: [
+      {
+        rank: 1,
+        moveText: '8/2 6/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,2,0,4,2,2,0,0,0,-4,1,0,0,0,-3,2,-5,0,0,-1,0,0|0,1|0,0',
+        equity: 1.023,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '18/14 13/7',
+        movements: [
+          {
+            from: 18,
+            to: 14,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,2,0,5,3,3,0,0,0,-4,0,1,0,0,-3,1,-5,0,0,-1,0,0|0,1|0,0',
+        equity: 0.969,
+        equityLoss: 0.05399999999999994,
+      },
+      {
+        rank: 3,
+        moveText: '18/8',
+        movements: [
+          {
+            from: 18,
+            to: 14,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 8,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,2,0,5,2,4,0,0,0,-4,1,0,0,0,-3,1,-5,0,0,-1,0,0|0,1|0,0',
+        equity: 0.966,
+        equityLoss: 0.05699999999999994,
+      },
+      {
+        rank: 4,
+        moveText: '13/7 8/4',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,3,0,5,3,2,0,0,0,-4,0,0,0,0,-3,2,-5,0,0,-1,0,0|0,1|0,0',
+        equity: 0.965,
+        equityLoss: 0.05799999999999994,
+      },
+      {
+        rank: 5,
+        moveText: '13/9 7/1*',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,2,0,5,1,3,1,0,0,-4,0,0,0,0,-3,2,-5,0,0,-1,0,0|0,2|0,0',
+        equity: 0.951,
+        equityLoss: 0.07199999999999995,
+      },
+      {
+        rank: 6,
+        moveText: '8/4 7/1*',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,3,0,5,1,2,0,0,0,-4,1,0,0,0,-3,2,-5,0,0,-1,0,0|0,2|0,0',
+        equity: 0.922,
+        equityLoss: 0.10099999999999987,
+      },
+      {
+        rank: 7,
+        moveText: '13/7 6/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,2,0,4,3,3,0,0,0,-4,0,0,0,0,-3,2,-5,0,0,-1,0,0|0,1|0,0',
+        equity: 0.905,
+        equityLoss: 0.11799999999999988,
+      },
+      {
+        rank: 8,
+        moveText: '18/14 7/1*',
+        movements: [
+          {
+            from: 18,
+            to: 14,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,2,0,5,1,3,0,0,0,-4,1,1,0,0,-3,1,-5,0,0,-1,0,0|0,2|0,0',
+        equity: 0.861,
+        equityLoss: 0.16199999999999992,
+      },
+      {
+        rank: 9,
+        moveText: '13/3',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,2,0,5,2,3,0,0,0,-4,0,0,0,0,-3,2,-5,0,0,-1,0,0|0,1|0,0',
+        equity: 0.846,
+        equityLoss: 0.17699999999999994,
+      },
+      {
+        rank: 10,
+        moveText: '7/3 7/1*',
+        movements: [
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,2,0,5,0,3,0,0,0,-4,1,0,0,0,-3,2,-5,0,0,-1,0,0|0,2|0,0',
+        equity: 0.809,
+        equityLoss: 0.21399999999999986,
+      },
+      {
+        rank: 11,
+        moveText: '7/1* 6/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,2,0,4,1,3,0,0,0,-4,1,0,0,0,-3,2,-5,0,0,-1,0,0|0,2|0,0',
+        equity: 0.803,
+        equityLoss: 0.21999999999999986,
+      },
+      {
+        rank: 12,
+        moveText: '13/9 8/2',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,2,0,5,2,2,1,0,0,-4,0,0,0,0,-3,2,-5,0,0,-1,0,0|0,1|0,0',
+        equity: 0.781,
+        equityLoss: 0.24199999999999988,
+      },
+      {
+        rank: 13,
+        moveText: '8/4 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,3,0,5,2,1,0,0,0,-4,1,0,0,0,-3,2,-5,0,0,-1,0,0|0,1|0,0',
+        equity: 0.667,
+        equityLoss: 0.35599999999999987,
+      },
+      {
+        rank: 14,
+        moveText: '18/14 8/2',
+        movements: [
+          {
+            from: 18,
+            to: 14,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,2,0,5,2,2,0,0,0,-4,1,1,0,0,-3,1,-5,0,0,-1,0,0|0,1|0,0',
+        equity: 0.622,
+        equityLoss: 0.4009999999999999,
+      },
+      {
+        rank: 15,
+        moveText: '8/2 7/3',
+        movements: [
+          {
+            from: 7,
+            to: 3,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,1,2,0,5,1,2,0,0,0,-4,1,0,0,0,-3,2,-5,0,0,-1,0,0|0,1|0,0',
+        equity: 0.395,
+        equityLoss: 0.6279999999999999,
+      },
+    ],
+  },
+  {
+    id: 'curated-050',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, -1, 2, 2, 2, 3, 0, 2, 0, 0, 0, 0, -2, 0, 0, -2, -2, -2, -2, -2,
+        2, 2, 0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [3, 6],
+    answers: [
+      {
+        rank: 1,
+        moveText: '21/12',
+        movements: [
+          {
+            from: 21,
+            to: 15,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 15,
+            to: 12,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,-1,2,2,2,3,0,2,0,0,0,1,-2,0,0,-2,-2,-2,-2,-2,1,2,0,0|0,1|0,0',
+        equity: -0.255,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '21/15 8/5',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 21,
+            to: 15,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,-1,2,2,3,3,0,1,0,0,0,0,-2,0,1,-2,-2,-2,-2,-2,1,2,0,0|0,1|0,0',
+        equity: -0.362,
+        equityLoss: 0.10699999999999998,
+      },
+      {
+        rank: 3,
+        moveText: '21/15 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 21,
+            to: 15,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,-1,3,2,2,2,0,2,0,0,0,0,-2,0,1,-2,-2,-2,-2,-2,1,2,0,0|0,1|0,0',
+        equity: -0.371,
+        equityLoss: 0.11599999999999999,
+      },
+      {
+        rank: 4,
+        moveText: '21/15 4/1*',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 21,
+            to: 15,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,2,1,2,3,0,2,0,0,0,0,-2,0,1,-2,-2,-2,-2,-2,1,2,0,0|0,2|0,0',
+        equity: -0.777,
+        equityLoss: 0.522,
+      },
+      {
+        rank: 5,
+        moveText: '21/15 5/2*',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 21,
+            to: 15,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,2,1,3,0,2,0,0,0,0,-2,0,1,-2,-2,-2,-2,-2,1,2,0,0|0,2|0,0',
+        equity: -0.814,
+        equityLoss: 0.5589999999999999,
+      },
+      {
+        rank: 6,
+        moveText: '8/5 8/2*',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,2,3,3,0,0,0,0,0,0,-2,0,0,-2,-2,-2,-2,-2,2,2,0,0|0,2|0,0',
+        equity: -0.819,
+        equityLoss: 0.564,
+      },
+      {
+        rank: 7,
+        moveText: '8/2* 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,-1,1,3,2,2,2,0,1,0,0,0,0,-2,0,0,-2,-2,-2,-2,-2,2,2,0,0|0,2|0,0',
+        equity: -0.994,
+        equityLoss: 0.739,
+      },
+      {
+        rank: 8,
+        moveText: '8/2* 5/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,2,2,1,3,0,1,0,0,0,0,-2,0,0,-2,-2,-2,-2,-2,2,2,0,0|0,2|0,0',
+        equity: -1,
+        equityLoss: 0.745,
+      },
+      {
+        rank: 9,
+        moveText: '8/2* 4/1*',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,1,2,3,0,1,0,0,0,0,-2,0,0,-2,-2,-2,-2,-2,2,2,0,0|0,3|0,0',
+        equity: -1.034,
+        equityLoss: 0.779,
+      },
+    ],
+  },
+  {
+    id: 'curated-051',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, 1, 0, 2, 0, -1, 4, 0, 1, 0, 0, 0, -4, 5, 0, 0, -1, -3, 0, -5, 0, 0,
+        0, 0, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [6, 1],
+    answers: [
+      {
+        rank: 1,
+        moveText: '13/7 6/5*',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,0,1,3,1,1,0,0,0,-4,4,0,0,-1,-3,0,-5,0,0,0,0,2|0,2|0,0',
+        equity: 0.197,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '24/18 6/5*',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,0,1,3,0,1,0,0,0,-4,5,0,0,-1,-3,1,-5,0,0,0,0,1|0,2|0,0',
+        equity: 0.145,
+        equityLoss: 0.05200000000000002,
+      },
+      {
+        rank: 3,
+        moveText: '8/1',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,0,-1,4,0,0,0,0,0,-4,5,0,0,-1,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.094,
+        equityLoss: 0.10300000000000001,
+      },
+      {
+        rank: 4,
+        moveText: '13/7 8/7',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,0,-1,4,2,0,0,0,0,-4,4,0,0,-1,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.002,
+        equityLoss: 0.195,
+      },
+      {
+        rank: 5,
+        moveText: '8/2 6/5*',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,0,1,3,0,0,0,0,0,-4,5,0,0,-1,-3,0,-5,0,0,0,0,2|0,2|0,0',
+        equity: -0.171,
+        equityLoss: 0.368,
+      },
+      {
+        rank: 6,
+        moveText: '24/23 13/7',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,0,-1,4,1,1,0,0,0,-4,4,0,0,-1,-3,0,-5,0,0,0,1,1|0,1|0,0',
+        equity: -0.173,
+        equityLoss: 0.37,
+      },
+      {
+        rank: 7,
+        moveText: '13/6',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,0,-1,5,0,1,0,0,0,-4,4,0,0,-1,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: -0.182,
+        equityLoss: 0.379,
+      },
+      {
+        rank: 8,
+        moveText: '24/18 8/7',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,0,-1,4,1,0,0,0,0,-4,5,0,0,-1,-3,1,-5,0,0,0,0,1|0,1|0,0',
+        equity: -0.2,
+        equityLoss: 0.397,
+      },
+      {
+        rank: 9,
+        moveText: '24/23 24/18',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,0,-1,4,0,1,0,0,0,-4,5,0,0,-1,-3,1,-5,0,0,0,1,0|0,1|0,0',
+        equity: -0.22,
+        equityLoss: 0.41700000000000004,
+      },
+      {
+        rank: 10,
+        moveText: '24/23 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,0,-1,4,0,0,0,0,0,-4,5,0,0,-1,-3,0,-5,0,0,0,1,1|0,1|0,0',
+        equity: -0.233,
+        equityLoss: 0.43000000000000005,
+      },
+      {
+        rank: 11,
+        moveText: '8/2 3/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,1,0,-1,4,0,0,0,0,0,-4,5,0,0,-1,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: -0.35,
+        equityLoss: 0.5469999999999999,
+      },
+      {
+        rank: 12,
+        moveText: '13/7 3/2',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,0,-1,4,1,1,0,0,0,-4,4,0,0,-1,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: -0.635,
+        equityLoss: 0.8320000000000001,
+      },
+      {
+        rank: 13,
+        moveText: '24/18 3/2',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,0,-1,4,0,1,0,0,0,-4,5,0,0,-1,-3,1,-5,0,0,0,0,1|0,1|0,0',
+        equity: -0.742,
+        equityLoss: 0.9390000000000001,
+      },
+    ],
+  },
+  {
+    id: 'curated-052',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, 4, 5, 2, 2, -1, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, -2, -3, -3,
+        -2, 1, 1,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 6],
+    answers: [
+      {
+        rank: 1,
+        moveText: '24/17',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 23,
+            to: 17,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,5,2,2,-1,0,-1,0,0,0,0,0,0,0,0,0,1,-2,-2,-3,-3,-2,1,0|0,1|0,0',
+        equity: -0.923,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '23/16',
+        movements: [
+          {
+            from: 23,
+            to: 17,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 17,
+            to: 16,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,5,2,2,-1,0,-1,0,0,0,0,0,0,0,0,1,0,-2,-2,-3,-3,-2,0,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.07699999999999996,
+      },
+      {
+        rank: 3,
+        moveText: '23/17 2/1',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 23,
+            to: 17,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,4,2,2,-1,0,-1,0,0,0,0,0,0,0,0,0,1,-2,-2,-3,-3,-2,0,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.07699999999999996,
+      },
+      {
+        rank: 4,
+        moveText: '23/17 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 23,
+            to: 17,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,5,3,1,-1,0,-1,0,0,0,0,0,0,0,0,0,1,-2,-2,-3,-3,-2,0,1|0,1|0,0',
+        equity: -1.211,
+        equityLoss: 0.28800000000000003,
+      },
+      {
+        rank: 5,
+        moveText: '23/17 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 23,
+            to: 17,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,6,1,2,-1,0,-1,0,0,0,0,0,0,0,0,0,1,-2,-2,-3,-3,-2,0,1|0,1|0,0',
+        equity: -1.248,
+        equityLoss: 0.32499999999999996,
+      },
+    ],
+  },
+  {
+    id: 'curated-053',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 2, 1, 2, 2, 0, 2, 0, 0, 0, 1, 1, 0, 0, 0, 1, -2, -4, 3, -2,
+        -2, -1, -2,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [2, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '13/10 12/10',
+        movements: [
+          {
+            from: 12,
+            to: 10,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,2,0,2,0,2,0,0,0,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: 0.302,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '17/12',
+        movements: [
+          {
+            from: 17,
+            to: 15,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 15,
+            to: 12,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,2,0,2,0,0,0,2,1,0,0,0,0,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: 0.247,
+        equityLoss: 0.05499999999999999,
+      },
+      {
+        rank: 3,
+        moveText: '17/15 12/9',
+        movements: [
+          {
+            from: 17,
+            to: 15,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 12,
+            to: 9,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,2,0,2,1,0,0,0,1,0,1,0,0,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: 0.18,
+        equityLoss: 0.122,
+      },
+      {
+        rank: 4,
+        moveText: '12/10 4/1*',
+        movements: [
+          {
+            from: 12,
+            to: 10,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,0,2,2,0,2,0,1,0,0,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,2|0,0',
+        equity: 0.175,
+        equityLoss: 0.127,
+      },
+      {
+        rank: 5,
+        moveText: '20/17 12/10',
+        movements: [
+          {
+            from: 12,
+            to: 10,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 17,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,2,0,2,0,1,0,0,1,0,0,0,2,-2,-4,2,-2,-2,-1,-2|0,1|0,0',
+        equity: 0.173,
+        equityLoss: 0.129,
+      },
+      {
+        rank: 6,
+        moveText: '17/15 4/1*',
+        movements: [
+          {
+            from: 17,
+            to: 15,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,0,2,2,0,2,0,0,0,1,1,0,1,0,0,-2,-4,3,-2,-2,-1,-2|0,2|0,0',
+        equity: 0.155,
+        equityLoss: 0.147,
+      },
+      {
+        rank: 7,
+        moveText: '17/14 12/10',
+        movements: [
+          {
+            from: 12,
+            to: 10,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 17,
+            to: 14,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,2,0,2,0,1,0,0,1,1,0,0,0,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: 0.151,
+        equityLoss: 0.151,
+      },
+      {
+        rank: 8,
+        moveText: '17/15 13/10',
+        movements: [
+          {
+            from: 17,
+            to: 15,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,2,0,2,0,1,0,1,0,0,1,0,0,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: 0.131,
+        equityLoss: 0.17099999999999999,
+      },
+      {
+        rank: 9,
+        moveText: '17/14 13/11',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 17,
+            to: 14,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,2,0,2,0,0,1,1,0,1,0,0,0,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: 0.118,
+        equityLoss: 0.184,
+      },
+      {
+        rank: 10,
+        moveText: '6/4 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,2,2,0,0,2,0,0,0,1,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: 0.053,
+        equityLoss: 0.249,
+      },
+      {
+        rank: 11,
+        moveText: '20/15',
+        movements: [
+          {
+            from: 17,
+            to: 15,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 17,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,2,0,2,0,0,0,1,1,0,1,0,1,-2,-4,2,-2,-2,-1,-2|0,1|0,0',
+        equity: 0.074,
+        equityLoss: 0.22799999999999998,
+      },
+      {
+        rank: 12,
+        moveText: '13/11 4/1*',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,0,2,2,0,2,0,0,1,1,0,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,2|0,0',
+        equity: 0.07,
+        equityLoss: 0.23199999999999998,
+      },
+      {
+        rank: 13,
+        moveText: '20/17 13/11',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 17,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,2,0,2,0,0,1,1,0,0,0,0,2,-2,-4,2,-2,-2,-1,-2|0,1|0,0',
+        equity: 0.068,
+        equityLoss: 0.23399999999999999,
+      },
+      {
+        rank: 14,
+        moveText: '13/11 12/9',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 12,
+            to: 9,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,2,0,2,1,0,1,0,0,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: 0.067,
+        equityLoss: 0.235,
+      },
+      {
+        rank: 15,
+        moveText: '13/8',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,2,0,3,0,0,0,1,0,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: 0.052,
+        equityLoss: 0.25,
+      },
+      {
+        rank: 16,
+        moveText: '8/6 4/1*',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,0,2,3,0,1,0,0,0,1,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,2|0,0',
+        equity: -0.041,
+        equityLoss: 0.34299999999999997,
+      },
+      {
+        rank: 17,
+        moveText: '17/14 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 17,
+            to: 14,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,0,2,2,0,2,0,0,0,1,1,1,0,0,0,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.059,
+        equityLoss: 0.361,
+      },
+      {
+        rank: 18,
+        moveText: '20/17 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 17,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,0,2,2,0,2,0,0,0,1,1,0,0,0,2,-2,-4,2,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.072,
+        equityLoss: 0.374,
+      },
+      {
+        rank: 19,
+        moveText: '20/17 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 17,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,2,1,0,2,0,0,0,1,1,0,0,0,2,-2,-4,2,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.096,
+        equityLoss: 0.398,
+      },
+      {
+        rank: 20,
+        moveText: '8/6 8/5',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,3,3,0,0,0,0,0,1,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.1,
+        equityLoss: 0.402,
+      },
+      {
+        rank: 21,
+        moveText: '4/1* 3/1',
+        movements: [
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,1,0,2,2,0,2,0,0,0,1,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,2|0,0',
+        equity: -0.13,
+        equityLoss: 0.432,
+      },
+      {
+        rank: 22,
+        moveText: '17/14 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 17,
+            to: 14,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,2,1,0,2,0,0,0,1,1,1,0,0,0,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.133,
+        equityLoss: 0.435,
+      },
+      {
+        rank: 23,
+        moveText: '17/14 8/6',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 17,
+            to: 14,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,3,0,1,0,0,0,1,1,1,0,0,0,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.151,
+        equityLoss: 0.45299999999999996,
+      },
+      {
+        rank: 24,
+        moveText: '13/10 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,0,2,2,0,2,0,1,0,1,0,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.152,
+        equityLoss: 0.45399999999999996,
+      },
+      {
+        rank: 25,
+        moveText: '12/9 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 12,
+            to: 9,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,0,2,2,0,2,1,0,0,0,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.159,
+        equityLoss: 0.46099999999999997,
+      },
+      {
+        rank: 26,
+        moveText: '20/17 8/6',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 17,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,3,0,1,0,0,0,1,1,0,0,0,2,-2,-4,2,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.163,
+        equityLoss: 0.46499999999999997,
+      },
+      {
+        rank: 27,
+        moveText: '12/9 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 12,
+            to: 9,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,2,1,0,2,1,0,0,0,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.178,
+        equityLoss: 0.48,
+      },
+      {
+        rank: 28,
+        moveText: '12/9 8/6',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 12,
+            to: 9,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,3,0,1,1,0,0,0,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.181,
+        equityLoss: 0.483,
+      },
+      {
+        rank: 29,
+        moveText: '17/15 8/5',
+        movements: [
+          {
+            from: 17,
+            to: 15,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,3,2,0,1,0,0,0,1,1,0,1,0,0,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.193,
+        equityLoss: 0.495,
+      },
+      {
+        rank: 30,
+        moveText: '13/10 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,2,1,0,2,0,1,0,1,0,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.218,
+        equityLoss: 0.52,
+      },
+      {
+        rank: 31,
+        moveText: '12/7',
+        movements: [
+          {
+            from: 12,
+            to: 10,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,2,1,2,0,0,0,0,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.226,
+        equityLoss: 0.528,
+      },
+      {
+        rank: 32,
+        moveText: '12/10 8/5',
+        movements: [
+          {
+            from: 12,
+            to: 10,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,3,2,0,1,0,1,0,0,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.229,
+        equityLoss: 0.531,
+      },
+      {
+        rank: 33,
+        moveText: '13/10 8/6',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,2,3,0,1,0,1,0,1,0,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.235,
+        equityLoss: 0.5369999999999999,
+      },
+      {
+        rank: 34,
+        moveText: '13/11 8/5',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,1,3,2,0,1,0,0,1,1,0,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.249,
+        equityLoss: 0.5509999999999999,
+      },
+      {
+        rank: 35,
+        moveText: '8/5 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,0,3,2,0,1,0,0,0,1,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.322,
+        equityLoss: 0.624,
+      },
+      {
+        rank: 36,
+        moveText: '5/2 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,2,0,1,2,0,2,0,0,0,1,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.407,
+        equityLoss: 0.709,
+      },
+      {
+        rank: 37,
+        moveText: '8/3',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,1,2,2,0,1,0,0,0,1,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.442,
+        equityLoss: 0.744,
+      },
+      {
+        rank: 38,
+        moveText: '8/5 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,3,1,0,1,0,0,0,1,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -0.452,
+        equityLoss: 0.754,
+      },
+      {
+        rank: 39,
+        moveText: '20/17 3/1*',
+        movements: [
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: true,
+          },
+          {
+            from: 20,
+            to: 17,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,1,2,2,0,2,0,0,0,1,1,0,0,0,2,-2,-4,2,-2,-2,-1,-2|0,2|0,0',
+        equity: -1,
+        equityLoss: 1.302,
+      },
+      {
+        rank: 40,
+        moveText: '5/3 4/1*',
+        movements: [
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,0,1,2,0,2,0,0,0,1,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,2|0,0',
+        equity: -1.004,
+        equityLoss: 1.306,
+      },
+      {
+        rank: 41,
+        moveText: '12/9 3/1*',
+        movements: [
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: true,
+          },
+          {
+            from: 12,
+            to: 9,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,1,2,2,0,2,1,0,0,0,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,2|0,0',
+        equity: -1.04,
+        equityLoss: 1.342,
+      },
+      {
+        rank: 42,
+        moveText: '13/10 3/1*',
+        movements: [
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: true,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,1,2,2,0,2,0,1,0,1,0,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,2|0,0',
+        equity: -1.043,
+        equityLoss: 1.345,
+      },
+      {
+        rank: 43,
+        moveText: '17/14 3/1*',
+        movements: [
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: true,
+          },
+          {
+            from: 17,
+            to: 14,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,1,2,2,0,2,0,0,0,1,1,1,0,0,0,-2,-4,3,-2,-2,-1,-2|0,2|0,0',
+        equity: -1.046,
+        equityLoss: 1.348,
+      },
+      {
+        rank: 44,
+        moveText: '20/17 5/3',
+        movements: [
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 17,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,1,1,2,0,2,0,0,0,1,1,0,0,0,2,-2,-4,2,-2,-2,-1,-2|0,1|0,0',
+        equity: -1.05,
+        equityLoss: 1.352,
+      },
+      {
+        rank: 45,
+        moveText: '13/10 5/3',
+        movements: [
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,1,1,2,0,2,0,1,0,1,0,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -1.14,
+        equityLoss: 1.442,
+      },
+      {
+        rank: 46,
+        moveText: '17/14 5/3',
+        movements: [
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 17,
+            to: 14,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,1,1,2,0,2,0,0,0,1,1,1,0,0,0,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -1.141,
+        equityLoss: 1.443,
+      },
+      {
+        rank: 47,
+        moveText: '12/9 5/3',
+        movements: [
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 12,
+            to: 9,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,1,1,2,0,2,1,0,0,0,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -1.16,
+        equityLoss: 1.462,
+      },
+      {
+        rank: 48,
+        moveText: '8/5 3/1*',
+        movements: [
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: true,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,1,3,2,0,1,0,0,0,1,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,2|0,0',
+        equity: -1.194,
+        equityLoss: 1.496,
+      },
+      {
+        rank: 49,
+        moveText: '6/1*',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,1,2,1,0,2,0,0,0,1,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,2|0,0',
+        equity: -1.234,
+        equityLoss: 1.536,
+      },
+      {
+        rank: 50,
+        moveText: '5/3 5/2',
+        movements: [
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,3,1,0,2,0,2,0,0,0,1,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -1.292,
+        equityLoss: 1.594,
+      },
+      {
+        rank: 51,
+        moveText: '12/10 6/3',
+        movements: [
+          {
+            from: 12,
+            to: 10,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,1,2,1,0,2,0,1,0,0,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -1.335,
+        equityLoss: 1.637,
+      },
+      {
+        rank: 52,
+        moveText: '17/15 6/3',
+        movements: [
+          {
+            from: 17,
+            to: 15,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,1,2,1,0,2,0,0,0,1,1,0,1,0,0,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -1.337,
+        equityLoss: 1.639,
+      },
+      {
+        rank: 53,
+        moveText: '6/3 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,3,0,2,1,0,2,0,0,0,1,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -1.34,
+        equityLoss: 1.6420000000000001,
+      },
+      {
+        rank: 54,
+        moveText: '13/11 6/3',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,1,2,1,0,2,0,0,1,1,0,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -1.341,
+        equityLoss: 1.643,
+      },
+      {
+        rank: 55,
+        moveText: '13/11 5/2',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,1,1,2,0,2,0,0,1,1,0,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -1.38,
+        equityLoss: 1.682,
+      },
+      {
+        rank: 56,
+        moveText: '12/10 5/2',
+        movements: [
+          {
+            from: 12,
+            to: 10,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,1,1,2,0,2,0,1,0,0,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -1.386,
+        equityLoss: 1.688,
+      },
+      {
+        rank: 57,
+        moveText: '17/15 5/2',
+        movements: [
+          {
+            from: 17,
+            to: 15,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,1,1,2,0,2,0,0,0,1,1,0,1,0,0,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -1.395,
+        equityLoss: 1.697,
+      },
+      {
+        rank: 58,
+        moveText: '6/4 5/2',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,2,1,1,0,2,0,0,0,1,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -1.48,
+        equityLoss: 1.782,
+      },
+      {
+        rank: 59,
+        moveText: '8/6 5/2',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,1,1,3,0,1,0,0,0,1,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -1.538,
+        equityLoss: 1.84,
+      },
+      {
+        rank: 60,
+        moveText: '6/3 5/3',
+        movements: [
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,4,1,1,1,0,2,0,0,0,1,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,1|0,0',
+        equity: -1.731,
+        equityLoss: 2.033,
+      },
+      {
+        rank: 61,
+        moveText: '5/2 3/1*',
+        movements: [
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: true,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,1,1,2,0,2,0,0,0,1,1,0,0,0,1,-2,-4,3,-2,-2,-1,-2|0,2|0,0',
+        equity: -1.79,
+        equityLoss: 2.092,
+      },
+    ],
+  },
+  {
+    id: 'curated-054',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, 2, 2, 2, 2, 2, 0, 1, 0, 1, 0, -3, 1, 0, -1, 0, -2, -1, -5, -2, 0,
+        0, 0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 5],
+    answers: [
+      {
+        rank: 1,
+        moveText: '13/3 10/5 8/3',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 5,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,4,2,3,2,0,0,0,0,0,-3,0,0,-1,0,-2,-1,-5,-2,0,0,0,0|0,1|0,0',
+        equity: 1.684,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '13/8 10/5 6/1(2)',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 5,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,2,2,3,0,0,2,0,0,0,-3,0,0,-1,0,-2,-1,-5,-2,0,0,0,0|0,1|0,0',
+        equity: 1.426,
+        equityLoss: 0.258,
+      },
+      {
+        rank: 3,
+        moveText: '13/3 6/1(2)',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,3,2,2,0,0,1,0,1,0,-3,0,0,-1,0,-2,-1,-5,-2,0,0,0,0|0,1|0,0',
+        equity: 1.369,
+        equityLoss: 0.31499999999999995,
+      },
+      {
+        rank: 4,
+        moveText: '10/5 8/3 6/1(2)',
+        movements: [
+          {
+            from: 10,
+            to: 5,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,3,2,3,0,0,0,0,0,0,-3,1,0,-1,0,-2,-1,-5,-2,0,0,0,0|0,1|0,0',
+        equity: 1.356,
+        equityLoss: 0.32799999999999985,
+      },
+      {
+        rank: 5,
+        moveText: '13/3 10/5 6/1',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 5,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,3,2,3,1,0,1,0,0,0,-3,0,0,-1,0,-2,-1,-5,-2,0,0,0,0|0,1|0,0',
+        equity: 1.175,
+        equityLoss: 0.5089999999999999,
+      },
+      {
+        rank: 6,
+        moveText: '13/3 8/3 6/1',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,4,2,2,1,0,0,0,1,0,-3,0,0,-1,0,-2,-1,-5,-2,0,0,0,0|0,1|0,0',
+        equity: 1.121,
+        equityLoss: 0.563,
+      },
+    ],
+  },
+  {
+    id: 'curated-055',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, 1, 2, 3, 2, 3, 0, -1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, -5,
+        -8, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 2],
+    answers: [
+      {
+        rank: 1,
+        moveText: '9/8* 4/2',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey: '0,2,2,2,2,2,3,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,2|0,0',
+        equity: 1.451,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '14/12 9/8*',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 14,
+            to: 12,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey: '0,2,1,2,3,2,3,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,-5,-8,0|0,2|0,0',
+        equity: 1.398,
+        equityLoss: 0.05300000000000016,
+      },
+      {
+        rank: 3,
+        moveText: '9/8*/6',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey: '0,2,1,2,3,2,4,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,2|0,0',
+        equity: 1.386,
+        equityLoss: 0.06500000000000017,
+      },
+      {
+        rank: 4,
+        moveText: '6/5 4/2',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,2,3,2,0,-1,1,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.383,
+        equityLoss: 0.06800000000000006,
+      },
+      {
+        rank: 5,
+        moveText: '14/13 4/2',
+        movements: [
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,2,2,3,0,-1,1,0,0,0,1,0,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.368,
+        equityLoss: 0.08299999999999996,
+      },
+      {
+        rank: 6,
+        moveText: '9/8* 6/4',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey: '0,2,1,2,4,2,2,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,2|0,0',
+        equity: 1.351,
+        equityLoss: 0.10000000000000009,
+      },
+      {
+        rank: 7,
+        moveText: '14/11',
+        movements: [
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,3,2,3,0,-1,1,0,1,0,0,0,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.179,
+        equityLoss: 0.272,
+      },
+      {
+        rank: 8,
+        moveText: '14/12 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 12,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,3,3,2,0,-1,1,0,0,1,0,0,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.169,
+        equityLoss: 0.28200000000000003,
+      },
+      {
+        rank: 9,
+        moveText: '14/12 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 12,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,3,2,2,3,0,-1,1,0,0,1,0,0,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.192,
+        equityLoss: 0.2590000000000001,
+      },
+      {
+        rank: 10,
+        moveText: '9/8* 3/1',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey: '0,3,1,1,3,2,3,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,2|0,0',
+        equity: 1.189,
+        equityLoss: 0.262,
+      },
+      {
+        rank: 11,
+        moveText: '6/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,3,3,2,2,0,-1,1,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.185,
+        equityLoss: 0.266,
+      },
+      {
+        rank: 12,
+        moveText: '9/7 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 7,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,3,3,2,1,-1,0,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.182,
+        equityLoss: 0.26900000000000013,
+      },
+      {
+        rank: 13,
+        moveText: '9/7 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 7,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,3,2,2,3,1,-1,0,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.181,
+        equityLoss: 0.27,
+      },
+      {
+        rank: 14,
+        moveText: '14/12 2/1',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 12,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,0,2,3,2,3,0,-1,1,0,0,1,0,0,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.176,
+        equityLoss: 0.27500000000000013,
+      },
+      {
+        rank: 15,
+        moveText: '14/12 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 12,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,1,3,2,3,0,-1,1,0,0,1,0,0,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.173,
+        equityLoss: 0.278,
+      },
+      {
+        rank: 16,
+        moveText: '14/13 9/7',
+        movements: [
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 7,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,3,2,3,1,-1,0,0,0,0,1,0,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.173,
+        equityLoss: 0.278,
+      },
+      {
+        rank: 17,
+        moveText: '9/6',
+        movements: [
+          {
+            from: 9,
+            to: 7,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,3,2,4,0,-1,0,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.171,
+        equityLoss: 0.28,
+      },
+      {
+        rank: 18,
+        moveText: '4/1',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,1,2,2,2,3,0,-1,1,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.162,
+        equityLoss: 0.28900000000000015,
+      },
+      {
+        rank: 19,
+        moveText: '9/7 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 7,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,1,3,2,3,1,-1,0,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.16,
+        equityLoss: 0.29100000000000015,
+      },
+      {
+        rank: 20,
+        moveText: '9/7 2/1',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 7,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,0,2,3,2,3,1,-1,0,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.157,
+        equityLoss: 0.29400000000000004,
+      },
+      {
+        rank: 21,
+        moveText: '6/4 2/1',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,0,2,4,2,2,0,-1,1,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.156,
+        equityLoss: 0.29500000000000015,
+      },
+      {
+        rank: 22,
+        moveText: '3/2 3/1',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,0,3,2,3,0,-1,1,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.149,
+        equityLoss: 0.30200000000000005,
+      },
+      {
+        rank: 23,
+        moveText: '14/13 6/4',
+        movements: [
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,4,2,2,0,-1,1,0,0,0,1,0,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.145,
+        equityLoss: 0.30600000000000005,
+      },
+      {
+        rank: 24,
+        moveText: '9/8* 5/3',
+        movements: [
+          {
+            from: 9,
+            to: 8,
+            die: 1,
+            hit: true,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey: '0,2,1,3,3,1,3,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,2|0,0',
+        equity: 1.143,
+        equityLoss: 0.30800000000000005,
+      },
+      {
+        rank: 25,
+        moveText: '4/2 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,1,2,2,3,0,-1,1,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.14,
+        equityLoss: 0.31100000000000017,
+      },
+      {
+        rank: 26,
+        moveText: '6/4 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,1,4,2,2,0,-1,1,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.128,
+        equityLoss: 0.3230000000000002,
+      },
+      {
+        rank: 27,
+        moveText: '4/3 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,3,1,2,3,0,-1,1,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.105,
+        equityLoss: 0.3460000000000001,
+      },
+      {
+        rank: 28,
+        moveText: '5/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,3,1,3,0,-1,1,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 1.102,
+        equityLoss: 0.349,
+      },
+      {
+        rank: 29,
+        moveText: '3/1 2/1',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,0,1,3,2,3,0,-1,1,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 0.907,
+        equityLoss: 0.544,
+      },
+      {
+        rank: 30,
+        moveText: '6/5 3/1',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,1,1,3,3,2,0,-1,1,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 0.904,
+        equityLoss: 0.547,
+      },
+      {
+        rank: 31,
+        moveText: '5/3 2/1',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,0,3,3,1,3,0,-1,1,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 0.899,
+        equityLoss: 0.552,
+      },
+      {
+        rank: 32,
+        moveText: '14/13 3/1',
+        movements: [
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,1,1,3,2,3,0,-1,1,0,0,0,1,0,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 0.889,
+        equityLoss: 0.562,
+      },
+      {
+        rank: 33,
+        moveText: '5/4 5/3',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,3,4,0,3,0,-1,1,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 0.88,
+        equityLoss: 0.5710000000000001,
+      },
+      {
+        rank: 34,
+        moveText: '14/13 5/3',
+        movements: [
+          {
+            from: 14,
+            to: 13,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,3,3,1,3,0,-1,1,0,0,0,1,0,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 0.836,
+        equityLoss: 0.6150000000000001,
+      },
+      {
+        rank: 35,
+        moveText: '6/5 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,4,3,1,0,-1,1,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 0.828,
+        equityLoss: 0.6230000000000001,
+      },
+      {
+        rank: 36,
+        moveText: '9/7 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 7,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,4,1,3,1,-1,0,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 0.818,
+        equityLoss: 0.6330000000000001,
+      },
+      {
+        rank: 37,
+        moveText: '14/12 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 12,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,4,1,3,0,-1,1,0,0,1,0,0,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 0.817,
+        equityLoss: 0.6340000000000001,
+      },
+      {
+        rank: 38,
+        moveText: '5/3 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,4,2,1,3,0,-1,1,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 0.763,
+        equityLoss: 0.6880000000000001,
+      },
+      {
+        rank: 39,
+        moveText: '6/4 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,5,1,2,0,-1,1,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 0.696,
+        equityLoss: 0.7550000000000001,
+      },
+      {
+        rank: 40,
+        moveText: '5/4 3/1',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,1,1,4,1,3,0,-1,1,0,0,0,0,1,0,0,0,0,0,0,0,-5,-8,0|0,1|0,0',
+        equity: 0.122,
+        equityLoss: 1.3290000000000002,
+      },
+    ],
+  },
+  {
+    id: 'curated-056',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, 1, 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, -2, 0, 0, 0, 0, -2, 1, -4, -2, -2,
+        0, -2, 1,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [3, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '8/2(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,2,2,2,2,2,0,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: 0.982,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '18/15 7/1 7/4',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,3,2,2,0,2,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: 0.788,
+        equityLoss: 0.19399999999999995,
+      },
+      {
+        rank: 3,
+        moveText: '8/5 7/1 7/4',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,3,3,2,0,1,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: 0.692,
+        equityLoss: 0.29000000000000004,
+      },
+      {
+        rank: 4,
+        moveText: '8/5(2) 7/1',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,2,4,2,1,0,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: 0.675,
+        equityLoss: 0.30699999999999994,
+      },
+      {
+        rank: 5,
+        moveText: '18/15 8/5 7/1',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,2,3,2,1,1,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: 0.634,
+        equityLoss: 0.348,
+      },
+      {
+        rank: 6,
+        moveText: '7/1(2)',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,0,2,2,2,2,0,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: 0.46,
+        equityLoss: 0.522,
+      },
+      {
+        rank: 7,
+        moveText: '7/1 5/2(2)',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,2,0,2,1,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: 0.399,
+        equityLoss: 0.583,
+      },
+      {
+        rank: 8,
+        moveText: '8/2 7/1',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,2,2,2,1,1,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: 0.35,
+        equityLoss: 0.632,
+      },
+      {
+        rank: 9,
+        moveText: '18/15 8/2 8/5',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,2,3,2,2,0,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: 0.013,
+        equityLoss: 0.969,
+      },
+      {
+        rank: 10,
+        moveText: '18/15 8/5(2) 7/4',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,3,4,2,1,0,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.099,
+        equityLoss: 1.081,
+      },
+      {
+        rank: 11,
+        moveText: '18/15 8/5 7/4(2)',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,4,3,2,0,1,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.147,
+        equityLoss: 1.129,
+      },
+      {
+        rank: 12,
+        moveText: '18/15 8/5 4/1(2)',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,0,2,0,3,2,2,1,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.193,
+        equityLoss: 1.175,
+      },
+      {
+        rank: 13,
+        moveText: '8/5(2) 7/4(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,4,4,2,0,0,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.203,
+        equityLoss: 1.185,
+      },
+      {
+        rank: 14,
+        moveText: '18/15 8/5(2) 4/1',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,1,4,2,2,0,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.289,
+        equityLoss: 1.271,
+      },
+      {
+        rank: 15,
+        moveText: '18/15 5/2(2) 4/1',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,1,0,2,2,2,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.306,
+        equityLoss: 1.288,
+      },
+      {
+        rank: 16,
+        moveText: '8/5(2) 4/1(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,0,2,0,4,2,2,0,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.332,
+        equityLoss: 1.314,
+      },
+      {
+        rank: 17,
+        moveText: '5/2(2) 4/1(2)',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,2,0,0,2,2,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.367,
+        equityLoss: 1.349,
+      },
+      {
+        rank: 18,
+        moveText: '7/1 6/3(2)',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,4,2,2,0,1,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.403,
+        equityLoss: 1.385,
+      },
+      {
+        rank: 19,
+        moveText: '8/2 8/5 7/4',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,3,3,2,1,0,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.437,
+        equityLoss: 1.419,
+      },
+      {
+        rank: 20,
+        moveText: '18/15 8/2 5/2',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,2,2,1,2,2,1,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.45,
+        equityLoss: 1.432,
+      },
+      {
+        rank: 21,
+        moveText: '18/15 8/2 7/4',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,3,2,2,1,1,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.471,
+        equityLoss: 1.4529999999999998,
+      },
+      {
+        rank: 22,
+        moveText: '8/2 5/2(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,3,2,2,0,2,2,1,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.507,
+        equityLoss: 1.4889999999999999,
+      },
+      {
+        rank: 23,
+        moveText: '18/15 7/4 5/2(2)',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,2,3,0,2,1,2,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.509,
+        equityLoss: 1.491,
+      },
+      {
+        rank: 24,
+        moveText: '7/4(2) 5/2(2)',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,2,4,0,2,0,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.518,
+        equityLoss: 1.5,
+      },
+      {
+        rank: 25,
+        moveText: '18/15 7/1 6/3',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,3,2,2,1,1,2,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.529,
+        equityLoss: 1.5110000000000001,
+      },
+      {
+        rank: 26,
+        moveText: '18/15 7/1 4/1',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,0,2,1,2,2,1,2,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.529,
+        equityLoss: 1.5110000000000001,
+      },
+      {
+        rank: 27,
+        moveText: '8/2 7/4(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,4,2,2,0,1,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.535,
+        equityLoss: 1.517,
+      },
+      {
+        rank: 28,
+        moveText: '18/15 7/1 5/2',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,2,1,2,1,2,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.55,
+        equityLoss: 1.532,
+      },
+      {
+        rank: 29,
+        moveText: '7/1 7/4 6/3',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,3,3,2,1,0,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.555,
+        equityLoss: 1.537,
+      },
+      {
+        rank: 30,
+        moveText: '7/1 4/1(2)',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,0,2,0,2,2,1,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.626,
+        equityLoss: 1.608,
+      },
+      {
+        rank: 31,
+        moveText: '18/15 8/2 4/1',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,1,2,2,2,1,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.628,
+        equityLoss: 1.6099999999999999,
+      },
+      {
+        rank: 32,
+        moveText: '8/2 8/5 4/1',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,1,3,2,2,0,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.696,
+        equityLoss: 1.678,
+      },
+      {
+        rank: 33,
+        moveText: '8/5 7/1 6/3',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,3,2,3,1,1,1,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.748,
+        equityLoss: 1.73,
+      },
+      {
+        rank: 34,
+        moveText: '8/2 4/1(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,1,2,0,2,2,2,1,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.801,
+        equityLoss: 1.783,
+      },
+      {
+        rank: 35,
+        moveText: '7/1 7/4 5/2',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,3,1,2,0,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.805,
+        equityLoss: 1.787,
+      },
+      {
+        rank: 36,
+        moveText: '8/5 7/1 4/1',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,0,2,1,3,2,1,1,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.924,
+        equityLoss: 1.9060000000000001,
+      },
+      {
+        rank: 37,
+        moveText: '8/2 5/2 4/1',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,1,1,2,2,1,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.93,
+        equityLoss: 1.912,
+      },
+      {
+        rank: 38,
+        moveText: '8/5(2) 6/3(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,4,2,4,0,2,0,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.977,
+        equityLoss: 1.959,
+      },
+      {
+        rank: 39,
+        moveText: '8/2 7/4 5/2',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,2,3,1,2,1,1,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -0.986,
+        equityLoss: 1.968,
+      },
+      {
+        rank: 40,
+        moveText: '6/3(2) 4/1(2)',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,0,4,0,2,0,2,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.982,
+      },
+      {
+        rank: 41,
+        moveText: '7/4(2) 6/3(2)',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,4,4,2,0,0,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.982,
+      },
+      {
+        rank: 42,
+        moveText: '18/15 8/5 6/3(2)',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,4,2,3,0,2,1,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.982,
+      },
+      {
+        rank: 43,
+        moveText: '18/15 6/3(2) 4/1',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,4,1,2,0,2,2,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.982,
+      },
+      {
+        rank: 44,
+        moveText: '18/15 7/4 6/3(2)',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,4,3,2,0,1,2,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.982,
+      },
+      {
+        rank: 45,
+        moveText: '6/3(2) 5/2(2)',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,4,2,0,0,2,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.982,
+      },
+      {
+        rank: 46,
+        moveText: '18/15 6/3 4/1(2)',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,0,3,0,2,1,2,2,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.982,
+      },
+      {
+        rank: 47,
+        moveText: '8/5 7/4 6/3(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,4,3,3,0,1,1,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.982,
+      },
+      {
+        rank: 48,
+        moveText: '18/15 8/5(2) 6/3',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,2,4,1,2,0,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.982,
+      },
+      {
+        rank: 49,
+        moveText: '18/15 7/4(2) 6/3',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,4,2,1,0,2,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.014,
+        equityLoss: 1.996,
+      },
+      {
+        rank: 50,
+        moveText: '18/15 5/2 4/1(2)',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,1,2,0,1,2,2,2,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.021,
+        equityLoss: 2.003,
+      },
+      {
+        rank: 51,
+        moveText: '18/15 6/3 5/2(2)',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,3,2,0,1,2,2,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.03,
+        equityLoss: 2.012,
+      },
+      {
+        rank: 52,
+        moveText: '18/15 7/4(2) 5/2',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,4,1,2,0,2,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.043,
+        equityLoss: 2.025,
+      },
+      {
+        rank: 53,
+        moveText: '8/2 6/3(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,4,2,2,0,2,1,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.048,
+        equityLoss: 2.0300000000000002,
+      },
+      {
+        rank: 54,
+        moveText: '8/5 6/3(2) 4/1',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,4,1,3,0,2,1,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.053,
+        equityLoss: 2.035,
+      },
+      {
+        rank: 55,
+        moveText: '8/5 7/4(2) 6/3',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,4,3,1,0,1,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.069,
+        equityLoss: 2.051,
+      },
+      {
+        rank: 56,
+        moveText: '8/5 6/3 4/1(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,0,3,0,3,1,2,1,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.088,
+        equityLoss: 2.0700000000000003,
+      },
+      {
+        rank: 57,
+        moveText: '8/2 8/5 6/3',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,3,2,3,1,2,0,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.094,
+        equityLoss: 2.076,
+      },
+      {
+        rank: 58,
+        moveText: '8/5(2) 7/4 6/3',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,3,4,1,1,0,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.101,
+        equityLoss: 2.083,
+      },
+      {
+        rank: 59,
+        moveText: '18/15 8/5 6/3 4/1',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,3,1,3,1,2,1,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.113,
+        equityLoss: 2.0949999999999998,
+      },
+      {
+        rank: 60,
+        moveText: '6/3 5/2(2) 4/1',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,3,1,0,1,2,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.131,
+        equityLoss: 2.113,
+      },
+      {
+        rank: 61,
+        moveText: '8/5(2) 6/3 4/1',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,3,1,4,1,2,0,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.139,
+        equityLoss: 2.121,
+      },
+      {
+        rank: 62,
+        moveText: '18/15 8/5 7/4 6/3',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,3,3,1,1,1,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.156,
+        equityLoss: 2.138,
+      },
+      {
+        rank: 63,
+        moveText: '7/4 6/3 5/2(2)',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,3,3,0,1,1,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.177,
+        equityLoss: 2.159,
+      },
+      {
+        rank: 64,
+        moveText: '18/15 8/2 6/3',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,3,2,2,1,2,1,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.178,
+        equityLoss: 2.16,
+      },
+      {
+        rank: 65,
+        moveText: '7/1 6/3 4/1',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,0,3,1,2,1,1,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.283,
+        equityLoss: 2.2649999999999997,
+      },
+      {
+        rank: 66,
+        moveText: '18/15 6/3(2) 5/2',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,4,2,1,0,2,2,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.287,
+        equityLoss: 2.269,
+      },
+      {
+        rank: 67,
+        moveText: '8/2 6/3 5/2',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,3,2,1,1,2,1,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.293,
+        equityLoss: 2.275,
+      },
+      {
+        rank: 68,
+        moveText: '8/2 7/4 6/3',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,3,3,2,1,1,1,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.297,
+        equityLoss: 2.279,
+      },
+      {
+        rank: 69,
+        moveText: '7/1 6/3 5/2',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,3,2,1,1,1,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.352,
+        equityLoss: 2.334,
+      },
+      {
+        rank: 70,
+        moveText: '8/2 6/3 4/1',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,3,1,2,1,2,1,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.356,
+        equityLoss: 2.338,
+      },
+      {
+        rank: 71,
+        moveText: '7/1 5/2 4/1',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,1,2,1,1,2,1,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.378,
+        equityLoss: 2.36,
+      },
+      {
+        rank: 72,
+        moveText: '6/3(2) 5/2 4/1',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,4,1,1,0,2,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.406,
+        equityLoss: 2.388,
+      },
+      {
+        rank: 73,
+        moveText: '7/4 6/3(2) 5/2',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,4,3,1,0,1,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.421,
+        equityLoss: 2.403,
+      },
+      {
+        rank: 74,
+        moveText: '6/3 5/2 4/1(2)',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,1,3,0,1,1,2,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.459,
+        equityLoss: 2.441,
+      },
+      {
+        rank: 75,
+        moveText: '7/4(2) 6/3 5/2',
+        movements: [
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,3,4,1,1,0,2,0,0,0,-2,0,0,0,0,-2,1,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.484,
+        equityLoss: 2.466,
+      },
+      {
+        rank: 76,
+        moveText: '18/15 6/3 5/2 4/1',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,3,1,1,1,2,2,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.497,
+        equityLoss: 2.479,
+      },
+      {
+        rank: 77,
+        moveText: '18/15 7/4 6/3 5/2',
+        movements: [
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,3,3,1,1,1,2,0,0,0,-2,0,0,1,0,-2,0,-4,-2,-2,0,-2,1|0,1|0,0',
+        equity: -1.599,
+        equityLoss: 2.581,
+      },
+    ],
+  },
+  {
+    id: 'curated-057',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, 2, 2, 0, -1, 3, 0, 2, 0, 0, 2, -5, 0, 0, 0, 0, -2, 2, -2, -2, 0,
+        0, -2, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 6],
+    answers: [
+      {
+        rank: 1,
+        moveText: '18/13 11/5*',
+        movements: [
+          {
+            from: 18,
+            to: 13,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,0,1,3,0,2,0,0,1,-5,1,0,0,0,-2,1,-2,-2,0,0,-2,0|0,2|0,0',
+        equity: 1.298,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '11/6 11/5*',
+        movements: [
+          {
+            from: 11,
+            to: 6,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,0,1,4,0,2,0,0,0,-5,0,0,0,0,-2,2,-2,-2,0,0,-2,0|0,2|0,0',
+        equity: 1.212,
+        equityLoss: 0.08600000000000008,
+      },
+      {
+        rank: 3,
+        moveText: '11/5* 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,2,2,3,0,1,3,0,1,0,0,1,-5,0,0,0,0,-2,2,-2,-2,0,0,-2,0|0,2|0,0',
+        equity: 1.112,
+        equityLoss: 0.18599999999999994,
+      },
+      {
+        rank: 4,
+        moveText: '11/5* 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,3,2,2,0,1,2,0,2,0,0,1,-5,0,0,0,0,-2,2,-2,-2,0,0,-2,0|0,2|0,0',
+        equity: 1.036,
+        equityLoss: 0.262,
+      },
+      {
+        rank: 5,
+        moveText: '18/7',
+        movements: [
+          {
+            from: 18,
+            to: 13,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,0,-1,3,1,2,0,0,2,-5,0,0,0,0,-2,1,-2,-2,0,0,-2,0|0,1|0,0',
+        equity: 1.011,
+        equityLoss: 0.28700000000000014,
+      },
+      {
+        rank: 6,
+        moveText: '8/3 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,3,0,-1,3,0,0,0,0,2,-5,0,0,0,0,-2,2,-2,-2,0,0,-2,0|0,1|0,0',
+        equity: 0.674,
+        equityLoss: 0.624,
+      },
+      {
+        rank: 7,
+        moveText: '18/13 8/2',
+        movements: [
+          {
+            from: 18,
+            to: 13,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,2,0,-1,3,0,1,0,0,2,-5,1,0,0,0,-2,1,-2,-2,0,0,-2,0|0,1|0,0',
+        equity: 0.668,
+        equityLoss: 0.63,
+      },
+      {
+        rank: 8,
+        moveText: '11/6 8/2',
+        movements: [
+          {
+            from: 11,
+            to: 6,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,2,0,-1,4,0,1,0,0,1,-5,0,0,0,0,-2,2,-2,-2,0,0,-2,0|0,1|0,0',
+        equity: 0.641,
+        equityLoss: 0.657,
+      },
+      {
+        rank: 9,
+        moveText: '8/2 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,3,2,0,-1,2,0,1,0,0,2,-5,0,0,0,0,-2,2,-2,-2,0,0,-2,0|0,1|0,0',
+        equity: 0.502,
+        equityLoss: 0.796,
+      },
+    ],
+  },
+  {
+    id: 'curated-058',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, 3, 2, 3, 2, 3, 1, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, -2, -2, -2,
+        -2, -2, 1,
+      ],
+      bar: {
+        white: 0,
+        black: 2,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [6, 1],
+    answers: [
+      {
+        rank: 1,
+        moveText: '6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,3,2,4,0,0,-1,0,0,0,0,0,0,0,0,0,-2,-2,-2,-2,-2,-2,1|0,2|0,0',
+        equity: -1.053,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,3,2,2,3,1,0,-1,0,0,0,0,0,0,0,0,0,-2,-2,-2,-2,-2,-2,1|0,2|0,0',
+        equity: -1.116,
+        equityLoss: 0.06300000000000017,
+      },
+      {
+        rank: 3,
+        moveText: '5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,3,3,2,1,0,-1,0,0,0,0,0,0,0,0,0,-2,-2,-2,-2,-2,-2,1|0,2|0,0',
+        equity: -1.117,
+        equityLoss: 0.06400000000000006,
+      },
+      {
+        rank: 4,
+        moveText: '4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,4,1,3,1,0,-1,0,0,0,0,0,0,0,0,0,-2,-2,-2,-2,-2,-2,1|0,2|0,0',
+        equity: -1.258,
+        equityLoss: 0.20500000000000007,
+      },
+      {
+        rank: 5,
+        moveText: '2/1',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,1,3,2,3,1,0,-1,0,0,0,0,0,0,0,0,0,-2,-2,-2,-2,-2,-2,1|0,2|0,0',
+        equity: -1.264,
+        equityLoss: 0.21100000000000008,
+      },
+    ],
+  },
+  {
+    id: 'curated-059',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, -1, 0, 2, 0, 4, 0, 1, 1, 1, 0, -4, 2, -1, 0, 0, -3, 0, -5, 0, 0,
+        0, 0, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [6, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: '8/2* 6/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,0,2,0,3,0,0,1,1,0,-4,2,-1,0,0,-3,0,-5,0,0,0,0,2|0,2|0,0',
+        equity: 1.319,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '24/14*',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 18,
+            to: 14,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,2,-1,0,2,0,4,0,1,1,1,0,-4,2,1,0,0,-3,0,-5,0,0,0,0,1|0,2|0,0',
+        equity: 1.042,
+        equityLoss: 0.2769999999999999,
+      },
+      {
+        rank: 3,
+        moveText: '13/7 6/2*',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,2,1,0,2,0,3,1,1,1,1,0,-4,1,-1,0,0,-3,0,-5,0,0,0,0,2|0,2|0,0',
+        equity: 0.968,
+        equityLoss: 0.351,
+      },
+      {
+        rank: 4,
+        moveText: '24/18 6/2*',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,2,1,0,2,0,3,0,1,1,1,0,-4,2,-1,0,0,-3,1,-5,0,0,0,0,1|0,2|0,0',
+        equity: 0.963,
+        equityLoss: 0.356,
+      },
+      {
+        rank: 5,
+        moveText: '24/20 8/2*',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: true,
+          },
+          {
+            from: 24,
+            to: 20,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,0,2,0,4,0,0,1,1,0,-4,2,-1,0,0,-3,0,-5,1,0,0,0,1|0,2|0,0',
+        equity: 0.952,
+        equityLoss: 0.367,
+      },
+      {
+        rank: 6,
+        moveText: '10/4 6/2*',
+        movements: [
+          {
+            from: 10,
+            to: 4,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,2,1,0,3,0,3,0,1,1,0,0,-4,2,-1,0,0,-3,0,-5,0,0,0,0,2|0,2|0,0',
+        equity: 0.92,
+        equityLoss: 0.3989999999999999,
+      },
+      {
+        rank: 7,
+        moveText: '13/9 8/2*',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: true,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,0,2,0,4,0,0,2,1,0,-4,1,-1,0,0,-3,0,-5,0,0,0,0,2|0,2|0,0',
+        equity: 0.879,
+        equityLoss: 0.43999999999999995,
+      },
+      {
+        rank: 8,
+        moveText: '10/6 8/2*',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: true,
+          },
+          {
+            from: 10,
+            to: 6,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,0,2,0,5,0,0,1,0,0,-4,2,-1,0,0,-3,0,-5,0,0,0,0,2|0,2|0,0',
+        equity: 0.785,
+        equityLoss: 0.5339999999999999,
+      },
+      {
+        rank: 9,
+        moveText: '9/3 6/2*',
+        movements: [
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,2,1,1,2,0,3,0,1,0,1,0,-4,2,-1,0,0,-3,0,-5,0,0,0,0,2|0,2|0,0',
+        equity: 0.838,
+        equityLoss: 0.481,
+      },
+      {
+        rank: 10,
+        moveText: '9/5 8/2*',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: true,
+          },
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,0,2,1,4,0,0,0,1,0,-4,2,-1,0,0,-3,0,-5,0,0,0,0,2|0,2|0,0',
+        equity: 0.801,
+        equityLoss: 0.5179999999999999,
+      },
+      {
+        rank: 11,
+        moveText: '24/18 8/4',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,0,3,0,4,0,0,1,1,0,-4,2,-1,0,0,-3,1,-5,0,0,0,0,1|0,1|0,0',
+        equity: 0.654,
+        equityLoss: 0.6649999999999999,
+      },
+      {
+        rank: 12,
+        moveText: '13/9 13/7',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,0,2,0,4,1,1,2,1,0,-4,0,-1,0,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.642,
+        equityLoss: 0.6769999999999999,
+      },
+      {
+        rank: 13,
+        moveText: '24/20 10/4',
+        movements: [
+          {
+            from: 10,
+            to: 4,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 20,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,0,3,0,4,0,1,1,0,0,-4,2,-1,0,0,-3,0,-5,1,0,0,0,1|0,1|0,0',
+        equity: 0.641,
+        equityLoss: 0.6779999999999999,
+      },
+      {
+        rank: 14,
+        moveText: '24/20 24/18',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 20,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,0,2,0,4,0,1,1,1,0,-4,2,-1,0,0,-3,1,-5,1,0,0,0,0|0,1|0,0',
+        equity: 0.623,
+        equityLoss: 0.696,
+      },
+      {
+        rank: 15,
+        moveText: '13/9 10/4',
+        movements: [
+          {
+            from: 10,
+            to: 4,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,0,3,0,4,0,1,2,0,0,-4,1,-1,0,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.608,
+        equityLoss: 0.711,
+      },
+      {
+        rank: 16,
+        moveText: '24/18 10/6',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 6,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,0,2,0,5,0,1,1,0,0,-4,2,-1,0,0,-3,1,-5,0,0,0,0,1|0,1|0,0',
+        equity: 0.574,
+        equityLoss: 0.745,
+      },
+      {
+        rank: 17,
+        moveText: '24/18 13/9',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,0,2,0,4,0,1,2,1,0,-4,1,-1,0,0,-3,1,-5,0,0,0,0,1|0,1|0,0',
+        equity: 0.559,
+        equityLoss: 0.7599999999999999,
+      },
+      {
+        rank: 18,
+        moveText: '10/4 8/4',
+        movements: [
+          {
+            from: 10,
+            to: 4,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,0,4,0,4,0,0,1,0,0,-4,2,-1,0,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.527,
+        equityLoss: 0.7919999999999999,
+      },
+      {
+        rank: 19,
+        moveText: '10/4 9/5',
+        movements: [
+          {
+            from: 10,
+            to: 4,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,0,3,1,4,0,1,0,0,0,-4,2,-1,0,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.499,
+        equityLoss: 0.82,
+      },
+      {
+        rank: 20,
+        moveText: '13/7 8/4',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,0,3,0,4,1,0,1,1,0,-4,1,-1,0,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.487,
+        equityLoss: 0.832,
+      },
+      {
+        rank: 21,
+        moveText: '24/18 9/5',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,0,2,1,4,0,1,0,1,0,-4,2,-1,0,0,-3,1,-5,0,0,0,0,1|0,1|0,0',
+        equity: 0.473,
+        equityLoss: 0.846,
+      },
+      {
+        rank: 22,
+        moveText: '24/20 13/7',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 20,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,0,2,0,4,1,1,1,1,0,-4,1,-1,0,0,-3,0,-5,1,0,0,0,1|0,1|0,0',
+        equity: 0.429,
+        equityLoss: 0.8899999999999999,
+      },
+      {
+        rank: 23,
+        moveText: '24/20 9/3',
+        movements: [
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 20,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,1,2,0,4,0,1,0,1,0,-4,2,-1,0,0,-3,0,-5,1,0,0,0,1|0,1|0,0',
+        equity: 0.427,
+        equityLoss: 0.8919999999999999,
+      },
+      {
+        rank: 24,
+        moveText: '9/3 8/4',
+        movements: [
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,1,3,0,4,0,0,0,1,0,-4,2,-1,0,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.422,
+        equityLoss: 0.897,
+      },
+      {
+        rank: 25,
+        moveText: '13/7 10/6',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 6,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,0,2,0,5,1,1,1,0,0,-4,1,-1,0,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.37,
+        equityLoss: 0.949,
+      },
+      {
+        rank: 26,
+        moveText: '10/6 9/3',
+        movements: [
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 6,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,1,2,0,5,0,1,0,0,0,-4,2,-1,0,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.359,
+        equityLoss: 0.96,
+      },
+      {
+        rank: 27,
+        moveText: '13/7 9/5',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,0,2,1,4,1,1,0,1,0,-4,1,-1,0,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.345,
+        equityLoss: 0.974,
+      },
+      {
+        rank: 28,
+        moveText: '13/3',
+        movements: [
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-1,1,2,0,4,0,1,1,1,0,-4,1,-1,0,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: 0.287,
+        equityLoss: 1.032,
+      },
+    ],
+  },
+  {
+    id: 'curated-060',
+    kind: 'play',
+    theme: 'blitzing',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, -1, 0, 2, 1, 3, 0, 3, 0, 0, 2, -4, 2, 0, 1, 0, -2, 0, -3, 0, -2,
+        -2, 0, 1,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 6],
+    answers: [
+      {
+        rank: 1,
+        moveText: '15/9 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,2,2,0,3,1,0,2,-4,2,0,0,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: 0.755,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '11/10 11/5',
+        movements: [
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,2,3,0,3,0,1,0,-4,2,0,1,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: 0.624,
+        equityLoss: 0.131,
+      },
+      {
+        rank: 3,
+        moveText: '24/18 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,2,2,0,3,0,0,2,-4,2,0,1,0,-2,1,-3,0,-2,-2,0,0|0,1|0,0',
+        equity: 0.617,
+        equityLoss: 0.138,
+      },
+      {
+        rank: 4,
+        moveText: '15/14 11/5',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,2,3,0,3,0,0,1,-4,2,1,0,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: 0.611,
+        equityLoss: 0.14400000000000002,
+      },
+      {
+        rank: 5,
+        moveText: '11/5 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,3,2,0,3,0,0,1,-4,2,0,1,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: 0.608,
+        equityLoss: 0.14700000000000002,
+      },
+      {
+        rank: 6,
+        moveText: '8/2* 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,2,2,2,0,2,0,0,2,-4,2,0,1,0,-2,0,-3,0,-2,-2,0,1|0,2|0,0',
+        equity: 0.565,
+        equityLoss: 0.19000000000000006,
+      },
+      {
+        rank: 7,
+        moveText: '24/23 11/5',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,2,3,0,3,0,0,1,-4,2,0,1,0,-2,0,-3,0,-2,-2,1,0|0,1|0,0',
+        equity: 0.559,
+        equityLoss: 0.19599999999999995,
+      },
+      {
+        rank: 8,
+        moveText: '11/5 8/7',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,2,3,1,2,0,0,1,-4,2,0,1,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: 0.43,
+        equityLoss: 0.325,
+      },
+      {
+        rank: 9,
+        moveText: '13/7 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,2,2,1,3,0,0,2,-4,1,0,1,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: 0.384,
+        equityLoss: 0.371,
+      },
+      {
+        rank: 10,
+        moveText: '15/9 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,3,0,3,0,3,1,0,2,-4,2,0,0,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: 0.24,
+        equityLoss: 0.515,
+      },
+      {
+        rank: 11,
+        moveText: '8/2* 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,3,0,3,0,2,0,0,2,-4,2,0,1,0,-2,0,-3,0,-2,-2,0,1|0,2|0,0',
+        equity: 0.102,
+        equityLoss: 0.653,
+      },
+      {
+        rank: 12,
+        moveText: '24/18 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,3,0,3,0,3,0,0,2,-4,2,0,1,0,-2,1,-3,0,-2,-2,0,0|0,1|0,0',
+        equity: 0.057,
+        equityLoss: 0.698,
+      },
+      {
+        rank: 13,
+        moveText: '15/8',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 8,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,1,3,0,4,0,0,2,-4,2,0,0,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: 0.054,
+        equityLoss: 0.701,
+      },
+      {
+        rank: 14,
+        moveText: '13/7 8/7',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,1,3,2,2,0,0,2,-4,1,0,1,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: 0.049,
+        equityLoss: 0.706,
+      },
+      {
+        rank: 15,
+        moveText: '24/23 15/9',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,1,3,0,3,1,0,2,-4,2,0,0,0,-2,0,-3,0,-2,-2,1,0|0,1|0,0',
+        equity: -0.03,
+        equityLoss: 0.785,
+      },
+      {
+        rank: 16,
+        moveText: '15/14 8/2*',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,2,1,3,0,2,0,0,2,-4,2,1,0,0,-2,0,-3,0,-2,-2,0,1|0,2|0,0',
+        equity: -0.045,
+        equityLoss: 0.8,
+      },
+      {
+        rank: 17,
+        moveText: '24/23 8/2*',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,2,1,3,0,2,0,0,2,-4,2,0,1,0,-2,0,-3,0,-2,-2,1,0|0,2|0,0',
+        equity: -0.058,
+        equityLoss: 0.8130000000000001,
+      },
+      {
+        rank: 18,
+        moveText: '15/9 8/7',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,1,3,1,2,1,0,2,-4,2,0,0,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: -0.092,
+        equityLoss: 0.847,
+      },
+      {
+        rank: 19,
+        moveText: '15/9 11/10',
+        movements: [
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,1,3,0,3,1,1,1,-4,2,0,0,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: -0.119,
+        equityLoss: 0.874,
+      },
+      {
+        rank: 20,
+        moveText: '8/2*/1',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: true,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,2,1,3,0,2,0,0,2,-4,2,0,1,0,-2,0,-3,0,-2,-2,0,1|0,2|0,0',
+        equity: -0.131,
+        equityLoss: 0.886,
+      },
+      {
+        rank: 21,
+        moveText: '13/7 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,3,0,3,1,3,0,0,2,-4,1,0,1,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: -0.163,
+        equityLoss: 0.918,
+      },
+      {
+        rank: 22,
+        moveText: '11/10 8/2*',
+        movements: [
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,2,1,3,0,2,0,1,1,-4,2,0,1,0,-2,0,-3,0,-2,-2,0,1|0,2|0,0',
+        equity: -0.167,
+        equityLoss: 0.922,
+      },
+      {
+        rank: 23,
+        moveText: '8/7 8/2*',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,2,1,3,1,1,0,0,2,-4,2,0,1,0,-2,0,-3,0,-2,-2,0,1|0,2|0,0',
+        equity: -0.17,
+        equityLoss: 0.925,
+      },
+      {
+        rank: 24,
+        moveText: '11/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,3,1,3,0,3,0,0,1,-4,2,0,1,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: -0.22,
+        equityLoss: 0.975,
+      },
+      {
+        rank: 25,
+        moveText: '24/18 15/14',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,1,3,0,3,0,0,2,-4,2,1,0,0,-2,1,-3,0,-2,-2,0,0|0,1|0,0',
+        equity: -0.236,
+        equityLoss: 0.991,
+      },
+      {
+        rank: 26,
+        moveText: '13/6',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,1,4,0,3,0,0,2,-4,1,0,1,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: -0.237,
+        equityLoss: 0.992,
+      },
+      {
+        rank: 27,
+        moveText: '15/14 13/7',
+        movements: [
+          {
+            from: 15,
+            to: 14,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,1,3,1,3,0,0,2,-4,1,1,0,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: -0.316,
+        equityLoss: 1.071,
+      },
+      {
+        rank: 28,
+        moveText: '8/1',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,0,2,1,3,0,2,0,0,2,-4,2,0,1,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: -0.39,
+        equityLoss: 1.145,
+      },
+      {
+        rank: 29,
+        moveText: '24/18 8/7',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,1,3,1,2,0,0,2,-4,2,0,1,0,-2,1,-3,0,-2,-2,0,0|0,1|0,0',
+        equity: -0.419,
+        equityLoss: 1.174,
+      },
+      {
+        rank: 30,
+        moveText: '24/23 13/7',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,1,3,1,3,0,0,2,-4,1,0,1,0,-2,0,-3,0,-2,-2,1,0|0,1|0,0',
+        equity: -0.43,
+        equityLoss: 1.185,
+      },
+      {
+        rank: 31,
+        moveText: '24/18 11/10',
+        movements: [
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,1,3,0,3,0,1,1,-4,2,0,1,0,-2,1,-3,0,-2,-2,0,0|0,1|0,0',
+        equity: -0.454,
+        equityLoss: 1.209,
+      },
+      {
+        rank: 32,
+        moveText: '11/5 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,1,2,3,0,3,0,0,1,-4,2,0,1,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: -0.455,
+        equityLoss: 1.21,
+      },
+      {
+        rank: 33,
+        moveText: '13/7 11/10',
+        movements: [
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,1,3,1,3,0,1,1,-4,1,0,1,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: -0.542,
+        equityLoss: 1.2970000000000002,
+      },
+      {
+        rank: 34,
+        moveText: '15/9 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 15,
+            to: 9,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,1,1,3,0,3,1,0,2,-4,2,0,0,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.755,
+      },
+      {
+        rank: 35,
+        moveText: '8/2* 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,1,1,3,0,2,0,0,2,-4,2,0,1,0,-2,0,-3,0,-2,-2,0,1|0,2|0,0',
+        equity: -1,
+        equityLoss: 1.755,
+      },
+      {
+        rank: 36,
+        moveText: '13/7 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,1,1,3,1,3,0,0,2,-4,1,0,1,0,-2,0,-3,0,-2,-2,0,1|0,1|0,0',
+        equity: -1.132,
+        equityLoss: 1.887,
+      },
+      {
+        rank: 37,
+        moveText: '24/18 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,1,1,3,0,3,0,0,2,-4,2,0,1,0,-2,1,-3,0,-2,-2,0,0|0,1|0,0',
+        equity: -1.186,
+        equityLoss: 1.9409999999999998,
+      },
+    ],
+  },
+  {
+    id: 'curated-061',
     kind: 'play',
     theme: 'holding-game',
     source: 'curated',
@@ -13726,7 +41974,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-014',
+    id: 'curated-062',
     kind: 'play',
     theme: 'holding-game',
     source: 'curated',
@@ -14003,7 +42251,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-015',
+    id: 'curated-063',
     kind: 'play',
     theme: 'holding-game',
     source: 'curated',
@@ -14148,7 +42396,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-016',
+    id: 'curated-064',
     kind: 'play',
     theme: 'holding-game',
     source: 'curated',
@@ -14645,7 +42893,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-017',
+    id: 'curated-065',
     kind: 'play',
     theme: 'holding-game',
     source: 'curated',
@@ -15462,7 +43710,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-018',
+    id: 'curated-066',
     kind: 'play',
     theme: 'holding-game',
     source: 'curated',
@@ -15673,7 +43921,11545 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-019',
+    id: 'curated-067',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, -2, 0, 2, 0, 0, 4, 0, 2, 0, 0, 0, -3, 5, 0, 0, 0, -2, 0, -4, -2, 0,
+        -2, 0, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [2, 5],
+    answers: [
+      {
+        rank: 1,
+        moveText: '13/11 13/8',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,2,0,0,4,0,3,0,0,1,-3,3,0,0,0,-2,0,-4,-2,0,-2,0,2|0,0|0,0',
+        equity: -0.511,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '13/6',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,2,0,0,5,0,2,0,0,0,-3,4,0,0,0,-2,0,-4,-2,0,-2,0,2|0,0|0,0',
+        equity: -0.6,
+        equityLoss: 0.08899999999999997,
+      },
+      {
+        rank: 3,
+        moveText: '13/8 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,2,1,0,3,0,3,0,0,0,-3,4,0,0,0,-2,0,-4,-2,0,-2,0,2|0,0|0,0',
+        equity: -0.658,
+        equityLoss: 0.14700000000000002,
+      },
+      {
+        rank: 4,
+        moveText: '13/11 8/3',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,3,0,0,4,0,1,0,0,1,-3,4,0,0,0,-2,0,-4,-2,0,-2,0,2|0,0|0,0',
+        equity: -0.809,
+        equityLoss: 0.29800000000000004,
+      },
+      {
+        rank: 5,
+        moveText: '8/6 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,3,0,0,5,0,0,0,0,0,-3,5,0,0,0,-2,0,-4,-2,0,-2,0,2|0,0|0,0',
+        equity: -0.93,
+        equityLoss: 0.41900000000000004,
+      },
+      {
+        rank: 6,
+        moveText: '8/3 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,0,3,1,0,3,0,1,0,0,0,-3,5,0,0,0,-2,0,-4,-2,0,-2,0,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.489,
+      },
+    ],
+  },
+  {
+    id: 'curated-068',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, -1, 0, 0, 0, 5, 0, 3, 0, 1, 0, -4, 4, 0, 0, 0, 0, 0, -3, -2, -2,
+        -2, 0, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [2, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: '8/4 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,-1,0,2,0,4,0,2,0,1,0,-4,4,0,0,0,0,0,-3,-2,-2,-2,0,2|0,0|0,0',
+        equity: -0.868,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '13/9 10/8',
+        movements: [
+          {
+            from: 10,
+            to: 8,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,-1,0,0,0,5,0,4,1,0,0,-4,3,0,0,0,0,0,-3,-2,-2,-2,0,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.132,
+      },
+      {
+        rank: 3,
+        moveText: '13/11 10/6',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 6,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,-1,0,0,0,6,0,3,0,0,1,-4,3,0,0,0,0,0,-3,-2,-2,-2,0,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.132,
+      },
+      {
+        rank: 4,
+        moveText: '10/6 8/6',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 6,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,-1,0,0,0,7,0,2,0,0,0,-4,4,0,0,0,0,0,-3,-2,-2,-2,0,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.132,
+      },
+      {
+        rank: 5,
+        moveText: '10/8 6/2*',
+        movements: [
+          {
+            from: 10,
+            to: 8,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,0,0,4,0,4,0,0,0,-4,4,0,0,0,0,0,-3,-2,-2,-2,0,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.132,
+      },
+      {
+        rank: 6,
+        moveText: '10/4',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 6,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,-1,0,1,0,5,0,3,0,0,0,-4,4,0,0,0,0,0,-3,-2,-2,-2,0,2|0,0|0,0',
+        equity: -1.002,
+        equityLoss: 0.134,
+      },
+      {
+        rank: 7,
+        moveText: '13/9 8/6',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,-1,0,0,0,6,0,2,1,1,0,-4,3,0,0,0,0,0,-3,-2,-2,-2,0,2|0,0|0,0',
+        equity: -1.033,
+        equityLoss: 0.16499999999999992,
+      },
+      {
+        rank: 8,
+        moveText: '13/11 13/9',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,-1,0,0,0,5,0,3,1,1,1,-4,2,0,0,0,0,0,-3,-2,-2,-2,0,2|0,0|0,0',
+        equity: -1.048,
+        equityLoss: 0.18000000000000005,
+      },
+      {
+        rank: 9,
+        moveText: '13/9 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,-1,0,1,0,4,0,3,1,1,0,-4,3,0,0,0,0,0,-3,-2,-2,-2,0,2|0,0|0,0',
+        equity: -1.049,
+        equityLoss: 0.18099999999999994,
+      },
+      {
+        rank: 10,
+        moveText: '13/7',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,-1,0,0,0,5,1,3,0,1,0,-4,3,0,0,0,0,0,-3,-2,-2,-2,0,2|0,0|0,0',
+        equity: -1.053,
+        equityLoss: 0.18499999999999994,
+      },
+      {
+        rank: 11,
+        moveText: '8/2*',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,0,0,5,0,2,0,1,0,-4,4,0,0,0,0,0,-3,-2,-2,-2,0,2|0,1|0,0',
+        equity: -1.059,
+        equityLoss: 0.19099999999999995,
+      },
+      {
+        rank: 12,
+        moveText: '13/11 8/4',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,-1,0,1,0,5,0,2,0,1,1,-4,3,0,0,0,0,0,-3,-2,-2,-2,0,2|0,0|0,0',
+        equity: -1.078,
+        equityLoss: 0.21000000000000008,
+      },
+      {
+        rank: 13,
+        moveText: '13/11 6/2*',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,0,0,4,0,3,0,1,1,-4,3,0,0,0,0,0,-3,-2,-2,-2,0,2|0,1|0,0',
+        equity: -1.083,
+        equityLoss: 0.21499999999999997,
+      },
+      {
+        rank: 14,
+        moveText: '6/4 6/2*',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,1,0,3,0,3,0,1,0,-4,4,0,0,0,0,0,-3,-2,-2,-2,0,2|0,1|0,0',
+        equity: -1.163,
+        equityLoss: 0.29500000000000004,
+      },
+      {
+        rank: 15,
+        moveText: '8/6 8/4',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,-1,0,1,0,6,0,1,0,1,0,-4,4,0,0,0,0,0,-3,-2,-2,-2,0,2|0,0|0,0',
+        equity: -1.209,
+        equityLoss: 0.3410000000000001,
+      },
+    ],
+  },
+  {
+    id: 'curated-069',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, 2, -2, 2, 2, 0, 3, 1, 0, 0, -3, 3, 0, 0, 0, -2, 2, -2, -1, 0,
+        -3, 0, -2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [4, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '13/9 8/5',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,-2,3,2,0,2,2,0,0,-3,2,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: 0.248,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '13/6',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 6,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,-2,2,3,0,3,1,0,0,-3,2,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: 0.184,
+        equityLoss: 0.064,
+      },
+      {
+        rank: 3,
+        moveText: '13/10 13/9',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,-2,2,2,0,3,2,1,0,-3,1,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: 0.182,
+        equityLoss: 0.066,
+      },
+      {
+        rank: 4,
+        moveText: '13/10 9/5',
+        movements: [
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,-2,3,2,0,3,0,1,0,-3,2,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: 0.167,
+        equityLoss: 0.08099999999999999,
+      },
+      {
+        rank: 5,
+        moveText: '9/2',
+        movements: [
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,-2,2,2,0,3,0,0,0,-3,3,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: 0.124,
+        equityLoss: 0.124,
+      },
+      {
+        rank: 6,
+        moveText: '9/5 8/5',
+        movements: [
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,-2,4,2,0,2,0,0,0,-3,3,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: 0.106,
+        equityLoss: 0.14200000000000002,
+      },
+      {
+        rank: 7,
+        moveText: '8/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,-2,2,2,0,2,1,0,0,-3,3,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: 0.011,
+        equityLoss: 0.237,
+      },
+      {
+        rank: 8,
+        moveText: '13/9 5/2',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,-2,1,2,0,3,2,0,0,-3,2,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -0.018,
+        equityLoss: 0.266,
+      },
+      {
+        rank: 9,
+        moveText: '18/15 13/9',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,-2,2,2,0,3,2,0,0,-3,2,0,1,0,-2,1,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -0.047,
+        equityLoss: 0.295,
+      },
+      {
+        rank: 10,
+        moveText: '13/9 6/3',
+        movements: [
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,3,-2,2,1,0,3,2,0,0,-3,2,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -0.094,
+        equityLoss: 0.34199999999999997,
+      },
+      {
+        rank: 11,
+        moveText: '18/14 9/6',
+        movements: [
+          {
+            from: 18,
+            to: 14,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 6,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,-2,2,3,0,3,0,0,0,-3,3,1,0,0,-2,1,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -0.134,
+        equityLoss: 0.382,
+      },
+      {
+        rank: 12,
+        moveText: '9/6 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 6,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,-2,1,3,0,3,0,0,0,-3,3,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -0.137,
+        equityLoss: 0.385,
+      },
+      {
+        rank: 13,
+        moveText: '18/15 9/5',
+        movements: [
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,-2,3,2,0,3,0,0,0,-3,3,0,1,0,-2,1,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -0.165,
+        equityLoss: 0.41300000000000003,
+      },
+      {
+        rank: 14,
+        moveText: '9/5 6/3',
+        movements: [
+          {
+            from: 9,
+            to: 5,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,3,-2,3,1,0,3,0,0,0,-3,3,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -0.179,
+        equityLoss: 0.427,
+      },
+      {
+        rank: 15,
+        moveText: '18/15 18/14',
+        movements: [
+          {
+            from: 18,
+            to: 14,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,-2,2,2,0,3,1,0,0,-3,3,1,1,0,-2,0,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -0.243,
+        equityLoss: 0.491,
+      },
+      {
+        rank: 16,
+        moveText: '18/11',
+        movements: [
+          {
+            from: 18,
+            to: 14,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 11,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,-2,2,2,0,3,1,0,1,-3,3,0,0,0,-2,1,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -0.287,
+        equityLoss: 0.5349999999999999,
+      },
+      {
+        rank: 17,
+        moveText: '6/3 6/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,3,-2,2,0,0,3,1,0,0,-3,3,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -0.299,
+        equityLoss: 0.5469999999999999,
+      },
+      {
+        rank: 18,
+        moveText: '5/2 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,-2,0,2,0,3,1,0,0,-3,3,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -0.316,
+        equityLoss: 0.5640000000000001,
+      },
+      {
+        rank: 19,
+        moveText: '8/5 6/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,-2,3,1,0,2,1,0,0,-3,3,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -0.341,
+        equityLoss: 0.589,
+      },
+      {
+        rank: 20,
+        moveText: '18/14 8/5',
+        movements: [
+          {
+            from: 18,
+            to: 14,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,-2,3,2,0,2,1,0,0,-3,3,1,0,0,-2,1,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -0.406,
+        equityLoss: 0.654,
+      },
+      {
+        rank: 21,
+        moveText: '13/10 6/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,-2,2,1,0,3,1,1,0,-3,2,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -0.533,
+        equityLoss: 0.781,
+      },
+      {
+        rank: 22,
+        moveText: '18/14 13/10',
+        movements: [
+          {
+            from: 18,
+            to: 14,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,-2,2,2,0,3,1,1,0,-3,2,1,0,0,-2,1,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -0.549,
+        equityLoss: 0.797,
+      },
+      {
+        rank: 23,
+        moveText: '13/10 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,-2,1,2,0,3,1,1,0,-3,2,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -0.59,
+        equityLoss: 0.838,
+      },
+      {
+        rank: 24,
+        moveText: '6/2 5/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,2,-2,1,1,0,3,1,0,0,-3,3,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -0.84,
+        equityLoss: 1.088,
+      },
+      {
+        rank: 25,
+        moveText: '6/3 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,-2,1,1,0,3,1,0,0,-3,3,0,0,0,-2,2,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -1,
+        equityLoss: 1.248,
+      },
+      {
+        rank: 26,
+        moveText: '18/14 6/3',
+        movements: [
+          {
+            from: 18,
+            to: 14,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,3,-2,2,1,0,3,1,0,0,-3,3,1,0,0,-2,1,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -1,
+        equityLoss: 1.248,
+      },
+      {
+        rank: 27,
+        moveText: '18/14 5/2',
+        movements: [
+          {
+            from: 18,
+            to: 14,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,-2,1,2,0,3,1,0,0,-3,3,1,0,0,-2,1,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -1,
+        equityLoss: 1.248,
+      },
+      {
+        rank: 28,
+        moveText: '18/15 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,-2,1,2,0,3,1,0,0,-3,3,0,1,0,-2,1,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -1.025,
+        equityLoss: 1.273,
+      },
+      {
+        rank: 29,
+        moveText: '18/15 6/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 18,
+            to: 15,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,-2,2,1,0,3,1,0,0,-3,3,0,1,0,-2,1,-2,-1,0,-3,0,-2|0,0|0,0',
+        equity: -1.041,
+        equityLoss: 1.289,
+      },
+    ],
+  },
+  {
+    id: 'curated-070',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, 0, 0, 1, 4, 2, 3, 0, -2, 0, -3, 3, 0, -1, -1, -3, 0, -5, 0, 0,
+        0, 0, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 2],
+    answers: [
+      {
+        rank: 1,
+        moveText: '24/22 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,2,3,2,3,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,1,0,1|0,0|0,0',
+        equity: -0.392,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '24/23 7/5',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 5,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,2,4,1,3,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,1,1|0,0|0,0',
+        equity: -0.465,
+        equityLoss: 0.07300000000000001,
+      },
+      {
+        rank: 3,
+        moveText: '6/5 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,1,2,2,2,3,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.474,
+        equityLoss: 0.08199999999999996,
+      },
+      {
+        rank: 4,
+        moveText: '8/5',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 5,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,2,4,2,2,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.507,
+        equityLoss: 0.11499999999999999,
+      },
+      {
+        rank: 5,
+        moveText: '13/11 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,2,3,2,3,0,-2,1,-3,2,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.507,
+        equityLoss: 0.11499999999999999,
+      },
+      {
+        rank: 6,
+        moveText: '24/22 8/7',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,1,4,3,2,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,1,0,1|0,0|0,0',
+        equity: -0.518,
+        equityLoss: 0.126,
+      },
+      {
+        rank: 7,
+        moveText: '6/4 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,2,0,3,2,3,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.529,
+        equityLoss: 0.137,
+      },
+      {
+        rank: 8,
+        moveText: '24/21',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 23,
+            to: 21,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,1,4,2,3,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,1,0,0,1|0,0|0,0',
+        equity: -0.529,
+        equityLoss: 0.137,
+      },
+      {
+        rank: 9,
+        moveText: '7/5 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 5,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,3,3,1,3,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.531,
+        equityLoss: 0.139,
+      },
+      {
+        rank: 10,
+        moveText: '24/23 6/4',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,1,1,3,2,3,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,1,1|0,0|0,0',
+        equity: -0.535,
+        equityLoss: 0.14300000000000002,
+      },
+      {
+        rank: 11,
+        moveText: '24/22 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,1,0,4,2,3,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,1,0,1|0,0|0,0',
+        equity: -0.537,
+        equityLoss: 0.14500000000000002,
+      },
+      {
+        rank: 12,
+        moveText: '7/6 7/5',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 5,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,2,5,0,3,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.6,
+        equityLoss: 0.20799999999999996,
+      },
+      {
+        rank: 13,
+        moveText: '8/7 6/4',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,1,1,3,3,2,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.543,
+        equityLoss: 0.15100000000000002,
+      },
+      {
+        rank: 14,
+        moveText: '24/23 24/22',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,1,4,2,3,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,1,1,0|0,0|0,0',
+        equity: -0.548,
+        equityLoss: 0.15600000000000003,
+      },
+      {
+        rank: 15,
+        moveText: '13/11 8/7',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,1,4,3,2,0,-2,1,-3,2,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.55,
+        equityLoss: 0.15800000000000003,
+      },
+      {
+        rank: 16,
+        moveText: '24/23 8/6',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,1,5,2,2,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,1,1|0,0|0,0',
+        equity: -0.555,
+        equityLoss: 0.16300000000000003,
+      },
+      {
+        rank: 17,
+        moveText: '24/23 13/11',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,1,4,2,3,0,-2,1,-3,2,0,-1,-1,-3,0,-5,0,0,0,1,1|0,0|0,0',
+        equity: -0.562,
+        equityLoss: 0.17000000000000004,
+      },
+      {
+        rank: 18,
+        moveText: '6/3',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,0,1,3,2,3,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.565,
+        equityLoss: 0.17299999999999993,
+      },
+      {
+        rank: 19,
+        moveText: '13/11 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,1,0,4,2,3,0,-2,1,-3,2,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.569,
+        equityLoss: 0.17699999999999994,
+      },
+      {
+        rank: 20,
+        moveText: '7/4',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,1,1,4,1,3,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.576,
+        equityLoss: 0.18399999999999994,
+      },
+      {
+        rank: 21,
+        moveText: '24/22 7/6',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,1,5,1,3,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,1,0,1|0,0|0,0',
+        equity: -0.577,
+        equityLoss: 0.18499999999999994,
+      },
+      {
+        rank: 22,
+        moveText: '24/23 5/3',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,0,0,4,2,3,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,1,1|0,0|0,0',
+        equity: -0.58,
+        equityLoss: 0.18799999999999994,
+      },
+      {
+        rank: 23,
+        moveText: '8/7 5/3',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,0,0,4,3,2,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.602,
+        equityLoss: 0.20999999999999996,
+      },
+      {
+        rank: 24,
+        moveText: '8/6 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,1,0,5,2,2,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.604,
+        equityLoss: 0.21199999999999997,
+      },
+      {
+        rank: 25,
+        moveText: '13/11 7/6',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,1,5,1,3,0,-2,1,-3,2,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.622,
+        equityLoss: 0.22999999999999998,
+      },
+      {
+        rank: 26,
+        moveText: '8/7 8/6',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,1,5,3,1,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.636,
+        equityLoss: 0.244,
+      },
+      {
+        rank: 27,
+        moveText: '5/2',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,0,0,4,2,3,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.637,
+        equityLoss: 0.245,
+      },
+      {
+        rank: 28,
+        moveText: '8/6 7/6',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,1,6,1,2,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.653,
+        equityLoss: 0.261,
+      },
+      {
+        rank: 29,
+        moveText: '7/6 5/3',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,0,0,5,1,3,0,-2,0,-3,3,0,-1,-1,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.655,
+        equityLoss: 0.263,
+      },
+    ],
+  },
+  {
+    id: 'curated-071',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, 1, 0, -2, 5, 0, 3, 0, 0, 0, -2, 4, 0, 0, -2, -3, 0, -4, 0, -2,
+        0, 2, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 2],
+    answers: [
+      {
+        rank: 1,
+        moveText: '6/3',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,0,-2,4,0,3,0,0,0,-2,4,0,0,-2,-3,0,-4,0,-2,0,2,0|0,0|0,0',
+        equity: -0.725,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '8/7 6/4',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,1,-2,4,1,2,0,0,0,-2,4,0,0,-2,-3,0,-4,0,-2,0,2,0|0,0|0,0',
+        equity: -0.81,
+        equityLoss: 0.08500000000000008,
+      },
+      {
+        rank: 3,
+        moveText: '6/4 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,1,-2,4,0,3,0,0,0,-2,4,0,0,-2,-3,0,-4,0,-2,0,2,0|0,0|0,0',
+        equity: -0.816,
+        equityLoss: 0.09099999999999997,
+      },
+      {
+        rank: 4,
+        moveText: '13/10',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,0,-2,5,0,3,0,1,0,-2,3,0,0,-2,-3,0,-4,0,-2,0,2,0|0,0|0,0',
+        equity: -0.931,
+        equityLoss: 0.20600000000000007,
+      },
+      {
+        rank: 5,
+        moveText: '8/6 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,0,-2,6,0,2,0,0,0,-2,4,0,0,-2,-3,0,-4,0,-2,0,2,0|0,0|0,0',
+        equity: -0.945,
+        equityLoss: 0.21999999999999997,
+      },
+      {
+        rank: 6,
+        moveText: '13/11 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,0,-2,5,0,3,0,0,1,-2,3,0,0,-2,-3,0,-4,0,-2,0,2,0|0,0|0,0',
+        equity: -0.998,
+        equityLoss: 0.273,
+      },
+      {
+        rank: 7,
+        moveText: '8/7 3/1',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,0,-2,5,1,2,0,0,0,-2,4,0,0,-2,-3,0,-4,0,-2,0,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.275,
+      },
+      {
+        rank: 8,
+        moveText: '13/11 8/7',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,0,-2,5,1,2,0,0,1,-2,3,0,0,-2,-3,0,-4,0,-2,0,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.275,
+      },
+      {
+        rank: 9,
+        moveText: '23/22 6/4',
+        movements: [
+          {
+            from: 23,
+            to: 22,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,1,-2,4,0,3,0,0,0,-2,4,0,0,-2,-3,0,-4,0,-2,1,1,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.275,
+      },
+      {
+        rank: 10,
+        moveText: '23/20',
+        movements: [
+          {
+            from: 23,
+            to: 22,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 22,
+            to: 20,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,0,-2,5,0,3,0,0,0,-2,4,0,0,-2,-3,0,-4,1,-2,0,1,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.275,
+      },
+      {
+        rank: 11,
+        moveText: '23/22 8/6',
+        movements: [
+          {
+            from: 23,
+            to: 22,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,0,-2,6,0,2,0,0,0,-2,4,0,0,-2,-3,0,-4,0,-2,1,1,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.275,
+      },
+      {
+        rank: 12,
+        moveText: '8/7 8/6',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,0,-2,6,1,1,0,0,0,-2,4,0,0,-2,-3,0,-4,0,-2,0,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.275,
+      },
+      {
+        rank: 13,
+        moveText: '23/22 13/11',
+        movements: [
+          {
+            from: 23,
+            to: 22,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,0,-2,5,0,3,0,0,1,-2,3,0,0,-2,-3,0,-4,0,-2,1,1,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.275,
+      },
+      {
+        rank: 14,
+        moveText: '23/22 3/1',
+        movements: [
+          {
+            from: 23,
+            to: 22,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,0,-2,5,0,3,0,0,0,-2,4,0,0,-2,-3,0,-4,0,-2,1,1,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.275,
+      },
+    ],
+  },
+  {
+    id: 'curated-072',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, -1, 2, 2, 0, 3, 0, 2, 0, 1, 1, -4, 0, 0, 2, 0, -2, 0, -5, 2, 0, 0,
+        -1, -2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [4, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '11/7 10/7',
+        movements: [
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,0,3,2,2,0,0,0,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: 0.671,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '10/7 6/2*',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,0,2,1,2,0,0,1,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 0.425,
+        equityLoss: 0.24600000000000005,
+      },
+      {
+        rank: 3,
+        moveText: '11/8 6/2*',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,0,2,0,3,0,1,0,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 0.384,
+        equityLoss: 0.28700000000000003,
+      },
+      {
+        rank: 4,
+        moveText: '15/8',
+        movements: [
+          {
+            from: 15,
+            to: 11,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,0,3,0,3,0,1,1,-4,0,0,1,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: 0.383,
+        equityLoss: 0.28800000000000003,
+      },
+      {
+        rank: 5,
+        moveText: '15/11 10/7',
+        movements: [
+          {
+            from: 15,
+            to: 11,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,0,3,1,2,0,0,2,-4,0,0,1,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: 0.379,
+        equityLoss: 0.29200000000000004,
+      },
+      {
+        rank: 6,
+        moveText: '15/11 6/3',
+        movements: [
+          {
+            from: 15,
+            to: 11,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,2,0,2,0,2,0,1,2,-4,0,0,1,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: 0.338,
+        equityLoss: 0.333,
+      },
+      {
+        rank: 7,
+        moveText: '11/4',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,3,0,3,0,2,0,1,0,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: 0.311,
+        equityLoss: 0.36000000000000004,
+      },
+      {
+        rank: 8,
+        moveText: '11/8 10/6',
+        movements: [
+          {
+            from: 10,
+            to: 6,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,0,4,0,3,0,0,0,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: 0.274,
+        equityLoss: 0.397,
+      },
+      {
+        rank: 9,
+        moveText: '10/3',
+        movements: [
+          {
+            from: 10,
+            to: 6,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,2,0,3,0,2,0,0,1,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: 0.271,
+        equityLoss: 0.4,
+      },
+      {
+        rank: 10,
+        moveText: '8/5 6/2*',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,1,2,0,1,0,1,1,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: 0.263,
+        equityLoss: 0.40800000000000003,
+      },
+      {
+        rank: 11,
+        moveText: '11/7 6/3',
+        movements: [
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,2,0,2,1,2,0,1,0,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: 0.206,
+        equityLoss: 0.4650000000000001,
+      },
+      {
+        rank: 12,
+        moveText: '20/13',
+        movements: [
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 16,
+            to: 13,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,0,3,0,2,0,1,1,-4,1,0,2,0,-2,0,-5,1,0,0,-1,-2|0,0|0,0',
+        equity: 0.202,
+        equityLoss: 0.46900000000000003,
+      },
+      {
+        rank: 13,
+        moveText: '15/11 8/5',
+        movements: [
+          {
+            from: 15,
+            to: 11,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,1,3,0,1,0,1,2,-4,0,0,1,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: 0.182,
+        equityLoss: 0.48900000000000005,
+      },
+      {
+        rank: 14,
+        moveText: '20/16 11/8',
+        movements: [
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 8,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,0,3,0,3,0,1,0,-4,0,0,2,1,-2,0,-5,1,0,0,-1,-2|0,0|0,0',
+        equity: 0.142,
+        equityLoss: 0.529,
+      },
+      {
+        rank: 15,
+        moveText: '8/5 8/4',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,3,1,3,0,0,0,1,1,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: 0.132,
+        equityLoss: 0.539,
+      },
+      {
+        rank: 16,
+        moveText: '10/6 8/5',
+        movements: [
+          {
+            from: 10,
+            to: 6,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,1,4,0,1,0,0,1,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: 0.08,
+        equityLoss: 0.5910000000000001,
+      },
+      {
+        rank: 17,
+        moveText: '11/7 8/5',
+        movements: [
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,1,3,1,1,0,1,0,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: 0.069,
+        equityLoss: 0.6020000000000001,
+      },
+      {
+        rank: 18,
+        moveText: '20/16 6/3',
+        movements: [
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,2,0,2,0,2,0,1,1,-4,0,0,2,1,-2,0,-5,1,0,0,-1,-2|0,0|0,0',
+        equity: 0.043,
+        equityLoss: 0.628,
+      },
+      {
+        rank: 19,
+        moveText: '20/16 10/7',
+        movements: [
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,0,3,1,2,0,0,1,-4,0,0,2,1,-2,0,-5,1,0,0,-1,-2|0,0|0,0',
+        equity: 0.028,
+        equityLoss: 0.643,
+      },
+      {
+        rank: 20,
+        moveText: '10/7 8/4',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,3,0,3,1,1,0,0,1,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: 0.007,
+        equityLoss: 0.664,
+      },
+      {
+        rank: 21,
+        moveText: '8/1',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,2,2,0,3,0,1,0,1,1,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: -0.026,
+        equityLoss: 0.6970000000000001,
+      },
+      {
+        rank: 22,
+        moveText: '8/4 6/3',
+        movements: [
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,3,3,0,2,0,1,0,1,1,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: -0.035,
+        equityLoss: 0.7060000000000001,
+      },
+      {
+        rank: 23,
+        moveText: '15/11 4/1',
+        movements: [
+          {
+            from: 15,
+            to: 11,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,2,1,0,3,0,2,0,1,2,-4,0,0,1,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: -0.095,
+        equityLoss: 0.766,
+      },
+      {
+        rank: 24,
+        moveText: '10/6 4/1',
+        movements: [
+          {
+            from: 10,
+            to: 6,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,2,1,0,4,0,2,0,0,1,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: -0.12,
+        equityLoss: 0.791,
+      },
+      {
+        rank: 25,
+        moveText: '11/7 4/1',
+        movements: [
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,2,1,0,3,1,2,0,1,0,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,0|0,0',
+        equity: -0.156,
+        equityLoss: 0.8270000000000001,
+      },
+      {
+        rank: 26,
+        moveText: '20/16 8/5',
+        movements: [
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,2,2,1,3,0,1,0,1,1,-4,0,0,2,1,-2,0,-5,1,0,0,-1,-2|0,0|0,0',
+        equity: -0.237,
+        equityLoss: 0.908,
+      },
+      {
+        rank: 27,
+        moveText: '6/3 6/2*',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,3,2,0,1,0,2,0,1,1,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: -0.315,
+        equityLoss: 0.986,
+      },
+      {
+        rank: 28,
+        moveText: '6/2* 4/1',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,1,0,2,0,2,0,1,1,-4,0,0,2,0,-2,0,-5,2,0,0,-1,-2|0,1|0,0',
+        equity: -0.35,
+        equityLoss: 1.021,
+      },
+      {
+        rank: 29,
+        moveText: '20/16 4/1',
+        movements: [
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,2,1,0,3,0,2,0,1,1,-4,0,0,2,1,-2,0,-5,1,0,0,-1,-2|0,0|0,0',
+        equity: -0.537,
+        equityLoss: 1.2080000000000002,
+      },
+    ],
+  },
+  {
+    id: 'curated-073',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 0, 0, 0, 5, 0, 3, 0, 0, -1, -5, 5, 0, 0, 0, -3, 0, -5, 0, 0,
+        0, 0, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 6],
+    answers: [
+      {
+        rank: 1,
+        moveText: '13/7 8/7',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,5,2,2,0,0,-1,-5,4,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.085,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '24/23 24/18',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,5,0,3,0,0,-1,-5,5,0,0,0,-3,1,-5,0,0,0,1,0|0,0|0,0',
+        equity: -0.221,
+        equityLoss: 0.136,
+      },
+      {
+        rank: 3,
+        moveText: '13/7 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,1,4,1,3,0,0,-1,-5,4,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.23,
+        equityLoss: 0.14500000000000002,
+      },
+      {
+        rank: 4,
+        moveText: '24/23 13/7',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,5,1,3,0,0,-1,-5,4,0,0,0,-3,0,-5,0,0,0,1,1|0,0|0,0',
+        equity: -0.231,
+        equityLoss: 0.14600000000000002,
+      },
+      {
+        rank: 5,
+        moveText: '24/18 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,1,4,0,3,0,0,-1,-5,5,0,0,0,-3,1,-5,0,0,0,0,1|0,0|0,0',
+        equity: -0.236,
+        equityLoss: 0.15099999999999997,
+      },
+      {
+        rank: 6,
+        moveText: '13/6',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,6,0,3,0,0,-1,-5,4,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.269,
+        equityLoss: 0.184,
+      },
+      {
+        rank: 7,
+        moveText: '24/18 8/7',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,5,1,2,0,0,-1,-5,5,0,0,0,-3,1,-5,0,0,0,0,1|0,0|0,0',
+        equity: -0.302,
+        equityLoss: 0.21699999999999997,
+      },
+      {
+        rank: 8,
+        moveText: '8/1*',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,0,0,5,0,2,0,0,-1,-5,5,0,0,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: -0.313,
+        equityLoss: 0.22799999999999998,
+      },
+      {
+        rank: 9,
+        moveText: '24/23 8/2',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,0,0,5,0,2,0,0,-1,-5,5,0,0,0,-3,0,-5,0,0,0,1,1|0,0|0,0',
+        equity: -0.351,
+        equityLoss: 0.26599999999999996,
+      },
+      {
+        rank: 10,
+        moveText: '8/2 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,0,1,4,0,2,0,0,-1,-5,5,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.376,
+        equityLoss: 0.291,
+      },
+      {
+        rank: 11,
+        moveText: '8/7 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,0,0,5,1,1,0,0,-1,-5,5,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.505,
+        equityLoss: 0.42,
+      },
+    ],
+  },
+  {
+    id: 'curated-074',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 2, 2, 0, 2, 0, 2, -1, 0, 2, -3, 2, -1, 0, 0, -1, 0, -2, -2,
+        -2, 0, -2, 2,
+      ],
+      bar: {
+        white: 1,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [6, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: 'bar/16',
+        movements: [
+          {
+            from: 'bar',
+            to: 22,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 22,
+            to: 16,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,0,2,0,2,-1,0,2,-3,2,-1,0,1,-1,0,-2,-2,-2,0,-2,2|0,0|0,0',
+        equity: -0.828,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: 'bar/22 24/18',
+        movements: [
+          {
+            from: 'bar',
+            to: 22,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,0,2,0,2,-1,0,2,-3,2,-1,0,0,-1,1,-2,-2,-2,1,-2,1|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.17200000000000004,
+      },
+      {
+        rank: 3,
+        moveText: 'bar/22 8/2',
+        movements: [
+          {
+            from: 'bar',
+            to: 22,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,2,0,2,0,1,-1,0,2,-3,2,-1,0,0,-1,0,-2,-2,-2,1,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.17200000000000004,
+      },
+      {
+        rank: 4,
+        moveText: 'bar/22 11/5',
+        movements: [
+          {
+            from: 'bar',
+            to: 22,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,1,2,0,2,-1,0,1,-3,2,-1,0,0,-1,0,-2,-2,-2,1,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.17200000000000004,
+      },
+      {
+        rank: 5,
+        moveText: 'bar/22 13/7',
+        movements: [
+          {
+            from: 'bar',
+            to: 22,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,0,2,1,2,-1,0,2,-3,1,-1,0,0,-1,0,-2,-2,-2,1,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.17200000000000004,
+      },
+    ],
+  },
+  {
+    id: 'curated-075',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, 1, 1, 0, 5, -2, 2, 0, 0, 0, 0, 4, 0, 0, 0, -2, -3, -3, 0, -2,
+        -1, -2, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [3, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '13/10 8/5(2) 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,1,2,4,-2,0,0,1,0,0,3,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -0.777,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '8/5(2) 6/3(2)',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,3,1,2,3,-2,0,0,0,0,0,4,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -0.915,
+        equityLoss: 0.138,
+      },
+      {
+        rank: 3,
+        moveText: '13/10(2) 8/5(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,1,2,5,-2,0,0,2,0,0,2,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -0.939,
+        equityLoss: 0.16199999999999992,
+      },
+      {
+        rank: 4,
+        moveText: '13/10(2) 8/5 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,1,1,4,-2,1,0,2,0,0,2,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -0.944,
+        equityLoss: 0.16699999999999993,
+      },
+      {
+        rank: 5,
+        moveText: '13/10(2) 6/3(2)',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,3,1,0,3,-2,2,0,2,0,0,2,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -0.961,
+        equityLoss: 0.18399999999999994,
+      },
+      {
+        rank: 6,
+        moveText: '8/5(2) 6/3 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,0,2,4,-2,0,0,0,0,0,4,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.22299999999999998,
+      },
+      {
+        rank: 7,
+        moveText: '13/10(2) 6/3 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,0,0,4,-2,2,0,2,0,0,2,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.22299999999999998,
+      },
+      {
+        rank: 8,
+        moveText: '8/2 8/5 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,1,1,4,-2,0,0,0,0,0,4,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.22299999999999998,
+      },
+      {
+        rank: 9,
+        moveText: '8/2(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,1,1,0,5,-2,0,0,0,0,0,4,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.22299999999999998,
+      },
+      {
+        rank: 10,
+        moveText: '13/10(3) 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,1,0,4,-2,2,0,3,0,0,1,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.22299999999999998,
+      },
+      {
+        rank: 11,
+        moveText: '13/10 6/3(2) 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,0,0,3,-2,2,0,1,0,0,3,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.22299999999999998,
+      },
+      {
+        rank: 12,
+        moveText: '13/10(4)',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,1,0,5,-2,2,0,4,0,0,0,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.22299999999999998,
+      },
+      {
+        rank: 13,
+        moveText: '13/10 8/5 6/3(2)',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,3,1,1,3,-2,1,0,1,0,0,3,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.22299999999999998,
+      },
+      {
+        rank: 14,
+        moveText: '13/10 6/3(3)',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,4,1,0,2,-2,2,0,1,0,0,3,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.22299999999999998,
+      },
+      {
+        rank: 15,
+        moveText: '13/10(2) 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,1,0,5,-2,1,0,2,0,0,2,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.22299999999999998,
+      },
+      {
+        rank: 16,
+        moveText: '13/10 8/2 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,1,0,4,-2,1,0,1,0,0,3,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.22299999999999998,
+      },
+      {
+        rank: 17,
+        moveText: '13/10(2) 8/5 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,0,1,5,-2,1,0,2,0,0,2,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.22299999999999998,
+      },
+      {
+        rank: 18,
+        moveText: '13/10 8/5(2) 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,0,2,5,-2,0,0,1,0,0,3,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.22299999999999998,
+      },
+      {
+        rank: 19,
+        moveText: '8/2 6/3(2)',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,3,1,0,3,-2,1,0,0,0,0,4,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.22299999999999998,
+      },
+      {
+        rank: 20,
+        moveText: '13/10 8/2 8/5',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,1,1,5,-2,0,0,1,0,0,3,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1.005,
+        equityLoss: 0.22799999999999987,
+      },
+      {
+        rank: 21,
+        moveText: '8/5 6/3(2) 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,0,1,3,-2,1,0,0,0,0,4,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1.016,
+        equityLoss: 0.239,
+      },
+      {
+        rank: 22,
+        moveText: '13/10(3) 8/5',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,1,1,5,-2,1,0,3,0,0,1,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1.016,
+        equityLoss: 0.239,
+      },
+      {
+        rank: 23,
+        moveText: '13/10 8/5 6/3 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,0,1,4,-2,1,0,1,0,0,3,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1.019,
+        equityLoss: 0.24199999999999988,
+      },
+      {
+        rank: 24,
+        moveText: '8/5 6/3(3)',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,4,1,1,2,-2,1,0,0,0,0,4,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1.02,
+        equityLoss: 0.243,
+      },
+      {
+        rank: 25,
+        moveText: '8/2 8/5 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,0,1,5,-2,0,0,0,0,0,4,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1.025,
+        equityLoss: 0.2479999999999999,
+      },
+      {
+        rank: 26,
+        moveText: '6/3(3) 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,4,0,0,2,-2,2,0,0,0,0,4,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1.028,
+        equityLoss: 0.251,
+      },
+      {
+        rank: 27,
+        moveText: '13/10(3) 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,0,0,5,-2,2,0,3,0,0,1,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1.036,
+        equityLoss: 0.259,
+      },
+      {
+        rank: 28,
+        moveText: '8/2 6/3 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,0,0,4,-2,1,0,0,0,0,4,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1.039,
+        equityLoss: 0.2619999999999999,
+      },
+      {
+        rank: 29,
+        moveText: '6/3(4)',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,5,1,0,1,-2,2,0,0,0,0,4,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1.062,
+        equityLoss: 0.28500000000000003,
+      },
+      {
+        rank: 30,
+        moveText: '13/10 8/2 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,0,0,5,-2,1,0,1,0,0,3,0,0,0,-2,-3,-3,0,-2,-1,-2,2|0,0|0,0',
+        equity: -1.133,
+        equityLoss: 0.356,
+      },
+    ],
+  },
+  {
+    id: 'curated-076',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, -1, 0, 2, -1, 4, 0, 2, 0, 0, 1, -3, 3, -2, 0, 0, -3, 0, -3, 0, -2,
+        2, 0, 0,
+      ],
+      bar: {
+        white: 1,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 2],
+    answers: [
+      {
+        rank: 1,
+        moveText: 'bar/20 22/20',
+        movements: [
+          {
+            from: 'bar',
+            to: 20,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 22,
+            to: 20,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,-1,4,0,2,0,0,1,-3,3,-2,0,0,-3,0,-3,2,-2,1,0,0|0,0|0,0',
+        equity: -0.23,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: 'bar/20 13/11',
+        movements: [
+          {
+            from: 'bar',
+            to: 20,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,-1,4,0,2,0,0,2,-3,2,-2,0,0,-3,0,-3,1,-2,2,0,0|0,0|0,0',
+        equity: -0.305,
+        equityLoss: 0.07499999999999998,
+      },
+      {
+        rank: 3,
+        moveText: 'bar/23 11/6',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 6,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,-1,5,0,2,0,0,0,-3,3,-2,0,0,-3,0,-3,0,-2,2,1,0|0,0|0,0',
+        equity: -0.426,
+        equityLoss: 0.19599999999999998,
+      },
+      {
+        rank: 4,
+        moveText: 'bar/20 11/9',
+        movements: [
+          {
+            from: 'bar',
+            to: 20,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 9,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,-1,4,0,2,1,0,0,-3,3,-2,0,0,-3,0,-3,1,-2,2,0,0|0,0|0,0',
+        equity: -0.506,
+        equityLoss: 0.276,
+      },
+      {
+        rank: 5,
+        moveText: 'bar/18',
+        movements: [
+          {
+            from: 'bar',
+            to: 20,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 18,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,-1,4,0,2,0,0,1,-3,3,-2,0,0,-3,1,-3,0,-2,2,0,0|0,0|0,0',
+        equity: -0.515,
+        equityLoss: 0.28500000000000003,
+      },
+      {
+        rank: 6,
+        moveText: 'bar/23 13/8',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,-1,4,0,3,0,0,1,-3,2,-2,0,0,-3,0,-3,0,-2,2,1,0|0,0|0,0',
+        equity: -0.516,
+        equityLoss: 0.28600000000000003,
+      },
+      {
+        rank: 7,
+        moveText: 'bar/20 6/4',
+        movements: [
+          {
+            from: 'bar',
+            to: 20,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,3,-1,3,0,2,0,0,1,-3,3,-2,0,0,-3,0,-3,1,-2,2,0,0|0,0|0,0',
+        equity: -0.539,
+        equityLoss: 0.30900000000000005,
+      },
+      {
+        rank: 8,
+        moveText: 'bar/23 6/1',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,-1,0,2,-1,3,0,2,0,0,1,-3,3,-2,0,0,-3,0,-3,0,-2,2,1,0|0,0|0,0',
+        equity: -0.668,
+        equityLoss: 0.43800000000000006,
+      },
+      {
+        rank: 9,
+        moveText: 'bar/20 8/6',
+        movements: [
+          {
+            from: 'bar',
+            to: 20,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,0,2,-1,5,0,1,0,0,1,-3,3,-2,0,0,-3,0,-3,1,-2,2,0,0|0,0|0,0',
+        equity: -0.742,
+        equityLoss: 0.512,
+      },
+      {
+        rank: 10,
+        moveText: 'bar/23 8/3',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,-1,1,2,-1,4,0,1,0,0,1,-3,3,-2,0,0,-3,0,-3,0,-2,2,1,0|0,0|0,0',
+        equity: -0.781,
+        equityLoss: 0.551,
+      },
+      {
+        rank: 11,
+        moveText: 'bar/20 4/2*',
+        movements: [
+          {
+            from: 'bar',
+            to: 20,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,1,-1,4,0,2,0,0,1,-3,3,-2,0,0,-3,0,-3,1,-2,2,0,0|0,1|0,0',
+        equity: -0.872,
+        equityLoss: 0.642,
+      },
+    ],
+  },
+  {
+    id: 'curated-077',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, 0, -1, 0, 4, 1, 3, 0, 1, 2, 0, 1, 0, 0, 0, 0, 0, 0, -2, -4, -3,
+        3, -5,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [6, 1],
+    answers: [
+      {
+        rank: 1,
+        moveText: '13/7 11/10',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,0,4,2,3,0,2,1,0,0,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -0.282,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '10/4* 8/7',
+        movements: [
+          {
+            from: 10,
+            to: 4,
+            die: 6,
+            hit: true,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,1,0,4,2,2,0,0,2,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,1|0,0',
+        equity: -0.391,
+        equityLoss: 0.10900000000000004,
+      },
+      {
+        rank: 3,
+        moveText: '23/17 8/7',
+        movements: [
+          {
+            from: 23,
+            to: 17,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,0,4,2,2,0,1,2,0,1,0,0,0,1,0,0,-2,-4,-3,2,-5|0,0|0,0',
+        equity: -0.641,
+        equityLoss: 0.35900000000000004,
+      },
+      {
+        rank: 4,
+        moveText: '10/4* 7/6',
+        movements: [
+          {
+            from: 10,
+            to: 4,
+            die: 6,
+            hit: true,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,1,0,5,0,3,0,0,2,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,1|0,0',
+        equity: -0.903,
+        equityLoss: 0.621,
+      },
+      {
+        rank: 5,
+        moveText: '13/7 8/7',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,0,4,3,2,0,1,2,0,0,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -0.935,
+        equityLoss: 0.653,
+      },
+      {
+        rank: 6,
+        moveText: '13/7 6/5',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,1,3,2,3,0,1,2,0,0,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -0.949,
+        equityLoss: 0.667,
+      },
+      {
+        rank: 7,
+        moveText: '13/7 10/9',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 9,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,0,4,2,3,1,0,2,0,0,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.718,
+      },
+      {
+        rank: 8,
+        moveText: '23/17 11/10',
+        movements: [
+          {
+            from: 23,
+            to: 17,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,0,4,1,3,0,2,1,0,1,0,0,0,1,0,0,-2,-4,-3,2,-5|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.718,
+      },
+      {
+        rank: 9,
+        moveText: '13/12 10/4*',
+        movements: [
+          {
+            from: 10,
+            to: 4,
+            die: 6,
+            hit: true,
+          },
+          {
+            from: 13,
+            to: 12,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,1,0,4,1,3,0,0,2,1,0,0,0,0,0,0,0,-2,-4,-3,3,-5|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.718,
+      },
+      {
+        rank: 10,
+        moveText: '10/4*/3',
+        movements: [
+          {
+            from: 10,
+            to: 4,
+            die: 6,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,0,0,4,1,3,0,0,2,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.718,
+      },
+      {
+        rank: 11,
+        moveText: '11/10 7/1',
+        movements: [
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,-1,0,4,0,3,0,2,1,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.718,
+      },
+      {
+        rank: 12,
+        moveText: '23/17 7/6',
+        movements: [
+          {
+            from: 23,
+            to: 17,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,0,5,0,3,0,1,2,0,1,0,0,0,1,0,0,-2,-4,-3,2,-5|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.718,
+      },
+      {
+        rank: 13,
+        moveText: '11/10 11/5',
+        movements: [
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,1,4,1,3,0,2,0,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.718,
+      },
+      {
+        rank: 14,
+        moveText: '11/4*',
+        movements: [
+          {
+            from: 10,
+            to: 4,
+            die: 6,
+            hit: true,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,1,0,4,1,3,0,1,1,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.718,
+      },
+      {
+        rank: 15,
+        moveText: '10/3',
+        movements: [
+          {
+            from: 10,
+            to: 9,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 9,
+            to: 3,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,-1,0,4,1,3,0,0,2,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.718,
+      },
+      {
+        rank: 16,
+        moveText: '10/4* 6/5',
+        movements: [
+          {
+            from: 10,
+            to: 4,
+            die: 6,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,1,1,3,1,3,0,0,2,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.718,
+      },
+      {
+        rank: 17,
+        moveText: '23/17 13/12',
+        movements: [
+          {
+            from: 23,
+            to: 17,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 12,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,0,4,1,3,0,1,2,1,0,0,0,0,1,0,0,-2,-4,-3,2,-5|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.718,
+      },
+      {
+        rank: 18,
+        moveText: '23/17 6/5',
+        movements: [
+          {
+            from: 23,
+            to: 17,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,1,3,1,3,0,1,2,0,1,0,0,0,1,0,0,-2,-4,-3,2,-5|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.718,
+      },
+      {
+        rank: 19,
+        moveText: '11/5 8/7',
+        movements: [
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,1,4,2,2,0,1,1,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.718,
+      },
+      {
+        rank: 20,
+        moveText: '11/10 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,-1,0,4,1,2,0,2,1,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.718,
+      },
+      {
+        rank: 21,
+        moveText: '23/17 10/9',
+        movements: [
+          {
+            from: 23,
+            to: 17,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 9,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,0,4,1,3,1,0,2,0,1,0,0,0,1,0,0,-2,-4,-3,2,-5|0,0|0,0',
+        equity: -1.008,
+        equityLoss: 0.726,
+      },
+      {
+        rank: 22,
+        moveText: '11/5 6/5',
+        movements: [
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,2,3,1,3,0,1,1,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1.008,
+        equityLoss: 0.726,
+      },
+      {
+        rank: 23,
+        moveText: '23/16',
+        movements: [
+          {
+            from: 23,
+            to: 17,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 17,
+            to: 16,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,0,4,1,3,0,1,2,0,1,0,0,1,0,0,0,-2,-4,-3,2,-5|0,0|0,0',
+        equity: -1.022,
+        equityLoss: 0.74,
+      },
+      {
+        rank: 24,
+        moveText: '13/12 7/1',
+        movements: [
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 12,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,-1,0,4,0,3,0,1,2,1,0,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1.029,
+        equityLoss: 0.7469999999999999,
+      },
+      {
+        rank: 25,
+        moveText: '8/2 7/6',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,-1,0,5,0,2,0,1,2,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1.032,
+        equityLoss: 0.75,
+      },
+      {
+        rank: 26,
+        moveText: '10/9 7/1',
+        movements: [
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 9,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,-1,0,4,0,3,1,0,2,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1.057,
+        equityLoss: 0.7749999999999999,
+      },
+      {
+        rank: 27,
+        moveText: '7/1 6/5',
+        movements: [
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,-1,1,3,0,3,0,1,2,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1.096,
+        equityLoss: 0.8140000000000001,
+      },
+      {
+        rank: 28,
+        moveText: '13/6',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,0,5,1,3,0,1,2,0,0,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1.102,
+        equityLoss: 0.8200000000000001,
+      },
+      {
+        rank: 29,
+        moveText: '13/12 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 12,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,-1,0,4,1,2,0,1,2,1,0,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1.138,
+        equityLoss: 0.8559999999999999,
+      },
+      {
+        rank: 30,
+        moveText: '8/7 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,-1,0,4,2,1,0,1,2,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1.147,
+        equityLoss: 0.865,
+      },
+      {
+        rank: 31,
+        moveText: '10/9 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 9,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,-1,0,4,1,2,1,0,2,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1.15,
+        equityLoss: 0.8679999999999999,
+      },
+      {
+        rank: 32,
+        moveText: '8/1',
+        movements: [
+          {
+            from: 7,
+            to: 1,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,-1,0,4,1,2,0,1,2,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1.18,
+        equityLoss: 0.8979999999999999,
+      },
+      {
+        rank: 33,
+        moveText: '8/2 6/5',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,-1,1,3,1,2,0,1,2,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1.191,
+        equityLoss: 0.909,
+      },
+      {
+        rank: 34,
+        moveText: '11/5 7/6',
+        movements: [
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,1,5,0,3,0,1,1,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1.219,
+        equityLoss: 0.937,
+      },
+      {
+        rank: 35,
+        moveText: '11/5 10/9',
+        movements: [
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 9,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,1,4,1,3,1,0,1,0,1,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1.259,
+        equityLoss: 0.9769999999999999,
+      },
+      {
+        rank: 36,
+        moveText: '13/12 11/5',
+        movements: [
+          {
+            from: 11,
+            to: 5,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 12,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,-1,1,4,1,3,0,1,1,1,0,0,0,0,0,0,0,-2,-4,-3,3,-5|0,0|0,0',
+        equity: -1.26,
+        equityLoss: 0.978,
+      },
+    ],
+  },
+  {
+    id: 'curated-078',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 0, 0, 0, 5, 0, 3, 0, 0, -1, -5, 5, 0, 0, 0, -3, 0, -5, 0, 0,
+        0, 0, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '8/5 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,2,4,0,2,0,0,-1,-5,5,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.003,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '13/10 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,1,4,0,3,0,1,-1,-5,4,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.177,
+        equityLoss: 0.174,
+      },
+      {
+        rank: 3,
+        moveText: '24/23 13/10',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,5,0,3,0,1,-1,-5,4,0,0,0,-3,0,-5,0,0,0,1,1|0,0|0,0',
+        equity: -0.191,
+        equityLoss: 0.188,
+      },
+      {
+        rank: 4,
+        moveText: '24/21 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 21,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,1,4,0,3,0,0,-1,-5,5,0,0,0,-3,0,-5,0,1,0,0,1|0,0|0,0',
+        equity: -0.203,
+        equityLoss: 0.2,
+      },
+      {
+        rank: 5,
+        moveText: '24/20',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 23,
+            to: 20,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,5,0,3,0,0,-1,-5,5,0,0,0,-3,0,-5,1,0,0,0,1|0,0|0,0',
+        equity: -0.212,
+        equityLoss: 0.209,
+      },
+      {
+        rank: 6,
+        moveText: '13/9',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 9,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,5,0,3,1,0,-1,-5,4,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.22,
+        equityLoss: 0.217,
+      },
+      {
+        rank: 7,
+        moveText: '24/23 24/21',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 21,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,5,0,3,0,0,-1,-5,5,0,0,0,-3,0,-5,0,1,0,1,0|0,0|0,0',
+        equity: -0.243,
+        equityLoss: 0.24,
+      },
+      {
+        rank: 8,
+        moveText: '13/10 8/7',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,5,1,2,0,1,-1,-5,4,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.273,
+        equityLoss: 0.27,
+      },
+      {
+        rank: 9,
+        moveText: '24/21 8/7',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 21,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,5,1,2,0,0,-1,-5,5,0,0,0,-3,0,-5,0,1,0,0,1|0,0|0,0',
+        equity: -0.279,
+        equityLoss: 0.276,
+      },
+      {
+        rank: 10,
+        moveText: '24/23 8/5',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,1,5,0,2,0,0,-1,-5,5,0,0,0,-3,0,-5,0,0,0,1,1|0,0|0,0',
+        equity: -0.285,
+        equityLoss: 0.282,
+      },
+      {
+        rank: 11,
+        moveText: '24/23 6/3',
+        movements: [
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,0,0,4,0,3,0,0,-1,-5,5,0,0,0,-3,0,-5,0,0,0,1,1|0,0|0,0',
+        equity: -0.285,
+        equityLoss: 0.282,
+      },
+      {
+        rank: 12,
+        moveText: '8/4',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,1,0,5,0,2,0,0,-1,-5,5,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.326,
+        equityLoss: 0.323,
+      },
+      {
+        rank: 13,
+        moveText: '6/5 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,0,1,3,0,3,0,0,-1,-5,5,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.338,
+        equityLoss: 0.335,
+      },
+      {
+        rank: 14,
+        moveText: '8/7 6/3',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,0,0,4,1,2,0,0,-1,-5,5,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.351,
+        equityLoss: 0.348,
+      },
+      {
+        rank: 15,
+        moveText: '6/2',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,0,0,4,0,3,0,0,-1,-5,5,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.353,
+        equityLoss: 0.35,
+      },
+      {
+        rank: 16,
+        moveText: '8/7 8/5',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,1,5,1,1,0,0,-1,-5,5,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.41,
+        equityLoss: 0.407,
+      },
+    ],
+  },
+  {
+    id: 'curated-079',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 0, 0, 0, 5, 0, 3, 0, 0, 0, -6, 5, 0, 0, 0, -3, 0, -5, 0, 0, 0,
+        0, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '8/3 6/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,0,0,4,0,2,0,0,0,-6,5,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.113,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '24/21 13/8',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 21,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,5,0,4,0,0,0,-6,4,0,0,0,-3,0,-5,0,1,0,0,1|0,0|0,0',
+        equity: -0.165,
+        equityLoss: 0.052000000000000005,
+      },
+      {
+        rank: 3,
+        moveText: '13/10 13/8',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,5,0,4,0,1,0,-6,3,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.186,
+        equityLoss: 0.073,
+      },
+      {
+        rank: 4,
+        moveText: '13/5',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,1,5,0,3,0,0,0,-6,4,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.211,
+        equityLoss: 0.09799999999999999,
+      },
+      {
+        rank: 5,
+        moveText: '24/21 6/1*',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 24,
+            to: 21,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,0,0,4,0,3,0,0,0,-6,5,0,0,0,-3,0,-5,0,1,0,0,1|0,1|0,0',
+        equity: -0.216,
+        equityLoss: 0.103,
+      },
+      {
+        rank: 6,
+        moveText: '24/16',
+        movements: [
+          {
+            from: 24,
+            to: 21,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 21,
+            to: 16,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,0,5,0,3,0,0,0,-6,5,0,0,1,-3,0,-5,0,0,0,0,1|0,0|0,0',
+        equity: -0.221,
+        equityLoss: 0.108,
+      },
+      {
+        rank: 7,
+        moveText: '13/10 6/1*',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,0,0,4,0,3,0,1,0,-6,4,0,0,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: -0.228,
+        equityLoss: 0.115,
+      },
+      {
+        rank: 8,
+        moveText: '13/8 6/3',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,0,0,4,0,4,0,0,0,-6,4,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.263,
+        equityLoss: 0.15000000000000002,
+      },
+      {
+        rank: 9,
+        moveText: '24/21 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 21,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,0,0,5,0,2,0,0,0,-6,5,0,0,0,-3,0,-5,0,1,0,0,1|0,0|0,0',
+        equity: -0.297,
+        equityLoss: 0.184,
+      },
+      {
+        rank: 10,
+        moveText: '13/10 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,0,0,5,0,2,0,1,0,-6,4,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.308,
+        equityLoss: 0.195,
+      },
+      {
+        rank: 11,
+        moveText: '8/5 6/1*',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,0,1,4,0,2,0,0,0,-6,5,0,0,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: -0.339,
+        equityLoss: 0.22600000000000003,
+      },
+      {
+        rank: 12,
+        moveText: '6/3 6/1*',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,0,0,3,0,3,0,0,0,-6,5,0,0,0,-3,0,-5,0,0,0,0,2|0,1|0,0',
+        equity: -0.369,
+        equityLoss: 0.256,
+      },
+      {
+        rank: 13,
+        moveText: '8/5 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,0,1,5,0,1,0,0,0,-6,5,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.418,
+        equityLoss: 0.305,
+      },
+    ],
+  },
+  {
+    id: 'curated-080',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 0, 2, 0, 4, 0, 2, 0, 0, 0, -6, 5, 0, 0, 0, -2, 0, -4, 0, -2,
+        0, 0, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [3, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '8/5(2) 6/3(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,2,2,0,0,0,0,0,-6,5,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: 0.163,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '13/10(2) 8/5(2)',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,2,2,4,0,0,0,2,0,-6,3,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: 0.056,
+        equityLoss: 0.10700000000000001,
+      },
+      {
+        rank: 3,
+        moveText: '13/10(2) 6/3(2)',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,0,2,0,2,0,2,0,-6,3,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: 0.01,
+        equityLoss: 0.153,
+      },
+      {
+        rank: 4,
+        moveText: '13/7(2)',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,2,0,4,2,2,0,0,0,-6,3,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: 0.008,
+        equityLoss: 0.155,
+      },
+      {
+        rank: 5,
+        moveText: '13/7 8/5(2)',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,2,2,4,1,0,0,0,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.074,
+        equityLoss: 0.237,
+      },
+      {
+        rank: 6,
+        moveText: '8/5(2) 4/1*(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,0,0,2,4,0,0,0,0,0,-6,5,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.08,
+        equityLoss: 0.243,
+      },
+      {
+        rank: 7,
+        moveText: '13/10 8/5(2) 6/3',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,2,2,3,0,0,0,1,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.108,
+        equityLoss: 0.271,
+      },
+      {
+        rank: 8,
+        moveText: '13/7 6/3(2)',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,0,2,1,2,0,0,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.146,
+        equityLoss: 0.309,
+      },
+      {
+        rank: 9,
+        moveText: '13/10(2) 4/1*(2)',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,0,0,0,4,0,2,0,2,0,-6,3,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.177,
+        equityLoss: 0.33999999999999997,
+      },
+      {
+        rank: 10,
+        moveText: '6/3(2) 4/1*(2)',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,0,0,2,0,2,0,0,0,-6,5,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.18,
+        equityLoss: 0.34299999999999997,
+      },
+      {
+        rank: 11,
+        moveText: '13/10 8/5 6/3(2)',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,1,2,0,1,0,1,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.197,
+        equityLoss: 0.36,
+      },
+      {
+        rank: 12,
+        moveText: '13/4 13/10',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,3,0,4,0,2,0,1,0,-6,3,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.209,
+        equityLoss: 0.372,
+      },
+      {
+        rank: 13,
+        moveText: '13/7 13/10(2)',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,2,0,4,1,2,0,2,0,-6,2,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.224,
+        equityLoss: 0.387,
+      },
+      {
+        rank: 14,
+        moveText: '13/10(3) 6/3',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,2,0,3,0,2,0,3,0,-6,2,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.241,
+        equityLoss: 0.404,
+      },
+      {
+        rank: 15,
+        moveText: '8/2(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,0,2,0,4,0,0,0,0,0,-6,5,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.25,
+        equityLoss: 0.41300000000000003,
+      },
+      {
+        rank: 16,
+        moveText: '13/1*',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,2,0,4,0,2,0,0,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.263,
+        equityLoss: 0.42600000000000005,
+      },
+      {
+        rank: 17,
+        moveText: '13/7 4/1*(2)',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,0,0,0,4,1,2,0,0,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.269,
+        equityLoss: 0.43200000000000005,
+      },
+      {
+        rank: 18,
+        moveText: '13/10(3) 8/5',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,2,1,4,0,1,0,3,0,-6,2,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.297,
+        equityLoss: 0.45999999999999996,
+      },
+      {
+        rank: 19,
+        moveText: '13/10(4)',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,2,0,4,0,2,0,4,0,-6,1,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.308,
+        equityLoss: 0.471,
+      },
+      {
+        rank: 20,
+        moveText: '13/4 6/3',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,3,0,3,0,2,0,0,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.332,
+        equityLoss: 0.495,
+      },
+      {
+        rank: 21,
+        moveText: '13/4 8/5',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 4,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,3,1,4,0,1,0,0,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.372,
+        equityLoss: 0.535,
+      },
+      {
+        rank: 22,
+        moveText: '13/7 13/10 6/3',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,2,0,3,1,2,0,1,0,-6,3,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.376,
+        equityLoss: 0.539,
+      },
+      {
+        rank: 23,
+        moveText: '13/10(2) 8/5 6/3',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,2,1,3,0,1,0,2,0,-6,3,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.377,
+        equityLoss: 0.54,
+      },
+      {
+        rank: 24,
+        moveText: '8/2 6/3(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,2,0,2,0,1,0,0,0,-6,5,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.379,
+        equityLoss: 0.542,
+      },
+      {
+        rank: 25,
+        moveText: '13/10(2) 8/2',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,2,0,4,0,1,0,2,0,-6,3,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.381,
+        equityLoss: 0.544,
+      },
+      {
+        rank: 26,
+        moveText: '13/10 8/5(2) 4/1*',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,1,2,4,0,0,0,1,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.4,
+        equityLoss: 0.5630000000000001,
+      },
+      {
+        rank: 27,
+        moveText: '13/10 6/3 4/1*(2)',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,1,0,0,3,0,2,0,1,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.417,
+        equityLoss: 0.58,
+      },
+      {
+        rank: 28,
+        moveText: '13/7 13/10 8/5',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,2,1,4,1,1,0,1,0,-6,3,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.432,
+        equityLoss: 0.595,
+      },
+      {
+        rank: 29,
+        moveText: '13/10 8/2 8/5',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,2,1,4,0,0,0,1,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.49,
+        equityLoss: 0.653,
+      },
+      {
+        rank: 30,
+        moveText: '13/10 8/5 4/1*(2)',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,0,0,1,4,0,1,0,1,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.497,
+        equityLoss: 0.66,
+      },
+      {
+        rank: 31,
+        moveText: '13/10(3) 4/1*',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,1,0,4,0,2,0,3,0,-6,2,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.498,
+        equityLoss: 0.661,
+      },
+      {
+        rank: 32,
+        moveText: '13/10 6/3(2) 4/1*',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,1,0,2,0,2,0,1,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.513,
+        equityLoss: 0.676,
+      },
+      {
+        rank: 33,
+        moveText: '13/7 8/2',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,2,0,4,1,1,0,0,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.539,
+        equityLoss: 0.7020000000000001,
+      },
+      {
+        rank: 34,
+        moveText: '13/7 8/5 6/3',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,2,1,3,1,1,0,0,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.547,
+        equityLoss: 0.7100000000000001,
+      },
+      {
+        rank: 35,
+        moveText: '8/2 4/1*(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,0,0,0,4,0,1,0,0,0,-6,5,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.597,
+        equityLoss: 0.76,
+      },
+      {
+        rank: 36,
+        moveText: '8/5(2) 6/3 4/1*',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,1,2,3,0,0,0,0,0,-6,5,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.6,
+        equityLoss: 0.763,
+      },
+      {
+        rank: 37,
+        moveText: '13/10 6/3(3)',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,2,0,1,0,2,0,1,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.612,
+        equityLoss: 0.775,
+      },
+      {
+        rank: 38,
+        moveText: '13/10 8/2 6/3',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,1,2,0,3,0,1,0,1,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.623,
+        equityLoss: 0.786,
+      },
+      {
+        rank: 39,
+        moveText: '13/7 13/10 4/1*',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,1,0,4,1,2,0,1,0,-6,3,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.649,
+        equityLoss: 0.812,
+      },
+      {
+        rank: 40,
+        moveText: '8/2 8/5 6/3',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,1,2,1,3,0,0,0,0,0,-6,5,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.661,
+        equityLoss: 0.8240000000000001,
+      },
+      {
+        rank: 41,
+        moveText: '13/10(2) 6/3 4/1*',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,1,0,3,0,2,0,2,0,-6,3,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.681,
+        equityLoss: 0.8440000000000001,
+      },
+      {
+        rank: 42,
+        moveText: '8/5 6/3 4/1*(2)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,1,0,1,3,0,1,0,0,0,-6,5,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.762,
+        equityLoss: 0.925,
+      },
+      {
+        rank: 43,
+        moveText: '6/3(4)',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,4,2,0,0,0,2,0,0,0,-6,5,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.793,
+        equityLoss: 0.9560000000000001,
+      },
+      {
+        rank: 44,
+        moveText: '13/10(2) 8/5 4/1*',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,1,1,4,0,1,0,2,0,-6,3,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.872,
+        equityLoss: 1.035,
+      },
+      {
+        rank: 45,
+        moveText: '8/5 6/3(3)',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,2,1,1,0,1,0,0,0,-6,5,0,0,0,-2,0,-4,0,-2,0,0,2|0,0|0,0',
+        equity: -0.885,
+        equityLoss: 1.048,
+      },
+      {
+        rank: 46,
+        moveText: '13/7 6/3 4/1*',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,1,0,3,1,2,0,0,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.912,
+        equityLoss: 1.075,
+      },
+      {
+        rank: 47,
+        moveText: '8/5 6/3(2) 4/1*',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,1,1,2,0,1,0,0,0,-6,5,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -0.941,
+        equityLoss: 1.1039999999999999,
+      },
+      {
+        rank: 48,
+        moveText: '13/7 8/5 4/1*',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 10,
+            to: 7,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,1,1,4,1,1,0,0,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.163,
+      },
+      {
+        rank: 49,
+        moveText: '13/10 8/2 4/1*',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,1,0,4,0,1,0,1,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.163,
+      },
+      {
+        rank: 50,
+        moveText: '8/2 8/5 4/1*',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,1,1,4,0,0,0,0,0,-6,5,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.163,
+      },
+      {
+        rank: 51,
+        moveText: '13/10 8/5 6/3 4/1*',
+        movements: [
+          {
+            from: 13,
+            to: 10,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,1,1,3,0,1,0,1,0,-6,4,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.163,
+      },
+      {
+        rank: 52,
+        moveText: '6/3(3) 4/1*',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,1,0,1,0,2,0,0,0,-6,5,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.163,
+      },
+      {
+        rank: 53,
+        moveText: '8/2 6/3 4/1*',
+        movements: [
+          {
+            from: 8,
+            to: 5,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,1,0,3,0,1,0,0,0,-6,5,0,0,0,-2,0,-4,0,-2,0,0,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 1.163,
+      },
+    ],
+  },
+  {
+    id: 'curated-081',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, 2, 0, 0, 4, 0, 2, -1, 0, -1, -4, 3, 1, 0, 0, -1, 0, -4, 0, -2,
+        -2, 0, 2,
+      ],
+      bar: {
+        white: 1,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [2, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: 'bar/23 13/9*',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,0,0,4,0,2,1,0,-1,-4,2,1,0,0,-1,0,-4,0,-2,-2,1,2|0,1|0,0',
+        equity: -0.712,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: 'bar/23 14/10',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 14,
+            to: 10,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,0,0,4,0,2,-1,1,-1,-4,3,0,0,0,-1,0,-4,0,-2,-2,1,2|0,0|0,0',
+        equity: -0.992,
+        equityLoss: 0.28,
+      },
+      {
+        rank: 3,
+        moveText: 'bar/23 8/4',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,1,0,4,0,1,-1,0,-1,-4,3,1,0,0,-1,0,-4,0,-2,-2,1,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.28800000000000003,
+      },
+      {
+        rank: 4,
+        moveText: 'bar/23 24/20',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 20,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,0,0,4,0,2,-1,0,-1,-4,3,1,0,0,-1,0,-4,1,-2,-2,1,1|0,0|0,0',
+        equity: -1.025,
+        equityLoss: 0.31299999999999994,
+      },
+      {
+        rank: 5,
+        moveText: 'bar/23 6/2',
+        movements: [
+          {
+            from: 'bar',
+            to: 23,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,0,0,3,0,2,-1,0,-1,-4,3,1,0,0,-1,0,-4,0,-2,-2,1,2|0,0|0,0',
+        equity: -1.028,
+        equityLoss: 0.31600000000000006,
+      },
+    ],
+  },
+  {
+    id: 'curated-082',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, 0, 0, 0, 5, 0, 5, 0, -1, 2, -4, 0, 0, 0, 0, -5, 2, -5, 0, 0, 0,
+        0, 0,
+      ],
+      bar: {
+        white: 1,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [4, 1],
+    answers: [
+      {
+        rank: 1,
+        moveText: 'bar/21 11/10*',
+        movements: [
+          {
+            from: 'bar',
+            to: 21,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,0,5,0,5,0,1,1,-4,0,0,0,0,-5,2,-5,0,1,0,0,0|0,1|0,0',
+        equity: -0.037,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: 'bar/24 8/4',
+        movements: [
+          {
+            from: 'bar',
+            to: 24,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,1,0,5,0,4,0,-1,2,-4,0,0,0,0,-5,2,-5,0,0,0,0,1|0,0|0,0',
+        equity: -0.174,
+        equityLoss: 0.13699999999999998,
+      },
+      {
+        rank: 3,
+        moveText: 'bar/24 6/2',
+        movements: [
+          {
+            from: 'bar',
+            to: 24,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,0,0,4,0,5,0,-1,2,-4,0,0,0,0,-5,2,-5,0,0,0,0,1|0,0|0,0',
+        equity: -0.25,
+        equityLoss: 0.213,
+      },
+      {
+        rank: 4,
+        moveText: 'bar/24 11/7',
+        movements: [
+          {
+            from: 'bar',
+            to: 24,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 7,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,0,5,1,5,0,-1,1,-4,0,0,0,0,-5,2,-5,0,0,0,0,1|0,0|0,0',
+        equity: -0.295,
+        equityLoss: 0.258,
+      },
+      {
+        rank: 5,
+        moveText: 'bar/21 6/5',
+        movements: [
+          {
+            from: 'bar',
+            to: 21,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,1,4,0,5,0,-1,2,-4,0,0,0,0,-5,2,-5,0,1,0,0,0|0,0|0,0',
+        equity: -0.364,
+        equityLoss: 0.327,
+      },
+      {
+        rank: 6,
+        moveText: 'bar/21 8/7',
+        movements: [
+          {
+            from: 'bar',
+            to: 21,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,0,5,1,4,0,-1,2,-4,0,0,0,0,-5,2,-5,0,1,0,0,0|0,0|0,0',
+        equity: -0.39,
+        equityLoss: 0.35300000000000004,
+      },
+      {
+        rank: 7,
+        moveText: 'bar/20',
+        movements: [
+          {
+            from: 'bar',
+            to: 21,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 21,
+            to: 20,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,0,5,0,5,0,-1,2,-4,0,0,0,0,-5,2,-5,1,0,0,0,0|0,0|0,0',
+        equity: -0.473,
+        equityLoss: 0.436,
+      },
+      {
+        rank: 8,
+        moveText: 'bar/24 18/14',
+        movements: [
+          {
+            from: 'bar',
+            to: 24,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 18,
+            to: 14,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,0,0,5,0,5,0,-1,2,-4,0,1,0,0,-5,1,-5,0,0,0,0,1|0,0|0,0',
+        equity: -0.754,
+        equityLoss: 0.717,
+      },
+    ],
+  },
+  {
+    id: 'curated-083',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, -1, 1, 2, 3, 0, 3, 0, 0, 0, -3, 3, 0, 0, 0, -3, 1, -4, -2, 0,
+        -2, 0, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [6, 1],
+    answers: [
+      {
+        rank: 1,
+        moveText: '24/18 4/3*',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,0,2,3,0,3,0,0,0,-3,3,0,0,0,-3,2,-4,-2,0,-2,0,1|0,1|0,0',
+        equity: -0.516,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '13/7 8/7',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,1,2,3,2,2,0,0,0,-3,2,0,0,0,-3,1,-4,-2,0,-2,0,2|0,0|0,0',
+        equity: -0.57,
+        equityLoss: 0.05399999999999994,
+      },
+      {
+        rank: 3,
+        moveText: '24/18 6/5',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,1,3,2,0,3,0,0,0,-3,3,0,0,0,-3,2,-4,-2,0,-2,0,1|0,0|0,0',
+        equity: -0.675,
+        equityLoss: 0.15900000000000003,
+      },
+      {
+        rank: 4,
+        moveText: '24/18 5/4',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,2,1,3,0,3,0,0,0,-3,3,0,0,0,-3,2,-4,-2,0,-2,0,1|0,0|0,0',
+        equity: -0.723,
+        equityLoss: 0.20699999999999996,
+      },
+      {
+        rank: 5,
+        moveText: '24/18 8/7',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,1,2,3,1,2,0,0,0,-3,3,0,0,0,-3,2,-4,-2,0,-2,0,1|0,0|0,0',
+        equity: -0.784,
+        equityLoss: 0.268,
+      },
+      {
+        rank: 6,
+        moveText: '24/23 24/18',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,1,2,3,0,3,0,0,0,-3,3,0,0,0,-3,2,-4,-2,0,-2,1,0|0,0|0,0',
+        equity: -0.793,
+        equityLoss: 0.277,
+      },
+      {
+        rank: 7,
+        moveText: '13/6',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,1,2,4,0,3,0,0,0,-3,2,0,0,0,-3,1,-4,-2,0,-2,0,2|0,0|0,0',
+        equity: -0.925,
+        equityLoss: 0.40900000000000003,
+      },
+      {
+        rank: 8,
+        moveText: '13/7 4/3*',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,0,2,3,1,3,0,0,0,-3,2,0,0,0,-3,1,-4,-2,0,-2,0,2|0,1|0,0',
+        equity: -0.933,
+        equityLoss: 0.41700000000000004,
+      },
+      {
+        rank: 9,
+        moveText: '13/7 6/5',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,1,3,2,1,3,0,0,0,-3,2,0,0,0,-3,1,-4,-2,0,-2,0,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.484,
+      },
+      {
+        rank: 10,
+        moveText: '8/2 4/3*',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,0,2,3,0,2,0,0,0,-3,3,0,0,0,-3,1,-4,-2,0,-2,0,2|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.484,
+      },
+      {
+        rank: 11,
+        moveText: '8/2 6/5',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,-1,1,3,2,0,2,0,0,0,-3,3,0,0,0,-3,1,-4,-2,0,-2,0,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.484,
+      },
+      {
+        rank: 12,
+        moveText: '13/7 5/4',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,2,1,3,1,3,0,0,0,-3,2,0,0,0,-3,1,-4,-2,0,-2,0,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.484,
+      },
+      {
+        rank: 13,
+        moveText: '8/2 5/4',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,-1,2,1,3,0,2,0,0,0,-3,3,0,0,0,-3,1,-4,-2,0,-2,0,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.484,
+      },
+      {
+        rank: 14,
+        moveText: '8/1',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,-1,1,2,3,0,2,0,0,0,-3,3,0,0,0,-3,1,-4,-2,0,-2,0,2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.484,
+      },
+      {
+        rank: 15,
+        moveText: '24/23 13/7',
+        movements: [
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,-1,1,2,3,1,3,0,0,0,-3,2,0,0,0,-3,1,-4,-2,0,-2,1,1|0,0|0,0',
+        equity: -1.018,
+        equityLoss: 0.502,
+      },
+      {
+        rank: 16,
+        moveText: '24/23 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 23,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,-1,1,2,3,0,2,0,0,0,-3,3,0,0,0,-3,1,-4,-2,0,-2,1,1|0,0|0,0',
+        equity: -1.045,
+        equityLoss: 0.5289999999999999,
+      },
+      {
+        rank: 17,
+        moveText: '8/7 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,-1,1,2,3,1,1,0,0,0,-3,3,0,0,0,-3,1,-4,-2,0,-2,0,2|0,0|0,0',
+        equity: -1.072,
+        equityLoss: 0.556,
+      },
+    ],
+  },
+  {
+    id: 'curated-084',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, -1, 0, 1, 5, 0, 3, 0, 0, 0, -2, 4, 0, 0, 0, 0, 0, -2, -2, -2,
+        2, -2, -3,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 2],
+    answers: [
+      {
+        rank: 1,
+        moveText: '13/11 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,-1,0,2,4,0,3,0,0,1,-2,3,0,0,0,0,0,-2,-2,-2,2,-2,-3|0,0|0,0',
+        equity: -0.021,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '8/5',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 5,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,-1,0,2,5,0,2,0,0,0,-2,4,0,0,0,0,0,-2,-2,-2,2,-2,-3|0,0|0,0',
+        equity: -0.097,
+        equityLoss: 0.076,
+      },
+      {
+        rank: 3,
+        moveText: '6/4 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,-1,2,0,4,0,3,0,0,0,-2,4,0,0,0,0,0,-2,-2,-2,2,-2,-3|0,0|0,0',
+        equity: -0.099,
+        equityLoss: 0.078,
+      },
+      {
+        rank: 4,
+        moveText: '6/5 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,-1,1,2,3,0,3,0,0,0,-2,4,0,0,0,0,0,-2,-2,-2,2,-2,-3|0,0|0,0',
+        equity: -0.366,
+        equityLoss: 0.345,
+      },
+      {
+        rank: 5,
+        moveText: '5/2',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,-1,0,0,5,0,3,0,0,0,-2,4,0,0,0,0,0,-2,-2,-2,2,-2,-3|0,0|0,0',
+        equity: -0.839,
+        equityLoss: 0.818,
+      },
+      {
+        rank: 6,
+        moveText: '5/3*/2',
+        movements: [
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: true,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,0,0,5,0,3,0,0,0,-2,4,0,0,0,0,0,-2,-2,-2,2,-2,-3|0,1|0,0',
+        equity: -0.914,
+        equityLoss: 0.893,
+      },
+      {
+        rank: 7,
+        moveText: '8/6 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,-1,1,0,6,0,2,0,0,0,-2,4,0,0,0,0,0,-2,-2,-2,2,-2,-3|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.979,
+      },
+      {
+        rank: 8,
+        moveText: '13/11 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,-1,1,0,5,0,3,0,0,1,-2,3,0,0,0,0,0,-2,-2,-2,2,-2,-3|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.979,
+      },
+      {
+        rank: 9,
+        moveText: '6/3*',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,0,1,4,0,3,0,0,0,-2,4,0,0,0,0,0,-2,-2,-2,2,-2,-3|0,1|0,0',
+        equity: -1,
+        equityLoss: 0.979,
+      },
+      {
+        rank: 10,
+        moveText: '13/10',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 11,
+            to: 10,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,-1,0,1,5,0,3,0,1,0,-2,3,0,0,0,0,0,-2,-2,-2,2,-2,-3|0,0|0,0',
+        equity: -1.011,
+        equityLoss: 0.9899999999999999,
+      },
+      {
+        rank: 11,
+        moveText: '8/7 5/3*',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,0,0,5,1,2,0,0,0,-2,4,0,0,0,0,0,-2,-2,-2,2,-2,-3|0,1|0,0',
+        equity: -1.03,
+        equityLoss: 1.0090000000000001,
+      },
+      {
+        rank: 12,
+        moveText: '13/11 8/7',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,-1,0,1,5,1,2,0,0,1,-2,3,0,0,0,0,0,-2,-2,-2,2,-2,-3|0,0|0,0',
+        equity: -1.211,
+        equityLoss: 1.1900000000000002,
+      },
+      {
+        rank: 13,
+        moveText: '8/7 6/4',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,-1,1,1,4,1,2,0,0,0,-2,4,0,0,0,0,0,-2,-2,-2,2,-2,-3|0,0|0,0',
+        equity: -1.276,
+        equityLoss: 1.2550000000000001,
+      },
+      {
+        rank: 14,
+        moveText: '8/7 8/6',
+        movements: [
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,-1,0,1,6,1,1,0,0,0,-2,4,0,0,0,0,0,-2,-2,-2,2,-2,-3|0,0|0,0',
+        equity: -1.378,
+        equityLoss: 1.357,
+      },
+    ],
+  },
+  {
+    id: 'curated-085',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, 1, 3, 2, 2, 2, 0, 0, 0, 0, -2, 2, 0, 0, 0, -3, 0, -4, -3, 1,
+        -3, 2, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 5],
+    answers: [
+      {
+        rank: 1,
+        moveText: '21/16 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 21,
+            to: 16,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,2,2,2,2,0,0,0,0,-2,2,0,0,1,-3,0,-4,-3,0,-3,2,0|0,0|0,0',
+        equity: -0.665,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '13/8 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,2,2,2,2,1,0,0,0,-2,1,0,0,0,-3,0,-4,-3,1,-3,2,0|0,0|0,0',
+        equity: -0.726,
+        equityLoss: 0.06099999999999994,
+      },
+      {
+        rank: 3,
+        moveText: '7/2 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,2,2,2,1,0,0,0,0,-2,2,0,0,0,-3,0,-4,-3,1,-3,2,0|0,0|0,0',
+        equity: -0.807,
+        equityLoss: 0.14200000000000002,
+      },
+      {
+        rank: 4,
+        moveText: '21/16 7/6',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 21,
+            to: 16,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,3,2,3,1,0,0,0,0,-2,2,0,0,1,-3,0,-4,-3,0,-3,2,0|0,0|0,0',
+        equity: -0.878,
+        equityLoss: 0.21299999999999997,
+      },
+      {
+        rank: 5,
+        moveText: '7/2 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,0,3,2,2,1,0,0,0,0,-2,2,0,0,0,-3,0,-4,-3,1,-3,2,0|0,0|0,0',
+        equity: -0.881,
+        equityLoss: 0.21599999999999997,
+      },
+      {
+        rank: 6,
+        moveText: '21/16 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 21,
+            to: 16,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,3,2,2,2,0,0,0,0,-2,2,0,0,1,-3,0,-4,-3,0,-3,2,0|0,0|0,0',
+        equity: -0.902,
+        equityLoss: 0.237,
+      },
+      {
+        rank: 7,
+        moveText: '21/15',
+        movements: [
+          {
+            from: 21,
+            to: 16,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 16,
+            to: 15,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,3,2,2,2,0,0,0,0,-2,2,0,1,0,-3,0,-4,-3,0,-3,2,0|0,0|0,0',
+        equity: -0.909,
+        equityLoss: 0.244,
+      },
+      {
+        rank: 8,
+        moveText: '13/7',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,3,2,2,3,0,0,0,0,-2,1,0,0,0,-3,0,-4,-3,1,-3,2,0|0,0|0,0',
+        equity: -0.977,
+        equityLoss: 0.31199999999999994,
+      },
+      {
+        rank: 9,
+        moveText: '7/6 7/2',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,3,2,3,0,0,0,0,0,-2,2,0,0,0,-3,0,-4,-3,1,-3,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.33499999999999996,
+      },
+      {
+        rank: 10,
+        moveText: '13/8 7/6',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,3,2,3,1,1,0,0,0,-2,1,0,0,0,-3,0,-4,-3,1,-3,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.33499999999999996,
+      },
+      {
+        rank: 11,
+        moveText: '13/8 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,3,2,2,2,1,0,0,0,-2,1,0,0,0,-3,0,-4,-3,1,-3,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.33499999999999996,
+      },
+      {
+        rank: 12,
+        moveText: '21/16 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 21,
+            to: 16,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,3,3,1,2,0,0,0,0,-2,2,0,0,1,-3,0,-4,-3,0,-3,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.33499999999999996,
+      },
+      {
+        rank: 13,
+        moveText: '7/1',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,3,2,2,1,0,0,0,0,-2,2,0,0,0,-3,0,-4,-3,1,-3,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.33499999999999996,
+      },
+      {
+        rank: 14,
+        moveText: '21/16 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 21,
+            to: 16,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,4,1,2,2,0,0,0,0,-2,2,0,0,1,-3,0,-4,-3,0,-3,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.33499999999999996,
+      },
+      {
+        rank: 15,
+        moveText: '6/1 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,2,1,2,0,0,0,0,-2,2,0,0,0,-3,0,-4,-3,1,-3,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.33499999999999996,
+      },
+      {
+        rank: 16,
+        moveText: '7/2 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,3,3,1,1,0,0,0,0,-2,2,0,0,0,-3,0,-4,-3,1,-3,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.33499999999999996,
+      },
+      {
+        rank: 17,
+        moveText: '13/8 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,3,3,1,2,1,0,0,0,-2,1,0,0,0,-3,0,-4,-3,1,-3,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.33499999999999996,
+      },
+      {
+        rank: 18,
+        moveText: '23/18 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 23,
+            to: 18,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,2,2,2,2,0,0,0,0,-2,2,0,0,0,-3,1,-4,-3,1,-3,1,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.33499999999999996,
+      },
+      {
+        rank: 19,
+        moveText: '13/8 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,4,1,2,2,1,0,0,0,-2,1,0,0,0,-3,0,-4,-3,1,-3,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.33499999999999996,
+      },
+      {
+        rank: 20,
+        moveText: '7/2 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,4,1,2,1,0,0,0,0,-2,2,0,0,0,-3,0,-4,-3,1,-3,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.33499999999999996,
+      },
+      {
+        rank: 21,
+        moveText: '6/5 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,3,3,0,2,0,0,0,0,-2,2,0,0,0,-3,0,-4,-3,1,-3,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.33499999999999996,
+      },
+      {
+        rank: 22,
+        moveText: '6/1 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,3,2,1,2,0,0,0,0,-2,2,0,0,0,-3,0,-4,-3,1,-3,2,0|0,0|0,0',
+        equity: -1.013,
+        equityLoss: 0.34799999999999986,
+      },
+      {
+        rank: 23,
+        moveText: '6/1 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,4,1,1,2,0,0,0,0,-2,2,0,0,0,-3,0,-4,-3,1,-3,2,0|0,0|0,0',
+        equity: -1.089,
+        equityLoss: 0.42399999999999993,
+      },
+      {
+        rank: 24,
+        moveText: '23/18 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 23,
+            to: 18,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,3,2,2,2,0,0,0,0,-2,2,0,0,0,-3,1,-4,-3,1,-3,1,0|0,0|0,0',
+        equity: -1.13,
+        equityLoss: 0.46499999999999986,
+      },
+      {
+        rank: 25,
+        moveText: '23/18 7/6',
+        movements: [
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 23,
+            to: 18,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,3,2,3,1,0,0,0,0,-2,2,0,0,0,-3,1,-4,-3,1,-3,1,0|0,0|0,0',
+        equity: -1.139,
+        equityLoss: 0.474,
+      },
+      {
+        rank: 26,
+        moveText: '23/18 6/5',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 23,
+            to: 18,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,3,3,1,2,0,0,0,0,-2,2,0,0,0,-3,1,-4,-3,1,-3,1,0|0,0|0,0',
+        equity: -1.278,
+        equityLoss: 0.613,
+      },
+      {
+        rank: 27,
+        moveText: '23/18 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 23,
+            to: 18,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,4,1,2,2,0,0,0,0,-2,2,0,0,0,-3,1,-4,-3,1,-3,1,0|0,0|0,0',
+        equity: -1.297,
+        equityLoss: 0.6319999999999999,
+      },
+    ],
+  },
+  {
+    id: 'curated-086',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 0, 0, 2, 4, 0, 2, -1, 0, 0, -3, 5, -2, 0, 0, -3, 0, -3, 0, -2,
+        0, 0, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 6],
+    answers: [
+      {
+        rank: 1,
+        moveText: '24/13',
+        movements: [
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 18,
+            to: 13,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,2,4,0,2,-1,0,0,-3,6,-2,0,0,-3,0,-3,0,-2,0,0,1|0,0|0,0',
+        equity: -0.209,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '24/18 13/8',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,2,4,0,3,-1,0,0,-3,4,-2,0,0,-3,1,-3,0,-2,0,0,1|0,0|0,0',
+        equity: -0.292,
+        equityLoss: 0.08299999999999999,
+      },
+      {
+        rank: 3,
+        moveText: '13/8 13/7',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,0,0,2,4,1,3,-1,0,0,-3,3,-2,0,0,-3,0,-3,0,-2,0,0,2|0,0|0,0',
+        equity: -0.379,
+        equityLoss: 0.17,
+      },
+      {
+        rank: 4,
+        moveText: '24/18 6/1*',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,0,2,3,0,2,-1,0,0,-3,5,-2,0,0,-3,1,-3,0,-2,0,0,1|0,1|0,0',
+        equity: -0.39,
+        equityLoss: 0.18100000000000002,
+      },
+      {
+        rank: 5,
+        moveText: '13/7 6/1*',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,0,2,3,1,2,-1,0,0,-3,4,-2,0,0,-3,0,-3,0,-2,0,0,2|0,1|0,0',
+        equity: -0.399,
+        equityLoss: 0.19000000000000003,
+      },
+      {
+        rank: 6,
+        moveText: '13/2',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,0,0,2,4,0,2,-1,0,0,-3,4,-2,0,0,-3,0,-3,0,-2,0,0,2|0,0|0,0',
+        equity: -0.482,
+        equityLoss: 0.273,
+      },
+      {
+        rank: 7,
+        moveText: '13/7 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 7,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,0,2,4,1,1,-1,0,0,-3,4,-2,0,0,-3,0,-3,0,-2,0,0,2|0,0|0,0',
+        equity: -0.657,
+        equityLoss: 0.44800000000000006,
+      },
+      {
+        rank: 8,
+        moveText: '24/18 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 18,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,1,0,2,4,0,1,-1,0,0,-3,5,-2,0,0,-3,1,-3,0,-2,0,0,1|0,0|0,0',
+        equity: -0.752,
+        equityLoss: 0.543,
+      },
+      {
+        rank: 9,
+        moveText: '8/2 6/1*',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,0,2,3,0,1,-1,0,0,-3,5,-2,0,0,-3,0,-3,0,-2,0,0,2|0,1|0,0',
+        equity: -0.754,
+        equityLoss: 0.545,
+      },
+      {
+        rank: 10,
+        moveText: '8/3 8/2',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 2,
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,1,0,2,4,0,0,-1,0,0,-3,5,-2,0,0,-3,0,-3,0,-2,0,0,2|0,0|0,0',
+        equity: -0.792,
+        equityLoss: 0.5830000000000001,
+      },
+    ],
+  },
+  {
+    id: 'curated-087',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, 0, 2, 0, 4, 0, 2, 0, -2, 0, -5, 5, 0, 0, 0, -3, 0, -5, 0, 0, 0,
+        0, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [2, 5],
+    answers: [
+      {
+        rank: 1,
+        moveText: '24/22 13/8',
+        movements: [
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,2,0,4,0,3,0,-2,0,-5,4,0,0,0,-3,0,-5,0,0,1,0,1|0,0|0,0',
+        equity: -0.217,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '24/22 8/3',
+        movements: [
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,2,0,4,0,1,0,-2,0,-5,5,0,0,0,-3,0,-5,0,0,1,0,1|0,0|0,0',
+        equity: -0.279,
+        equityLoss: 0.06200000000000003,
+      },
+      {
+        rank: 3,
+        moveText: '13/11 13/8',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,2,0,4,0,3,0,-2,1,-5,3,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.31,
+        equityLoss: 0.093,
+      },
+      {
+        rank: 4,
+        moveText: '13/6',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,2,0,5,0,2,0,-2,0,-5,4,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.321,
+        equityLoss: 0.10400000000000001,
+      },
+      {
+        rank: 5,
+        moveText: '13/8 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,0,3,0,3,0,3,0,-2,0,-5,4,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.328,
+        equityLoss: 0.11100000000000002,
+      },
+      {
+        rank: 6,
+        moveText: '24/22 6/1',
+        movements: [
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,2,0,3,0,2,0,-2,0,-5,5,0,0,0,-3,0,-5,0,0,1,0,1|0,0|0,0',
+        equity: -0.339,
+        equityLoss: 0.12200000000000003,
+      },
+      {
+        rank: 7,
+        moveText: '13/11 8/3',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,2,0,4,0,1,0,-2,1,-5,4,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.361,
+        equityLoss: 0.144,
+      },
+      {
+        rank: 8,
+        moveText: '8/3 6/4',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,3,0,3,0,1,0,-2,0,-5,5,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.374,
+        equityLoss: 0.157,
+      },
+      {
+        rank: 9,
+        moveText: '8/6 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,2,0,5,0,0,0,-2,0,-5,5,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.384,
+        equityLoss: 0.167,
+      },
+      {
+        rank: 10,
+        moveText: '13/11 6/1',
+        movements: [
+          {
+            from: 13,
+            to: 11,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,2,0,3,0,2,0,-2,1,-5,4,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.396,
+        equityLoss: 0.17900000000000002,
+      },
+      {
+        rank: 11,
+        moveText: '13/8 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,0,1,0,4,0,3,0,-2,0,-5,4,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.411,
+        equityLoss: 0.19399999999999998,
+      },
+      {
+        rank: 12,
+        moveText: '8/1',
+        movements: [
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,2,0,4,0,1,0,-2,0,-5,5,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.412,
+        equityLoss: 0.19499999999999998,
+      },
+      {
+        rank: 13,
+        moveText: '6/4 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,3,0,2,0,2,0,-2,0,-5,5,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.44,
+        equityLoss: 0.223,
+      },
+      {
+        rank: 14,
+        moveText: '8/3 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,1,0,4,0,1,0,-2,0,-5,5,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.476,
+        equityLoss: 0.259,
+      },
+      {
+        rank: 15,
+        moveText: '6/1 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,1,0,3,0,2,0,-2,0,-5,5,0,0,0,-3,0,-5,0,0,0,0,2|0,0|0,0',
+        equity: -0.543,
+        equityLoss: 0.32600000000000007,
+      },
+    ],
+  },
+  {
+    id: 'curated-088',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 2, 2, 0, 3, 1, 2, 0, 0, 0, -2, 3, 0, 0, -2, -4, 0, -2, -2, -2,
+        0, 2, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 1],
+    answers: [
+      {
+        rank: 1,
+        moveText: '13/7',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,0,3,2,2,0,0,0,-2,2,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,0|0,0',
+        equity: -0.468,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '8/7 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,2,0,3,2,0,0,0,0,-2,3,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,0|0,0',
+        equity: -0.701,
+        equityLoss: 0.23299999999999993,
+      },
+      {
+        rank: 3,
+        moveText: '23/18 8/7',
+        movements: [
+          {
+            from: 23,
+            to: 18,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,0,3,2,1,0,0,0,-2,3,0,0,-2,-4,1,-2,-2,-2,0,1,0|0,0|0,0',
+        equity: -0.79,
+        equityLoss: 0.322,
+      },
+      {
+        rank: 4,
+        moveText: '7/1*',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,0,3,0,2,0,0,0,-2,3,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,1|0,0',
+        equity: -0.827,
+        equityLoss: 0.35899999999999993,
+      },
+      {
+        rank: 5,
+        moveText: '13/8 7/6',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,0,4,0,3,0,0,0,-2,2,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,0|0,0',
+        equity: -0.841,
+        equityLoss: 0.37299999999999994,
+      },
+      {
+        rank: 6,
+        moveText: '8/7 6/1*',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 8,
+            to: 7,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,0,2,2,1,0,0,0,-2,3,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,1|0,0',
+        equity: -0.874,
+        equityLoss: 0.40599999999999997,
+      },
+      {
+        rank: 7,
+        moveText: '23/22 6/1*',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 23,
+            to: 22,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,0,2,1,2,0,0,0,-2,3,0,0,-2,-4,0,-2,-2,-2,1,1,0|0,1|0,0',
+        equity: -0.899,
+        equityLoss: 0.431,
+      },
+      {
+        rank: 8,
+        moveText: '23/18 7/6',
+        movements: [
+          {
+            from: 23,
+            to: 18,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,0,4,0,2,0,0,0,-2,3,0,0,-2,-4,1,-2,-2,-2,0,1,0|0,0|0,0',
+        equity: -0.899,
+        equityLoss: 0.431,
+      },
+      {
+        rank: 9,
+        moveText: '8/3 7/6',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 6,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,2,0,4,0,1,0,0,0,-2,3,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,0|0,0',
+        equity: -0.955,
+        equityLoss: 0.48699999999999993,
+      },
+      {
+        rank: 10,
+        moveText: '13/8 6/5',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,1,2,1,3,0,0,0,-2,2,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,0|0,0',
+        equity: -0.999,
+        equityLoss: 0.5309999999999999,
+      },
+      {
+        rank: 11,
+        moveText: '7/2 3/2',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,2,1,2,0,3,0,2,0,0,0,-2,3,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.532,
+      },
+      {
+        rank: 12,
+        moveText: '23/22 13/8',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 23,
+            to: 22,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,0,3,1,3,0,0,0,-2,2,0,0,-2,-4,0,-2,-2,-2,1,1,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.532,
+      },
+      {
+        rank: 13,
+        moveText: '7/2 6/5',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,2,1,2,0,2,0,0,0,-2,3,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.532,
+      },
+      {
+        rank: 14,
+        moveText: '23/22 23/18',
+        movements: [
+          {
+            from: 23,
+            to: 18,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 23,
+            to: 22,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,0,3,1,2,0,0,0,-2,3,0,0,-2,-4,1,-2,-2,-2,1,0,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.532,
+      },
+      {
+        rank: 15,
+        moveText: '23/22 7/2',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 23,
+            to: 22,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,2,0,3,0,2,0,0,0,-2,3,0,0,-2,-4,0,-2,-2,-2,1,1,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.532,
+      },
+      {
+        rank: 16,
+        moveText: '8/3 6/5',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,2,1,2,1,1,0,0,0,-2,3,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.532,
+      },
+      {
+        rank: 17,
+        moveText: '8/2',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,2,2,0,3,1,1,0,0,0,-2,3,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.532,
+      },
+      {
+        rank: 18,
+        moveText: '23/22 8/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 23,
+            to: 22,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,2,0,3,1,1,0,0,0,-2,3,0,0,-2,-4,0,-2,-2,-2,1,1,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.532,
+      },
+      {
+        rank: 19,
+        moveText: '23/18 6/5',
+        movements: [
+          {
+            from: 23,
+            to: 18,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,2,2,1,2,1,2,0,0,0,-2,3,0,0,-2,-4,1,-2,-2,-2,0,1,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.532,
+      },
+      {
+        rank: 20,
+        moveText: '13/8 3/2',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,1,2,0,3,1,3,0,0,0,-2,2,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.532,
+      },
+      {
+        rank: 21,
+        moveText: '7/2 4/3',
+        movements: [
+          {
+            from: 7,
+            to: 2,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,3,1,0,3,0,2,0,0,0,-2,3,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.532,
+      },
+      {
+        rank: 22,
+        moveText: '13/8 4/3',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,1,0,3,1,3,0,0,0,-2,2,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.532,
+      },
+      {
+        rank: 23,
+        moveText: '6/1* 4/3',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,1,0,2,1,2,0,0,0,-2,3,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,1|0,0',
+        equity: -1.019,
+        equityLoss: 0.5509999999999999,
+      },
+      {
+        rank: 24,
+        moveText: '6/1* 3/2',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,2,0,2,1,2,0,0,0,-2,3,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,1|0,0',
+        equity: -1.041,
+        equityLoss: 0.573,
+      },
+      {
+        rank: 25,
+        moveText: '8/3 4/3',
+        movements: [
+          {
+            from: 8,
+            to: 3,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,4,1,0,3,1,1,0,0,0,-2,3,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,0|0,0',
+        equity: -1.055,
+        equityLoss: 0.587,
+      },
+      {
+        rank: 26,
+        moveText: '6/5 6/1*',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: true,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,2,1,1,1,2,0,0,0,-2,3,0,0,-2,-4,0,-2,-2,-2,0,2,0|0,1|0,0',
+        equity: -1.094,
+        equityLoss: 0.6260000000000001,
+      },
+      {
+        rank: 27,
+        moveText: '23/18 3/2',
+        movements: [
+          {
+            from: 23,
+            to: 18,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,1,1,2,0,3,1,2,0,0,0,-2,3,0,0,-2,-4,1,-2,-2,-2,0,1,0|0,0|0,0',
+        equity: -1.101,
+        equityLoss: 0.633,
+      },
+      {
+        rank: 28,
+        moveText: '23/18 4/3',
+        movements: [
+          {
+            from: 23,
+            to: 18,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-1,0,3,1,0,3,1,2,0,0,0,-2,3,0,0,-2,-4,1,-2,-2,-2,0,1,0|0,0|0,0',
+        equity: -1.126,
+        equityLoss: 0.6579999999999999,
+      },
+    ],
+  },
+  {
+    id: 'curated-089',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, 2, 0, 2, 3, 2, 2, 0, 0, 0, -2, -1, -2, 0, 0, -2, 0, -2, -2, -2,
+        0, -2, 3,
+      ],
+      bar: {
+        white: 1,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 2],
+    answers: [
+      {
+        rank: 1,
+        moveText: 'bar/22',
+        movements: [
+          {
+            from: 'bar',
+            to: 24,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 24,
+            to: 22,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,0,2,3,2,2,0,0,0,-2,-1,-2,0,0,-2,0,-2,-2,-2,1,-2,3|0,0|0,0',
+        equity: -1.078,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: 'bar/24 6/4',
+        movements: [
+          {
+            from: 'bar',
+            to: 24,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,1,2,2,2,2,0,0,0,-2,-1,-2,0,0,-2,0,-2,-2,-2,0,-2,4|0,0|0,0',
+        equity: -1.198,
+        equityLoss: 0.11999999999999988,
+      },
+      {
+        rank: 3,
+        moveText: 'bar/24 7/5',
+        movements: [
+          {
+            from: 'bar',
+            to: 24,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 7,
+            to: 5,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,0,3,3,1,2,0,0,0,-2,-1,-2,0,0,-2,0,-2,-2,-2,0,-2,4|0,0|0,0',
+        equity: -1.218,
+        equityLoss: 0.1399999999999999,
+      },
+      {
+        rank: 4,
+        moveText: 'bar/24 8/6',
+        movements: [
+          {
+            from: 'bar',
+            to: 24,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 6,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,2,0,2,4,2,1,0,0,0,-2,-1,-2,0,0,-2,0,-2,-2,-2,0,-2,4|0,0|0,0',
+        equity: -1.226,
+        equityLoss: 0.1479999999999999,
+      },
+      {
+        rank: 5,
+        moveText: 'bar/24 5/3',
+        movements: [
+          {
+            from: 'bar',
+            to: 24,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,3,0,1,3,2,2,0,0,0,-2,-1,-2,0,0,-2,0,-2,-2,-2,0,-2,4|0,0|0,0',
+        equity: -1.265,
+        equityLoss: 0.18699999999999983,
+      },
+      {
+        rank: 6,
+        moveText: 'bar/24 3/1',
+        movements: [
+          {
+            from: 'bar',
+            to: 24,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,0,2,3,2,2,0,0,0,-2,-1,-2,0,0,-2,0,-2,-2,-2,0,-2,4|0,0|0,0',
+        equity: -1.271,
+        equityLoss: 0.19299999999999984,
+      },
+    ],
+  },
+  {
+    id: 'curated-090',
+    kind: 'play',
+    theme: 'holding-game',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 1, 2, 3, 2, 2, -2, 0, 0, 0, 0, 0, 3, 0, 0, 0, -2, 0, -2, 2, -2,
+        -3, -2, -2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: '13/4',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 8,
+            to: 4,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,4,2,2,-2,0,0,0,0,0,2,0,0,0,-2,0,-2,2,-2,-3,-2,-2|0,0|0,0',
+        equity: -0.08,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '6/2 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,2,3,2,0,-2,0,0,0,0,0,3,0,0,0,-2,0,-2,2,-2,-3,-2,-2|0,0|0,0',
+        equity: -0.348,
+        equityLoss: 0.26799999999999996,
+      },
+      {
+        rank: 3,
+        moveText: '13/8 6/2',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,2,3,2,1,-2,1,0,0,0,0,2,0,0,0,-2,0,-2,2,-2,-3,-2,-2|0,0|0,0',
+        equity: -0.41,
+        equityLoss: 0.32999999999999996,
+      },
+      {
+        rank: 4,
+        moveText: '20/16 20/15',
+        movements: [
+          {
+            from: 20,
+            to: 15,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,3,2,2,-2,0,0,0,0,0,3,0,1,1,-2,0,-2,0,-2,-3,-2,-2|0,0|0,0',
+        equity: -0.504,
+        equityLoss: 0.424,
+      },
+      {
+        rank: 5,
+        moveText: '6/1 5/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,3,1,1,-2,0,0,0,0,0,3,0,0,0,-2,0,-2,2,-2,-3,-2,-2|0,0|0,0',
+        equity: -0.668,
+        equityLoss: 0.5880000000000001,
+      },
+      {
+        rank: 6,
+        moveText: '13/8 5/1',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,3,1,2,-2,1,0,0,0,0,2,0,0,0,-2,0,-2,2,-2,-3,-2,-2|0,0|0,0',
+        equity: -0.799,
+        equityLoss: 0.7190000000000001,
+      },
+      {
+        rank: 7,
+        moveText: '13/9 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,3,2,1,-2,0,1,0,0,0,2,0,0,0,-2,0,-2,2,-2,-3,-2,-2|0,0|0,0',
+        equity: -0.827,
+        equityLoss: 0.747,
+      },
+      {
+        rank: 8,
+        moveText: '20/15 6/2',
+        movements: [
+          {
+            from: 20,
+            to: 15,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,2,3,2,1,-2,0,0,0,0,0,3,0,1,0,-2,0,-2,1,-2,-3,-2,-2|0,0|0,0',
+        equity: -0.864,
+        equityLoss: 0.784,
+      },
+      {
+        rank: 9,
+        moveText: '20/11',
+        movements: [
+          {
+            from: 20,
+            to: 15,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 15,
+            to: 11,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,3,2,2,-2,0,0,0,1,0,3,0,0,0,-2,0,-2,1,-2,-3,-2,-2|0,0|0,0',
+        equity: -0.98,
+        equityLoss: 0.9,
+      },
+      {
+        rank: 10,
+        moveText: '20/16 13/8',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,3,2,2,-2,1,0,0,0,0,2,0,0,1,-2,0,-2,1,-2,-3,-2,-2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.92,
+      },
+      {
+        rank: 11,
+        moveText: '20/15 13/9',
+        movements: [
+          {
+            from: 20,
+            to: 15,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,3,2,2,-2,0,1,0,0,0,2,0,1,0,-2,0,-2,1,-2,-3,-2,-2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.92,
+      },
+      {
+        rank: 12,
+        moveText: '20/15 5/1',
+        movements: [
+          {
+            from: 20,
+            to: 15,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,3,1,2,-2,0,0,0,0,0,3,0,1,0,-2,0,-2,1,-2,-3,-2,-2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.92,
+      },
+      {
+        rank: 13,
+        moveText: '20/16 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 20,
+            to: 16,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,3,2,1,-2,0,0,0,0,0,3,0,0,1,-2,0,-2,1,-2,-3,-2,-2|0,0|0,0',
+        equity: -1,
+        equityLoss: 0.92,
+      },
+      {
+        rank: 14,
+        moveText: '13/9 13/8',
+        movements: [
+          {
+            from: 13,
+            to: 8,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 13,
+            to: 9,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,2,3,2,2,-2,1,1,0,0,0,1,0,0,0,-2,0,-2,2,-2,-3,-2,-2|0,0|0,0',
+        equity: -1.142,
+        equityLoss: 1.0619999999999998,
+      },
+    ],
+  },
+  {
+    id: 'curated-091',
     kind: 'play',
     theme: 'bear-off',
     source: 'curated',
@@ -15928,7 +55714,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-020',
+    id: 'curated-092',
     kind: 'play',
     theme: 'bear-off',
     source: 'curated',
@@ -16183,7 +55969,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-021',
+    id: 'curated-093',
     kind: 'play',
     theme: 'bear-off',
     source: 'curated',
@@ -16482,7 +56268,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-022',
+    id: 'curated-094',
     kind: 'play',
     theme: 'bear-off',
     source: 'curated',
@@ -17089,7 +56875,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-023',
+    id: 'curated-095',
     kind: 'play',
     theme: 'bear-off',
     source: 'curated',
@@ -17498,7 +57284,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-024',
+    id: 'curated-096',
     kind: 'play',
     theme: 'bear-off',
     source: 'curated',
@@ -17731,7 +57517,4954 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     ],
   },
   {
-    id: 'curated-025',
+    id: 'curated-097',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 3, 2, 3, 2, 3, 2, 0, 0, 0, 0, 0, -4, 0, 0, -1, 0, -3, 0, -5, 0, 0, 0,
+        0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 2,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [2, 6],
+    answers: [
+      {
+        rank: 1,
+        moveText: '6/4 6/off',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,3,3,3,0,0,0,0,0,0,-4,0,0,-1,0,-3,0,-5,0,0,0,0,0|0,2|1,0',
+        equity: 1.951,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '6/off 3/1',
+        movements: [
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,2,2,3,1,0,0,0,0,0,-4,0,0,-1,0,-3,0,-5,0,0,0,0,0|0,2|1,0',
+        equity: 1.779,
+        equityLoss: 0.17200000000000015,
+      },
+      {
+        rank: 3,
+        moveText: '6/off 5/3',
+        movements: [
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,4,2,2,1,0,0,0,0,0,-4,0,0,-1,0,-3,0,-5,0,0,0,0,0|0,2|1,0',
+        equity: 1.74,
+        equityLoss: 0.21100000000000008,
+      },
+      {
+        rank: 4,
+        moveText: '6/off 2/off',
+        movements: [
+          {
+            from: 2,
+            to: 'off',
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,1,3,2,3,1,0,0,0,0,0,-4,0,0,-1,0,-3,0,-5,0,0,0,0,0|0,2|2,0',
+        equity: 1.424,
+        equityLoss: 0.5270000000000001,
+      },
+      {
+        rank: 5,
+        moveText: '6/off 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,3,3,1,3,1,0,0,0,0,0,-4,0,0,-1,0,-3,0,-5,0,0,0,0,0|0,2|1,0',
+        equity: 1.383,
+        equityLoss: 0.5680000000000001,
+      },
+    ],
+  },
+  {
+    id: 'curated-098',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 1, 1, 1, 2, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -4,
+        -4, -3,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 4,
+        black: 3,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 6],
+    answers: [
+      {
+        rank: 1,
+        moveText: '6/off 1/off',
+        movements: [
+          {
+            from: 1,
+            to: 'off',
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,2,3,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,-3|0,0|6,3',
+        equity: -0.813,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '6/off 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,3,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,-3|0,0|5,3',
+        equity: -0.964,
+        equityLoss: 0.15100000000000002,
+      },
+      {
+        rank: 3,
+        moveText: '6/5 6/off',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,2,4,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,-3|0,0|5,3',
+        equity: -1,
+        equityLoss: 0.18700000000000006,
+      },
+      {
+        rank: 4,
+        moveText: '6/off 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,1,3,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,-3|0,0|5,3',
+        equity: -1,
+        equityLoss: 0.18700000000000006,
+      },
+      {
+        rank: 5,
+        moveText: '6/off 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,0,2,3,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,-3|0,0|5,3',
+        equity: -1,
+        equityLoss: 0.18700000000000006,
+      },
+      {
+        rank: 6,
+        moveText: '6/off 2/1',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,1,2,3,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,-3|0,0|5,3',
+        equity: -1,
+        equityLoss: 0.18700000000000006,
+      },
+    ],
+  },
+  {
+    id: 'curated-099',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, 2, 3, 2, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, -3, 0, -1, -2,
+        -3, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 1,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: '6/2 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,3,3,2,3,0,0,0,0,0,0,0,0,0,0,0,-5,0,-3,0,-1,-2,-3,0|0,1|1,0',
+        equity: 1.212,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '5/off 4/off',
+        movements: [
+          {
+            from: 5,
+            to: 'off',
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,3,1,2,2,0,0,0,0,0,0,0,0,0,0,-5,0,-3,0,-1,-2,-3,0|0,1|3,0',
+        equity: 1.158,
+        equityLoss: 0.05400000000000005,
+      },
+      {
+        rank: 3,
+        moveText: '6/2 5/off',
+        movements: [
+          {
+            from: 5,
+            to: 'off',
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,3,2,2,1,0,0,0,0,0,0,0,0,0,0,-5,0,-3,0,-1,-2,-3,0|0,1|2,0',
+        equity: 1.157,
+        equityLoss: 0.05499999999999994,
+      },
+      {
+        rank: 4,
+        moveText: '5/1 5/off',
+        movements: [
+          {
+            from: 5,
+            to: 'off',
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,3,2,1,2,0,0,0,0,0,0,0,0,0,0,-5,0,-3,0,-1,-2,-3,0|0,1|2,0',
+        equity: 1.113,
+        equityLoss: 0.09899999999999998,
+      },
+      {
+        rank: 5,
+        moveText: '6/1 5/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,3,2,2,1,0,0,0,0,0,0,0,0,0,0,-5,0,-3,0,-1,-2,-3,0|0,1|1,0',
+        equity: 1.077,
+        equityLoss: 0.135,
+      },
+      {
+        rank: 6,
+        moveText: '6/1 4/off',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,3,1,3,1,0,0,0,0,0,0,0,0,0,0,-5,0,-3,0,-1,-2,-3,0|0,1|2,0',
+        equity: 0.893,
+        equityLoss: 0.31899999999999995,
+      },
+    ],
+  },
+  {
+    id: 'curated-100',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, 2, 4, 3, 4, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -2, -2, -4,
+        -3, 0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [4, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: '5/1 4/off(3)',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,4,0,3,0,-2,0,0,0,0,0,0,0,0,0,0,-1,-2,-2,-4,-3,0,0|0,1|3,0',
+        equity: 1.478,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '5/1(4)',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,6,2,4,3,0,0,-2,0,0,0,0,0,0,0,0,0,0,-1,-2,-2,-4,-3,0,0|0,1|0,0',
+        equity: 1.304,
+        equityLoss: 0.17399999999999993,
+      },
+      {
+        rank: 3,
+        moveText: '5/1(2) 4/off(2)',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,4,1,2,0,-2,0,0,0,0,0,0,0,0,0,0,-1,-2,-2,-4,-3,0,0|0,1|2,0',
+        equity: 0.861,
+        equityLoss: 0.617,
+      },
+      {
+        rank: 4,
+        moveText: '5/1(3) 4/off',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,2,4,2,1,0,-2,0,0,0,0,0,0,0,0,0,0,-1,-2,-2,-4,-3,0,0|0,1|1,0',
+        equity: 0.855,
+        equityLoss: 0.623,
+      },
+    ],
+  },
+  {
+    id: 'curated-101',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 3, 2, 2, 2, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, -2,
+        -5, -4,
+      ],
+      bar: {
+        white: 0,
+        black: 2,
+      },
+      off: {
+        white: 1,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [3, 6],
+    answers: [
+      {
+        rank: 1,
+        moveText: '6/3 6/off',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,3,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-5,-4|0,2|2,0',
+        equity: 1.41,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '6/off 5/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,3,2,2,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-5,-4|0,2|2,0',
+        equity: 1.29,
+        equityLoss: 0.11999999999999988,
+      },
+      {
+        rank: 3,
+        moveText: '6/off 3/off',
+        movements: [
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,1,2,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-5,-4|0,2|3,0',
+        equity: 1.08,
+        equityLoss: 0.32999999999999985,
+      },
+      {
+        rank: 4,
+        moveText: '6/off 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,2,1,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-5,-4|0,2|2,0',
+        equity: 1.006,
+        equityLoss: 0.4039999999999999,
+      },
+    ],
+  },
+  {
+    id: 'curated-102',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 5, -3, 4, 4, 2, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, -2, -2, -3, -1,
+        -2, 0, 0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [2, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: '5/3 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,6,-3,5,4,0,0,0,0,0,0,0,0,0,-1,-1,0,-2,-2,-3,-1,-2,0,0,0|0,0|0,0',
+        equity: 1.445,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '4/off 3/1',
+        movements: [
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,6,-3,3,3,2,0,0,0,0,0,0,0,0,-1,-1,0,-2,-2,-3,-1,-2,0,0,0|0,0|1,0',
+        equity: 1.33,
+        equityLoss: 0.11499999999999999,
+      },
+      {
+        rank: 3,
+        moveText: '5/3 4/off',
+        movements: [
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,-3,5,3,1,0,0,0,0,0,0,0,0,-1,-1,0,-2,-2,-3,-1,-2,0,0,0|0,0|1,0',
+        equity: 0.858,
+        equityLoss: 0.5870000000000001,
+      },
+      {
+        rank: 4,
+        moveText: '5/1 3/1',
+        movements: [
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,7,-3,3,4,1,0,0,0,0,0,0,0,0,-1,-1,0,-2,-2,-3,-1,-2,0,0,0|0,0|0,0',
+        equity: 0.674,
+        equityLoss: 0.771,
+      },
+    ],
+  },
+  {
+    id: 'curated-103',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, -2, 4, 3, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, -2, -2,
+        -4, -3,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 3,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '5/4 3/off',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,4,2,3,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,-4,-3|0,0|4,0',
+        equity: 1.196,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '5/2 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,6,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,-4,-3|0,0|3,0',
+        equity: 1.11,
+        equityLoss: 0.08599999999999985,
+      },
+      {
+        rank: 3,
+        moveText: '4/off',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,4,3,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,-4,-3|0,0|4,0',
+        equity: 0.915,
+        equityLoss: 0.2809999999999999,
+      },
+      {
+        rank: 4,
+        moveText: '5/4 5/2',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,5,3,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,-4,-3|0,0|3,0',
+        equity: 0.868,
+        equityLoss: 0.32799999999999996,
+      },
+      {
+        rank: 5,
+        moveText: '3/2 3/off',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,5,1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,-4,-3|0,0|4,0',
+        equity: 0.847,
+        equityLoss: 0.349,
+      },
+      {
+        rank: 6,
+        moveText: '5/2 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-2,5,4,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,-4,-3|0,0|3,0',
+        equity: 0.821,
+        equityLoss: 0.375,
+      },
+    ],
+  },
+  {
+    id: 'curated-104',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, -2, 4, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, -1, -2,
+        -2, -4, -2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 3,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [4, 2],
+    answers: [
+      {
+        rank: 1,
+        moveText: '6/off',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,-2,4,0,3,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,-1,-2,-2,-4,-2|0,0|4,0',
+        equity: 1.085,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '5/1 3/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,-2,3,0,2,3,0,0,0,0,0,0,0,0,0,0,0,0,-2,-1,-2,-2,-4,-2|0,0|3,0',
+        equity: 1.025,
+        equityLoss: 0.06000000000000005,
+      },
+      {
+        rank: 3,
+        moveText: '6/4 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,-2,4,1,2,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,-1,-2,-2,-4,-2|0,0|3,0',
+        equity: 0.756,
+        equityLoss: 0.32899999999999996,
+      },
+      {
+        rank: 4,
+        moveText: '5/3 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,-2,5,0,1,3,0,0,0,0,0,0,0,0,0,0,0,0,-2,-1,-2,-2,-4,-2|0,0|3,0',
+        equity: 0.635,
+        equityLoss: 0.44999999999999996,
+      },
+    ],
+  },
+  {
+    id: 'curated-105',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5,
+        -8, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 2,
+      },
+      off: {
+        white: 5,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [4, 1],
+    answers: [
+      {
+        rank: 1,
+        moveText: '4/3 4/off',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey: '0,2,2,3,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-5,-8,0|0,2|6,0',
+        equity: 1.704,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '5/4 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey: '0,3,2,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-5,-8,0|0,2|5,0',
+        equity: 1.632,
+        equityLoss: 0.07200000000000006,
+      },
+      {
+        rank: 3,
+        moveText: '5/off',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey: '0,2,2,2,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-5,-8,0|0,2|6,0',
+        equity: 1.556,
+        equityLoss: 0.1479999999999999,
+      },
+      {
+        rank: 4,
+        moveText: '4/off 1/off',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 1,
+            to: 'off',
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey: '0,1,2,2,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-5,-8,0|0,2|7,0',
+        equity: 1.367,
+        equityLoss: 0.33699999999999997,
+      },
+      {
+        rank: 5,
+        moveText: '5/1 4/3',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey: '0,3,2,3,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-5,-8,0|0,2|5,0',
+        equity: 1.345,
+        equityLoss: 0.359,
+      },
+      {
+        rank: 6,
+        moveText: '4/off 3/2',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey: '0,2,3,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-5,-8,0|0,2|6,0',
+        equity: 1.315,
+        equityLoss: 0.389,
+      },
+      {
+        rank: 7,
+        moveText: '5/1 3/2',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey: '0,3,3,1,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-5,-8,0|0,2|5,0',
+        equity: 1.313,
+        equityLoss: 0.391,
+      },
+      {
+        rank: 8,
+        moveText: '4/off 2/1',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey: '0,3,1,2,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-5,-8,0|0,2|6,0',
+        equity: 1.301,
+        equityLoss: 0.403,
+      },
+      {
+        rank: 9,
+        moveText: '5/1 2/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey: '0,4,1,2,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-5,-8,0|0,2|5,0',
+        equity: 1.28,
+        equityLoss: 0.42399999999999993,
+      },
+    ],
+  },
+  {
+    id: 'curated-106',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, 2, 2, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -4,
+        -10,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 6,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [3, 1],
+    answers: [
+      {
+        rank: 1,
+        moveText: '4/off',
+        movements: [
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-4,-10|0,1|7,0',
+        equity: 1.183,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '5/4 5/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-4,-10|0,1|6,0',
+        equity: 1.122,
+        equityLoss: 0.06099999999999994,
+      },
+      {
+        rank: 3,
+        moveText: '3/2 3/off',
+        movements: [
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-4,-10|0,1|7,0',
+        equity: 1.091,
+        equityLoss: 0.09200000000000008,
+      },
+      {
+        rank: 4,
+        moveText: '5/2 4/3',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,3,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-4,-10|0,1|6,0',
+        equity: 1.075,
+        equityLoss: 0.1080000000000001,
+      },
+      {
+        rank: 5,
+        moveText: '4/1 3/2',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,3,1,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-4,-10|0,1|6,0',
+        equity: 1.054,
+        equityLoss: 0.129,
+      },
+      {
+        rank: 6,
+        moveText: '5/4 3/off',
+        movements: [
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,1,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-4,-10|0,1|7,0',
+        equity: 1.052,
+        equityLoss: 0.131,
+      },
+      {
+        rank: 7,
+        moveText: '4/1 2/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,1,2,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-4,-10|0,1|6,0',
+        equity: 1.045,
+        equityLoss: 0.13800000000000012,
+      },
+      {
+        rank: 8,
+        moveText: '5/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,2,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-4,-10|0,1|6,0',
+        equity: 1.005,
+        equityLoss: 0.17800000000000016,
+      },
+      {
+        rank: 9,
+        moveText: '3/off 1/off',
+        movements: [
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 1,
+            to: 'off',
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-4,-10|0,1|8,0',
+        equity: 0.938,
+        equityLoss: 0.2450000000000001,
+      },
+      {
+        rank: 10,
+        moveText: '5/2 1/off',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 1,
+            to: 'off',
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,3,2,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-4,-10|0,1|7,0',
+        equity: 0.919,
+        equityLoss: 0.264,
+      },
+      {
+        rank: 11,
+        moveText: '3/off 2/1',
+        movements: [
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-4,-10|0,1|7,0',
+        equity: 0.887,
+        equityLoss: 0.29600000000000004,
+      },
+      {
+        rank: 12,
+        moveText: '5/2 3/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,4,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-4,-10|0,1|6,0',
+        equity: 0.863,
+        equityLoss: 0.32000000000000006,
+      },
+    ],
+  },
+  {
+    id: 'curated-107',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -3, -2,
+        -6, -2,
+      ],
+      bar: {
+        white: 0,
+        black: 2,
+      },
+      off: {
+        white: 2,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [4, 2],
+    answers: [
+      {
+        rank: 1,
+        moveText: '6/off',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 'off',
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-6,-2|0,2|3,0',
+        equity: 1.556,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '4/2 4/off',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,2,0,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-6,-2|0,2|3,0',
+        equity: 1.376,
+        equityLoss: 0.18000000000000016,
+      },
+      {
+        rank: 3,
+        moveText: '5/3 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,3,2,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-6,-2|0,2|2,0',
+        equity: 1.371,
+        equityLoss: 0.18500000000000005,
+      },
+      {
+        rank: 4,
+        moveText: '6/4 6/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,2,3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-6,-2|0,2|2,0',
+        equity: 1.342,
+        equityLoss: 0.21399999999999997,
+      },
+      {
+        rank: 5,
+        moveText: '6/4 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,2,3,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-6,-2|0,2|2,0',
+        equity: 1.307,
+        equityLoss: 0.2490000000000001,
+      },
+      {
+        rank: 6,
+        moveText: '6/2 5/3',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,3,2,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-6,-2|0,2|2,0',
+        equity: 1.283,
+        equityLoss: 0.27300000000000013,
+      },
+      {
+        rank: 7,
+        moveText: '6/2 3/1',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,3,1,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-6,-2|0,2|2,0',
+        equity: 1.258,
+        equityLoss: 0.29800000000000004,
+      },
+      {
+        rank: 8,
+        moveText: '6/2 4/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,4,2,1,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-6,-2|0,2|2,0',
+        equity: 1.239,
+        equityLoss: 0.31699999999999995,
+      },
+      {
+        rank: 9,
+        moveText: '4/off 2/off',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 'off',
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-6,-2|0,2|4,0',
+        equity: 1.185,
+        equityLoss: 0.371,
+      },
+      {
+        rank: 10,
+        moveText: '5/1 2/off',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 'off',
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,1,2,2,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-6,-2|0,2|3,0',
+        equity: 1.169,
+        equityLoss: 0.387,
+      },
+      {
+        rank: 11,
+        moveText: '4/off 3/1',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,1,1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-6,-2|0,2|3,0',
+        equity: 1.145,
+        equityLoss: 0.41100000000000003,
+      },
+      {
+        rank: 12,
+        moveText: '5/3 4/off',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,3,1,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-6,-2|0,2|3,0',
+        equity: 1.141,
+        equityLoss: 0.41500000000000004,
+      },
+      {
+        rank: 13,
+        moveText: '5/1 3/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,1,2,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-6,-2|0,2|2,0',
+        equity: 1.077,
+        equityLoss: 0.4790000000000001,
+      },
+      {
+        rank: 14,
+        moveText: '5/1 4/2',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,3,2,1,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-6,-2|0,2|2,0',
+        equity: 1.075,
+        equityLoss: 0.4810000000000001,
+      },
+    ],
+  },
+  {
+    id: 'curated-108',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 3, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -4, -4, -2,
+        -2, -1, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 6,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '3/2 3/off',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,3,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,-2,-2,-1,0|0,1|7,0',
+        equity: 1.21,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '4/3 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,-2,-2,-1,0|0,1|6,0',
+        equity: 1.092,
+        equityLoss: 0.11799999999999988,
+      },
+      {
+        rank: 3,
+        moveText: '3/off 1/off',
+        movements: [
+          {
+            from: 1,
+            to: 'off',
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,-2,-2,-1,0|0,1|8,0',
+        equity: 0.92,
+        equityLoss: 0.2899999999999999,
+      },
+      {
+        rank: 4,
+        moveText: '4/off',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,-2,-2,-1,0|0,1|7,0',
+        equity: 0.886,
+        equityLoss: 0.32399999999999995,
+      },
+      {
+        rank: 5,
+        moveText: '4/1 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,3,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,-2,-2,-1,0|0,1|6,0',
+        equity: 0.215,
+        equityLoss: 0.995,
+      },
+      {
+        rank: 6,
+        moveText: '3/off 2/1',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,-2,-2,-1,0|0,1|7,0',
+        equity: 0.16,
+        equityLoss: 1.05,
+      },
+      {
+        rank: 7,
+        moveText: '4/1 2/1',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,1,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,-2,-2,-1,0|0,1|6,0',
+        equity: 0.128,
+        equityLoss: 1.0819999999999999,
+      },
+    ],
+  },
+  {
+    id: 'curated-109',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 1, 0, 1, 2, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, -2, -2, 0,
+        -2, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 6,
+        black: 7,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [3, 2],
+    answers: [
+      {
+        rank: 1,
+        moveText: '5/off',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 'off',
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,0|0,0|7,7',
+        equity: -0.433,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '4/2 3/off',
+        movements: [
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,0,1,3,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,0|0,0|7,7',
+        equity: -0.488,
+        equityLoss: 0.05499999999999999,
+      },
+      {
+        rank: 3,
+        moveText: '6/4 3/off',
+        movements: [
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,0,3,3,1,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,0|0,0|7,7',
+        equity: -0.496,
+        equityLoss: 0.063,
+      },
+      {
+        rank: 4,
+        moveText: '6/4 5/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,1,3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,0|0,0|6,7',
+        equity: -0.528,
+        equityLoss: 0.09500000000000003,
+      },
+      {
+        rank: 5,
+        moveText: '5/3 5/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,2,1,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,0|0,0|6,7',
+        equity: -0.562,
+        equityLoss: 0.12900000000000006,
+      },
+      {
+        rank: 6,
+        moveText: '6/3 4/2',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,1,2,1,3,1,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,0|0,0|6,7',
+        equity: -0.574,
+        equityLoss: 0.14099999999999996,
+      },
+      {
+        rank: 7,
+        moveText: '5/2 4/2',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,1,1,2,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,0|0,0|6,7',
+        equity: -0.618,
+        equityLoss: 0.185,
+      },
+      {
+        rank: 8,
+        moveText: '6/4 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,2,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,0|0,0|6,7',
+        equity: -0.624,
+        equityLoss: 0.191,
+      },
+      {
+        rank: 9,
+        moveText: '6/3 5/3',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,3,2,2,1,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,0|0,0|6,7',
+        equity: -0.622,
+        equityLoss: 0.189,
+      },
+      {
+        rank: 10,
+        moveText: '5/2 3/1',
+        movements: [
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,0|0,0|6,7',
+        equity: -0.689,
+        equityLoss: 0.25599999999999995,
+      },
+      {
+        rank: 11,
+        moveText: '6/1',
+        movements: [
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,1,2,3,1,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,0|0,0|6,7',
+        equity: -0.693,
+        equityLoss: 0.25999999999999995,
+      },
+      {
+        rank: 12,
+        moveText: '5/3 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,2,1,2,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,0|0,0|6,7',
+        equity: -0.729,
+        equityLoss: 0.296,
+      },
+      {
+        rank: 13,
+        moveText: '4/2 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,1,0,3,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,0|0,0|6,7',
+        equity: -0.842,
+        equityLoss: 0.409,
+      },
+      {
+        rank: 14,
+        moveText: '4/1 3/1',
+        movements: [
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 1,
+            die: 2,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,0,0,1,3,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,0|0,0|6,7',
+        equity: -0.945,
+        equityLoss: 0.512,
+      },
+    ],
+  },
+  {
+    id: 'curated-110',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 3, 2, 2, 2, 3, 1, 0, 0, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, -3, -2, 0, -2,
+        -2, -3,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 2,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [4, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: '6/2 5/1 4/off(2)',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,3,2,0,2,0,0,0,0,-2,0,0,0,0,0,0,0,0,-3,-2,0,-2,-2,-3|0,1|4,0',
+        equity: 1.425,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '6/2 5/1(3)',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,6,3,2,2,0,0,0,0,0,-2,0,0,0,0,0,0,0,0,-3,-2,0,-2,-2,-3|0,1|2,0',
+        equity: 1.283,
+        equityLoss: 0.14200000000000013,
+      },
+      {
+        rank: 3,
+        moveText: '6/2 5/1(2) 4/off',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,3,2,1,1,0,0,0,0,-2,0,0,0,0,0,0,0,0,-3,-2,0,-2,-2,-3|0,1|3,0',
+        equity: 0.377,
+        equityLoss: 1.048,
+      },
+      {
+        rank: 4,
+        moveText: '5/1(3) 4/off',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,6,2,2,1,0,1,0,0,0,-2,0,0,0,0,0,0,0,0,-3,-2,0,-2,-2,-3|0,1|3,0',
+        equity: 0.241,
+        equityLoss: 1.1840000000000002,
+      },
+      {
+        rank: 5,
+        moveText: '5/1(2) 4/off(2)',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,2,2,0,1,1,0,0,0,-2,0,0,0,0,0,0,0,0,-3,-2,0,-2,-2,-3|0,1|4,0',
+        equity: 0.221,
+        equityLoss: 1.204,
+      },
+    ],
+  },
+  {
+    id: 'curated-111',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 3, 2, 2, 2, 0, 1, 0, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, -2,
+        -3, -7,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 5,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [3, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '6/off 3/off(2)',
+        movements: [
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,0,2,0,0,0,0,0,0,0,0,-2,0,0,0,0,0,0,0,0,-2,-3,-7|0,1|8,0',
+        equity: 1.74,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '6/off 4/1(2)',
+        movements: [
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,2,2,0,0,0,0,0,0,0,0,0,-2,0,0,0,0,0,0,0,0,-2,-3,-7|0,1|6,0',
+        equity: 1.508,
+        equityLoss: 0.23199999999999998,
+      },
+      {
+        rank: 3,
+        moveText: '4/1(2) 3/off(2)',
+        movements: [
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,2,0,0,0,1,0,0,0,0,0,0,-2,0,0,0,0,0,0,0,0,-2,-3,-7|0,1|7,0',
+        equity: 1.362,
+        equityLoss: 0.3779999999999999,
+      },
+      {
+        rank: 4,
+        moveText: '6/off 4/1 3/off',
+        movements: [
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,1,1,0,0,0,0,0,0,0,0,-2,0,0,0,0,0,0,0,0,-2,-3,-7|0,1|7,0',
+        equity: 1.304,
+        equityLoss: 0.43599999999999994,
+      },
+    ],
+  },
+  {
+    id: 'curated-112',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, 2, 3, 2, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, -3,
+        -3, -5,
+      ],
+      bar: {
+        white: 0,
+        black: 2,
+      },
+      off: {
+        white: 1,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [6, 1],
+    answers: [
+      {
+        rank: 1,
+        moveText: '6/5 6/off',
+        movements: [
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,3,2,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-3,-3,-5|0,2|2,0',
+        equity: 1.431,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '6/off 3/2',
+        movements: [
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,2,2,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-3,-3,-5|0,2|2,0',
+        equity: 1.331,
+        equityLoss: 0.10000000000000009,
+      },
+      {
+        rank: 3,
+        moveText: '6/off 5/4',
+        movements: [
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,3,3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-3,-3,-5|0,2|2,0',
+        equity: 1.33,
+        equityLoss: 0.10099999999999998,
+      },
+      {
+        rank: 4,
+        moveText: '6/off 1/off',
+        movements: [
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 1,
+            to: 'off',
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,3,2,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-3,-3,-5|0,2|3,0',
+        equity: 1.144,
+        equityLoss: 0.28700000000000014,
+      },
+      {
+        rank: 5,
+        moveText: '6/off 2/1',
+        movements: [
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,1,3,2,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-3,-3,-5|0,2|2,0',
+        equity: 1.094,
+        equityLoss: 0.33699999999999997,
+      },
+      {
+        rank: 6,
+        moveText: '6/off 4/3',
+        movements: [
+          {
+            from: 6,
+            to: 'off',
+            die: 6,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,4,1,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-3,-3,-5|0,2|2,0',
+        equity: 1.001,
+        equityLoss: 0.43000000000000016,
+      },
+    ],
+  },
+  {
+    id: 'curated-113',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, 2, 2, 2, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, -4,
+        -4, -3,
+      ],
+      bar: {
+        white: 0,
+        black: 2,
+      },
+      off: {
+        white: 1,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: '6/2 5/off',
+        movements: [
+          {
+            from: 5,
+            to: 'off',
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-4,-4,-3|0,2|2,0',
+        equity: 1.479,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '6/1 5/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-4,-4,-3|0,2|1,0',
+        equity: 1.385,
+        equityLoss: 0.09400000000000008,
+      },
+      {
+        rank: 3,
+        moveText: '5/1 5/off',
+        movements: [
+          {
+            from: 5,
+            to: 'off',
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,2,2,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-4,-4,-3|0,2|2,0',
+        equity: 1.319,
+        equityLoss: 0.16000000000000014,
+      },
+      {
+        rank: 4,
+        moveText: '5/off 4/off',
+        movements: [
+          {
+            from: 5,
+            to: 'off',
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-4,-4,-3|0,2|3,0',
+        equity: 1.311,
+        equityLoss: 0.16800000000000015,
+      },
+      {
+        rank: 5,
+        moveText: '6/2 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,3,2,2,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-4,-4,-3|0,2|1,0',
+        equity: 1.281,
+        equityLoss: 0.19800000000000018,
+      },
+      {
+        rank: 6,
+        moveText: '6/1 4/off',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,2,1,3,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,-4,-4,-3|0,2|2,0',
+        equity: 1.276,
+        equityLoss: 0.20300000000000007,
+      },
+    ],
+  },
+  {
+    id: 'curated-114',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, -3, 5, 2, 2, 2, 2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, -2, -2, -3, 0,
+        0, 0, -2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 2,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [2, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: '6/4 6/2',
+        movements: [
+          {
+            from: 6,
+            to: 4,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-3,6,2,3,2,0,-1,0,0,0,0,0,0,0,0,0,-2,-2,-2,-3,0,0,0,-2|0,0|2,0',
+        equity: 1.29,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '4/2 4/off',
+        movements: [
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-3,6,2,0,2,2,-1,0,0,0,0,0,0,0,0,0,-2,-2,-2,-3,0,0,0,-2|0,0|3,0',
+        equity: 1.059,
+        equityLoss: 0.2310000000000001,
+      },
+      {
+        rank: 3,
+        moveText: '6/off',
+        movements: [
+          {
+            from: 2,
+            to: 'off',
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-3,5,2,2,2,1,-1,0,0,0,0,0,0,0,0,0,-2,-2,-2,-3,0,0,0,-2|0,0|3,0',
+        equity: 0.93,
+        equityLoss: 0.36,
+      },
+      {
+        rank: 4,
+        moveText: '4/off 2/off',
+        movements: [
+          {
+            from: 2,
+            to: 'off',
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-3,4,2,1,2,2,-1,0,0,0,0,0,0,0,0,0,-2,-2,-2,-3,0,0,0,-2|0,0|4,0',
+        equity: 0.833,
+        equityLoss: 0.4570000000000001,
+      },
+      {
+        rank: 5,
+        moveText: '6/2 5/3',
+        movements: [
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-3,6,3,2,1,1,-1,0,0,0,0,0,0,0,0,0,-2,-2,-2,-3,0,0,0,-2|0,0|2,0',
+        equity: 0.499,
+        equityLoss: 0.791,
+      },
+      {
+        rank: 6,
+        moveText: '5/3 4/off',
+        movements: [
+          {
+            from: 5,
+            to: 3,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-3,5,3,1,1,2,-1,0,0,0,0,0,0,0,0,0,-2,-2,-2,-3,0,0,0,-2|0,0|3,0',
+        equity: 0.337,
+        equityLoss: 0.9530000000000001,
+      },
+      {
+        rank: 7,
+        moveText: '6/2 4/2',
+        movements: [
+          {
+            from: 4,
+            to: 2,
+            die: 2,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,-3,7,2,1,2,1,-1,0,0,0,0,0,0,0,0,0,-2,-2,-2,-3,0,0,0,-2|0,0|2,0',
+        equity: 0.24,
+        equityLoss: 1.05,
+      },
+    ],
+  },
+  {
+    id: 'curated-115',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 1, 2, 2, 2, 2, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -4, -4, 0,
+        -2, -1,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 1,
+        black: 3,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [4, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '4/off 3/off',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,1,1,2,5,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,0,-2,-1|0,0|3,3',
+        equity: -0.813,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '6/2 3/off',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,3,1,2,2,4,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,0,-2,-1|0,0|2,3',
+        equity: -0.905,
+        equityLoss: 0.09200000000000008,
+      },
+      {
+        rank: 3,
+        moveText: '6/3 4/off',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,3,1,2,4,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,0,-2,-1|0,0|2,3',
+        equity: -0.927,
+        equityLoss: 0.1140000000000001,
+      },
+      {
+        rank: 4,
+        moveText: '5/1 3/off',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,1,2,1,5,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,0,-2,-1|0,0|2,3',
+        equity: -1,
+        equityLoss: 0.18700000000000006,
+      },
+      {
+        rank: 5,
+        moveText: '6/3 6/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,3,3,2,2,3,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,0,-2,-1|0,0|1,3',
+        equity: -1,
+        equityLoss: 0.18700000000000006,
+      },
+      {
+        rank: 6,
+        moveText: '5/2 4/off',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,3,2,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,0,-2,-1|0,0|2,3',
+        equity: -1,
+        equityLoss: 0.18700000000000006,
+      },
+      {
+        rank: 7,
+        moveText: '4/1 4/off',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,0,2,5,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,0,-2,-1|0,0|2,3',
+        equity: -1,
+        equityLoss: 0.18700000000000006,
+      },
+      {
+        rank: 8,
+        moveText: '6/3 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,3,2,1,4,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,0,-2,-1|0,0|1,3',
+        equity: -1,
+        equityLoss: 0.18700000000000006,
+      },
+      {
+        rank: 9,
+        moveText: '6/2 4/1',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,2,1,2,4,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,0,-2,-1|0,0|1,3',
+        equity: -1,
+        equityLoss: 0.18700000000000006,
+      },
+      {
+        rank: 10,
+        moveText: '6/2 5/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,4,2,2,1,4,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,0,-2,-1|0,0|1,3',
+        equity: -1,
+        equityLoss: 0.18700000000000006,
+      },
+      {
+        rank: 11,
+        moveText: '5/1 4/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,2,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,0,-2,-1|0,0|1,3',
+        equity: -1,
+        equityLoss: 0.18700000000000006,
+      },
+      {
+        rank: 12,
+        moveText: '5/2 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,2,2,0,5,0,0,0,0,0,0,0,0,0,0,0,0,-1,-4,-4,0,-2,-1|0,0|1,3',
+        equity: -1,
+        equityLoss: 0.18700000000000006,
+      },
+    ],
+  },
+  {
+    id: 'curated-116',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 1, 2, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, 0, -2, -4,
+        -1, -1,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 6,
+        black: 5,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 1],
+    answers: [
+      {
+        rank: 1,
+        moveText: '5/off 1/off',
+        movements: [
+          {
+            from: 5,
+            to: 'off',
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 1,
+            to: 'off',
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,2,2,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,0,-2,-4,-1,-1|0,0|8,5',
+        equity: 0.794,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '5/4 5/off',
+        movements: [
+          {
+            from: 5,
+            to: 'off',
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,2,1,0,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,0,-2,-4,-1,-1|0,0|7,5',
+        equity: 0.699,
+        equityLoss: 0.09500000000000008,
+      },
+      {
+        rank: 3,
+        moveText: '6/off',
+        movements: [
+          {
+            from: 5,
+            to: 'off',
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,2,2,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0,-2,0,-2,-4,-1,-1|0,0|7,5',
+        equity: 0.686,
+        equityLoss: 0.10799999999999998,
+      },
+      {
+        rank: 4,
+        moveText: '5/off 2/1',
+        movements: [
+          {
+            from: 5,
+            to: 'off',
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,1,2,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,0,-2,-4,-1,-1|0,0|7,5',
+        equity: 0.653,
+        equityLoss: 0.14100000000000001,
+      },
+      {
+        rank: 5,
+        moveText: '5/off 3/2',
+        movements: [
+          {
+            from: 5,
+            to: 'off',
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,3,1,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,0,-2,-4,-1,-1|0,0|7,5',
+        equity: 0.578,
+        equityLoss: 0.21600000000000008,
+      },
+      {
+        rank: 6,
+        moveText: '6/1 5/4',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,-2,0,-2,-4,-1,-1|0,0|6,5',
+        equity: 0.56,
+        equityLoss: 0.23399999999999999,
+      },
+      {
+        rank: 7,
+        moveText: '6/1 3/2',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,3,1,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0,-2,0,-2,-4,-1,-1|0,0|6,5',
+        equity: 0.304,
+        equityLoss: 0.49000000000000005,
+      },
+      {
+        rank: 8,
+        moveText: '6/5 6/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,2,2,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,-2,0,-2,-4,-1,-1|0,0|6,5',
+        equity: 0.296,
+        equityLoss: 0.49800000000000005,
+      },
+      {
+        rank: 9,
+        moveText: '6/1 2/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,1,2,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0,-2,0,-2,-4,-1,-1|0,0|6,5',
+        equity: 0.283,
+        equityLoss: 0.5110000000000001,
+      },
+    ],
+  },
+  {
+    id: 'curated-117',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, 1, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -3, -2, -1, -1,
+        0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 8,
+        black: 8,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [5, 4],
+    answers: [
+      {
+        rank: 1,
+        moveText: '5/off 4/off',
+        movements: [
+          {
+            from: 5,
+            to: 'off',
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,0,1,2,1,1,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-1,-1,0,0|0,0|10,8',
+        equity: 0.89,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '6/1 4/off',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-1,-1,0,0|0,0|9,8',
+        equity: 0.834,
+        equityLoss: 0.05600000000000005,
+      },
+      {
+        rank: 3,
+        moveText: '6/2 5/off',
+        movements: [
+          {
+            from: 5,
+            to: 'off',
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,0,1,1,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-1,-1,0,0|0,0|9,8',
+        equity: 0.82,
+        equityLoss: 0.07000000000000006,
+      },
+      {
+        rank: 4,
+        moveText: '5/1 5/off',
+        movements: [
+          {
+            from: 5,
+            to: 'off',
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,1,0,1,3,0,1,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-1,-1,0,0|0,0|9,8',
+        equity: 0.814,
+        equityLoss: 0.07600000000000007,
+      },
+      {
+        rank: 5,
+        moveText: '6/1 5/1',
+        movements: [
+          {
+            from: 6,
+            to: 1,
+            die: 5,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,0,1,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,-2,-1,-1,0,0|0,0|8,8',
+        equity: 0.707,
+        equityLoss: 0.18300000000000005,
+      },
+    ],
+  },
+  {
+    id: 'curated-118',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 4, 2, 2, 3, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -3, 0, -2,
+        -3, -5,
+      ],
+      bar: {
+        white: 0,
+        black: 2,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [1, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '4/off',
+        movements: [
+          {
+            from: 1,
+            to: 'off',
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|1,0',
+        equity: 1.387,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '6/5 6/3',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|0,0',
+        equity: 1.315,
+        equityLoss: 0.07200000000000006,
+      },
+      {
+        rank: 3,
+        moveText: '3/off 1/off',
+        movements: [
+          {
+            from: 1,
+            to: 'off',
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,1,3,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|2,0',
+        equity: 1.285,
+        equityLoss: 0.10200000000000009,
+      },
+      {
+        rank: 4,
+        moveText: '6/3 1/off',
+        movements: [
+          {
+            from: 1,
+            to: 'off',
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,2,3,3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|1,0',
+        equity: 1.279,
+        equityLoss: 0.1080000000000001,
+      },
+      {
+        rank: 5,
+        moveText: '3/2 3/off',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,3,0,3,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|1,0',
+        equity: 1.248,
+        equityLoss: 0.139,
+      },
+      {
+        rank: 6,
+        moveText: '5/4 5/2',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,3,2,4,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|0,0',
+        equity: 1.244,
+        equityLoss: 0.14300000000000002,
+      },
+      {
+        rank: 7,
+        moveText: '5/2 1/off',
+        movements: [
+          {
+            from: 1,
+            to: 'off',
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,3,2,3,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|1,0',
+        equity: 1.243,
+        equityLoss: 0.1439999999999999,
+      },
+      {
+        rank: 8,
+        moveText: '6/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,3,2,3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|0,0',
+        equity: 1.212,
+        equityLoss: 0.17500000000000004,
+      },
+      {
+        rank: 9,
+        moveText: '6/3 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,4,2,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|0,0',
+        equity: 1.17,
+        equityLoss: 0.21700000000000008,
+      },
+      {
+        rank: 10,
+        moveText: '6/5 4/1',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,2,2,2,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|0,0',
+        equity: 1.15,
+        equityLoss: 0.2370000000000001,
+      },
+      {
+        rank: 11,
+        moveText: '5/2 4/3',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,3,3,2,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|0,0',
+        equity: 1.145,
+        equityLoss: 0.242,
+      },
+      {
+        rank: 12,
+        moveText: '5/1',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,2,2,3,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|0,0',
+        equity: 1.13,
+        equityLoss: 0.2570000000000001,
+      },
+      {
+        rank: 13,
+        moveText: '4/3 4/1',
+        movements: [
+          {
+            from: 4,
+            to: 3,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,2,3,1,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|0,0',
+        equity: 1.083,
+        equityLoss: 0.30400000000000005,
+      },
+      {
+        rank: 14,
+        moveText: '4/1 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,3,1,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|0,0',
+        equity: 1.065,
+        equityLoss: 0.32200000000000006,
+      },
+      {
+        rank: 15,
+        moveText: '4/1 2/1',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,6,1,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|0,0',
+        equity: 1.064,
+        equityLoss: 0.32299999999999995,
+      },
+      {
+        rank: 16,
+        moveText: '6/5 3/off',
+        movements: [
+          {
+            from: 6,
+            to: 5,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,1,3,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|1,0',
+        equity: 1.027,
+        equityLoss: 0.3600000000000001,
+      },
+      {
+        rank: 17,
+        moveText: '3/off 2/1',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,1,1,3,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|1,0',
+        equity: 1.023,
+        equityLoss: 0.3640000000000001,
+      },
+      {
+        rank: 18,
+        moveText: '5/4 3/off',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,1,4,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|1,0',
+        equity: 1.003,
+        equityLoss: 0.3840000000000001,
+      },
+      {
+        rank: 19,
+        moveText: '6/3 2/1',
+        movements: [
+          {
+            from: 2,
+            to: 1,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,1,3,3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|0,0',
+        equity: 0.977,
+        equityLoss: 0.41000000000000003,
+      },
+      {
+        rank: 20,
+        moveText: '6/3 5/4',
+        movements: [
+          {
+            from: 5,
+            to: 4,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,2,3,4,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|0,0',
+        equity: 0.942,
+        equityLoss: 0.44500000000000006,
+      },
+      {
+        rank: 21,
+        moveText: '5/2 3/2',
+        movements: [
+          {
+            from: 3,
+            to: 2,
+            die: 1,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,4,1,3,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,-3,0,-2,-3,-5|0,2|0,0',
+        equity: 0.937,
+        equityLoss: 0.44999999999999996,
+      },
+    ],
+  },
+  {
+    id: 'curated-119',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, 4, 2, -3, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, -2, -2, 0,
+        -2, -2,
+      ],
+      bar: {
+        white: 0,
+        black: 2,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [4, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '6/3 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,4,3,-3,3,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,-2|0,2|0,0',
+        equity: 1.754,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '6/2 5/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,6,2,-3,3,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,-2|0,2|0,0',
+        equity: 1.691,
+        equityLoss: 0.06299999999999994,
+      },
+      {
+        rank: 3,
+        moveText: '5/2 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 5,
+            to: 2,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,5,2,-3,2,3,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,-2|0,2|0,0',
+        equity: 1.616,
+        equityLoss: 0.1379999999999999,
+      },
+      {
+        rank: 4,
+        moveText: '6/3 6/2',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,5,3,-3,4,1,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,-2|0,2|0,0',
+        equity: 1.299,
+        equityLoss: 0.45500000000000007,
+      },
+      {
+        rank: 5,
+        moveText: '5/1 3/off',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,3,4,1,-3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,-2|0,2|1,0',
+        equity: 1.183,
+        equityLoss: 0.571,
+      },
+      {
+        rank: 6,
+        moveText: '6/2 3/off',
+        movements: [
+          {
+            from: 6,
+            to: 2,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 3,
+            to: 'off',
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,2,5,1,-3,4,2,0,0,0,0,0,0,0,0,0,0,0,0,-2,-2,-2,0,-2,-2|0,2|1,0',
+        equity: 1.172,
+        equityLoss: 0.5820000000000001,
+      },
+    ],
+  },
+  {
+    id: 'curated-120',
+    kind: 'play',
+    theme: 'bear-off',
+    source: 'curated',
+    board: {
+      points: [
+        0, 3, -2, -1, 2, 6, 3, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        -3, -8,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 1,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    roll: [4, 3],
+    answers: [
+      {
+        rank: 1,
+        moveText: '6/3* 5/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,4,-2,1,2,5,2,0,0,0,0,-1,0,0,0,0,0,0,0,0,0,0,0,-3,-8|0,1|1,0',
+        equity: 1.287,
+        equityLoss: 0,
+      },
+      {
+        rank: 2,
+        moveText: '4/1 4/off',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,4,-2,-1,0,6,3,0,0,0,0,-1,0,0,0,0,0,0,0,0,0,0,0,-3,-8|0,0|2,0',
+        equity: 1.214,
+        equityLoss: 0.07299999999999995,
+      },
+      {
+        rank: 3,
+        moveText: '6/3* 4/off',
+        movements: [
+          {
+            from: 4,
+            to: 'off',
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 6,
+            to: 3,
+            die: 3,
+            hit: true,
+          },
+        ],
+        finalKey:
+          '0,3,-2,1,1,6,2,0,0,0,0,-1,0,0,0,0,0,0,0,0,0,0,0,-3,-8|0,1|2,0',
+        equity: 1.153,
+        equityLoss: 0.1339999999999999,
+      },
+      {
+        rank: 4,
+        moveText: '5/1 4/1',
+        movements: [
+          {
+            from: 5,
+            to: 1,
+            die: 4,
+            hit: false,
+          },
+          {
+            from: 4,
+            to: 1,
+            die: 3,
+            hit: false,
+          },
+        ],
+        finalKey:
+          '0,5,-2,-1,1,5,3,0,0,0,0,-1,0,0,0,0,0,0,0,0,0,0,0,-3,-8|0,0|1,0',
+        equity: 1.07,
+        equityLoss: 0.21699999999999986,
+      },
+    ],
+  },
+  {
+    id: 'curated-121',
     kind: 'cube',
     theme: 'cube-handling',
     source: 'curated',
@@ -17777,7 +62510,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     verdict: 'Too good to double, pass',
   },
   {
-    id: 'curated-026',
+    id: 'curated-122',
     kind: 'cube',
     theme: 'cube-handling',
     source: 'curated',
@@ -17823,7 +62556,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     verdict: 'Too good to double, pass',
   },
   {
-    id: 'curated-027',
+    id: 'curated-123',
     kind: 'cube',
     theme: 'cube-handling',
     source: 'curated',
@@ -17869,7 +62602,7 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     verdict: 'No double, take',
   },
   {
-    id: 'curated-028',
+    id: 'curated-124',
     kind: 'cube',
     theme: 'cube-handling',
     source: 'curated',
@@ -17915,14 +62648,14 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
     verdict: 'No double, take',
   },
   {
-    id: 'curated-029',
+    id: 'curated-125',
     kind: 'cube',
     theme: 'cube-handling',
     source: 'curated',
     board: {
       points: [
-        0, 0, 1, 2, 2, 3, 2, 2, 0, 0, 0, 0, -1, 0, 1, 0, 0, -3, 0, -3, 0, -4, 2,
-        -2, -2,
+        0, -1, 2, -1, 0, 0, 4, 0, 3, 0, 0, 0, -4, 4, 0, 0, 1, -3, -1, -5, 0, 0,
+        0, 0, 1,
       ],
       bar: {
         white: 0,
@@ -17945,23 +62678,23 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
         owner: 'center',
       },
     },
-    decision: 'response',
+    decision: 'offer',
     choices: [
       {
-        action: 'take',
-        equity: -0.811,
+        action: 'no-double',
+        equity: 0.476,
         equityLoss: 0,
       },
       {
-        action: 'pass',
-        equity: -1,
-        equityLoss: 0.189,
+        action: 'double',
+        equity: 0.414,
+        equityLoss: 0.062,
       },
     ],
-    verdict: 'Double, take',
+    verdict: 'No double, take',
   },
   {
-    id: 'curated-030',
+    id: 'curated-126',
     kind: 'cube',
     theme: 'cube-handling',
     source: 'curated',
@@ -18005,5 +62738,1109 @@ export const CURATED_PUZZLES: readonly Puzzle[] = [
       },
     ],
     verdict: 'Double, take',
+  },
+  {
+    id: 'curated-127',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 0, -2, 2, 4, 2, 2, 0, 0, 0, -2, 3, -2, 0, 0, -3, 0, -4, -1, 0,
+        0, 0, 1,
+      ],
+      bar: {
+        white: 1,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'offer',
+    choices: [
+      {
+        action: 'no-double',
+        equity: 0.508,
+        equityLoss: 0,
+      },
+      {
+        action: 'double',
+        equity: 0.434,
+        equityLoss: 0.074,
+      },
+    ],
+    verdict: 'No double, take',
+  },
+  {
+    id: 'curated-128',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, 1, 0, 0, 0, 0, 4, 0, 3, -1, 0, 2, -4, 3, 0, 0, 0, -1, -2, -2, -2, 1,
+        -2, 0, 1,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'response',
+    choices: [
+      {
+        action: 'take',
+        equity: -0.814,
+        equityLoss: 0,
+      },
+      {
+        action: 'pass',
+        equity: -1,
+        equityLoss: 0.186,
+      },
+    ],
+    verdict: 'Double, take',
+  },
+  {
+    id: 'curated-129',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 2, 2, 2, 2, 1, 1, 0, 0, 0, -2, 3, -2, 0, 0, -3, 0, -3, 2, -2,
+        -1, 0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'offer',
+    choices: [
+      {
+        action: 'no-double',
+        equity: 1.139,
+        equityLoss: 0,
+      },
+      {
+        action: 'double',
+        equity: 1,
+        equityLoss: 0.139,
+      },
+    ],
+    verdict: 'Too good to double, pass',
+  },
+  {
+    id: 'curated-130',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, -2, 2, 0, 2, 0, 3, 2, 0, 0, 0, 0, -2, 4, -1, 0, 1, -2, -2, -4, -2, 0,
+        0, 0, 1,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'offer',
+    choices: [
+      {
+        action: 'no-double',
+        equity: 0.276,
+        equityLoss: 0,
+      },
+      {
+        action: 'double',
+        equity: 0.09,
+        equityLoss: 0.186,
+      },
+    ],
+    verdict: 'No double, take',
+  },
+  {
+    id: 'curated-131',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, -2, 0, 0, -1, 0, 5, 0, 5, 0, 0, 1, -4, 3, 0, 0, 0, 1, 0, -2, -2, 0,
+        -2, 0, -2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'offer',
+    choices: [
+      {
+        action: 'no-double',
+        equity: 0.277,
+        equityLoss: 0,
+      },
+      {
+        action: 'double',
+        equity: 0.078,
+        equityLoss: 0.199,
+      },
+    ],
+    verdict: 'No double, take',
+  },
+  {
+    id: 'curated-132',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, 2, 1, -2, 5, 0, 2, 0, 0, 0, -4, 3, 0, 0, 0, -2, -2, -4, -1, 0,
+        0, 1, 0,
+      ],
+      bar: {
+        white: 1,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'offer',
+    choices: [
+      {
+        action: 'no-double',
+        equity: -0.113,
+        equityLoss: 0,
+      },
+      {
+        action: 'double',
+        equity: -0.52,
+        equityLoss: 0.407,
+      },
+    ],
+    verdict: 'No double, take',
+  },
+  {
+    id: 'curated-133',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, -2, 0, 2, 0, 2, 4, 0, 2, 1, 0, 0, -2, 2, -1, 0, -1, 0, 0, -3, 0, -2,
+        -2, -2, 1,
+      ],
+      bar: {
+        white: 1,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'response',
+    choices: [
+      {
+        action: 'pass',
+        equity: -1,
+        equityLoss: 0,
+      },
+      {
+        action: 'take',
+        equity: -1.163,
+        equityLoss: 0.163,
+      },
+    ],
+    verdict: 'Double, pass',
+  },
+  {
+    id: 'curated-134',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, -1, 0, 2, 0, 4, 0, 2, 0, 1, 0, -4, 4, 0, 0, 0, 0, 0, -3, -2, -2,
+        -2, 0, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'response',
+    choices: [
+      {
+        action: 'take',
+        equity: -0.868,
+        equityLoss: 0,
+      },
+      {
+        action: 'pass',
+        equity: -1,
+        equityLoss: 0.132,
+      },
+    ],
+    verdict: 'Double, take',
+  },
+  {
+    id: 'curated-135',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, -1, -1, -1, 5, 2, 3, 0, 0, 1, -3, 2, 1, 0, 0, -3, 0, -2, -2, 0,
+        -2, 1, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'offer',
+    choices: [
+      {
+        action: 'no-double',
+        equity: 0.109,
+        equityLoss: 0,
+      },
+      {
+        action: 'double',
+        equity: -0.172,
+        equityLoss: 0.281,
+      },
+    ],
+    verdict: 'No double, take',
+  },
+  {
+    id: 'curated-136',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, 2, -1, 2, 0, 3, 0, 2, 0, 0, 0, -4, 2, 0, -1, 0, -3, 0, -5, 0, 0,
+        0, 0, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'offer',
+    choices: [
+      {
+        action: 'no-double',
+        equity: 1.249,
+        equityLoss: 0,
+      },
+      {
+        action: 'double',
+        equity: 1,
+        equityLoss: 0.249,
+      },
+    ],
+    verdict: 'Too good to double, pass',
+  },
+  {
+    id: 'curated-137',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 0, 0, 0, 5, 0, 4, 0, 0, 0, -5, 4, -1, 0, 0, -1, 0, -3, -2, 0,
+        -2, 0, 1,
+      ],
+      bar: {
+        white: 1,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'response',
+    choices: [
+      {
+        action: 'pass',
+        equity: -1,
+        equityLoss: 0,
+      },
+      {
+        action: 'take',
+        equity: -1.281,
+        equityLoss: 0.281,
+      },
+    ],
+    verdict: 'Double, pass',
+  },
+  {
+    id: 'curated-138',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 3, -2, 3, 3, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -2, 0,
+        -4, -2, -3,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'offer',
+    choices: [
+      {
+        action: 'no-double',
+        equity: 1.051,
+        equityLoss: 0,
+      },
+      {
+        action: 'double',
+        equity: 1,
+        equityLoss: 0.051,
+      },
+    ],
+    verdict: 'Too good to double, pass',
+  },
+  {
+    id: 'curated-139',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, 2, 0, 2, 3, 2, 1, 0, 0, 1, -5, 2, 0, 0, 0, -4, 2, -5, 0, 0, 0,
+        0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'offer',
+    choices: [
+      {
+        action: 'no-double',
+        equity: 1.105,
+        equityLoss: 0,
+      },
+      {
+        action: 'double',
+        equity: 1,
+        equityLoss: 0.105,
+      },
+    ],
+    verdict: 'Too good to double, pass',
+  },
+  {
+    id: 'curated-140',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, -2, 2, 2, 2, 2, 0, 1, 1, 0, 0, -4, 3, 0, 0, 0, -2, 0, -4, 2, -3,
+        0, 0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'offer',
+    choices: [
+      {
+        action: 'double',
+        equity: 0.974,
+        equityLoss: 0,
+      },
+      {
+        action: 'no-double',
+        equity: 0.913,
+        equityLoss: 0.061,
+      },
+    ],
+    verdict: 'Double, take',
+  },
+  {
+    id: 'curated-141',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, 3, 2, 5, 0, 2, 3, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, -2, 0, -2, -2,
+        -4, -3,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'offer',
+    choices: [
+      {
+        action: 'double',
+        equity: 1,
+        equityLoss: 0,
+      },
+      {
+        action: 'no-double',
+        equity: 0.91,
+        equityLoss: 0.09,
+      },
+    ],
+    verdict: 'Double, pass',
+  },
+  {
+    id: 'curated-142',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, 1, 1, 3, 4, 2, 1, 0, 0, 0, -3, 2, 0, 0, -3, 0, 0, -4, -2, 0,
+        -3, 1, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'response',
+    choices: [
+      {
+        action: 'take',
+        equity: -0.655,
+        equityLoss: 0,
+      },
+      {
+        action: 'pass',
+        equity: -1,
+        equityLoss: 0.345,
+      },
+    ],
+    verdict: 'Double, take',
+  },
+  {
+    id: 'curated-143',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 1, 2, 2, 3, 2, 2, 0, 0, 0, 0, -2, 1, 0, 0, 2, -4, 0, -3, 0, -1,
+        -2, -2, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'offer',
+    choices: [
+      {
+        action: 'no-double',
+        equity: 1.06,
+        equityLoss: 0,
+      },
+      {
+        action: 'double',
+        equity: 1,
+        equityLoss: 0.06,
+      },
+    ],
+    verdict: 'Too good to double, pass',
+  },
+  {
+    id: 'curated-144',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, 2, 2, -1, 0, -3, 4, 0, 3, 0, 0, 0, 0, 3, 0, 0, -1, 0, -2, -2, -2, -2,
+        -2, 1, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'offer',
+    choices: [
+      {
+        action: 'no-double',
+        equity: -0.133,
+        equityLoss: 0,
+      },
+      {
+        action: 'double',
+        equity: -0.558,
+        equityLoss: 0.425,
+      },
+    ],
+    verdict: 'No double, take',
+  },
+  {
+    id: 'curated-145',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 2, 0, 2, -2, 4, 0, 0, 2, 0, 0, -3, 3, 0, 0, 2, 0, -3, -4, -1, 0,
+        -2, 0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'offer',
+    choices: [
+      {
+        action: 'no-double',
+        equity: 0.24,
+        equityLoss: 0,
+      },
+      {
+        action: 'double',
+        equity: 0.04,
+        equityLoss: 0.2,
+      },
+    ],
+    verdict: 'No double, take',
+  },
+  {
+    id: 'curated-146',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, 0, 0, 0, 0, 2, 4, 1, 2, 1, 0, 0, -3, 2, -2, -1, 0, -2, 0, -5, 0, -2,
+        0, 2, 1,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'response',
+    choices: [
+      {
+        action: 'take',
+        equity: -0.913,
+        equityLoss: 0,
+      },
+      {
+        action: 'pass',
+        equity: -1,
+        equityLoss: 0.087,
+      },
+    ],
+    verdict: 'Double, take',
+  },
+  {
+    id: 'curated-147',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, 0, 2, 2, 0, 2, 0, 2, -1, 0, 2, -3, 2, -1, 0, 1, -1, 0, -2, -2,
+        -2, 0, -2, 2,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'response',
+    choices: [
+      {
+        action: 'take',
+        equity: -0.828,
+        equityLoss: 0,
+      },
+      {
+        action: 'pass',
+        equity: -1,
+        equityLoss: 0.172,
+      },
+    ],
+    verdict: 'Double, take',
+  },
+  {
+    id: 'curated-148',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, -2, 2, 0, 2, 0, 4, 2, 2, 0, 0, 0, -4, 1, 0, 0, 0, -2, 2, -5, 0, -1,
+        -1, 0, 0,
+      ],
+      bar: {
+        white: 0,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'offer',
+    choices: [
+      {
+        action: 'double',
+        equity: 1,
+        equityLoss: 0,
+      },
+      {
+        action: 'no-double',
+        equity: 0.9,
+        equityLoss: 0.1,
+      },
+    ],
+    verdict: 'Double, pass',
+  },
+  {
+    id: 'curated-149',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, -1, -1, 2, 2, 2, 3, 2, -1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, -2, -2, -2,
+        -2, -2, -2,
+      ],
+      bar: {
+        white: 1,
+        black: 0,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'response',
+    choices: [
+      {
+        action: 'pass',
+        equity: -1,
+        equityLoss: 0,
+      },
+      {
+        action: 'take',
+        equity: -1.193,
+        equityLoss: 0.193,
+      },
+    ],
+    verdict: 'Double, pass',
+  },
+  {
+    id: 'curated-150',
+    kind: 'cube',
+    theme: 'cube-handling',
+    source: 'curated',
+    board: {
+      points: [
+        0, 4, 4, 2, 2, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, -3, -2,
+        -4, -3,
+      ],
+      bar: {
+        white: 0,
+        black: 1,
+      },
+      off: {
+        white: 0,
+        black: 0,
+      },
+    },
+    hero: 'white',
+    match: {
+      matchLength: 0,
+      score: {
+        white: 0,
+        black: 0,
+      },
+      cube: {
+        value: 1,
+        owner: 'center',
+      },
+    },
+    decision: 'offer',
+    choices: [
+      {
+        action: 'double',
+        equity: 1,
+        equityLoss: 0,
+      },
+      {
+        action: 'no-double',
+        equity: 0.841,
+        equityLoss: 0.159,
+      },
+    ],
+    verdict: 'Double, pass',
   },
 ];

@@ -7,7 +7,8 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!**/*.md", "!public/engine"]
+    "includes": ["**", "!**/*.md", "!public/engine"],
+    "maxSize": 3145728
   },
   "formatter": {
     "enabled": true,
