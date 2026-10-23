@@ -18,6 +18,7 @@ import {
   commitPlayOnly,
   type GameState,
   gameResult,
+  rewindToTurn,
   startGame,
   startNextTurn,
   undoTurnMovement,
@@ -104,6 +105,11 @@ export interface MatchGameRecord {
   readonly decisions: readonly RecordedDecision[];
   /** True when this game was the Crawford game (doubling disabled). */
   readonly crawford: boolean;
+  /**
+   * True when Tutor mode was enabled at any point during the game. Progress
+   * stats exclude tutor-assisted games (GLOSSARY "Tutor mode", ticket 13).
+   */
+  readonly tutorAssisted: boolean;
   readonly result: MatchGameResult;
 }
 
@@ -134,6 +140,8 @@ export interface MatchState {
   readonly resumePhase: 'pre-roll' | 'turn' | null;
   /** Decisions recorded so far in the current game. */
   readonly decisions: readonly RecordedDecision[];
+  /** True once Tutor mode was enabled at any point in the game in progress. */
+  readonly tutorAssisted: boolean;
   /** Completed games, in order. */
   readonly games: readonly MatchGameRecord[];
   /** The just-finished game's result ('game-over' and 'match-over'). */
@@ -203,6 +211,7 @@ export function createMatch(options: CreateMatchOptions): MatchState {
     pendingResignation: null,
     resumePhase: null,
     decisions: [],
+    tutorAssisted: false,
     games: [],
     gameResult: null,
     winner: null,
@@ -435,6 +444,81 @@ export function declineResignation(state: MatchState): MatchState {
 }
 
 /**
+ * Record that Tutor mode is enabled while the current game is live. The flag
+ * sticks for the rest of the game (even if the toggle is switched off again)
+ * and is copied into the game's record when it settles, so progress stats can
+ * exclude tutor-assisted games (GLOSSARY "Tutor mode").
+ */
+export function markTutorAssisted(state: MatchState): MatchState {
+  if (state.phase === 'game-over' || state.phase === 'match-over') {
+    throw new Error('no game is in progress to mark as tutor-assisted');
+  }
+  return state.tutorAssisted ? state : { ...state, tutorAssisted: true };
+}
+
+/** Phases a takeback may interrupt: the game is live, no resignation pends. */
+const TAKEBACK_PHASES: readonly MatchPhase[] = [
+  'pre-roll',
+  'turn',
+  'cube-offered',
+];
+
+/** Index of `player`'s most recent committed play in the current game. */
+function lastPlayIndex(state: MatchState, player: Player): number {
+  const plays = state.game.record.plays;
+  for (let i = plays.length - 1; i >= 0; i--) {
+    if (plays[i].player === player) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+/**
+ * May `player` take back their most recent committed play now? True only
+ * while the game is live. Restricting takebacks to Tutor mode is the UI's
+ * job (GLOSSARY "Takeback"); the rules capability itself is unconditional.
+ */
+export function canTakeback(state: MatchState, player: Player): boolean {
+  return (
+    TAKEBACK_PHASES.includes(state.phase) && lastPlayIndex(state, player) !== -1
+  );
+}
+
+/**
+ * Take back `player`'s most recent committed play (GLOSSARY "Takeback"): the
+ * current game rewinds to the exact start of that turn — same dice, no
+ * movements — unwinding any opponent response (their play, a turn in
+ * progress, a pending double) and every decision recorded since, with the
+ * cube restored to what the remaining decisions imply.
+ */
+export function takebackPlay(state: MatchState, player: Player): MatchState {
+  if (!canTakeback(state, player)) {
+    throw new Error('no committed play to take back now');
+  }
+  const index = lastPlayIndex(state, player);
+  const decisions = state.decisions.filter(
+    (decision) => decision.afterPlays <= index,
+  );
+  let cube: CubeState = { value: 1, owner: 'center' };
+  for (const decision of decisions) {
+    if (decision.type === 'take') {
+      cube = { value: cube.value * 2, owner: decision.player };
+    }
+  }
+  return {
+    ...state,
+    cube,
+    game: rewindToTurn(state.game, index),
+    phase: 'turn',
+    toRoll: null,
+    pendingResignation: null,
+    resumePhase: null,
+    decisions,
+  };
+}
+
+/**
  * Start the next game of the match: a fresh opening roll and a centered cube.
  * The game is the Crawford game exactly when a player has just reached one
  * point from the target (and it has not been played yet).
@@ -457,6 +541,7 @@ export function nextGame(state: MatchState, dice: DiceSource): MatchState {
     pendingResignation: null,
     resumePhase: null,
     decisions: [],
+    tutorAssisted: false,
     gameResult: null,
   };
 }
@@ -602,6 +687,7 @@ function settleGame(state: MatchState, result: MatchGameResult): MatchState {
       game: state.game.record,
       decisions: state.decisions,
       crawford: state.crawford,
+      tutorAssisted: state.tutorAssisted,
       result,
     },
   ];

@@ -6,10 +6,12 @@ import { createGame, startGame } from './game';
 import {
   acceptResignation,
   canDouble,
+  canTakeback,
   commitMatchPlay,
   createMatch,
   declineResignation,
   type MatchState,
+  markTutorAssisted,
   matchMovement,
   nextGame,
   offerDouble,
@@ -19,6 +21,7 @@ import {
   replayMatchGame,
   rollTurn,
   startMatch,
+  takebackPlay,
   takeDouble,
   undoMatchMovement,
 } from './match';
@@ -600,6 +603,7 @@ describe('deterministic replay of match records', () => {
         game: live.game.record,
         decisions: [],
         crawford: false,
+        tutorAssisted: false,
         result: {
           winner: 'white',
           end: 'checkers',
@@ -608,6 +612,82 @@ describe('deterministic replay of match records', () => {
         },
       }),
     ).toThrow();
+  });
+});
+
+describe('the tutor-assisted flag (GLOSSARY "Tutor mode" provenance)', () => {
+  test('matches start unassisted and marking is idempotent', () => {
+    const match = startMatch(7, diceFrom([6, 3]));
+    expect(match.tutorAssisted).toBe(false);
+
+    const marked = markTutorAssisted(match);
+    expect(marked.tutorAssisted).toBe(true);
+    expect(markTutorAssisted(marked)).toBe(marked);
+  });
+
+  test('a finished game records whether Tutor mode was ever on during it', () => {
+    // White bears off their last checker with tutor marked mid-game.
+    const board = createBoard({
+      white: { points: { 1: 1 }, off: 14 },
+      black: { points: { 24: 2 }, off: 13 },
+    });
+    let match = createMatch({
+      length: 7,
+      game: createGame({ board, player: 'white', roll: [6, 5] }),
+    });
+    match = markTutorAssisted(match);
+    match = matchMovement(match, 1, 6);
+    match = commitMatchPlay(match);
+
+    expect(match.phase).toBe('game-over');
+    expect(match.games[0].tutorAssisted).toBe(true);
+
+    // The next game starts clean: the flag is per game.
+    match = nextGame(match, diceFrom([6, 3]));
+    expect(match.tutorAssisted).toBe(false);
+  });
+
+  test('an unassisted game records false even if an earlier game was assisted', () => {
+    const board = createBoard({
+      white: { points: { 1: 1 }, off: 14 },
+      black: { points: { 24: 2 }, off: 13 },
+    });
+    let match = createMatch({
+      length: 7,
+      game: createGame({ board, player: 'white', roll: [6, 5] }),
+    });
+    match = markTutorAssisted(match);
+    match = commitMatchPlay(matchMovement(match, 1, 6));
+    match = nextGame(match, diceFrom([6, 3]));
+    match = matchMovement(match, 24, 6);
+    match = matchMovement(match, 13, 3);
+    match = commitMatchPlay(match);
+    // Black concedes the second game by passing white's double.
+    match = rollTurn(match, diceFrom([5, 2]));
+    match = matchMovement(match, 1, 2);
+    match = matchMovement(match, 12, 5);
+    match = commitMatchPlay(match);
+    match = passDouble(offerDouble(match));
+
+    expect(match.games.map((game) => game.tutorAssisted)).toEqual([
+      true,
+      false,
+    ]);
+  });
+
+  test('marking outside a live game throws', () => {
+    const over = passDouble(offerDouble(blackPreRoll()));
+    expect(over.phase).toBe('game-over');
+    expect(() => markTutorAssisted(over)).toThrow();
+  });
+
+  test('a takeback keeps the game marked', () => {
+    let match = markTutorAssisted(startMatch(7, diceFrom([6, 3])));
+    match = matchMovement(match, 24, 6);
+    match = matchMovement(match, 13, 3);
+    match = commitMatchPlay(match);
+
+    expect(takebackPlay(match, 'white').tutorAssisted).toBe(true);
   });
 });
 
@@ -645,5 +725,155 @@ describe('createMatch from an arbitrary position', () => {
     expect(() =>
       createMatch({ length: 5, game, score: { white: 5, black: 0 } }),
     ).toThrow();
+  });
+});
+
+describe('takeback (GLOSSARY "Takeback"): rewinding a committed play', () => {
+  test('taking back the just-committed play restores the exact prior turn, dice included', () => {
+    const before = startMatch(7, diceFrom([6, 3]));
+    let match = matchMovement(before, 24, 6);
+    match = matchMovement(match, 13, 3);
+    match = commitMatchPlay(match);
+    expect(match.phase).toBe('pre-roll');
+
+    expect(canTakeback(match, 'white')).toBe(true);
+    expect(takebackPlay(match, 'white')).toEqual(before);
+  });
+
+  test("unwinds the opponent's committed response along with the play", () => {
+    const before = startMatch(7, diceFrom([6, 3]));
+    let match = matchMovement(before, 24, 6);
+    match = matchMovement(match, 13, 3);
+    match = commitMatchPlay(match);
+    // Black responds with a committed 5-2 play; white is back at pre-roll.
+    match = rollTurn(match, diceFrom([5, 2]));
+    match = matchMovement(match, 1, 2);
+    match = matchMovement(match, 12, 5);
+    match = commitMatchPlay(match);
+    expect(match.toRoll).toBe('white');
+    expect(match.game.record.plays).toHaveLength(2);
+
+    expect(takebackPlay(match, 'white')).toEqual(before);
+  });
+
+  test("discards the opponent's turn in progress", () => {
+    const before = startMatch(7, diceFrom([6, 3]));
+    let match = matchMovement(before, 24, 6);
+    match = matchMovement(match, 13, 3);
+    match = commitMatchPlay(match);
+    // Black has rolled and moved one checker, but not committed.
+    match = rollTurn(match, diceFrom([5, 2]));
+    match = matchMovement(match, 1, 2);
+
+    expect(takebackPlay(match, 'white')).toEqual(before);
+  });
+
+  test('unwinds a double offered in response to the play', () => {
+    const before = startMatch(7, diceFrom([6, 3]));
+    let match = matchMovement(before, 24, 6);
+    match = matchMovement(match, 13, 3);
+    match = commitMatchPlay(match);
+    match = offerDouble(match);
+    expect(match.phase).toBe('cube-offered');
+
+    expect(takebackPlay(match, 'white')).toEqual(before);
+  });
+
+  test('unwinds a double-and-take sequence, restoring the centered cube', () => {
+    const before = startMatch(7, diceFrom([6, 3]));
+    let match = matchMovement(before, 24, 6);
+    match = matchMovement(match, 13, 3);
+    match = commitMatchPlay(match);
+    // Black doubles, white takes, black plays on at 2; white takes back.
+    match = takeDouble(offerDouble(match));
+    expect(match.cube).toEqual({ value: 2, owner: 'white' });
+    match = rollTurn(match, diceFrom([5, 2]));
+    match = matchMovement(match, 1, 2);
+    match = matchMovement(match, 12, 5);
+    match = commitMatchPlay(match);
+
+    expect(takebackPlay(match, 'white')).toEqual(before);
+  });
+
+  test('keeps cube decisions that preceded the play being taken back', () => {
+    // White doubles before rolling; black takes; white plays and black
+    // responds. Taking back white's play restores the doubled cube.
+    let match = blackPreRoll();
+    match = rollTurn(match, diceFrom([5, 2]));
+    match = matchMovement(match, 1, 2);
+    match = matchMovement(match, 12, 5);
+    match = commitMatchPlay(match);
+    // White doubles at their pre-roll; black takes; white rolls 4-1.
+    match = takeDouble(offerDouble(match));
+    expect(match.cube).toEqual({ value: 2, owner: 'black' });
+    match = rollTurn(match, diceFrom([4, 1]));
+    const beforePlay = match;
+    match = matchMovement(match, 24, 1);
+    match = matchMovement(match, 13, 4);
+    match = commitMatchPlay(match);
+
+    const rewound = takebackPlay(match, 'white');
+    expect(rewound).toEqual(beforePlay);
+    expect(rewound.cube).toEqual({ value: 2, owner: 'black' });
+    expect(rewound.decisions).toEqual([
+      { type: 'double', player: 'white', afterPlays: 2 },
+      { type: 'take', player: 'black', afterPlays: 2 },
+    ]);
+  });
+
+  test('is unavailable before the player has committed a play', () => {
+    const match = startMatch(7, diceFrom([6, 3]));
+    expect(canTakeback(match, 'white')).toBe(false);
+    expect(canTakeback(match, 'black')).toBe(false);
+    expect(() => takebackPlay(match, 'white')).toThrow();
+
+    const committed = blackPreRoll();
+    expect(canTakeback(committed, 'white')).toBe(true);
+    expect(canTakeback(committed, 'black')).toBe(false);
+    expect(() => takebackPlay(committed, 'black')).toThrow();
+  });
+
+  test('property: takeback(commit(s)) == s at every turn of a seeded match', () => {
+    // Play out a whole seeded match; at every committed play that leaves the
+    // game live, taking it back must restore the pre-play state exactly —
+    // same dice, same record length, same cube, same decisions.
+    const dice = createSeededDice(41);
+    let m = startMatch(3, dice);
+    let checked = 0;
+    for (let guard = 0; guard < 10_000 && m.phase !== 'match-over'; guard++) {
+      if (m.phase === 'game-over') {
+        m = nextGame(m, dice);
+      } else if (m.phase === 'pre-roll') {
+        m = rollTurn(m, dice);
+      } else {
+        const turn = m.game.turn;
+        if (!turn) {
+          throw new Error('expected a turn in progress');
+        }
+        const beforePlay = m;
+        const [play] = legalPlays(turn.startBoard, turn.player, turn.roll);
+        for (const movement of play?.movements ?? []) {
+          m = matchMovement(m, movement.from, movement.die);
+        }
+        m = commitMatchPlay(m);
+        if (m.phase === 'pre-roll') {
+          expect(takebackPlay(m, turn.player)).toEqual(beforePlay);
+          checked++;
+        }
+      }
+    }
+    expect(m.phase).toBe('match-over');
+    expect(checked).toBeGreaterThan(50);
+  });
+
+  test('is unavailable while a resignation pends and once the game is over', () => {
+    const offered = offerResignation(blackPreRoll(), 'white', 'single');
+    expect(canTakeback(offered, 'white')).toBe(false);
+    expect(() => takebackPlay(offered, 'white')).toThrow();
+
+    const over = passDouble(offerDouble(blackPreRoll()));
+    expect(over.phase).toBe('game-over');
+    expect(canTakeback(over, 'white')).toBe(false);
+    expect(() => takebackPlay(over, 'white')).toThrow();
   });
 });
