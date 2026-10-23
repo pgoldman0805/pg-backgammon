@@ -937,6 +937,11 @@ export function Play({
   return (
     <section className="play-area">
       <h1>Play</h1>
+      {/* Ticket 24: portrait phones see a one-line nudge toward the play
+          orientation; CSS keeps it off every other viewport. */}
+      <p className="rotate-hint">
+        Turn your phone sideways for a bigger board.
+      </p>
       <div className="play-hud">
         <div
           className={`player-chip ${actor === 'white' ? 'player-chip--active' : ''}`}

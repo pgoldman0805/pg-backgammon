@@ -346,6 +346,32 @@
   }
 }
 
+/* Short landscape (ticket 24): the drill board takes its height from the
+   viewport like the Play board; prompt and controls stay within a short
+   scroll above and below it. */
+@media (max-height: 480px) and (orientation: landscape) {
+  .shell-main:has(.puzzle-drill) {
+    padding-top: 0.5rem;
+    padding-bottom: calc(0.5rem + var(--safe-bottom));
+  }
+
+  .puzzle-hud {
+    margin-bottom: 0.4rem;
+  }
+
+  .puzzle-board {
+    display: flex;
+    justify-content: center;
+  }
+
+  .puzzle-board .board {
+    width: auto;
+    max-width: 100%;
+    height: calc(100dvh - 190px);
+    max-height: none;
+  }
+}
+
 @media (max-width: 760px) {
   .theme-row,
   .generate-strip {

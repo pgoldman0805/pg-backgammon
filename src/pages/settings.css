@@ -195,4 +195,16 @@
     align-items: flex-start;
     flex-direction: column;
   }
+
+  /* Phone touch sizing (ticket 24): switches and pills grow to fingertip
+     height; their look is unchanged. */
+  .settings-switch {
+    min-height: 44px;
+  }
+
+  .setting-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }

@@ -313,4 +313,11 @@
   .progress-stats {
     column-gap: 1.75rem;
   }
+
+  /* Phone touch sizing (ticket 24). */
+  .progress-table summary {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }

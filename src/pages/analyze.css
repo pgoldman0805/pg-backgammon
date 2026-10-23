@@ -557,6 +557,21 @@
   .review-summary {
     column-gap: 1.25rem;
   }
+
+  /* Phone touch sizing (ticket 24): the same controls, fingertip-sized. */
+  .history-button,
+  .viewer-input {
+    min-height: 44px;
+  }
+
+  .game-tab {
+    min-height: 44px;
+  }
+
+  .decision-row,
+  .alternative-row {
+    min-height: 44px;
+  }
 }
 
 /* XGID position viewer (ticket 10) */

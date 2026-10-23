@@ -69,6 +69,15 @@ describe('match setup', () => {
     expect(screen.getByLabelText('Black pip count')).toHaveTextContent('167');
   });
 
+  it('carries the portrait-phone rotate hint (CSS shows it only there)', () => {
+    renderPlay({ dice: scriptedDice() });
+
+    const hint = screen.getByText(
+      'Turn your phone sideways for a bigger board.',
+    );
+    expect(hint).toHaveClass('rotate-hint');
+  });
+
   it('offers the five difficulties with Casual preselected', () => {
     renderPlay({ dice: scriptedDice() });
 
