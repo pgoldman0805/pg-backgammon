@@ -25,7 +25,11 @@ import {
   targetAt,
   traySlabY,
 } from './geometry';
-import { destinationsFrom, movableOrigins } from './selectors';
+import {
+  destinationsFrom,
+  movableOrigins,
+  twoMovementDestinationsFrom,
+} from './selectors';
 
 /** The doubling cube as the board renders it. */
 export interface BoardCube {
@@ -244,6 +248,10 @@ export function Board({
     interactive && game && highlightOrigin !== null
       ? destinationsFrom(game, highlightOrigin)
       : [];
+  const twoMovementDestinations =
+    interactive && game && highlightOrigin !== null
+      ? twoMovementDestinationsFrom(game, highlightOrigin)
+      : [];
 
   function pointerPosition(event: React.PointerEvent): {
     x: number;
@@ -268,8 +276,10 @@ export function Board({
         // jsdom and older browsers: capture is a progressive enhancement.
       }
       const { x, y } = pointerPosition(event);
+      const at = event.timeStamp;
       setDrag(
-        (state) => dragTransition(state, { type: 'down', from, x, y }).state,
+        (state) =>
+          dragTransition(state, { type: 'down', from, x, y, at }).state,
       );
     };
   }
@@ -301,6 +311,15 @@ export function Board({
         onMove(command.from, movement.die);
       } else {
         onSelect(null); // illegal drop: the checker snaps back
+      }
+    } else if (command?.kind === 'dblclick') {
+      // Story 45: a double-click moves the checker when exactly one movement
+      // is on offer. With zero or several destinations the gesture stays two
+      // ordinary clicks (the native click that follows toggles selection).
+      const single = game ? destinationsFrom(game, command.from) : [];
+      if (single.length === 1) {
+        suppressClick.current = true;
+        onMove(command.from, single[0].die);
       }
     }
   }
@@ -575,6 +594,73 @@ export function Board({
               onKeyDown={keyDown}
             >
               <path d={pointPath(to)} className="dest-point" />
+              <rect
+                x={pointAnchorX(to)}
+                y={top ? 0 : BOARD.height / 2}
+                width={BOARD.pointWidth}
+                height={BOARD.height / 2}
+                className="dest-zone"
+              />
+            </g>
+          );
+        })}
+
+      {/* Two-movement destinations (story 46): the final point one checker
+          reaches with two of the remaining dice; clicking applies both
+          movements in order. Rendered after the one-die destinations so tab
+          order runs near targets first, then far ones. */}
+      {highlightOrigin !== null &&
+        twoMovementDestinations.map((destination) => {
+          const commit = () => {
+            for (const movement of destination.movements) {
+              onMove(movement.from, movement.die);
+            }
+          };
+          const keyDown = (event: React.KeyboardEvent) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              commit();
+            }
+          };
+          if (destination.to === 'off') {
+            const player = turn?.player ?? 'white';
+            const y = player === 'black' ? BOARD.frame : BOARD.height / 2 + 8;
+            return (
+              // biome-ignore lint/a11y/useSemanticElements: native buttons cannot exist inside SVG
+              <g
+                key="two-off"
+                role="button"
+                tabIndex={0}
+                aria-label="Bear off in two movements"
+                className="dest dest--two"
+                onClick={commit}
+                onKeyDown={keyDown}
+              >
+                <rect
+                  x={trayInnerX}
+                  y={y}
+                  width={trayInnerW}
+                  height={BOARD.height / 2 - BOARD.frame - 8}
+                  rx={8}
+                  className="dest-tray dest-tray--two"
+                />
+              </g>
+            );
+          }
+          const to = destination.to;
+          const top = isTopRow(to);
+          return (
+            // biome-ignore lint/a11y/useSemanticElements: native buttons cannot exist inside SVG
+            <g
+              key={`two-${to}`}
+              role="button"
+              tabIndex={0}
+              aria-label={`Move to point ${to} in two movements`}
+              className="dest dest--two"
+              onClick={commit}
+              onKeyDown={keyDown}
+            >
+              <path d={pointPath(to)} className="dest-point dest-point--two" />
               <rect
                 x={pointAnchorX(to)}
                 y={top ? 0 : BOARD.height / 2}

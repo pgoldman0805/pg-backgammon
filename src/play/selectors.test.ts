@@ -1,4 +1,9 @@
-import { createBoard, createGame, type GameState } from '../rules';
+import {
+  createBoard,
+  createGame,
+  type GameState,
+  initialBoard,
+} from '../rules';
 import { scriptedDice } from '../test/dice';
 import {
   canCommit,
@@ -7,6 +12,7 @@ import {
   forcedPlay,
   isDance,
   movableOrigins,
+  twoMovementDestinationsFrom,
 } from './selectors';
 import { createPlayStore } from './store';
 
@@ -74,6 +80,161 @@ describe('destinations and origins', () => {
     expect(destinationsFrom(game, 24)).toEqual([
       expect.objectContaining({ to: 18, die: 6 }),
     ]);
+  });
+});
+
+describe('two-movement destinations', () => {
+  it('offers the final point when both die orders produce the identical board', () => {
+    // Opening 6-3 from 24: 24/18/15 and 24/21/15 both end with the checker on
+    // 15 and no hits, so the final target is unambiguous. The movements come
+    // in dispatch order, larger die first.
+    const twos = twoMovementDestinationsFrom(openingGame(), 24);
+
+    const to15 = twos.find((d) => d.to === 15);
+    expect(to15).toBeDefined();
+    expect(to15?.movements).toEqual([
+      expect.objectContaining({ from: 24, to: 18, die: 6 }),
+      expect.objectContaining({ from: 18, to: 15, die: 3 }),
+    ]);
+  });
+
+  it('rejects a target the die orders reach with different hits', () => {
+    // Black blots on 18: 24/18*/15 hits, 24/21/15 does not. The same final
+    // point yields two different boards, so no shortcut is offered — the
+    // player picks the path per movement.
+    const board = createBoard({
+      white: { points: { 24: 1, 13: 1 }, off: 13 },
+      black: { points: { 18: 1, 19: 14 } },
+    });
+    const game = createGame({ board, player: 'white', roll: [6, 3] });
+
+    expect(twoMovementDestinationsFrom(game, 24)).toEqual([]);
+  });
+
+  it('offers the target when only one die order is legal', () => {
+    // Black owns 21, so only 24/18/15 exists; one unambiguous path.
+    const board = createBoard({
+      white: { points: { 24: 1, 13: 1 }, off: 13 },
+      black: { points: { 21: 2, 19: 13 } },
+    });
+    const game = createGame({ board, player: 'white', roll: [6, 3] });
+
+    expect(twoMovementDestinationsFrom(game, 24)).toEqual([
+      {
+        to: 15,
+        movements: [
+          expect.objectContaining({ from: 24, to: 18, die: 6 }),
+          expect.objectContaining({ from: 18, to: 15, die: 3 }),
+        ],
+      },
+    ]);
+  });
+
+  it('keeps the only legal order even when the smaller die goes first', () => {
+    // Black owns 18, so the checker must route 24/21/15: smaller die first.
+    const board = createBoard({
+      white: { points: { 24: 1, 13: 1 }, off: 13 },
+      black: { points: { 18: 2, 19: 13 } },
+    });
+    const game = createGame({ board, player: 'white', roll: [6, 3] });
+
+    expect(twoMovementDestinationsFrom(game, 24)).toEqual([
+      {
+        to: 15,
+        movements: [
+          expect.objectContaining({ from: 24, to: 21, die: 3 }),
+          expect.objectContaining({ from: 21, to: 15, die: 6 }),
+        ],
+      },
+    ]);
+  });
+
+  it('offers two of the remaining identical dice on doubles', () => {
+    const game = createGame({
+      board: initialBoard(),
+      player: 'white',
+      roll: [3, 3],
+    });
+
+    const twos = twoMovementDestinationsFrom(game, 24);
+    expect(twos).toEqual([
+      {
+        to: 18,
+        movements: [
+          expect.objectContaining({ from: 24, to: 21, die: 3 }),
+          expect.objectContaining({ from: 21, to: 18, die: 3 }),
+        ],
+      },
+    ]);
+  });
+
+  it('offers bear-off as the final target, larger die first', () => {
+    // From 5 with 3-2: 5/2 then 2/off, or 5/3 then 3/off — identical boards.
+    const board = createBoard({
+      white: { points: { 5: 1, 4: 1 }, off: 13 },
+      black: { points: { 24: 2, 23: 13 } },
+    });
+    const game = createGame({ board, player: 'white', roll: [3, 2] });
+
+    expect(twoMovementDestinationsFrom(game, 5)).toEqual([
+      {
+        to: 'off',
+        movements: [
+          expect.objectContaining({ from: 5, to: 2, die: 3 }),
+          expect.objectContaining({ from: 2, to: 'off', die: 2 }),
+        ],
+      },
+    ]);
+  });
+
+  it('cedes a target one die already reaches (bear-off collision)', () => {
+    // From 6 with 6-3 the 6 bears off directly; the 6/3, 3/off route to the
+    // same tray is not offered — the one-die action wins.
+    const board = createBoard({
+      white: { points: { 6: 1, 2: 1 }, off: 13 },
+      black: { points: { 24: 2, 23: 13 } },
+    });
+    const game = createGame({ board, player: 'white', roll: [6, 3] });
+
+    expect(destinationsFrom(game, 6)).toEqual(
+      expect.arrayContaining([expect.objectContaining({ to: 'off', die: 6 })]),
+    );
+    expect(twoMovementDestinationsFrom(game, 6)).toEqual([]);
+  });
+
+  it('offers nothing when only one die remains', () => {
+    const store = createPlayStore({ dice: scriptedDice(6, 3) });
+    store.dispatch({ type: 'start' });
+    store.dispatch({ type: 'movement', from: 24, die: 6 });
+    const game = store.getState().match?.game ?? null;
+
+    expect(twoMovementDestinationsFrom(game, 13)).toEqual([]);
+  });
+
+  it('offers nothing when the higher-die rule caps the play at one movement', () => {
+    // Only one die fits anywhere (the engine keeps the higher): no checker
+    // can use two dice, so there is nothing to shortcut.
+    const board = createBoard({
+      white: { points: { 24: 1 }, off: 14 },
+      black: { points: { 15: 2, 1: 13 } },
+    });
+    const game = createGame({ board, player: 'white', roll: [6, 3] });
+
+    expect(twoMovementDestinationsFrom(game, 24)).toEqual([]);
+  });
+
+  it('excludes paths whose continuation is blocked (dead-end anchoring)', () => {
+    // The stranding board from `viableMovements`: from 13 both routes toward
+    // 4 are blocked (black owns 4), and from 8 no second movement exists, so
+    // neither origin gets a shortcut even though single movements abound.
+    const board = createBoard({
+      white: { points: { 13: 1, 8: 1 }, off: 13 },
+      black: { points: { 2: 2, 4: 2, 10: 2, 19: 9 } },
+    });
+    const game = createGame({ board, player: 'white', roll: [6, 3] });
+
+    expect(twoMovementDestinationsFrom(game, 13)).toEqual([]);
+    expect(twoMovementDestinationsFrom(game, 8)).toEqual([]);
   });
 });
 
