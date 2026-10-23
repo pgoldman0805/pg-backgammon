@@ -5,7 +5,11 @@
  */
 
 import type { DiceRoll } from '../rules';
-import type { EnginePosition, RankPlaysOptions } from './types';
+import type {
+  CubeInfoOptions,
+  EnginePosition,
+  RankPlaysOptions,
+} from './types';
 
 export type EngineRequest =
   | { readonly id: number; readonly kind: 'initialize' }
@@ -25,6 +29,7 @@ export type EngineRequest =
       readonly id: number;
       readonly kind: 'cubeInfo';
       readonly position: EnginePosition;
+      readonly options?: CubeInfoOptions;
     };
 
 export type EngineResponse =

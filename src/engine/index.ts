@@ -20,8 +20,10 @@ export {
 } from './difficulty';
 export { createFakeEngine } from './fake';
 export type {
+  AnalysisEffort,
   CubeAnalysis,
   CubeDecisionOption,
+  CubeInfoOptions,
   CubeState,
   Difficulty,
   Engine,

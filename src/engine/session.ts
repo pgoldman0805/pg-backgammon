@@ -15,6 +15,7 @@ import { applyMoveText, boardKey } from './moveText';
 import { parseCubeAnalysis, parseEvalOutput, parseHintMoves } from './parse';
 import type {
   CubeAnalysis,
+  CubeInfoOptions,
   EnginePosition,
   PositionEvaluation,
   RankedPlay,
@@ -28,6 +29,9 @@ export type RunCommand = (command: string) => readonly string[];
 /** Full-strength analysis settings (ADR-0001 ground truth). */
 const FULL_STRENGTH = { plies: 2, noise: 0 } as const;
 
+/** On-demand deepening: 3-ply, bounded by the ply-3 move filters below. */
+const DEEP = { plies: 3, noise: 0 } as const;
+
 const INIT_COMMANDS = [
   'set confirm new off',
   'set confirm save off',
@@ -40,6 +44,11 @@ const INIT_COMMANDS = [
   // The build's default move filters pass no moves to the deeper-ply stage;
   // without this, "2-ply" hints silently stay at 0-ply (verified).
   'set evaluation movefilter 2 0 8 8 0.16',
+  // Deep (3-ply) analysis: a generous 0-ply gate, then at most 4 moves get
+  // the full 3-ply treatment — bounded, as the spec demands (no rollouts).
+  'set evaluation movefilter 3 0 8 8 0.16',
+  'set evaluation movefilter 3 1 -1 0 0',
+  'set evaluation movefilter 3 2 2 2 0.04',
   'set evaluation cubedecision evaluation plies 2',
   'new match 1',
 ] as const;
@@ -51,7 +60,7 @@ export interface GnubgSession {
     roll: DiceRoll,
     options?: RankPlaysOptions,
   ): RankedPlay[];
-  cubeInfo(position: EnginePosition): CubeAnalysis;
+  cubeInfo(position: EnginePosition, options?: CubeInfoOptions): CubeAnalysis;
 }
 
 function playFinalKey(position: EnginePosition, play: Play): string {
@@ -91,7 +100,9 @@ export function createGnubgSession(run: RunCommand): GnubgSession {
     rankPlays(position, roll, options) {
       const settings = options?.difficulty
         ? DIFFICULTY_SETTINGS[options.difficulty]
-        : FULL_STRENGTH;
+        : options?.effort === 'deep'
+          ? DEEP
+          : FULL_STRENGTH;
 
       const legal = legalPlays(position.board, position.onRoll, roll);
       if (legal.length === 0) {
@@ -157,7 +168,10 @@ export function createGnubgSession(run: RunCommand): GnubgSession {
       };
     },
 
-    cubeInfo(position) {
+    cubeInfo(position, options) {
+      const plies =
+        options?.effort === 'deep' ? DEEP.plies : FULL_STRENGTH.plies;
+      run(`set evaluation cubedecision evaluation plies ${plies}`);
       preparePosition(position, undefined, 0);
       return parseCubeAnalysis(run('hint'));
     },

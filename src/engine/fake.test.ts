@@ -44,6 +44,35 @@ describe('createFakeEngine', () => {
     expect(a).toEqual(b);
   });
 
+  it('visibly refines equities at deep effort, deterministically', async () => {
+    const engine = createFakeEngine();
+    const standard = await engine.rankPlays(OPENING, [3, 1]);
+    const deepA = await engine.rankPlays(OPENING, [3, 1], { effort: 'deep' });
+    const deepB = await engine.rankPlays(OPENING, [3, 1], { effort: 'deep' });
+    expect(deepA).toEqual(deepB);
+    expect(deepA.map((p) => p.equity)).not.toEqual(
+      standard.map((p) => p.equity),
+    );
+    // A refinement, not a different opinion: equities barely move.
+    const sameText = standard.find((p) => p.moveText === deepA[0].moveText);
+    expect(sameText).toBeDefined();
+    expect(Math.abs((sameText?.equity ?? 0) - deepA[0].equity)).toBeLessThan(
+      0.05,
+    );
+  });
+
+  it('refines the cube analysis at deep effort, deterministically', async () => {
+    const engine = createFakeEngine();
+    const standard = await engine.cubeInfo(OPENING);
+    const deepA = await engine.cubeInfo(OPENING, { effort: 'deep' });
+    const deepB = await engine.cubeInfo(OPENING, { effort: 'deep' });
+    expect(deepA).toEqual(deepB);
+    expect(deepA.cubelessEquity).not.toBe(standard.cubelessEquity);
+    expect(
+      Math.abs(deepA.cubelessEquity - standard.cubelessEquity),
+    ).toBeLessThan(0.05);
+  });
+
   it('applies the shared difficulty noise deterministically', async () => {
     const engine = createFakeEngine();
     const clean = await engine.rankPlays(OPENING, [3, 1]);

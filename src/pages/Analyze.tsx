@@ -1,16 +1,33 @@
 /**
- * The Analyze area, part one (ticket 07): the match history ledger. Lists
- * every stored match, opens finished ones read-only (the record replayed
- * through the rules engine — the full review UI is ticket 08), resumes
- * in-progress ones in Play, deletes with confirmation, and backs the whole
- * history up as a JSON file (import replaces).
+ * The Analyze area: the match history ledger (ticket 07) and the post-game
+ * review (ticket 08). Opening a finished match shows every play and cube
+ * decision scored and classified, browsable on the board with the engine's
+ * alternatives; an unanalyzed match analyzes itself on open with visible
+ * progress, and any single decision can be re-analyzed deeper on demand.
  */
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  type AnalysisProgress,
+  type AnalyzedCube,
+  type AnalyzedDecision,
+  type AnalyzedPlay,
+  getMatchAnalyzer,
+  isMatchAnalysis,
+  type MatchAnalysis,
+  type MatchAnalyzer,
+  matchStandings,
+  type PlayAlternative,
+  type PlayerSummary,
+  walkGame,
+} from '../analysis';
 import { Board } from '../play/Board';
 import {
+  applyMovement,
+  type Die,
   type GameEndKind,
+  type GameState,
   type MatchGameRecord,
   type Player,
   replayMatch,
@@ -100,13 +117,638 @@ function gameLine(completed: MatchGameRecord): string {
   return `${name(result.winner)} +${result.points} — ${how}${crawford}`;
 }
 
-/** A finished match replayed from its record alone, read-only. */
-function MatchView({
+/* ------------------------------------------------------------------ */
+/* Review formatting                                                    */
+/* ------------------------------------------------------------------ */
+
+/** Error rate for display: thousandths of a point per decision. */
+function rateText(summary: PlayerSummary): string {
+  return (summary.errorRate * 1000).toFixed(1);
+}
+
+function countsText(summary: PlayerSummary): string {
+  const part = (count: number, word: string) =>
+    `${count} ${word}${count === 1 ? '' : 's'}`;
+  return `${part(summary.blunders, 'blunder')} · ${part(summary.errors, 'error')} · ${summary.dubious} dubious`;
+}
+
+/** A signed EMG equity, minus sign included. */
+function equityText(value: number): string {
+  return `${value < 0 ? '−' : '+'}${Math.abs(value).toFixed(3)}`;
+}
+
+/** An equity loss for the lists: a dash when nothing was lost. */
+function lossText(loss: number): string {
+  return loss >= 0.0005 ? `−${loss.toFixed(3)}` : '–';
+}
+
+const CLASSIFICATION_TEXT = {
+  blunder: 'Blunder',
+  error: 'Error',
+  dubious: 'Dubious',
+  ok: '',
+} as const;
+
+const CUBE_ERROR_TEXT = {
+  'missed-double': 'Missed double',
+  'wrong-double': 'Wrong double',
+  'wrong-take': 'Wrong take',
+  'wrong-pass': 'Wrong pass',
+} as const;
+
+function rollText(roll: AnalyzedPlay['roll']): string {
+  return `${roll[0]}-${roll[1]}`;
+}
+
+/** The short action text of a decision, for list rows and headers. */
+function decisionText(decision: AnalyzedDecision): string {
+  if (decision.kind === 'play') {
+    return decision.moveText;
+  }
+  switch (decision.action) {
+    case 'double':
+      return `Doubles to ${decision.cubeValue * 2}`;
+    case 'take':
+      return 'Takes';
+    case 'pass':
+      return 'Passes';
+    case 'no-double':
+      return 'No double';
+  }
+}
+
+/** The accessible name of a decision row. */
+function decisionLabel(decision: AnalyzedDecision): string {
+  const player = name(decision.player);
+  if (decision.kind === 'play') {
+    return `${player} plays ${rollText(decision.roll)}: ${decision.moveText}`;
+  }
+  switch (decision.action) {
+    case 'double':
+      return `${player} doubles to ${decision.cubeValue * 2}`;
+    case 'take':
+      return `${player} takes the double`;
+    case 'pass':
+      return `${player} passes the double`;
+    case 'no-double':
+      return `${player} holds the cube`;
+  }
+}
+
+/** The detail panel's headline for a decision. */
+function decisionHeadline(decision: AnalyzedDecision): string {
+  const player = name(decision.player);
+  if (decision.kind === 'play') {
+    return `${player} played ${decision.moveText}`;
+  }
+  switch (decision.action) {
+    case 'double':
+      return `${player} doubles to ${decision.cubeValue * 2}`;
+    case 'take':
+      return `${player} takes the double`;
+    case 'pass':
+      return `${player} passes the double`;
+    case 'no-double':
+      return `${player} holds the cube`;
+  }
+}
+
+/** The verdict line under the headline. */
+function verdictText(decision: AnalyzedDecision): string {
+  if (decision.kind === 'play') {
+    if (decision.rank === 1) {
+      return 'The engine’s best play.';
+    }
+    if (decision.equityLoss < 0.0005) {
+      return 'As good as the best — no equity lost.';
+    }
+    return `Lost ${decision.equityLoss.toFixed(3)} — ${CLASSIFICATION_TEXT[decision.classification] || 'small'}.`;
+  }
+  if (decision.error) {
+    return `${CUBE_ERROR_TEXT[decision.error]} — lost ${decision.equityLoss.toFixed(3)}${
+      decision.classification === 'ok'
+        ? ''
+        : ` (${CLASSIFICATION_TEXT[decision.classification].toLowerCase()})`
+    }.`;
+  }
+  return 'Correct.';
+}
+
+/** Hide quiet, correct cube holds from the list (they still count). */
+function isVisible(decision: AnalyzedDecision): boolean {
+  return !(
+    decision.kind === 'cube' &&
+    decision.action === 'no-double' &&
+    decision.classification === 'ok'
+  );
+}
+
+interface DecisionRef {
+  readonly game: number;
+  readonly index: number;
+}
+
+function sameRef(a: DecisionRef | null, b: DecisionRef): boolean {
+  return a !== null && a.game === b.game && a.index === b.index;
+}
+
+function diceOf(roll: AnalyzedPlay['roll']): Die[] {
+  return roll[0] === roll[1]
+    ? [roll[0], roll[0], roll[0], roll[0]]
+    : [roll[0], roll[1]];
+}
+
+const noop = () => {};
+
+/* ------------------------------------------------------------------ */
+/* Review components                                                    */
+/* ------------------------------------------------------------------ */
+
+function ClassificationBadge({ decision }: { decision: AnalyzedDecision }) {
+  if (decision.classification === 'ok') {
+    return null;
+  }
+  return (
+    <span className={`review-badge review-badge--${decision.classification}`}>
+      {CLASSIFICATION_TEXT[decision.classification]}
+    </span>
+  );
+}
+
+function DecisionRow({
+  decision,
+  selected,
+  onSelect,
+}: {
+  decision: AnalyzedDecision;
+  selected: boolean;
+  onSelect: () => void;
+}) {
+  return (
+    <li>
+      <button
+        type="button"
+        className="decision-row"
+        aria-label={decisionLabel(decision)}
+        aria-current={selected || undefined}
+        onClick={onSelect}
+      >
+        <span
+          className={`chip-swatch chip-swatch--${decision.player}`}
+          aria-hidden="true"
+        />
+        <span className="decision-tag">
+          {decision.kind === 'play' ? rollText(decision.roll) : 'cube'}
+        </span>
+        <span className="decision-text">{decisionText(decision)}</span>
+        <span
+          className={`decision-loss decision-loss--${decision.classification}`}
+        >
+          {lossText(decision.equityLoss)}
+        </span>
+        <ClassificationBadge decision={decision} />
+      </button>
+    </li>
+  );
+}
+
+function AlternativesPanel({
+  play,
+  shown,
+  pinned,
+  onHover,
+  onPin,
+}: {
+  play: AnalyzedPlay;
+  /** The alternative currently on the board (hovered or pinned). */
+  shown: PlayAlternative | null;
+  pinned: PlayAlternative | null;
+  onHover: (alternative: PlayAlternative | null) => void;
+  onPin: (alternative: PlayAlternative | null) => void;
+}) {
+  return (
+    <ol className="alternatives" aria-label="Engine alternatives">
+      {play.alternatives.map((alternative, index) => {
+        const isBest = index === 0;
+        // The played play keeps its true rank even when it sits appended
+        // beyond the engine's top candidates.
+        const rank = alternative.played ? play.rank : index + 1;
+        const active = shown?.moveText === alternative.moveText;
+        return (
+          <li key={alternative.moveText}>
+            <button
+              type="button"
+              className={`alternative-row ${active ? 'alternative-row--shown' : ''}`}
+              onClick={() =>
+                onPin(
+                  pinned?.moveText === alternative.moveText
+                    ? null
+                    : alternative,
+                )
+              }
+              onMouseEnter={() => onHover(alternative)}
+              onMouseLeave={() => onHover(null)}
+              onFocus={() => onHover(alternative)}
+              onBlur={() => onHover(null)}
+            >
+              <span className="alternative-rank">{rank}</span>
+              <span className="alternative-text">{alternative.moveText}</span>
+              <span className="alternative-equity">
+                {equityText(alternative.equity)}
+              </span>
+              <span className="alternative-loss">
+                {isBest ? '' : lossText(alternative.equityLoss)}
+              </span>
+              {isBest && <span className="review-chip">best</span>}
+              {alternative.played && (
+                <span className="review-chip review-chip--played">played</span>
+              )}
+            </button>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+function CubePanel({ decision }: { decision: AnalyzedCube }) {
+  const rows = [
+    { action: 'No double', equity: decision.noDoubleEquity },
+    { action: 'Double, take', equity: decision.doubleTakeEquity },
+    { action: 'Double, pass', equity: decision.doublePassEquity },
+  ];
+  return (
+    <div className="cube-panel">
+      <ol className="alternatives" aria-label="Cube equities">
+        {rows.map((row) => (
+          <li
+            key={row.action}
+            className="alternative-row alternative-row--static"
+          >
+            <span className="alternative-text">{row.action}</span>
+            <span className="alternative-equity">{equityText(row.equity)}</span>
+          </li>
+        ))}
+      </ol>
+      <p className="cube-proper">Engine: {decision.properAction}</p>
+    </div>
+  );
+}
+
+/** The analyzed review of a finished match. */
+function Review({
   stored,
-  onBack,
+  analysis,
+  analyzer,
+  storage,
+  onAnalyzed,
 }: {
   stored: StoredMatch;
+  analysis: MatchAnalysis;
+  analyzer: MatchAnalyzer;
+  storage: MatchStorage;
+  onAnalyzed: (id: string, analysis: MatchAnalysis) => void;
+}) {
+  const record = stored.record;
+  const [selected, setSelected] = useState<DecisionRef | null>(null);
+  const [pinned, setPinned] = useState<PlayAlternative | null>(null);
+  const [hovered, setHovered] = useState<PlayAlternative | null>(null);
+  const [deepening, setDeepening] = useState(false);
+  const [deepenNote, setDeepenNote] = useState<string | null>(null);
+  const preview = hovered ?? pinned;
+
+  /** Visible decisions per game, each with its original index. */
+  const visible = useMemo(
+    () =>
+      analysis.games.map((game) =>
+        game.decisions
+          .map((decision, index) => ({ decision, index }))
+          .filter(({ decision }) => isVisible(decision)),
+      ),
+    [analysis],
+  );
+
+  /** All visible decisions flattened, for stepping. */
+  const sequence = useMemo(
+    () =>
+      visible.flatMap((rows, game) =>
+        rows.map(({ index }) => ({ game, index })),
+      ),
+    [visible],
+  );
+
+  // The first decision is open by default; selection survives re-analysis.
+  useEffect(() => {
+    if (!selected && sequence.length > 0) {
+      setSelected(sequence[0]);
+    }
+  }, [selected, sequence]);
+
+  const gameIndex = selected?.game ?? 0;
+  const decision: AnalyzedDecision | null = selected
+    ? (analysis.games[selected.game]?.decisions[selected.index] ?? null)
+    : null;
+
+  const standings = useMemo(() => matchStandings(record), [record]);
+  const moments = useMemo(
+    () =>
+      record.games[gameIndex] && standings[gameIndex]
+        ? walkGame(record.games[gameIndex], standings[gameIndex])
+        : [],
+    [record, standings, gameIndex],
+  );
+  const moment = useMemo(() => {
+    if (!decision) {
+      return null;
+    }
+    return (
+      moments.find((m) =>
+        decision.kind === 'play'
+          ? m.kind === 'play' && m.playIndex === decision.playIndex
+          : m.kind !== 'play' && m.playIndex === decision.playIndex,
+      ) ?? null
+    );
+  }, [decision, moments]);
+
+  /** The board shown: the position before the decision, or a preview after. */
+  const boardGame: GameState | null = useMemo(() => {
+    if (!moment) {
+      return null;
+    }
+    const record_: GameState['record'] = {
+      initialBoard: moment.board,
+      openingRolls: [],
+      firstPlayer: moment.kind === 'play' ? moment.player : 'white',
+      plays: [],
+    };
+    if (moment.kind === 'play') {
+      const movements = preview ? preview.movements : [];
+      const board = movements.reduce(
+        (b, movement) => applyMovement(b, moment.player, movement),
+        moment.board,
+      );
+      return {
+        board,
+        turn: {
+          player: moment.player,
+          roll: moment.roll,
+          startBoard: moment.board,
+          movements,
+          remainingDice: preview ? [] : diceOf(moment.roll),
+        },
+        record: record_,
+        result: null,
+      };
+    }
+    return { board: moment.board, turn: null, record: record_, result: null };
+  }, [moment, preview]);
+
+  const caption = !moment
+    ? ''
+    : preview
+      ? `After ${preview.moveText}.`
+      : moment.kind === 'play'
+        ? `${name(moment.player)} to play ${moment.roll[0]}-${moment.roll[1]}.`
+        : `${name(moment.kind === 'cube-action' ? moment.doubler : moment.player)} on roll — cube decision.`;
+
+  const position = selected
+    ? sequence.findIndex((ref) => sameRef(selected, ref))
+    : -1;
+
+  function step(delta: number): void {
+    const next = sequence[position + delta];
+    if (next) {
+      select(next);
+    }
+  }
+
+  function select(ref: DecisionRef): void {
+    setSelected(ref);
+    setPinned(null);
+    setHovered(null);
+    setDeepenNote(null);
+  }
+
+  async function deepen(): Promise<void> {
+    if (!selected || deepening) {
+      return;
+    }
+    setDeepening(true);
+    setDeepenNote(null);
+    try {
+      const refined = await analyzer.deepen(record, analysis, {
+        gameIndex: selected.game,
+        decisionIndex: selected.index,
+      });
+      onAnalyzed(stored.id, refined);
+      try {
+        const row = await storage.get(stored.id);
+        if (row) {
+          await storage.put({ ...row, analysis: refined });
+        }
+      } catch {
+        // Persistence is best effort; the refined numbers are on screen.
+      }
+    } catch {
+      setDeepenNote('Deeper analysis failed — try again.');
+    } finally {
+      setDeepening(false);
+    }
+  }
+
+  return (
+    <div className="review">
+      <section className="review-summary" aria-label="Match error rates">
+        {(['white', 'black'] as const).map((player) => (
+          <div key={player} className="summary-player">
+            <span
+              className={`chip-swatch chip-swatch--${player}`}
+              aria-hidden="true"
+            />
+            <span className="summary-name">{name(player)}</span>
+            {/* biome-ignore lint/a11y/useSemanticElements: a labelled inline stat; fieldset/section would be wrong semantics */}
+            <span
+              className="summary-rate"
+              role="group"
+              aria-label={`${name(player)} error rate`}
+            >
+              {rateText(analysis[player])}
+            </span>
+            <span className="summary-counts">
+              {countsText(analysis[player])}
+            </span>
+          </div>
+        ))}
+        <p className="summary-hint">
+          Error rate: equity lost per unforced decision, in thousandths — lower
+          is better.
+        </p>
+      </section>
+
+      {analysis.games.length > 1 && (
+        <div className="game-tabs">
+          {analysis.games.map((game, index) => {
+            const first = visible[index][0];
+            return (
+              <button
+                // biome-ignore lint/suspicious/noArrayIndexKey: games are an append-only sequence
+                key={index}
+                type="button"
+                className="game-tab"
+                aria-pressed={gameIndex === index}
+                title={
+                  record.games[index]
+                    ? gameLine(record.games[index])
+                    : undefined
+                }
+                onClick={() =>
+                  first && select({ game: index, index: first.index })
+                }
+              >
+                Game {index + 1}
+                <span className="game-tab-rate">
+                  {rateText(game.white)} · {rateText(game.black)}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      <div className="review-layout">
+        <ol className="decision-list" aria-label="Decisions">
+          {visible[gameIndex]?.map(({ decision: row, index }) => (
+            <DecisionRow
+              key={`${row.kind}-${row.playIndex}-${row.kind === 'cube' ? row.action : 'play'}`}
+              decision={row}
+              selected={sameRef(selected, { game: gameIndex, index })}
+              onSelect={() => select({ game: gameIndex, index })}
+            />
+          ))}
+        </ol>
+
+        <div className="review-board">
+          <div className="review-nav">
+            <button
+              type="button"
+              className="history-button"
+              aria-label="Previous decision"
+              disabled={position <= 0}
+              onClick={() => step(-1)}
+            >
+              ‹ Previous
+            </button>
+            <span className="review-count">
+              {position + 1} of {sequence.length}
+            </span>
+            <button
+              type="button"
+              className="history-button"
+              aria-label="Next decision"
+              disabled={position < 0 || position >= sequence.length - 1}
+              onClick={() => step(1)}
+            >
+              Next ›
+            </button>
+          </div>
+
+          {boardGame && moment && (
+            <figure className="review-position" aria-label="Review position">
+              <Board
+                game={boardGame}
+                selected={null}
+                onSelect={noop}
+                onMove={noop}
+                cube={
+                  moment.context.cube
+                    ? {
+                        ...moment.context.cube,
+                        outOfPlay: moment.context.crawford,
+                      }
+                    : null
+                }
+                interactive={false}
+              />
+              <figcaption>{caption}</figcaption>
+            </figure>
+          )}
+
+          {decision && (
+            <section className="decision-detail" aria-label="Decision detail">
+              <header className="detail-header">
+                <h3 className="detail-headline">
+                  {decisionHeadline(decision)}
+                </h3>
+                <span className="review-chip review-chip--plies">
+                  {decision.plies}-ply
+                </span>
+              </header>
+              <p
+                className={`detail-verdict detail-verdict--${decision.classification}`}
+              >
+                {verdictText(decision)}
+                {decision.kind === 'play' && decision.rank > 1 && (
+                  <span className="detail-rank">
+                    {' '}
+                    Ranked #{decision.rank} of {decision.totalPlays}.
+                  </span>
+                )}
+              </p>
+              {decision.kind === 'play' ? (
+                <>
+                  <AlternativesPanel
+                    play={decision}
+                    shown={preview}
+                    pinned={pinned}
+                    onHover={setHovered}
+                    onPin={setPinned}
+                  />
+                  <p className="detail-hint">
+                    Point at a play to see it on the board; click to keep it
+                    there.
+                  </p>
+                </>
+              ) : (
+                <CubePanel decision={decision} />
+              )}
+              <div className="detail-actions">
+                <button
+                  type="button"
+                  className="history-button"
+                  disabled={deepening || decision.plies >= 3}
+                  onClick={() => void deepen()}
+                >
+                  {deepening
+                    ? 'Deepening…'
+                    : decision.plies >= 3
+                      ? 'Analyzed at 3-ply'
+                      : 'Analyze deeper'}
+                </button>
+                {deepenNote && (
+                  <span className="detail-note">{deepenNote}</span>
+                )}
+              </div>
+            </section>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** A finished match: header from the record, then the analyzed review. */
+function MatchView({
+  stored,
+  storage,
+  analyzer,
+  onBack,
+  onAnalyzed,
+}: {
+  stored: StoredMatch;
+  storage: MatchStorage;
+  analyzer: MatchAnalyzer;
   onBack: () => void;
+  onAnalyzed: (id: string, analysis: MatchAnalysis) => void;
 }) {
   const replay = useMemo(() => {
     try {
@@ -115,6 +757,62 @@ function MatchView({
       return null;
     }
   }, [stored]);
+
+  const [analysis, setAnalysis] = useState<MatchAnalysis | null>(() =>
+    isMatchAnalysis(stored.analysis) ? stored.analysis : null,
+  );
+  const [progress, setProgress] = useState<AnalysisProgress | null>(null);
+  const [failed, setFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0);
+
+  // An unanalyzed match analyzes itself on open (user priority), persists
+  // the result, and adopts any analysis another session persisted meanwhile.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: `attempt` is the deliberate retry trigger after a failure
+  useEffect(() => {
+    if (analysis || !replay) {
+      return;
+    }
+    let cancelled = false;
+    setFailed(false);
+    setProgress(null);
+    analyzer
+      .analyzeMatch(stored.record, {
+        priority: 'user',
+        onProgress: (p) => {
+          if (!cancelled) {
+            setProgress(p);
+          }
+        },
+      })
+      .then(async (result) => {
+        let final = result;
+        try {
+          const row = await storage.get(stored.id);
+          if (row) {
+            if (isMatchAnalysis(row.analysis)) {
+              final = row.analysis;
+            } else {
+              await storage.put({ ...row, analysis: result });
+            }
+          }
+        } catch {
+          // Persistence is best effort; the review still renders.
+        }
+        if (!cancelled) {
+          setAnalysis(final);
+          onAnalyzed(stored.id, final);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setFailed(true);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [analysis, analyzer, stored, storage, replay, attempt, onAnalyzed]);
+
   const final = useMemo(() => {
     const games = stored.record.games;
     const last = games[games.length - 1];
@@ -128,6 +826,14 @@ function MatchView({
     }
   }, [stored]);
 
+  const hasDecisions =
+    analysis?.games.some((game) => game.decisions.some(isVisible)) ?? false;
+
+  function deepenAnalysisState(id: string, refined: MatchAnalysis): void {
+    setAnalysis(refined);
+    onAnalyzed(id, refined);
+  }
+
   return (
     <article className="match-view">
       <button type="button" className="history-button" onClick={onBack}>
@@ -139,33 +845,84 @@ function MatchView({
           : 'This match record could not be replayed.'}
       </h2>
       <p className="match-view-meta">{metaLine(stored)}</p>
-      {final && (
-        <figure className="final-position" aria-label="Final position">
-          <Board
-            game={{
-              board: final.board,
-              turn: null,
-              record: final.record,
-              result: null,
-            }}
-            selected={null}
-            onSelect={() => {}}
-            onMove={() => {}}
-            interactive={false}
-          />
-          <figcaption>How the last game ended.</figcaption>
-        </figure>
+
+      {replay && !analysis && !failed && (
+        <div className="review-progress-block">
+          <p role="status" className="review-progress">
+            {progress
+              ? `Analyzing game ${progress.game} of ${progress.games} — position ${progress.position} of ${progress.positions}…`
+              : 'Analyzing the match…'}
+          </p>
+          <div className="review-progress-track" aria-hidden="true">
+            <div
+              className="review-progress-fill"
+              style={{
+                width: progress
+                  ? `${Math.round((progress.position / Math.max(1, progress.positions)) * 100)}%`
+                  : '4%',
+              }}
+            />
+          </div>
+        </div>
       )}
-      <ol className="match-games">
-        {stored.record.games.map((completed, index) => (
-          <li
-            // biome-ignore lint/suspicious/noArrayIndexKey: games are an append-only sequence
-            key={index}
+
+      {failed && (
+        <div className="review-progress-block">
+          <p>The analysis could not be completed.</p>
+          <button
+            type="button"
+            className="history-button"
+            onClick={() => setAttempt((n) => n + 1)}
           >
-            {gameLine(completed)}
-          </li>
-        ))}
-      </ol>
+            Try again
+          </button>
+        </div>
+      )}
+
+      {analysis && hasDecisions && (
+        <Review
+          stored={stored}
+          analysis={analysis}
+          analyzer={analyzer}
+          storage={storage}
+          onAnalyzed={deepenAnalysisState}
+        />
+      )}
+
+      {analysis && !hasDecisions && (
+        <>
+          <p className="detail-hint">
+            Nothing to review — this match held no unforced decisions.
+          </p>
+          {final && (
+            <figure className="final-position" aria-label="Final position">
+              <Board
+                game={{
+                  board: final.board,
+                  turn: null,
+                  record: final.record,
+                  result: null,
+                }}
+                selected={null}
+                onSelect={noop}
+                onMove={noop}
+                interactive={false}
+              />
+              <figcaption>How the last game ended.</figcaption>
+            </figure>
+          )}
+          <ol className="match-games">
+            {stored.record.games.map((completed, index) => (
+              <li
+                // biome-ignore lint/suspicious/noArrayIndexKey: games are an append-only sequence
+                key={index}
+              >
+                {gameLine(completed)}
+              </li>
+            ))}
+          </ol>
+        </>
+      )}
     </article>
   );
 }
@@ -173,10 +930,16 @@ function MatchView({
 export interface AnalyzeProps {
   /** Injectable for tests; defaults to the shared IndexedDB storage. */
   storage?: MatchStorage;
+  /** Injectable for tests; defaults to the shared analyzer. */
+  analyzer?: MatchAnalyzer;
 }
 
-export function Analyze({ storage: injectedStorage }: AnalyzeProps = {}) {
+export function Analyze({
+  storage: injectedStorage,
+  analyzer: injectedAnalyzer,
+}: AnalyzeProps = {}) {
   const [storage] = useState(() => injectedStorage ?? getMatchStorage());
+  const [analyzer] = useState(() => injectedAnalyzer ?? getMatchAnalyzer());
   const [matches, setMatches] = useState<readonly StoredMatch[] | null>(null);
   const [failed, setFailed] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
@@ -199,6 +962,15 @@ export function Analyze({ storage: injectedStorage }: AnalyzeProps = {}) {
   useEffect(() => {
     reload();
   }, [reload]);
+
+  /** Keep the in-memory list in step with persisted analyses. */
+  const onAnalyzed = useCallback((id: string, analysis: MatchAnalysis) => {
+    setMatches(
+      (rows) =>
+        rows?.map((row) => (row.id === id ? { ...row, analysis } : row)) ??
+        rows,
+    );
+  }, []);
 
   function remove(id: string): void {
     setConfirmId(null);
@@ -263,7 +1035,13 @@ export function Analyze({ storage: injectedStorage }: AnalyzeProps = {}) {
         </p>
       )}
       {open ? (
-        <MatchView stored={open} onBack={() => setOpenId(null)} />
+        <MatchView
+          stored={open}
+          storage={storage}
+          analyzer={analyzer}
+          onBack={() => setOpenId(null)}
+          onAnalyzed={onAnalyzed}
+        />
       ) : (
         <>
           {failed && (
