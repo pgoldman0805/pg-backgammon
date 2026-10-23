@@ -32,6 +32,11 @@ export interface BoardProps {
   readonly selected: Point | 'bar' | null;
   readonly onSelect: (origin: Point | 'bar' | null) => void;
   readonly onMove: (from: Point | 'bar', die: Die) => void;
+  /**
+   * False renders the position inert (no pick-up or drop targets) — the
+   * engine's turn in a vs-computer game. Defaults to true.
+   */
+  readonly interactive?: boolean;
 }
 
 const PIP_OFFSETS: Record<Die, ReadonlyArray<readonly [number, number]>> = {
@@ -164,20 +169,26 @@ function usageFlags(
   });
 }
 
-export function Board({ game, selected, onSelect, onMove }: BoardProps) {
+export function Board({
+  game,
+  selected,
+  onSelect,
+  onMove,
+  interactive = true,
+}: BoardProps) {
   const board = game?.board ?? initialBoard();
   const turn = game?.turn ?? null;
   const [drag, setDrag] = useState<DragState>(idleDrag);
   const svgRef = useRef<SVGSVGElement>(null);
   const suppressClick = useRef(false);
 
-  const origins = movableOrigins(game);
+  const origins = interactive ? movableOrigins(game) : [];
   const highlightOrigin =
     drag.kind === 'dragging'
       ? drag.from
       : (selected ?? (drag.kind === 'pressed' ? drag.from : null));
   const destinations =
-    game && highlightOrigin !== null
+    interactive && game && highlightOrigin !== null
       ? destinationsFrom(game, highlightOrigin)
       : [];
 
