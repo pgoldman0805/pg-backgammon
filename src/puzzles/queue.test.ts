@@ -6,9 +6,12 @@
 
 import { describe, expect, it } from 'vitest';
 import {
+  advanceRun,
+  answerRun,
   drillOrder,
   emptyProgress,
   recordAnswer,
+  startRun,
   themeProgress,
 } from './queue';
 import type { Puzzle, PuzzleTheme } from './types';
@@ -133,5 +136,62 @@ describe('drillOrder', () => {
       'b',
       'c',
     ]);
+  });
+});
+
+describe('drill run (ticket 21: only the first attempt of a visit counts)', () => {
+  const puzzles = [puzzle('a'), puzzle('b')];
+
+  it('starts at the head of the drill order with nothing graded', () => {
+    const run = startRun(puzzles, emptyProgress());
+    expect(run.queue.map((p) => p.id)).toEqual(['a', 'b']);
+    expect(run.index).toBe(0);
+    expect(run.graded).toBe(false);
+    expect(run.solved).toBe(0);
+    expect(run.answered).toBe(0);
+  });
+
+  it('counts a correct first attempt and leaves the queue alone', () => {
+    const run = answerRun(
+      startRun(puzzles, emptyProgress()),
+      puzzle('a'),
+      true,
+    );
+    expect(run.graded).toBe(true);
+    expect(run.solved).toBe(1);
+    expect(run.answered).toBe(1);
+    expect(run.queue.map((p) => p.id)).toEqual(['a', 'b']);
+  });
+
+  it('sends a missed first attempt to the end of this same run', () => {
+    const run = answerRun(
+      startRun(puzzles, emptyProgress()),
+      puzzle('a'),
+      false,
+    );
+    expect(run.solved).toBe(0);
+    expect(run.answered).toBe(1);
+    expect(run.queue.map((p) => p.id)).toEqual(['a', 'b', 'a']);
+  });
+
+  it('ignores retry attempts: once graded, the run no longer moves', () => {
+    const first = answerRun(
+      startRun(puzzles, emptyProgress()),
+      puzzle('a'),
+      false,
+    );
+    // Try again, then solve it: free practice — counters and queue hold.
+    const retried = answerRun(first, puzzle('a'), true);
+    expect(retried).toEqual(first);
+  });
+
+  it('advancing opens the next visit for grading again', () => {
+    let run = answerRun(startRun(puzzles, emptyProgress()), puzzle('a'), true);
+    run = advanceRun(run);
+    expect(run.index).toBe(1);
+    expect(run.graded).toBe(false);
+    run = answerRun(run, puzzle('b'), false);
+    expect(run.answered).toBe(2);
+    expect(run.queue.map((p) => p.id)).toEqual(['a', 'b', 'b']);
   });
 });

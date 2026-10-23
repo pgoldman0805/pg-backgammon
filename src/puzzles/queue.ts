@@ -72,6 +72,65 @@ export function recordAnswer(
 }
 
 /**
+ * One live drill run: the queue being walked, the current visit, and this
+ * run's counters. A "visit" is one stop at a queue index; only the visit's
+ * FIRST graded attempt counts anywhere (ticket 21) — "Try again" attempts
+ * are free practice and must leave both the run and the persisted progress
+ * untouched.
+ */
+export interface DrillRun {
+  readonly queue: readonly Puzzle[];
+  readonly index: number;
+  /** True once the current visit's first attempt has been graded. */
+  readonly graded: boolean;
+  /** Correct first attempts this run. */
+  readonly solved: number;
+  /** Graded first attempts this run. */
+  readonly answered: number;
+}
+
+/** A fresh run over the given puzzles, in drill order. */
+export function startRun(
+  puzzles: readonly Puzzle[],
+  progress: PuzzleProgressState,
+): DrillRun {
+  return {
+    queue: drillOrder(puzzles, progress),
+    index: 0,
+    graded: false,
+    solved: 0,
+    answered: 0,
+  };
+}
+
+/**
+ * Fold one graded attempt into the run. The visit's first attempt moves the
+ * counters and sends a miss to the end of this same run; any later attempt
+ * (a retry after the reveal) changes nothing.
+ */
+export function answerRun(
+  run: DrillRun,
+  puzzle: Puzzle,
+  correct: boolean,
+): DrillRun {
+  if (run.graded) {
+    return run;
+  }
+  return {
+    ...run,
+    graded: true,
+    queue: correct ? run.queue : [...run.queue, puzzle],
+    solved: run.solved + (correct ? 1 : 0),
+    answered: run.answered + 1,
+  };
+}
+
+/** Move to the next visit; its first attempt is open for grading again. */
+export function advanceRun(run: DrillRun): DrillRun {
+  return { ...run, index: run.index + 1, graded: false };
+}
+
+/**
  * The order a drill serves the given puzzles in: retry-queue members first
  * (oldest miss first), then unseen puzzles in bundle order, then
  * already-solved ones — so a drill never dead-ends.

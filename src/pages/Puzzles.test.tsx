@@ -514,6 +514,102 @@ describe('generated puzzles ("Find new puzzles", ticket 18)', () => {
   });
 });
 
+describe('try again (ticket 21: retries are free practice)', () => {
+  it('resets a play puzzle after the reveal and re-reveals on resubmit', async () => {
+    const user = userEvent.setup();
+    render(<Puzzles puzzles={basePuzzles} />);
+    const bearOff = (await screen.findByText('Bear-off')).closest('li');
+    await user.click(
+      within(bearOff as HTMLElement).getByRole('button', { name: /drill/i }),
+    );
+
+    await makeSecondBestPlay(user);
+    expect(screen.getByText(/missed/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /try again/i }));
+    // The reveal is gone and the position is back to the start of the attempt.
+    expect(
+      screen.queryByRole('table', { name: /equity/i }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Submit play' })).toBeDisabled();
+    expect(screen.getByText(/white to play 5-3/i)).toBeInTheDocument();
+
+    // A retry attempt grades and reveals again.
+    await makeBestPlay(user);
+    expect(screen.getByText(/correct/i)).toBeInTheDocument();
+    expect(screen.getByRole('table', { name: /equity/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /try again/i }),
+    ).toBeInTheDocument();
+  });
+
+  it('never lets a retry touch progress, streaks, or the retry queue', async () => {
+    const user = userEvent.setup();
+    const storage = createMemoryPuzzleProgressStorage();
+    render(<Puzzles puzzles={basePuzzles} storage={storage} />);
+    const bearOff = (await screen.findByText('Bear-off')).closest('li');
+    await user.click(
+      within(bearOff as HTMLElement).getByRole('button', { name: /drill/i }),
+    );
+
+    // First attempt misses: the id joins the retry queue.
+    await makeSecondBestPlay(user);
+    expect((await storage.load())?.retryQueue).toEqual(['play-1']);
+
+    // Try again and solve it: free practice — nothing persisted moves.
+    await user.click(screen.getByRole('button', { name: /try again/i }));
+    await makeBestPlay(user);
+    expect(screen.getByText(/correct/i)).toBeInTheDocument();
+    const persisted = await storage.load();
+    expect(persisted?.retryQueue).toEqual(['play-1']);
+    expect(persisted?.solvedIds).toEqual([]);
+    expect(persisted?.themes['bear-off']).toEqual({
+      solved: 0,
+      missed: 1,
+      streak: 0,
+    });
+
+    // The missed puzzle still returns at the end of this same drill, and
+    // the run's score counts the first attempts only.
+    await user.click(screen.getByRole('button', { name: /next puzzle/i }));
+    expect(screen.getByText(/white to play 5-3/i)).toBeInTheDocument();
+    await makeBestPlay(user);
+    await user.click(screen.getByRole('button', { name: /next puzzle/i }));
+    expect(screen.getByText(/drill complete/i)).toBeInTheDocument();
+    expect(screen.getByText(/1 of 2 right this run/i)).toBeInTheDocument();
+  });
+
+  it('resets a cube puzzle: the choice buttons return and grade again', async () => {
+    const user = userEvent.setup();
+    const storage = createMemoryPuzzleProgressStorage();
+    render(<Puzzles puzzles={basePuzzles} storage={storage} />);
+    const cube = (await screen.findByText('Cube handling')).closest('li');
+    await user.click(
+      within(cube as HTMLElement).getByRole('button', { name: /drill/i }),
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Double' }));
+    expect(screen.getByText(/correct/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /try again/i }));
+    expect(
+      screen.queryByRole('table', { name: /equity/i }),
+    ).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /no double/i }));
+
+    // The retry miss is revealed but the solve already counted stays intact.
+    expect(screen.getByText(/missed/i)).toBeInTheDocument();
+    const persisted = await storage.load();
+    expect(persisted?.solvedIds).toEqual(['cube-1']);
+    expect(persisted?.retryQueue).toEqual([]);
+    expect(persisted?.themes['cube-handling']).toEqual({
+      solved: 1,
+      missed: 0,
+      streak: 1,
+    });
+  });
+});
+
 describe('progress', () => {
   it('persists per-theme progress across a reload', async () => {
     const user = userEvent.setup();

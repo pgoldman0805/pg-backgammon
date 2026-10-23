@@ -502,26 +502,42 @@ test('visual audit: every area, both themes, desktop and tablet', async ({
   await expect(page.locator('.puzzle-prompt')).toBeVisible();
   await shoot(page, 'puzzles-drill');
 
-  const submit = page.getByRole('button', { name: 'Submit play' });
-  if (await submit.isVisible().catch(() => false)) {
-    const answerDeadline = Date.now() + 30_000;
-    while (
-      Date.now() < answerDeadline &&
-      !(await submit.isEnabled().catch(() => false))
-    ) {
-      if (!(await moveOnce(page))) {
-        await page.waitForTimeout(100);
+  async function answerCurrentPuzzle(): Promise<void> {
+    const submit = page.getByRole('button', { name: 'Submit play' });
+    if (await submit.isVisible().catch(() => false)) {
+      const answerDeadline = Date.now() + 30_000;
+      while (
+        Date.now() < answerDeadline &&
+        !(await submit.isEnabled().catch(() => false))
+      ) {
+        if (!(await moveOnce(page))) {
+          await page.waitForTimeout(100);
+        }
       }
+      await submit.click();
+    } else {
+      await page
+        .getByRole('button', { name: /^(Double|No double — roll|Take|Pass)$/ })
+        .first()
+        .click();
     }
-    await submit.click();
-  } else {
-    await page
-      .getByRole('button', { name: /^(Double|No double — roll|Take|Pass)$/ })
-      .first()
-      .click();
+    await expect(
+      page.getByRole('table', { name: 'Equity table' }),
+    ).toBeVisible();
   }
-  await expect(page.getByRole('table', { name: 'Equity table' })).toBeVisible();
+
+  await answerCurrentPuzzle();
   await shoot(page, 'puzzles-equity-table');
+
+  // Ticket 21: "Try again" resets the attempt (free practice), and the
+  // reveal — the side panel at desktop width — comes back after the retry
+  // is submitted.
+  await page.getByRole('button', { name: 'Try again' }).click();
+  await expect(
+    page.getByRole('table', { name: 'Equity table' }),
+  ).not.toBeVisible();
+  await answerCurrentPuzzle();
+  await shoot(page, 'puzzles-drill-retry');
 
   // --- Progress: charts over the seeded history ---------------------------
   await page.getByRole('link', { name: 'Progress' }).click();

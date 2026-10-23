@@ -34,9 +34,13 @@
   --board-gold-soft: rgba(240, 180, 41, 0.24);
 }
 
-/* The Play page needs the full shell width; other pages keep their measure. */
+/* The Play page needs the full shell width; other pages keep their measure.
+   Ticket 21 (board prominence): the cap grew 1120px → 1380px and the board
+   pages trade shell padding for board height — the board is the page. */
 .shell-main:has(.play-area) {
-  max-width: 1120px;
+  max-width: 1380px;
+  padding-top: 1.25rem;
+  padding-bottom: 1.5rem;
 }
 
 .play-area h1 {
@@ -181,8 +185,10 @@
   width: 100%;
   height: auto;
   /* Keep board, HUD and controls visible together on short viewports;
-     preserveAspectRatio centers the letterboxed content. */
-  max-height: max(420px, calc(100vh - 270px));
+     preserveAspectRatio centers the letterboxed content. The 240px reserve
+     covers the shell header, the trimmed page padding, the h1 and the
+     mid-game HUD (measured ~235px above the board at desktop). */
+  max-height: max(460px, calc(100vh - 240px));
 }
 
 .board-frame {
@@ -207,7 +213,9 @@
 
 .point-number {
   fill: var(--point-number);
-  font-size: 13px;
+  /* Ticket 21: 13px → 19px in SVG units so the 1-24 ring reads at a glance;
+     the muted --point-number color keeps it unobtrusive. */
+  font-size: 19px;
   text-anchor: middle;
   user-select: none;
 }

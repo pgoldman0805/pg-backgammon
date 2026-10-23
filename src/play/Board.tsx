@@ -595,12 +595,12 @@ export function Board({
         />
       ))}
 
-      {/* Point numbers on the frame */}
+      {/* Point numbers on the frame (baselines sized for the 19px type) */}
       {Array.from({ length: 24 }, (_, i) => i + 1).map((p) => (
         <text
           key={p}
           x={pointAnchorX(p) + BOARD.pointWidth / 2}
-          y={isTopRow(p) ? BOARD.frame - 7 : BOARD.height - BOARD.frame + 17}
+          y={isTopRow(p) ? BOARD.frame - 5 : BOARD.height - BOARD.frame + 19}
           className="point-number"
         >
           {p}
