@@ -55,6 +55,32 @@ describe('navigation shell', () => {
   });
 });
 
+describe('reload during a game', () => {
+  it('boots cleanly back to the Play setup after a mid-game reload', async () => {
+    const user = userEvent.setup();
+    const firstVisit = render(<App />);
+
+    await user.click(screen.getByRole('button', { name: 'Play as White' }));
+    // A game is now in progress: the setup card is gone.
+    expect(
+      screen.queryByRole('button', { name: 'Play as White' }),
+    ).not.toBeInTheDocument();
+
+    // Simulate a refresh: tear the tree down and boot a fresh one.
+    // (Resume itself lands in ticket 07; this guards boot sanity.)
+    firstVisit.unmount();
+    render(<App />);
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Play' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Play as White' }),
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText('White pip count')).toHaveTextContent('167');
+  });
+});
+
 describe('theme', () => {
   beforeEach(() => {
     localStorage.clear();

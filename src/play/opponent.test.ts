@@ -9,6 +9,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { createFakeEngine, type Engine } from '../engine';
 import { createBoard, createGame, createSeededDice } from '../rules';
 import { scriptedDice } from '../test/dice';
+import { gatedEngine } from '../test/engine';
 import { createEngineOpponent } from './opponent';
 import {
   canCommit,
@@ -40,22 +41,6 @@ function blackToOpen() {
   });
 }
 
-/** A fake engine whose rankPlays waits until the test releases it. */
-function gatedEngine(): Engine & { release: () => void } {
-  const fake = createFakeEngine();
-  let open: () => void = () => {};
-  const gate = new Promise<void>((resolve) => {
-    open = resolve;
-  });
-  return {
-    ...fake,
-    async rankPlays(position, roll, options) {
-      await gate;
-      return fake.rankPlays(position, roll, options);
-    },
-    release: () => open(),
-  };
-}
 
 describe('engine turn', () => {
   it("plays the engine's top-ranked play and commits, passing the turn", async () => {
