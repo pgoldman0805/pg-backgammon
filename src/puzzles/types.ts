@@ -19,8 +19,12 @@ export const PUZZLE_THEMES = [
 
 export type PuzzleTheme = (typeof PUZZLE_THEMES)[number];
 
-/** Curated ships with the app; blunder puzzles are mined (ticket 12). */
-export type PuzzleSource = 'curated' | 'blunder';
+/**
+ * Curated ships with the app; blunder puzzles are mined from the player's
+ * analyzed games (ticket 12); generated puzzles come from in-app self-play
+ * mining (ticket 18).
+ */
+export type PuzzleSource = 'curated' | 'blunder' | 'generated';
 
 /** Where a blunder puzzle came from in the player's own games (ticket 12). */
 export interface PuzzleOrigin {
