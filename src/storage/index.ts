@@ -11,9 +11,22 @@ export {
   parseBackup,
   serializeBackup,
 } from './backup';
+export {
+  type BlunderPuzzleStorage,
+  createIndexedDbBlunderPuzzleStorage,
+  createMemoryBlunderPuzzleStorage,
+  getBlunderPuzzleStorage,
+  isBlunderPuzzle,
+  type MinedMatchStamps,
+} from './blunderPuzzles';
 export { createIndexedDbStorage, type IndexedDbStorageOptions } from './idb';
-export { getMatchStorage } from './instance';
+export { getMatchStorage, getObservableMatchStorage } from './instance';
 export { createMemoryStorage } from './memory';
+export {
+  createObservableMatchStorage,
+  type MatchPutEvents,
+  type ObservableMatchStorage,
+} from './observe';
 export {
   createMatchPersister,
   type MatchPersister,

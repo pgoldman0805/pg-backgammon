@@ -1,0 +1,316 @@
+/* Progress: the training log. The shell's paper/ink/green language —
+   hairline rules as structure, data as the only loud element. Series colors
+   are validated chart steps of the app's own hues (dataviz six checks pass
+   on both surfaces): the error-rate line in the accent's green, blunder
+   bars in the review's blunder rust, so "blunder" wears the same color in
+   Analyze and Progress. */
+
+.progress-area {
+  --series-rate: #0e7a4e;
+  --series-blunder: #a2402c;
+  display: grid;
+  gap: 1.5rem;
+  justify-items: start;
+}
+
+:root[data-theme="dark"] .progress-area {
+  --series-rate: #27a874;
+  --series-blunder: #cd5f3b;
+}
+
+.progress-area h1 {
+  font-size: 1.1rem;
+  margin-bottom: 0;
+  color: var(--ink-muted);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* ------------------------------------------------------------------ */
+/* Aggregates: a ruled strip, not cards (cf. Analyze's review-summary)  */
+/* ------------------------------------------------------------------ */
+
+.progress-stats {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 3rem;
+  row-gap: 0.75rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.stat {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+.stat-value {
+  font-size: 1.7rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  /* Large standalone numbers read better with proportional figures. */
+  font-variant-numeric: normal;
+}
+
+.stat-hint {
+  flex-basis: 100%;
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+}
+
+/* The exclusion rule, stated before the data it shapes. */
+.progress-note {
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--line);
+}
+
+/* ------------------------------------------------------------------ */
+/* Charts                                                               */
+/* ------------------------------------------------------------------ */
+
+.progress-chart {
+  width: 100%;
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.progress-chart h2 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: -0.005em;
+  line-height: 1.3;
+}
+
+.chart-subtitle {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+.chart-plot {
+  position: relative;
+  width: 100%;
+}
+
+.chart-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Recessive chrome: solid hairlines one step off the surface. */
+.chart-grid {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.chart-baseline {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.chart-tick {
+  fill: var(--ink-muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-end-label {
+  fill: var(--ink);
+  font-size: 11.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-crosshair {
+  stroke: var(--ink-muted);
+  stroke-width: 1;
+  opacity: 0.6;
+}
+
+/* The error-rate line: 2px, round joins; dots carry a 2px surface ring.
+   A hollow dot is the exclusion mark — part of that match was tutor-
+   assisted (shape, not color, carries it). */
+.rate-line {
+  fill: none;
+  stroke: var(--series-rate);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.rate-dot {
+  fill: var(--series-rate);
+  stroke: var(--bg);
+  stroke-width: 2;
+}
+
+.rate-dot--partial {
+  fill: var(--bg);
+  stroke: var(--series-rate);
+}
+
+.blunder-bar {
+  fill: var(--series-blunder);
+}
+
+.blunder-bar--active {
+  filter: brightness(1.18);
+}
+
+/* The hit layer: one transparent button per match, full plot height, wider
+   than the mark it covers (the hover/focus/tap target). */
+.chart-hits {
+  position: absolute;
+  inset: 0;
+}
+
+.chart-hit {
+  position: absolute;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.chart-hit:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* Tooltip: an HTML overlay above the active point. Values lead. */
+.chart-tooltip {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - 10px));
+  min-width: 11rem;
+  max-width: 16rem;
+  padding: 0.45rem 0.65rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.tooltip-when {
+  color: var(--ink-muted);
+}
+
+.tooltip-value {
+  color: var(--ink);
+}
+
+.tooltip-value strong {
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.tooltip-detail {
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.tooltip-note {
+  color: var(--ink-muted);
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------------ */
+/* The table view: every plotted number, reachable without a pointer    */
+/* ------------------------------------------------------------------ */
+
+.progress-table {
+  width: 100%;
+}
+
+.progress-table summary {
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  width: fit-content;
+}
+
+.progress-table summary:hover {
+  color: var(--ink);
+}
+
+.progress-table table {
+  width: 100%;
+  margin-top: 0.75rem;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.progress-table th,
+.progress-table td {
+  text-align: left;
+  padding: 0.4rem 0.75rem 0.4rem 0;
+  border-bottom: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Dates and counts stay on one line; only the match name may wrap. */
+.progress-table td {
+  white-space: nowrap;
+}
+
+.progress-table thead th {
+  font-weight: 600;
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+}
+
+.progress-table tbody th {
+  font-weight: 400;
+  color: var(--ink);
+}
+
+/* ------------------------------------------------------------------ */
+/* Empty state: an invitation to act                                    */
+/* ------------------------------------------------------------------ */
+
+.progress-empty {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+  max-width: 48ch;
+}
+
+.progress-empty-lead {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.progress-empty-link {
+  margin-top: 0.25rem;
+  padding: 0.45rem 1rem;
+  color: var(--bg);
+  background: var(--accent);
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.progress-empty-link:hover {
+  filter: brightness(1.08);
+}
+
+@media (max-width: 640px) {
+  .progress-stats {
+    column-gap: 1.75rem;
+  }
+}

@@ -4,7 +4,10 @@
  * decisions), get graded against the stored engine answers — within 0.02 of
  * best counts — and learn from the revealed equity table. Missed puzzles
  * join a retry queue that resurfaces before new ones; per-theme progress
- * persists in IndexedDB. No live engine is needed anywhere on this page.
+ * persists in IndexedDB. Blunder puzzles mined from the player's own
+ * analyzed games (ticket 12) appear as their own "From your games"
+ * collection, badge-marked and drillable through the same player. No live
+ * engine is needed anywhere on this page.
  */
 
 import { useEffect, useMemo, useState } from 'react';
@@ -17,6 +20,7 @@ import {
   gradePlayAttempt,
   type PlayGrade,
 } from '../puzzles/grade';
+import { getBlunderMiningService } from '../puzzles/miningInstance';
 import {
   drillOrder,
   emptyProgress,
@@ -42,11 +46,15 @@ import {
   undoTurnMovement,
 } from '../rules';
 import {
+  type BlunderPuzzleStorage,
+  getBlunderPuzzleStorage,
   getPuzzleProgressStorage,
   type PuzzleProgressStorage,
 } from '../storage';
 import '../play/board.css';
 import './puzzles.css';
+
+const BLUNDER_COLLECTION_LABEL = 'From your games';
 
 const THEME_TEXT: Record<PuzzleTheme, { label: string; blurb: string }> = {
   priming: {
@@ -123,8 +131,14 @@ interface Outcome {
   readonly summary: string;
 }
 
+/** What a drill runs over: one theme's curated set, or the mined blunders. */
+interface DrillCollection {
+  readonly label: string;
+  readonly puzzles: readonly Puzzle[];
+}
+
 interface Session {
-  readonly theme: PuzzleTheme;
+  readonly collection: DrillCollection;
   readonly queue: readonly Puzzle[];
   readonly index: number;
   /** Ids that were waiting in the retry queue when the drill began. */
@@ -156,16 +170,29 @@ export interface PuzzlesProps {
   puzzles?: readonly Puzzle[];
   /** Injectable for tests; defaults to the shared IndexedDB storage. */
   storage?: PuzzleProgressStorage;
+  /** Injectable for tests; defaults to the shared blunder-puzzle storage. */
+  blunderStorage?: BlunderPuzzleStorage;
+  /** Injectable for tests; defaults to the shared miner. Null disables. */
+  mining?: { catchUp(): Promise<void> } | null;
 }
 
 export function Puzzles({
   puzzles = CURATED_PUZZLES,
   storage: injectedStorage,
+  blunderStorage: injectedBlunderStorage,
+  mining: injectedMining,
 }: PuzzlesProps = {}) {
   const [storage] = useState(
     () => injectedStorage ?? getPuzzleProgressStorage(),
   );
+  const [blunderStorage] = useState(
+    () => injectedBlunderStorage ?? getBlunderPuzzleStorage(),
+  );
+  const [mining] = useState(() =>
+    injectedMining === undefined ? getBlunderMiningService() : injectedMining,
+  );
   const [progress, setProgress] = useState<PuzzleProgressState | null>(null);
+  const [blunderPuzzles, setBlunderPuzzles] = useState<readonly Puzzle[]>([]);
   const [session, setSession] = useState<Session | null>(null);
   const [game, setGame] = useState<GameState | null>(null);
   const [selected, setSelected] = useState<Point | 'bar' | null>(null);
@@ -190,6 +217,36 @@ export function Puzzles({
     };
   }, [storage]);
 
+  // Mined blunder puzzles: show what is stored, then sweep for anything
+  // analyzed-but-unmined (pre-existing history gains puzzles) and refresh.
+  useEffect(() => {
+    let alive = true;
+    const refresh = () =>
+      blunderStorage
+        .list()
+        .then((list) => {
+          if (alive) {
+            setBlunderPuzzles((current) =>
+              current.length === list.length &&
+              current.every((puzzle, i) => puzzle.id === list[i].id)
+                ? current
+                : list,
+            );
+          }
+        })
+        .catch(() => {});
+    void refresh();
+    if (mining) {
+      mining
+        .catchUp()
+        .then(refresh)
+        .catch(() => {});
+    }
+    return () => {
+      alive = false;
+    };
+  }, [blunderStorage, mining]);
+
   const byTheme = useMemo(() => {
     const groups = new Map<PuzzleTheme, Puzzle[]>();
     for (const theme of PUZZLE_THEMES) {
@@ -205,16 +262,16 @@ export function Puzzles({
     ? (session.queue[session.index] ?? null)
     : null;
 
-  function startDrill(theme: PuzzleTheme): void {
+  function startDrill(collection: DrillCollection): void {
     if (!progress) {
       return;
     }
-    const queue = drillOrder(byTheme.get(theme) ?? [], progress);
+    const queue = drillOrder(collection.puzzles, progress);
     if (queue.length === 0) {
       return;
     }
     setSession({
-      theme,
+      collection,
       queue,
       index: 0,
       retryIds: new Set(progress.retryQueue),
@@ -225,6 +282,18 @@ export function Puzzles({
     setSelected(null);
     setOutcome(null);
   }
+
+  function themeCollection(theme: PuzzleTheme): DrillCollection {
+    return {
+      label: THEME_TEXT[theme].label,
+      puzzles: byTheme.get(theme) ?? [],
+    };
+  }
+
+  const blunderCollection: DrillCollection = {
+    label: BLUNDER_COLLECTION_LABEL,
+    puzzles: blunderPuzzles,
+  };
 
   function leaveDrill(): void {
     setSession(null);
@@ -361,13 +430,41 @@ export function Puzzles({
                   className="play-button play-button--primary"
                   aria-label={`Drill ${THEME_TEXT[theme].label}`}
                   disabled={set.length === 0}
-                  onClick={() => startDrill(theme)}
+                  onClick={() => startDrill(themeCollection(theme))}
                 >
                   Drill
                 </button>
               </li>
             );
           })}
+        </ul>
+        <ul className="theme-ledger">
+          <li className="theme-row theme-row--blunder">
+            <div className="theme-text">
+              <span className="theme-name">{BLUNDER_COLLECTION_LABEL}</span>
+              <span className="theme-blurb">
+                {blunderPuzzles.length === 0
+                  ? 'Blunders from your analyzed matches will appear here — finish a game and drill exactly what went wrong.'
+                  : 'Positions you blundered in your own analyzed matches.'}
+              </span>
+            </div>
+            <div className="theme-meta">
+              <span className="theme-count">
+                {blunderPuzzles.length === 1
+                  ? '1 puzzle'
+                  : `${blunderPuzzles.length} puzzles`}
+              </span>
+            </div>
+            <button
+              type="button"
+              className="play-button play-button--primary"
+              aria-label={`Drill ${BLUNDER_COLLECTION_LABEL}`}
+              disabled={blunderPuzzles.length === 0}
+              onClick={() => startDrill(blunderCollection)}
+            >
+              Drill
+            </button>
+          </li>
         </ul>
       </section>
     );
@@ -381,14 +478,14 @@ export function Puzzles({
         <div className="drill-complete">
           <p className="drill-complete-title">Drill complete</p>
           <p className="puzzles-note">
-            {THEME_TEXT[session.theme].label}: {session.solvedThisRun} of{' '}
+            {session.collection.label}: {session.solvedThisRun} of{' '}
             {session.answeredThisRun} right this run.
           </p>
           <div className="puzzle-controls">
             <button
               type="button"
               className="play-button play-button--primary"
-              onClick={() => startDrill(session.theme)}
+              onClick={() => startDrill(session.collection)}
             >
               Go again
             </button>
@@ -519,6 +616,9 @@ export function Puzzles({
       <div className="puzzle-hud">
         <p className="puzzle-prompt" role="status">
           {prompt}
+          {current.source === 'blunder' && (
+            <span className="source-badge">{BLUNDER_COLLECTION_LABEL}</span>
+          )}
           {servedFromRetry && <span className="retry-chip">Retry</span>}
         </p>
         <p className="puzzle-caption">

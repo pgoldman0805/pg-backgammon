@@ -49,11 +49,44 @@ function rankChoices(
     .sort((a, b) => a.equityLoss - b.equityLoss);
 }
 
+/** The three cubeful equities, always from the potential doubler's side. */
+export interface CubefulEquities {
+  readonly noDouble: number;
+  readonly doubleTake: number;
+  readonly doublePass: number;
+}
+
+/**
+ * The hero's cube choices from the doubler-perspective equities. For an
+ * 'offer' the hero is the doubler, and doubling assumes the opponent picks
+ * their better response; for a 'response' the hero is the player doubled, so
+ * equities negate. Shared by the curated miner (via {@link deriveCubeChoices})
+ * and ticket 12's blunder miner, whose analysis rows store exactly these
+ * three numbers.
+ */
+export function cubeChoicesFromEquities(
+  equities: CubefulEquities,
+  decision: 'offer' | 'response',
+): CubeChoice[] {
+  if (decision === 'offer') {
+    return rankChoices([
+      // The opponent responds with whichever reply hurts the doubler more.
+      {
+        action: 'double',
+        equity: Math.min(equities.doubleTake, equities.doublePass),
+      },
+      { action: 'no-double', equity: equities.noDouble },
+    ]);
+  }
+  return rankChoices([
+    { action: 'take', equity: round(-equities.doubleTake) },
+    { action: 'pass', equity: round(-equities.doublePass) },
+  ]);
+}
+
 /**
  * Turn a gnubg cube analysis (always from the potential doubler's
- * perspective) into the hero's two choices. For an 'offer' the hero is the
- * doubler, and doubling assumes the opponent picks their better response;
- * for a 'response' the hero is the player doubled, so equities negate.
+ * perspective) into the hero's two choices and the engine verdict.
  */
 export function deriveCubeChoices(
   analysis: CubeAnalysis,
@@ -71,23 +104,16 @@ export function deriveCubeChoices(
         .join(', ')}`,
     );
   }
-  const verdict = analysis.properAction;
-  if (decision === 'offer') {
-    return {
-      choices: rankChoices([
-        // The opponent responds with whichever reply hurts the doubler more.
-        { action: 'double', equity: Math.min(take.equity, pass.equity) },
-        { action: 'no-double', equity: noDouble.equity },
-      ]),
-      verdict,
-    };
-  }
   return {
-    choices: rankChoices([
-      { action: 'take', equity: round(-take.equity) },
-      { action: 'pass', equity: round(-pass.equity) },
-    ]),
-    verdict,
+    choices: cubeChoicesFromEquities(
+      {
+        noDouble: noDouble.equity,
+        doubleTake: take.equity,
+        doublePass: pass.equity,
+      },
+      decision,
+    ),
+    verdict: analysis.properAction,
   };
 }
 

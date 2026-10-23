@@ -66,12 +66,22 @@ export interface MatchAnalyzer {
   ): Promise<MatchAnalysis>;
   /**
    * Analyze one bare position at user priority: the ranked plays when dice
-   * are given, the cube decision otherwise (the position-viewer seam).
+   * are given, the cube decision otherwise (the position-viewer seam,
+   * ticket 10).
    */
   analyzePosition(
     position: EnginePosition,
     roll: DiceRoll | null,
   ): Promise<PositionAnalysis>;
+  /**
+   * One full-strength ranking through the shared gate — ticket 12's blunder
+   * miner completes play answer tables with it at background priority.
+   */
+  rankPlays(
+    position: EnginePosition,
+    roll: DiceRoll,
+    priority?: AnalysisPriority,
+  ): Promise<readonly RankedPlay[]>;
 }
 
 export interface MatchAnalyzerOptions {
@@ -183,6 +193,10 @@ export function createMatchAnalyzer(
         return { kind: 'plays', plays: await gated.rankPlays(position, roll) };
       }
       return { kind: 'cube', cube: await gated.cubeInfo(position) };
+    },
+
+    rankPlays(position, roll, priority = 'background') {
+      return gatedEngine(priority).rankPlays(position, roll);
     },
   };
 }
