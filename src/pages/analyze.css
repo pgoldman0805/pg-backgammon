@@ -11,10 +11,13 @@
 }
 
 /* An open review spreads its two panes across the full shell width (the
-   same rule the Play board uses); the history ledger and the position
-   viewer keep their reading measure. */
+   same rule the Play board uses — 1380px with trimmed padding since
+   ticket 21's board-prominence pass); the history ledger keeps its
+   reading measure. */
 .shell-main:has(.match-view) {
-  max-width: 1120px;
+  max-width: 1380px;
+  padding-top: 1.25rem;
+  padding-bottom: 1.5rem;
 }
 
 .analyze-note {
@@ -385,7 +388,9 @@
 .review-position {
   margin: 0;
   width: 100%;
-  max-width: 640px;
+  /* Ticket 21: 640px → 840px so the review board matches the app's new
+     board prominence; the viewport-height cap in board.css still governs. */
+  max-width: 840px;
 }
 
 .review-position figcaption {
@@ -398,7 +403,7 @@
 .decision-detail {
   display: grid;
   gap: 0.6rem;
-  max-width: 640px;
+  max-width: 840px;
 }
 
 .detail-header {
@@ -562,7 +567,8 @@
   margin-top: 2rem;
   padding-top: 1rem;
   border-top: 1px solid var(--line);
-  max-width: 560px;
+  /* Ticket 21: 560px → 840px — the pasted position deserves board scale. */
+  max-width: 840px;
 }
 
 .viewer-title {

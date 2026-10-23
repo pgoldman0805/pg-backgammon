@@ -29,10 +29,13 @@ import {
 } from '../puzzles/grade';
 import { getBlunderMiningService } from '../puzzles/miningInstance';
 import {
-  drillOrder,
+  advanceRun,
+  answerRun,
+  type DrillRun,
   emptyProgress,
   type PuzzleProgressState,
   recordAnswer,
+  startRun,
   themeProgress,
 } from '../puzzles/queue';
 import type {
@@ -138,12 +141,10 @@ interface DrillCollection {
 /** One drill: a run through a collection's queue, as the UI names it. */
 interface Drill {
   readonly collection: DrillCollection;
-  readonly queue: readonly Puzzle[];
-  readonly index: number;
   /** Ids that were waiting in the retry queue when the drill began. */
   readonly retryIds: ReadonlySet<string>;
-  readonly solvedThisRun: number;
-  readonly answeredThisRun: number;
+  /** The pure run state: queue, visit index, first-attempt counters. */
+  readonly run: DrillRun;
 }
 
 function playSummary(grade: PlayGrade): string {
@@ -356,26 +357,23 @@ export function Puzzles({
   }, [puzzles, generatedPuzzles]);
 
   const current: Puzzle | null = drill
-    ? (drill.queue[drill.index] ?? null)
+    ? (drill.run.queue[drill.run.index] ?? null)
     : null;
 
   function startDrill(collection: DrillCollection): void {
     if (!progress) {
       return;
     }
-    const queue = drillOrder(collection.puzzles, progress);
-    if (queue.length === 0) {
+    const run = startRun(collection.puzzles, progress);
+    if (run.queue.length === 0) {
       return;
     }
     setDrill({
       collection,
-      queue,
-      index: 0,
       retryIds: new Set(progress.retryQueue),
-      solvedThisRun: 0,
-      answeredThisRun: 0,
+      run,
     });
-    setGame(freshAttempt(queue[0]));
+    setGame(freshAttempt(run.queue[0]));
     setSelected(null);
     setOutcome(null);
   }
@@ -399,7 +397,12 @@ export function Puzzles({
     setSelected(null);
   }
 
-  /** Fold one answer into progress and the drill; failures never break play. */
+  /**
+   * Fold one answer into progress and the drill; failures never break play.
+   * Only the visit's first attempt counts (ticket 21): retries after the
+   * reveal grade and reveal again, but neither the persisted progress nor
+   * the run moves.
+   */
   function settle(
     puzzle: Puzzle,
     correct: boolean,
@@ -408,16 +411,12 @@ export function Puzzles({
     if (!progress || !drill) {
       return;
     }
-    const next = recordAnswer(progress, puzzle, correct, Date.now());
-    setProgress(next);
-    storage.save(next).catch(() => {});
-    setDrill({
-      ...drill,
-      // A miss returns at the end of this same drill.
-      queue: correct ? drill.queue : [...drill.queue, puzzle],
-      solvedThisRun: drill.solvedThisRun + (correct ? 1 : 0),
-      answeredThisRun: drill.answeredThisRun + 1,
-    });
+    if (!drill.run.graded) {
+      const next = recordAnswer(progress, puzzle, correct, Date.now());
+      setProgress(next);
+      storage.save(next).catch(() => {});
+    }
+    setDrill({ ...drill, run: answerRun(drill.run, puzzle, correct) });
     setOutcome(outcomeNext);
   }
 
@@ -451,10 +450,21 @@ export function Puzzles({
     if (!drill) {
       return;
     }
-    const index = drill.index + 1;
-    setDrill({ ...drill, index });
-    const upcoming = drill.queue[index] ?? null;
+    const run = advanceRun(drill.run);
+    setDrill({ ...drill, run });
+    const upcoming = run.queue[run.index] ?? null;
     setGame(upcoming ? freshAttempt(upcoming) : null);
+    setSelected(null);
+    setOutcome(null);
+  }
+
+  /** Another free attempt at the same puzzle (ticket 21): the position and
+      question reset; the first attempt of this visit has already counted. */
+  function tryAgain(): void {
+    if (!current) {
+      return;
+    }
+    setGame(freshAttempt(current));
     setSelected(null);
     setOutcome(null);
   }
@@ -623,8 +633,8 @@ export function Puzzles({
         <div className="drill-complete">
           <p className="drill-complete-title">Drill complete</p>
           <p className="puzzles-note">
-            {drill.collection.label}: {drill.solvedThisRun} of{' '}
-            {drill.answeredThisRun} right this run.
+            {drill.collection.label}: {drill.run.solved} of {drill.run.answered}{' '}
+            right this run.
           </p>
           <div className="puzzle-controls">
             <button
@@ -657,80 +667,17 @@ export function Puzzles({
   const servedFromRetry = drill.retryIds.has(current.id);
   const answered = outcome !== null;
 
-  const equityTable = answered && (
-    <div className="equity-reveal">
+  // The post-answer reveal: a panel beside the board at desktop width
+  // (ticket 21), below it at the narrow breakpoint. The verdict and the
+  // controls stay in reach; the long equity tables scroll inside the panel.
+  const reveal = answered && (
+    <aside className="puzzle-reveal" aria-label="Answer reveal">
       <p
         className={`puzzle-verdict ${outcome.correct ? 'puzzle-verdict--correct' : 'puzzle-verdict--missed'}`}
         role="status"
       >
         {outcome.summary}
       </p>
-      <table className="equity-table" aria-label="Equity table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">{isPlay ? 'Play' : 'Action'}</th>
-            <th scope="col">Equity</th>
-            <th scope="col">Loss</th>
-            <th scope="col">
-              <span className="visually-hidden">Markers</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {isPlay
-            ? (current as PlayPuzzle).answers.map((answer) => {
-                const you = answer.finalKey === outcome.chosenKey;
-                const bestRow = answer.finalKey === outcome.bestKey;
-                return (
-                  <tr
-                    key={answer.finalKey}
-                    className={
-                      you && !outcome.correct ? 'equity-row--missed' : ''
-                    }
-                  >
-                    <td>{answer.rank}</td>
-                    <td className="equity-move">{answer.moveText}</td>
-                    <td className="equity-number">
-                      {signedEquityText(answer.equity)}
-                    </td>
-                    <td className="equity-number">
-                      {lossText(answer.equityLoss)}
-                    </td>
-                    <td className="equity-markers">
-                      {bestRow && <span className="marker-best">Best</span>}
-                      {you && <span className="marker-you">You</span>}
-                    </td>
-                  </tr>
-                );
-              })
-            : (current as CubePuzzle).choices.map((choice, index) => {
-                const you = choice.action === outcome.chosenKey;
-                const bestRow = choice.action === outcome.bestKey;
-                return (
-                  <tr
-                    key={choice.action}
-                    className={
-                      you && !outcome.correct ? 'equity-row--missed' : ''
-                    }
-                  >
-                    <td>{index + 1}</td>
-                    <td className="equity-move">{CUBE_LABEL[choice.action]}</td>
-                    <td className="equity-number">
-                      {signedEquityText(choice.equity)}
-                    </td>
-                    <td className="equity-number">
-                      {lossText(choice.equityLoss)}
-                    </td>
-                    <td className="equity-markers">
-                      {bestRow && <span className="marker-best">Best</span>}
-                      {you && <span className="marker-you">You</span>}
-                    </td>
-                  </tr>
-                );
-              })}
-        </tbody>
-      </table>
       {!isPlay && (
         <p className="puzzles-note">
           Engine verdict: {(current as CubePuzzle).verdict}.
@@ -744,6 +691,9 @@ export function Puzzles({
         >
           Next puzzle
         </button>
+        <button type="button" className="play-button" onClick={tryAgain}>
+          Try again
+        </button>
         <button
           type="button"
           className="play-button play-button--quiet"
@@ -751,102 +701,181 @@ export function Puzzles({
         >
           All themes
         </button>
+        <span className="retry-free-note">
+          Retries don't count toward progress.
+        </span>
       </div>
-    </div>
+      <div className="equity-scroll">
+        <table className="equity-table" aria-label="Equity table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">{isPlay ? 'Play' : 'Action'}</th>
+              <th scope="col">Equity</th>
+              <th scope="col">Loss</th>
+              <th scope="col">
+                <span className="visually-hidden">Markers</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {isPlay
+              ? (current as PlayPuzzle).answers.map((answer) => {
+                  const you = answer.finalKey === outcome.chosenKey;
+                  const bestRow = answer.finalKey === outcome.bestKey;
+                  return (
+                    <tr
+                      key={answer.finalKey}
+                      className={
+                        you && !outcome.correct ? 'equity-row--missed' : ''
+                      }
+                    >
+                      <td>{answer.rank}</td>
+                      <td className="equity-move">{answer.moveText}</td>
+                      <td className="equity-number">
+                        {signedEquityText(answer.equity)}
+                      </td>
+                      <td className="equity-number">
+                        {lossText(answer.equityLoss)}
+                      </td>
+                      <td className="equity-markers">
+                        {bestRow && <span className="marker-best">Best</span>}
+                        {you && <span className="marker-you">You</span>}
+                      </td>
+                    </tr>
+                  );
+                })
+              : (current as CubePuzzle).choices.map((choice, index) => {
+                  const you = choice.action === outcome.chosenKey;
+                  const bestRow = choice.action === outcome.bestKey;
+                  return (
+                    <tr
+                      key={choice.action}
+                      className={
+                        you && !outcome.correct ? 'equity-row--missed' : ''
+                      }
+                    >
+                      <td>{index + 1}</td>
+                      <td className="equity-move">
+                        {CUBE_LABEL[choice.action]}
+                      </td>
+                      <td className="equity-number">
+                        {signedEquityText(choice.equity)}
+                      </td>
+                      <td className="equity-number">
+                        {lossText(choice.equityLoss)}
+                      </td>
+                      <td className="equity-markers">
+                        {bestRow && <span className="marker-best">Best</span>}
+                        {you && <span className="marker-you">You</span>}
+                      </td>
+                    </tr>
+                  );
+                })}
+          </tbody>
+        </table>
+      </div>
+    </aside>
   );
 
   return (
     <section className="puzzles-area">
       <h1>Puzzles</h1>
-      <div className="puzzle-hud">
-        <p className="puzzle-prompt" role="status">
-          {prompt}
-          {current.source === 'blunder' && (
-            <span className="source-badge">{BLUNDER_COLLECTION_LABEL}</span>
-          )}
-          {current.source === 'generated' && (
-            <span className="source-badge">Generated</span>
-          )}
-          {servedFromRetry && <span className="retry-chip">Retry</span>}
-        </p>
-        <p className="puzzle-caption">
-          {THEME_TEXT[current.theme].label} · puzzle {drill.index + 1} of{' '}
-          {drill.queue.length}
-        </p>
-      </div>
-      <div className="puzzle-board">
-        <Board
-          game={game}
-          selected={selected}
-          onSelect={setSelected}
-          onMove={onMove}
-          cube={{
-            value: current.match.cube.value,
-            owner: current.match.cube.owner,
-          }}
-          interactive={isPlay && !answered}
-        />
-      </div>
-      {!answered && isPlay && (
-        <div className="puzzle-controls">
-          <button
-            type="button"
-            className="play-button"
-            disabled={!canUndo(game)}
-            onClick={undo}
-          >
-            Undo
-          </button>
-          <button
-            type="button"
-            className="play-button"
-            disabled={!canUndo(game)}
-            onClick={reset}
-          >
-            Reset
-          </button>
-          <button
-            type="button"
-            className="play-button play-button--primary"
-            disabled={!canCommit(game)}
-            onClick={submitPlay}
-          >
-            Submit play
-          </button>
-          <button
-            type="button"
-            className="play-button play-button--quiet"
-            onClick={leaveDrill}
-          >
-            All themes
-          </button>
+      <div className="puzzle-drill">
+        <div className="puzzle-hud">
+          <p className="puzzle-prompt" role="status">
+            {prompt}
+            {current.source === 'blunder' && (
+              <span className="source-badge">{BLUNDER_COLLECTION_LABEL}</span>
+            )}
+            {current.source === 'generated' && (
+              <span className="source-badge">Generated</span>
+            )}
+            {servedFromRetry && <span className="retry-chip">Retry</span>}
+          </p>
+          <p className="puzzle-caption">
+            {THEME_TEXT[current.theme].label} · puzzle {drill.run.index + 1} of{' '}
+            {drill.run.queue.length}
+          </p>
         </div>
-      )}
-      {!answered && !isPlay && (
-        <div className="puzzle-controls">
-          {((current as CubePuzzle).decision === 'offer'
-            ? (['double', 'no-double'] as const)
-            : (['take', 'pass'] as const)
-          ).map((action) => (
-            <button
-              key={action}
-              type="button"
-              className="play-button play-button--primary"
-              onClick={() => chooseCube(action)}
-            >
-              {CUBE_LABEL[action]}
-            </button>
-          ))}
-          <button
-            type="button"
-            className="play-button play-button--quiet"
-            onClick={leaveDrill}
-          >
-            All themes
-          </button>
+        <div className="puzzle-layout">
+          <div className="puzzle-main">
+            <div className="puzzle-board">
+              <Board
+                game={game}
+                selected={selected}
+                onSelect={setSelected}
+                onMove={onMove}
+                cube={{
+                  value: current.match.cube.value,
+                  owner: current.match.cube.owner,
+                }}
+                interactive={isPlay && !answered}
+              />
+            </div>
+            {!answered && isPlay && (
+              <div className="puzzle-controls">
+                <button
+                  type="button"
+                  className="play-button"
+                  disabled={!canUndo(game)}
+                  onClick={undo}
+                >
+                  Undo
+                </button>
+                <button
+                  type="button"
+                  className="play-button"
+                  disabled={!canUndo(game)}
+                  onClick={reset}
+                >
+                  Reset
+                </button>
+                <button
+                  type="button"
+                  className="play-button play-button--primary"
+                  disabled={!canCommit(game)}
+                  onClick={submitPlay}
+                >
+                  Submit play
+                </button>
+                <button
+                  type="button"
+                  className="play-button play-button--quiet"
+                  onClick={leaveDrill}
+                >
+                  All themes
+                </button>
+              </div>
+            )}
+            {!answered && !isPlay && (
+              <div className="puzzle-controls">
+                {((current as CubePuzzle).decision === 'offer'
+                  ? (['double', 'no-double'] as const)
+                  : (['take', 'pass'] as const)
+                ).map((action) => (
+                  <button
+                    key={action}
+                    type="button"
+                    className="play-button play-button--primary"
+                    onClick={() => chooseCube(action)}
+                  >
+                    {CUBE_LABEL[action]}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  className="play-button play-button--quiet"
+                  onClick={leaveDrill}
+                >
+                  All themes
+                </button>
+              </div>
+            )}
+          </div>
+          {reveal}
         </div>
-      )}
-      {equityTable}
+      </div>
     </section>
   );
 }

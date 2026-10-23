@@ -116,13 +116,31 @@
   white-space: nowrap;
 }
 
-/* The drill */
+/* The drill (ticket 21): the board is the page. The drill borrows the Play
+   area's wide shell, and after an answer the reveal docks beside the board
+   at desktop width, returning below it at the narrow breakpoint. */
+.shell-main:has(.puzzle-drill) {
+  max-width: 1380px;
+  padding-top: 1.25rem;
+  padding-bottom: 1.5rem;
+}
+
+.puzzle-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.puzzle-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 .puzzle-hud {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
-  max-width: 54rem;
   margin-bottom: 0.75rem;
 }
 
@@ -161,8 +179,11 @@
   white-space: nowrap;
 }
 
-.puzzle-board {
-  max-width: 54rem;
+/* The drill board gets its own viewport-height reserve: unlike Play, its
+   controls sit below the board, so it keeps a little more headroom than
+   the board.css default. */
+.puzzle-board .board {
+  max-height: max(460px, calc(100vh - 270px));
 }
 
 .puzzle-controls {
@@ -174,13 +195,39 @@
   max-width: 54rem;
 }
 
-/* The reveal */
-.equity-reveal {
-  max-width: 54rem;
+/* The attempt controls sit centered under the letterboxed board, like the
+   Play page's stacked layout. */
+.puzzle-main > .puzzle-controls {
+  justify-content: center;
+}
+
+/* The quiet reminder beside "Try again" (ticket 21): retries are free. */
+.retry-free-note {
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+}
+
+/* The reveal: a hairline-ruled panel beside the board. The verdict and the
+   drill controls stay in reach; the equity table — 100+ rows for a rich
+   position — scrolls inside the panel, not the page. */
+.puzzle-reveal {
+  flex: 0 0 26rem;
+  min-width: 0;
+  border-left: 1px solid var(--line);
+  padding-left: 1.5rem;
+}
+
+.puzzle-reveal .puzzle-controls {
+  margin: 0.6rem 0 0.9rem;
+}
+
+.equity-scroll {
+  overflow-y: auto;
+  max-height: max(18rem, calc(100vh - 330px));
 }
 
 .puzzle-verdict {
-  margin: 0.9rem 0 0.6rem;
+  margin: 0 0 0.6rem;
   font-weight: 600;
 }
 
@@ -205,6 +252,10 @@
   color: var(--ink-muted);
   padding: 0.45rem 0.75rem 0.45rem 0;
   border-bottom: 1px solid var(--line);
+  /* The header holds its row while the long table scrolls underneath. */
+  position: sticky;
+  top: 0;
+  background: var(--bg);
 }
 
 .equity-table td {
@@ -272,6 +323,27 @@
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+/* The same breakpoint the Play layout folds at: the reveal returns below
+   the board, full-width, and the hairline rule moves back to the top. */
+@media (max-width: 860px) {
+  .puzzle-layout {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .puzzle-reveal {
+    flex: none;
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 0.9rem;
+  }
+
+  .equity-scroll {
+    max-height: max(18rem, 60vh);
+  }
 }
 
 @media (max-width: 760px) {
