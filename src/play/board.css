@@ -1,0 +1,371 @@
+/* The Play area and its signature element: the board.
+   Modern-minimal and high-contrast, continuing the shell's paper/ink/green
+   identity. One action color (gold) means exactly one thing: "you can act
+   here" — selected checkers, legal destinations, nothing else. */
+
+:root {
+  --board-frame: #20312a;
+  --board-felt: #f2f0e9;
+  --board-tray: #e7e4d9;
+  --point-hot: #2d5f4a;
+  --point-cool: #cdc7b8;
+  --point-number: #9fb3a9;
+  --checker-white: #fbfaf7;
+  --checker-white-rim: #403a30;
+  --checker-black: #262219;
+  --checker-black-rim: #d8d2c4;
+  --board-gold: #c79114;
+  --board-gold-soft: rgba(199, 145, 20, 0.22);
+}
+
+:root[data-theme="dark"] {
+  --board-frame: #0e120f;
+  --board-felt: #20241f;
+  --board-tray: #272c26;
+  --point-hot: #47835f;
+  --point-cool: #4c473d;
+  --point-number: #5d6b60;
+  --checker-white: #eae6dc;
+  --checker-white-rim: #141210;
+  --checker-black: #1d1b17;
+  --checker-black-rim: #b9b3a4;
+  --board-gold: #f0b429;
+  --board-gold-soft: rgba(240, 180, 41, 0.24);
+}
+
+/* The Play page needs the full shell width; other pages keep their measure. */
+.shell-main:has(.play-area) {
+  max-width: 1120px;
+}
+
+.play-area h1 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: var(--ink-muted);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* HUD: white chip — status — black chip */
+.play-hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.player-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+.player-chip--active {
+  border-color: var(--board-gold);
+  color: var(--ink);
+}
+
+.player-chip--mirror {
+  flex-direction: row-reverse;
+}
+
+.chip-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+
+.chip-swatch--white {
+  background: var(--checker-white);
+  border: 2px solid var(--checker-white-rim);
+}
+
+.chip-swatch--black {
+  background: var(--checker-black);
+  border: 2px solid var(--checker-black-rim);
+}
+
+.chip-name {
+  font-weight: 600;
+}
+
+.chip-pips {
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+}
+
+.chip-pips::after {
+  content: " pips";
+  font-size: 0.8em;
+}
+
+.play-status {
+  text-align: center;
+  color: var(--ink);
+  font-weight: 500;
+  min-height: 1.6em;
+}
+
+/* Board */
+.play-board {
+  position: relative;
+}
+
+.board {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Keep board, HUD and controls visible together on short viewports;
+     preserveAspectRatio centers the letterboxed content. */
+  max-height: max(420px, calc(100vh - 270px));
+}
+
+.board-frame {
+  fill: var(--board-frame);
+}
+
+.board-felt {
+  fill: var(--board-felt);
+}
+
+.board-tray {
+  fill: var(--board-tray);
+}
+
+.point--hot {
+  fill: var(--point-hot);
+}
+
+.point--cool {
+  fill: var(--point-cool);
+}
+
+.point-number {
+  fill: var(--point-number);
+  font-size: 13px;
+  text-anchor: middle;
+  user-select: none;
+}
+
+/* Checkers */
+.checker-body {
+  stroke-width: 2.5;
+}
+
+.checker--white .checker-body {
+  fill: var(--checker-white);
+  stroke: var(--checker-white-rim);
+}
+
+.checker--black .checker-body {
+  fill: var(--checker-black);
+  stroke: var(--checker-black-rim);
+}
+
+.checker-inner {
+  fill: none;
+  stroke-width: 1.5;
+  opacity: 0.35;
+}
+
+.checker--white .checker-inner {
+  stroke: var(--checker-white-rim);
+}
+
+.checker--black .checker-inner {
+  stroke: var(--checker-black-rim);
+}
+
+.checker-count {
+  font-size: 20px;
+  font-weight: 650;
+  text-anchor: middle;
+  user-select: none;
+}
+
+.checker--white .checker-count {
+  fill: var(--checker-white-rim);
+}
+
+.checker--black .checker-count {
+  fill: var(--checker-black-rim);
+}
+
+.checker-ring {
+  fill: none;
+  stroke: var(--board-gold);
+  stroke-width: 4;
+}
+
+.checker--lifted {
+  opacity: 0.35;
+}
+
+.origin {
+  cursor: grab;
+}
+
+/* The gold ring and stroke carry selection and focus; no native boxes. */
+.origin:focus {
+  outline: none;
+}
+
+.origin:focus-visible .checker-body {
+  stroke: var(--board-gold);
+  stroke-width: 4;
+}
+
+/* Legal destinations */
+.dest {
+  cursor: pointer;
+}
+
+.dest-point {
+  fill: var(--board-gold-soft);
+  stroke: var(--board-gold);
+  stroke-width: 3.5;
+  stroke-linejoin: round;
+}
+
+.dest-zone {
+  fill: transparent;
+}
+
+.dest-tray {
+  fill: var(--board-gold-soft);
+  stroke: var(--board-gold);
+  stroke-width: 3.5;
+}
+
+.dest:focus {
+  outline: none;
+}
+
+.dest:focus-visible .dest-point,
+.dest:focus-visible .dest-tray {
+  stroke-width: 6;
+}
+
+/* Borne-off checkers */
+.off-slab--white {
+  fill: var(--checker-white);
+  stroke: var(--checker-white-rim);
+  stroke-width: 2;
+}
+
+.off-slab--black {
+  fill: var(--checker-black);
+  stroke: var(--checker-black-rim);
+  stroke-width: 2;
+}
+
+/* Dice */
+.die-face {
+  stroke-width: 2;
+}
+
+.die--white .die-face {
+  fill: var(--checker-white);
+  stroke: var(--checker-white-rim);
+}
+
+.die--white .die-pip {
+  fill: var(--checker-white-rim);
+}
+
+.die--black .die-face {
+  fill: var(--checker-black);
+  stroke: var(--checker-black-rim);
+}
+
+.die--black .die-pip {
+  fill: var(--checker-black-rim);
+}
+
+.die--used {
+  opacity: 0.25;
+}
+
+.drag-ghost {
+  pointer-events: none;
+}
+
+/* Controls */
+.play-controls {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.play-button {
+  padding: 0.5rem 1.25rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.play-button:hover:not(:disabled) {
+  border-color: var(--ink-muted);
+}
+
+.play-button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.play-button--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+
+.play-button--primary:hover:not(:disabled) {
+  filter: brightness(1.1);
+  border-color: var(--accent);
+}
+
+/* Announcements over the board (start, game end) */
+.play-banner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  border-radius: 14px;
+}
+
+.play-banner-text {
+  font-size: 1.35rem;
+  font-weight: 650;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.6rem 1.4rem;
+}
+
+@media (max-width: 860px) {
+  .play-hud {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .play-status {
+    order: -1;
+    width: 100%;
+  }
+}
