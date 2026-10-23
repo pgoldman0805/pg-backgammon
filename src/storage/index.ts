@@ -21,6 +21,13 @@ export {
   type MatchStoreLike,
   type PersistedIdentity,
 } from './persist';
+export {
+  createIndexedDbPuzzleProgressStorage,
+  createMemoryPuzzleProgressStorage,
+  getPuzzleProgressStorage,
+  isPuzzleProgressState,
+  type PuzzleProgressStorage,
+} from './puzzleProgress';
 export { isStoredMatch, snapshotMatch } from './snapshot';
 export type {
   MatchConfig,

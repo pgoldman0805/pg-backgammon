@@ -4,9 +4,126 @@
 
 **Blocked by:** 04 (engine worker), 06 (cube and match play), 07 (persistence).
 
-**Status:** ready-for-agent
+**Status:** ready-for-human
 
-- [ ] Both puzzle types playable end to end: attempt → grade → equity table reveal → next
-- [ ] Near-equal alternatives (within 0.02) grade as correct; the reveal shows why
-- [ ] Retry queue resurfaces missed puzzles; per-theme progress persists across reloads
-- [ ] Curated set is bundled, themed, and every puzzle's stored best answer matches a fresh engine evaluation (validation test)
+- [x] Both puzzle types playable end to end: attempt → grade → equity table reveal → next
+- [x] Near-equal alternatives (within 0.02) grade as correct; the reveal shows why
+- [x] Retry queue resurfaces missed puzzles; per-theme progress persists across reloads
+- [x] Curated set is bundled, themed, and every puzzle's stored best answer matches a fresh engine evaluation (validation test)
+
+## Comments
+
+Implemented on branch `ticket/11-puzzles` (2026-10-22).
+Shape of what landed, and what was verified how:
+
+- **Puzzle model** (`src/puzzles/types.ts`): a `Puzzle` is
+  `PlayPuzzle | CubePuzzle`. Shared base: `id`, `theme` (the five GLOSSARY
+  themes), `source: 'curated' | 'blunder'` (+ optional `origin`
+  `{matchId, game, decision}` reserved for ticket 12 — only curated ships
+  here), `board` (plain `BoardState`), `hero` (always `'white'` in the
+  curated set; mining mirrors positions), and `match`
+  (`{matchLength, score, cube, crawford?}`; curated puzzles are money play,
+  `matchLength: 0`). A `PlayPuzzle` adds `roll` and `answers`: EVERY distinct
+  legal play, ranked, each with `moveText` (gnubg notation, hero-relative),
+  `movements`, `finalKey` (position key the attempt is joined on), `equity`,
+  `equityLoss`. A `CubePuzzle` adds `decision: 'offer' | 'response'`
+  (double-or-roll vs take-or-pass), `choices` (per-action cubeful equity +
+  loss from the hero's side), and `verdict` (gnubg's proper action text).
+- **Grading** (`src/puzzles/grade.ts`): stored-data only, no live engine —
+  the Puzzles area works before/without the engine payload. A play attempt
+  is joined to an answer by the final board's key; correct iff
+  `equityLoss <= 0.02` (+1e-9 for float safety), so near-equal alternatives
+  count. Cube attempts grade the chosen action's stored loss the same way.
+- **Progress** (`src/puzzles/queue.ts`): one plain document
+  `PuzzleProgressState = {themes: {<theme>: {solved, missed, streak}},
+  solvedIds, retryQueue, updatedAt}` — counters are attempts, streak is the
+  current per-theme run, `retryQueue` is FIFO by first miss and a solve
+  removes the id. `drillOrder` serves retry-queue members first, then
+  unseen, then already-solved. Within a drill a miss also re-queues the
+  puzzle at the end of the session so it returns before the drill ends.
+- **UI** (`src/pages/Puzzles.tsx` + `puzzles.css`): theme ledger (counts +
+  per-theme progress + streak) → drill. Play puzzles answered on the
+  existing Board (click/drag, Undo/Reset, "Submit play" enabled only for a
+  complete legal play); cube puzzles via choice buttons (offer:
+  Double / "No double — roll"; response: Take / Pass). After an answer: the
+  verdict line, then the full equity table — every candidate with equity
+  and signed loss, Best and You rows marked, a missed row tinted — plus the
+  engine verdict for cube puzzles, then "Next puzzle". Board renders cube
+  puzzles via a turn-less `GameState`; **no Board/src-play changes were
+  needed** (selectors `canCommit`/`canUndo` are imported read-only).
+- **Storage**: `src/storage/idb.ts` bumped to DB_VERSION 2, adding a
+  `puzzle-progress` store (keyPath `id`, single `progress` row). The
+  upgrade only ever adds stores; a test recreates a v1 database with
+  matches and proves they survive the upgrade. New module
+  `src/storage/puzzleProgress.ts`: `PuzzleProgressStorage`
+  (`load/save/clear`), memory + IndexedDB implementations sharing a
+  contract test, `isPuzzleProgressState` validation,
+  `getPuzzleProgressStorage()` shared instance (memory fallback in jsdom).
+- **Backup format change (for ticket 12 and 10 to know)**: export is now
+  `format: 2` with an optional top-level `puzzleProgress` field (omitted
+  when none exists); `parseBackup` accepts formats 1 AND 2; import restores
+  progress only when the file carries a valid `puzzleProgress` (a format-1
+  file leaves current progress untouched). `exportBackup`/`importBackup`
+  grew an optional trailing `puzzleStorage` parameter defaulting to the
+  shared instance, so Analyze's existing backup UI exports/imports puzzle
+  progress without being touched.
+- **Curated set** (`src/puzzles/curatedSet.ts`, generated — do not edit):
+  30 puzzles, 6 per theme. `npm run mine:puzzles` runs
+  `scripts/minePuzzles.ts` through a small Vite-SSR launcher
+  (`scripts/mine.mjs`): the real gnubg WASM self-plays money games at clean
+  0-ply (seeded dice, deterministic), screens decision points cheaply,
+  confirms shortlisted ones at full 2-ply, and keeps positions with a clear
+  best (second-best loses >= 0.05) but plausible alternatives (second-best
+  <= 0.30, >= 4 distinct plays; cube margins 0.05–0.45). Themes via
+  heuristics in `src/puzzles/mining.ts` (bear-off: all hero checkers home;
+  blitzing: opponent on the bar, anchorless, hero home points made;
+  priming: >= 3 consecutive made points with enemy checkers trapped behind;
+  holding game: high anchor >= 10 pips behind); diversity caps: one puzzle
+  per theme per game, two cube puzzles per verdict flavor. Positions are
+  mirrored so the hero is always White (gnubg's hero-relative encoding makes
+  the mirrored analysis identical). No book/site positions.
+- **Validation** (`src/engine/node/curatedPuzzles.validation.test.ts`, runs
+  in `npm test` against the real WASM): set shape (>= 25, >= 5 per theme,
+  unique ids), play answers cover every distinct legal final position and
+  replay to their stored keys, margins hold, and a fresh full-strength
+  evaluation reproduces the best play identity, the whole equity table
+  (within 0.005 — gnubg's eval cache wobbles deep rows by ~0.001 across
+  session histories), and cube verdicts/equities.
+
+Automated vs needs-human-eyes:
+
+- Grading, queue/progress reducers, mirroring/cube-derivation/theme
+  heuristics: automated unit tests (`src/puzzles/*.test.ts`).
+- Storage contract (memory + fake-indexeddb), v1→v2 migration preserving
+  matches, backup format 2 round-trip + format-1 tolerance + corrupt
+  progress skipping: automated (`src/storage/puzzleProgress.test.ts`,
+  `backup.test.ts`).
+- Puzzles UI: automated (`src/pages/Puzzles.test.tsx`, 9 tests) — browse
+  with counts, play puzzle solved on the board with the equity table
+  checked row by row, undo, miss + player-row marking, within-drill
+  resurfacing, cube flow with verdict, progress across remount, cross-
+  session retry-before-new with the Retry chip.
+- Curated set: automated validation as above (34 tests).
+- `npm test` (423), `npm run build`, `npm run lint` all pass.
+- **Human eyes**: the five themes' tags are heuristic + my judgment — worth
+  a skim of the 30 positions on the board for face validity; the equity
+  table's readability for the 134-candidate priming double (long table —
+  it scrolls, by design "every candidate"); dark theme + tablet width for
+  the new puzzles.css; bundle grew ~17 kB gzipped from the data (could be
+  code-split later if it bothers).
+
+Deviations / notes:
+
+- "Double/Take/Pass choice buttons": implemented as two cube flavors
+  sharing one surface — an 'offer' asks Double vs "No double — roll" (a
+  no-double button must exist or the question answers itself), a
+  'response' asks Take vs Pass. Across the area the buttons are exactly
+  Double/Take/Pass plus the no-double choice.
+- The validation test lives in `src/engine/node/` (not src/puzzles) because
+  that is the one directory whose tsconfig has node types for the WASM
+  loader; it is a new file, no existing engine file was touched.
+- `package.json` gained the `mine:puzzles` script; `src/storage/index.ts`
+  gained additive exports — both merge-trivial for parallel tickets.
+- Curated puzzles are money-play positions (cleanest for teaching);
+  the model carries full match context for ticket 12's score-aware
+  blunder puzzles.
