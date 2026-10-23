@@ -1029,122 +1029,131 @@ export function Play({
         </div>
       )}
 
-      <div className="play-board">
-        <Board
-          game={game}
-          selected={selected}
-          onSelect={setSelected}
-          onMove={(from, die) =>
-            store.dispatch({ type: 'movement', from, die })
-          }
-          cube={match ? { ...match.cube, outOfPlay: match.crawford } : null}
-          interactive={humanTurn}
-        />
-        {!match &&
-          setupCard('Play against the computer', 'Play as White', 'computer')}
-        {match && phase === 'game-over' && gameOverCard(match)}
-        {match && phase === 'match-over' && matchOverCard(match)}
-        {match &&
-          phase === 'cube-offered' &&
-          match.toRoll &&
-          humanSide(opponent(match.toRoll)) &&
-          cubeDialog(match)}
-        {match &&
-          phase === 'resign-offered' &&
-          match.pendingResignation &&
-          humanSide(opponent(match.pendingResignation.by)) &&
-          resignDialog(match, match.pendingResignation)}
-      </div>
+      {/* Board first, turn controls after: the DOM (and tab) order runs
+          board origins → destinations → controls. During a match the
+          controls sit beside the board at desktop width and wrap below it
+          at the HUD-wrap breakpoint (board.css). */}
+      <div className="play-layout">
+        <div className="play-board">
+          <Board
+            game={game}
+            selected={selected}
+            onSelect={setSelected}
+            onMove={(from, die) =>
+              store.dispatch({ type: 'movement', from, die })
+            }
+            cube={match ? { ...match.cube, outOfPlay: match.crawford } : null}
+            interactive={humanTurn}
+          />
+          {!match &&
+            setupCard('Play against the computer', 'Play as White', 'computer')}
+          {match && phase === 'game-over' && gameOverCard(match)}
+          {match && phase === 'match-over' && matchOverCard(match)}
+          {match &&
+            phase === 'cube-offered' &&
+            match.toRoll &&
+            humanSide(opponent(match.toRoll)) &&
+            cubeDialog(match)}
+          {match &&
+            phase === 'resign-offered' &&
+            match.pendingResignation &&
+            humanSide(opponent(match.pendingResignation.by)) &&
+            resignDialog(match, match.pendingResignation)}
+        </div>
 
-      {match && humanTurn && resignOpen && resignPicker}
-      {match && humanTurn && !resignOpen && (
-        <div className="play-controls">
-          <button
-            type="button"
-            className="play-button"
-            disabled={!canUndo(game)}
-            onClick={() => store.dispatch({ type: 'undo' })}
-          >
-            Undo
-          </button>
-          {dance ? (
-            <button
-              type="button"
-              className="play-button play-button--primary"
-              onClick={() => store.dispatch({ type: 'commit' })}
-            >
-              Continue
-            </button>
-          ) : (
-            <>
-              {forced && (
-                <button
-                  type="button"
-                  className="play-button play-button--primary"
-                  onClick={() => store.dispatch({ type: 'forced' })}
-                >
-                  Play forced play
-                </button>
-              )}
-              <button
-                type="button"
-                className={`play-button ${forced ? '' : 'play-button--primary'}`}
-                disabled={!canCommit(game)}
-                onClick={() => store.dispatch({ type: 'commit' })}
-              >
-                Commit play
-              </button>
-              {vsComputer && tutorOn && (
+        {match && (
+          <div className="play-side">
+            {humanTurn && resignOpen && resignPicker}
+            {humanTurn && !resignOpen && (
+              <div className="play-controls">
                 <button
                   type="button"
                   className="play-button"
-                  disabled={
-                    (tutorState?.hintPending ?? false) ||
-                    tutorState?.hint != null
-                  }
-                  onClick={() => tutorRef.current?.requestHint()}
+                  disabled={!canUndo(game)}
+                  onClick={() => store.dispatch({ type: 'undo' })}
                 >
-                  Hint
+                  Undo
                 </button>
+                {dance ? (
+                  <button
+                    type="button"
+                    className="play-button play-button--primary"
+                    onClick={() => store.dispatch({ type: 'commit' })}
+                  >
+                    Continue
+                  </button>
+                ) : (
+                  <>
+                    {forced && (
+                      <button
+                        type="button"
+                        className="play-button play-button--primary"
+                        onClick={() => store.dispatch({ type: 'forced' })}
+                      >
+                        Play forced play
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      className={`play-button ${forced ? '' : 'play-button--primary'}`}
+                      disabled={!canCommit(game)}
+                      onClick={() => store.dispatch({ type: 'commit' })}
+                    >
+                      Commit play
+                    </button>
+                    {vsComputer && tutorOn && (
+                      <button
+                        type="button"
+                        className="play-button"
+                        disabled={
+                          (tutorState?.hintPending ?? false) ||
+                          tutorState?.hint != null
+                        }
+                        onClick={() => tutorRef.current?.requestHint()}
+                      >
+                        Hint
+                      </button>
+                    )}
+                  </>
+                )}
+                {resignButton}
+              </div>
+            )}
+            {humanPreRoll && resignOpen && resignPicker}
+            {humanPreRoll && !resignOpen && canDouble(match) && (
+              <div className="play-controls">
+                <button
+                  type="button"
+                  className="play-button"
+                  onClick={() => store.dispatch({ type: 'double' })}
+                >
+                  Double to {match.cube.value * 2}
+                </button>
+                <button
+                  type="button"
+                  className="play-button play-button--primary"
+                  onClick={() => store.dispatch({ type: 'roll' })}
+                >
+                  Roll
+                </button>
+                {resignButton}
+              </div>
+            )}
+            {!humanTurn &&
+              !humanPreRoll &&
+              phase !== 'game-over' &&
+              phase !== 'match-over' && (
+                <div className="play-controls play-controls--note">
+                  <EngineNote
+                    status={engineStatus}
+                    opponentError={opponentState.error}
+                    onRetry={retryEngine}
+                  />
+                </div>
               )}
-            </>
-          )}
-          {resignButton}
-        </div>
-      )}
-      {match && humanPreRoll && resignOpen && resignPicker}
-      {match && humanPreRoll && !resignOpen && canDouble(match) && (
-        <div className="play-controls">
-          <button
-            type="button"
-            className="play-button"
-            onClick={() => store.dispatch({ type: 'double' })}
-          >
-            Double to {match.cube.value * 2}
-          </button>
-          <button
-            type="button"
-            className="play-button play-button--primary"
-            onClick={() => store.dispatch({ type: 'roll' })}
-          >
-            Roll
-          </button>
-          {resignButton}
-        </div>
-      )}
-      {match &&
-        !humanTurn &&
-        !humanPreRoll &&
-        phase !== 'game-over' &&
-        phase !== 'match-over' && (
-          <div className="play-controls play-controls--note">
-            <EngineNote
-              status={engineStatus}
-              opponentError={opponentState.error}
-              onRetry={retryEngine}
-            />
           </div>
         )}
+      </div>
     </section>
   );
 }

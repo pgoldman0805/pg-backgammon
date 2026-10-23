@@ -151,9 +151,29 @@
   text-align: center;
 }
 
+/* Board and turn controls: side by side at desktop width, stacked again at
+   the HUD-wrap breakpoint. The layout never exceeds the Play max-width; the
+   controls column takes its slice from the board instead. */
+.play-layout {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
 /* Board */
 .play-board {
   position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* The turn-controls column holds a fixed slice of the Play width so the
+   board does not resize as control clusters come and go during a match. */
+.play-side {
+  flex: 0 0 184px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .board {
@@ -291,6 +311,14 @@
   stroke-width: 6;
 }
 
+/* Two-movement destinations (story 46): the same gold action language, but a
+   dashed outline and a quieter wash mark them as the two-dice shortcut. */
+.dest-point--two,
+.dest-tray--two {
+  fill: color-mix(in srgb, var(--board-gold-soft) 50%, transparent);
+  stroke-dasharray: 12 8;
+}
+
 /* Borne-off checkers */
 .off-slab--white {
   fill: var(--checker-white);
@@ -361,6 +389,13 @@
   justify-content: center;
   gap: 0.75rem;
   margin-top: 1rem;
+}
+
+/* Beside the board, the cluster stacks into a column. */
+.play-side .play-controls {
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 0;
 }
 
 .play-button {
@@ -782,6 +817,25 @@
   .play-center {
     order: -1;
     width: 100%;
+  }
+
+  /* Tablet width: the turn controls return below the board. */
+  .play-layout {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .play-side {
+    flex: none;
+  }
+
+  .play-side .play-controls {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
   }
 }
 

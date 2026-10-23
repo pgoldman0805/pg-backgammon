@@ -169,6 +169,87 @@ export function destinationsFrom(
   return [...byDestination.values()];
 }
 
+/** A final target one checker can reach with two of the remaining dice. */
+export interface TwoMovementDestination {
+  readonly to: Point | 'off';
+  /**
+   * Both movements in dispatch order. When either die order reaches the
+   * target (with identical outcomes), the larger die goes first.
+   */
+  readonly movements: readonly [CheckerMovement, CheckerMovement];
+}
+
+/**
+ * The final points (or bear-off) one checker can reach from `from` by using
+ * two of the remaining dice — the spec's two-movement shortcut. A target is
+ * offered only when:
+ *
+ * - the two movements extend into a complete legal play (the same
+ *   `legalPlays` anchoring as `viableMovements`, so the shortcut never moves
+ *   into a dead end), and
+ * - every die order reaching the target from this origin produces the
+ *   identical board (hits included) — an ambiguous target stays per-movement
+ *   so the player chooses the path, and
+ * - no single die already reaches the target (`destinationsFrom` wins the
+ *   collision; bear-off reachable by one die stays a one-movement action).
+ */
+export function twoMovementDestinationsFrom(
+  game: GameState | null,
+  from: Point | 'bar',
+): TwoMovementDestination[] {
+  if (!game?.turn || game.turn.remainingDice.length < 2) {
+    return [];
+  }
+  const turn = game.turn;
+  const plan = turnPlan(turn);
+  if (turn.movements.length + 2 > plan.maximalLength) {
+    return [];
+  }
+  const oneDie = new Set(destinationsFrom(game, from).map((m) => m.to));
+  const memo = new Map<string, boolean>();
+  const pathsByTarget = new Map<
+    Point | 'off',
+    { key: string; movements: [CheckerMovement, CheckerMovement] }[]
+  >();
+  for (const first of viableMovements(game)) {
+    if (first.from !== from || first.to === 'off') {
+      continue;
+    }
+    const midBoard = applyMovement(game.board, turn.player, first);
+    const midDice = removeDie(turn.remainingDice, first.die);
+    for (const second of legalMovements(midBoard, turn.player, midDice)) {
+      if (second.from !== first.to || oneDie.has(second.to)) {
+        continue;
+      }
+      const finalBoard = applyMovement(midBoard, turn.player, second);
+      if (
+        !reachesCompletePlay(
+          plan,
+          turn,
+          finalBoard,
+          removeDie(midDice, second.die),
+          turn.movements.length + 2,
+          memo,
+        )
+      ) {
+        continue;
+      }
+      const paths = pathsByTarget.get(second.to) ?? [];
+      paths.push({ key: boardKey(finalBoard), movements: [first, second] });
+      pathsByTarget.set(second.to, paths);
+    }
+  }
+  const destinations: TwoMovementDestination[] = [];
+  for (const [to, paths] of pathsByTarget) {
+    if (!paths.every((path) => path.key === paths[0].key)) {
+      continue; // Ambiguous: the die orders differ in outcome.
+    }
+    paths.sort((a, b) => b.movements[0].die - a.movements[0].die);
+    destinations.push({ to, movements: paths[0].movements });
+  }
+  return destinations;
+}
+
 /** True when the roll has no legal play: the turn commits with no movements. */
 export function isDance(game: GameState | null): boolean {
   return game?.turn != null && turnPlan(game.turn).maximalLength === 0;

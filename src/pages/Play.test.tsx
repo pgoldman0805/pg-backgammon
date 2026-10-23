@@ -729,6 +729,80 @@ describe('click-to-move (hot-seat)', () => {
   });
 });
 
+describe('board interaction shortcuts (hot-seat)', () => {
+  it('double-click applies the movement when exactly one destination exists', async () => {
+    const user = userEvent.setup();
+    renderHotSeat({ dice: scriptedDice(6, 3) });
+    await user.click(screen.getByRole('button', { name: 'Hot-seat match' }));
+
+    // From 6 only the 3 plays (6/3): exactly one legal destination.
+    await user.dblClick(
+      screen.getByRole('button', { name: 'Move from point 6' }),
+    );
+
+    expect(screen.getByLabelText('White pip count')).toHaveTextContent('164');
+    expect(screen.getByRole('button', { name: 'Undo' })).toBeEnabled();
+  });
+
+  it('double-click on a multi-destination checker only selects normally', async () => {
+    const user = userEvent.setup();
+    renderHotSeat({ dice: scriptedDice(6, 3) });
+    await user.click(screen.getByRole('button', { name: 'Hot-seat match' }));
+
+    // From 24 both dice play: two clicks toggle the selection on and off,
+    // and no checker moves.
+    await user.dblClick(
+      screen.getByRole('button', { name: 'Move from point 24' }),
+    );
+
+    expect(screen.getByLabelText('White pip count')).toHaveTextContent('167');
+    expect(
+      screen.queryByRole('button', { name: 'Move to point 18' }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('highlights the two-movement destination and applies both movements', async () => {
+    const user = userEvent.setup();
+    renderHotSeat({ dice: scriptedDice(6, 3) });
+    await user.click(screen.getByRole('button', { name: 'Hot-seat match' }));
+
+    await user.click(
+      screen.getByRole('button', { name: 'Move from point 24' }),
+    );
+    expect(
+      screen.getByRole('button', { name: 'Move to point 18' }),
+    ).toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole('button', { name: 'Move to point 15 in two movements' }),
+    );
+
+    // Both movements landed (24/18/15 = 9 pips) and the play is complete.
+    expect(screen.getByLabelText('White pip count')).toHaveTextContent('158');
+    expect(screen.getByRole('button', { name: 'Commit play' })).toBeEnabled();
+
+    // Undo keeps its per-movement granularity: one undo reverts only 18/15.
+    await user.click(screen.getByRole('button', { name: 'Undo' }));
+    expect(screen.getByLabelText('White pip count')).toHaveTextContent('161');
+  });
+
+  it('the two-movement destination answers the keyboard like any destination', async () => {
+    const user = userEvent.setup();
+    renderHotSeat({ dice: scriptedDice(6, 3) });
+    await user.click(screen.getByRole('button', { name: 'Hot-seat match' }));
+
+    await user.click(
+      screen.getByRole('button', { name: 'Move from point 24' }),
+    );
+    fireEvent.keyDown(
+      screen.getByRole('button', { name: 'Move to point 15 in two movements' }),
+      { key: 'Enter' },
+    );
+
+    expect(screen.getByLabelText('White pip count')).toHaveTextContent('158');
+  });
+});
+
 describe('dance and forced turns (hot-seat)', () => {
   function danceGame(): GameState {
     const board = createBoard({
