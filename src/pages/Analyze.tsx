@@ -20,11 +20,23 @@ import {
   matchStandings,
   type PlayAlternative,
   type PlayerSummary,
+  type PositionAnalysis,
   walkGame,
 } from '../analysis';
+import {
+  CopyXgidButton,
+  type DecodedXgid,
+  decodeXgid,
+  encodeXgid,
+  exportMat,
+  importedStoredMatch,
+  importMat,
+  type MatPlayers,
+} from '../formats';
 import { Board } from '../play/Board';
 import {
   applyMovement,
+  type DiceRoll,
   type Die,
   type GameEndKind,
   type GameState,
@@ -68,9 +80,29 @@ function other(player: Player): Player {
   return player === 'white' ? 'black' : 'white';
 }
 
+/** The player names an imported match carries in its config, if any. */
+function storedPlayers(stored: StoredMatch): MatPlayers | undefined {
+  const players = stored.config.players;
+  if (
+    typeof players === 'object' &&
+    players !== null &&
+    typeof (players as MatPlayers).white === 'string' &&
+    typeof (players as MatPlayers).black === 'string'
+  ) {
+    return players as MatPlayers;
+  }
+  return undefined;
+}
+
 /** "5-point match vs Casual" / "5-point hot-seat match". */
 function matchName(stored: StoredMatch): string {
   const length = `${stored.config.length}-point`;
+  if (stored.config.mode === 'imported') {
+    const players = storedPlayers(stored);
+    return `${length} imported match${
+      players ? ` (${players.white} vs ${players.black})` : ''
+    }`;
+  }
   if (stored.config.mode === 'hotseat') {
     return `${length} hot-seat match`;
   }
@@ -470,6 +502,29 @@ function Review({
     );
   }, [decision, moments]);
 
+  /** The XGID of the position before the selected decision (ticket 10). */
+  const xgid = useMemo(() => {
+    if (!moment || !decision) {
+      return null;
+    }
+    if (moment.kind === 'play') {
+      return encodeXgid(
+        { board: moment.board, onRoll: moment.player, match: moment.context },
+        moment.roll,
+      );
+    }
+    const onRoll =
+      moment.kind === 'cube-action' ? moment.doubler : moment.player;
+    const pendingDouble =
+      decision.kind === 'cube' &&
+      (decision.action === 'take' || decision.action === 'pass');
+    return encodeXgid(
+      { board: moment.board, onRoll, match: moment.context },
+      undefined,
+      { pendingDouble },
+    );
+  }, [moment, decision]);
+
   /** The board shown: the position before the decision, or a preview after. */
   const boardGame: GameState | null = useMemo(() => {
     if (!moment) {
@@ -650,6 +705,12 @@ function Review({
             >
               Next ›
             </button>
+            {xgid && (
+              <CopyXgidButton
+                xgid={xgid}
+                className="history-button history-button--quiet"
+              />
+            )}
           </div>
 
           {boardGame && moment && (
@@ -927,6 +988,198 @@ function MatchView({
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* XGID position viewer                                                 */
+/* ------------------------------------------------------------------ */
+
+/** A loaded XGID as a read-only GameState for the app's Board. */
+function viewerGame(loaded: DecodedXgid): GameState {
+  const { board, onRoll } = loaded.position;
+  const roll: DiceRoll | null = loaded.roll;
+  return {
+    board,
+    turn: roll
+      ? {
+          player: onRoll,
+          roll,
+          startBoard: board,
+          movements: [],
+          remainingDice: diceOf(roll),
+        }
+      : null,
+    record: {
+      initialBoard: board,
+      openingRolls: [],
+      firstPlayer: onRoll,
+      plays: [],
+    },
+    result: null,
+  };
+}
+
+/** "White to play 3-1 · 7-point match · White 0 – Black 0". */
+function viewerCaption(loaded: DecodedXgid): string {
+  const { onRoll, match } = loaded.position;
+  const action = loaded.pendingDouble
+    ? `${name(onRoll)} doubles to ${(match?.cube?.value ?? 1) * 2} — ${name(other(onRoll))} to take or pass`
+    : loaded.roll
+      ? `${name(onRoll)} to play ${loaded.roll[0]}-${loaded.roll[1]}`
+      : `${name(onRoll)} on roll`;
+  const standing =
+    match && match.matchLength > 0
+      ? `${match.matchLength}-point match · White ${match.score.white} – Black ${match.score.black}${
+          match.crawford ? ' · Crawford' : ''
+        }`
+      : 'Money game';
+  return `${action} · ${standing}`;
+}
+
+/**
+ * Paste an XGID, see the position on the board (cube, score and dice
+ * included), and analyze that single position on demand at user priority.
+ */
+function PositionViewer({ analyzer }: { analyzer: MatchAnalyzer }) {
+  const [input, setInput] = useState('');
+  const [loaded, setLoaded] = useState<DecodedXgid | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [analysis, setAnalysis] = useState<PositionAnalysis | null>(null);
+  const [analyzing, setAnalyzing] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  function load(): void {
+    setAnalysis(null);
+    setFailed(false);
+    try {
+      setLoaded(decodeXgid(input));
+      setError(null);
+    } catch (cause) {
+      setLoaded(null);
+      setError(
+        cause instanceof Error ? cause.message : 'not a valid XGID string',
+      );
+    }
+  }
+
+  async function analyze(): Promise<void> {
+    if (!loaded || analyzing) {
+      return;
+    }
+    setAnalyzing(true);
+    setFailed(false);
+    try {
+      setAnalysis(await analyzer.analyzePosition(loaded.position, loaded.roll));
+    } catch {
+      setFailed(true);
+    } finally {
+      setAnalyzing(false);
+    }
+  }
+
+  return (
+    <section className="position-viewer" aria-label="Position viewer">
+      <h2 className="viewer-title">Position viewer</h2>
+      <div className="viewer-form">
+        <label className="viewer-label">
+          Paste an XGID
+          <input
+            type="text"
+            className="viewer-input"
+            placeholder="XGID=-b----E-C---eE---c-e----B-:0:0:1:31:0:0:0:7:10"
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+          />
+        </label>
+        <button type="button" className="history-button" onClick={load}>
+          Load position
+        </button>
+      </div>
+      {error && (
+        <p className="analyze-note" role="status">
+          {error}
+        </p>
+      )}
+      {loaded && (
+        <>
+          <figure className="review-position" aria-label="Pasted position">
+            <Board
+              game={viewerGame(loaded)}
+              selected={null}
+              onSelect={noop}
+              onMove={noop}
+              cube={
+                loaded.position.match?.cube
+                  ? {
+                      ...loaded.position.match.cube,
+                      outOfPlay: loaded.position.match.crawford,
+                    }
+                  : null
+              }
+              interactive={false}
+            />
+            <figcaption>{viewerCaption(loaded)}</figcaption>
+          </figure>
+          <div className="detail-actions">
+            <button
+              type="button"
+              className="history-button"
+              disabled={analyzing}
+              onClick={() => void analyze()}
+            >
+              {analyzing ? 'Analyzing…' : 'Analyze position'}
+            </button>
+            {failed && (
+              <span className="detail-note">
+                The position could not be analyzed — try again.
+              </span>
+            )}
+          </div>
+          {analysis?.kind === 'plays' &&
+            (analysis.plays.length === 0 ? (
+              <p className="detail-hint">No legal plays — a dance.</p>
+            ) : (
+              <ol className="alternatives" aria-label="Engine plays">
+                {analysis.plays.slice(0, 5).map((ranked, index) => (
+                  <li
+                    key={ranked.moveText}
+                    className="alternative-row alternative-row--static"
+                  >
+                    <span className="alternative-rank">{ranked.rank}</span>
+                    <span className="alternative-text">{ranked.moveText}</span>
+                    <span className="alternative-equity">
+                      {equityText(ranked.equity)}
+                    </span>
+                    <span className="alternative-loss">
+                      {index === 0 ? '' : lossText(ranked.equityLoss)}
+                    </span>
+                    {index === 0 && <span className="review-chip">best</span>}
+                  </li>
+                ))}
+              </ol>
+            ))}
+          {analysis?.kind === 'cube' && (
+            <div className="cube-panel">
+              <ol className="alternatives" aria-label="Cube equities">
+                {analysis.cube.options.map((option) => (
+                  <li
+                    key={option.action}
+                    className="alternative-row alternative-row--static"
+                  >
+                    <span className="alternative-text">{option.action}</span>
+                    <span className="alternative-equity">
+                      {equityText(option.equity)}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+              <p className="cube-proper">Engine: {analysis.cube.properAction}</p>
+            </div>
+          )}
+        </>
+      )}
+    </section>
+  );
+}
+
 export interface AnalyzeProps {
   /** Injectable for tests; defaults to the shared IndexedDB storage. */
   storage?: MatchStorage;
@@ -983,20 +1236,39 @@ export function Analyze({
       .catch(() => setNote('The match could not be deleted.'));
   }
 
+  function download(name: string, text: string, type: string): void {
+    const blob = new Blob([text], { type });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = name;
+    anchor.click();
+    URL.revokeObjectURL(url);
+  }
+
   async function exportHistory(): Promise<void> {
     try {
       const json = serializeBackup(await exportBackup(storage));
-      const blob = new Blob([json], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const anchor = document.createElement('a');
-      anchor.href = url;
       const day = new Date().toISOString().slice(0, 10);
-      anchor.download = `pg-backgammon-history-${day}.json`;
-      anchor.click();
-      URL.revokeObjectURL(url);
+      download(`pg-backgammon-history-${day}.json`, json, 'application/json');
       setNote(null);
     } catch {
       setNote('The history could not be exported.');
+    }
+  }
+
+  function exportMatchMat(stored: StoredMatch): void {
+    try {
+      const text = exportMat(stored.record, storedPlayers(stored));
+      const day = new Date().toISOString().slice(0, 10);
+      download(
+        `pg-backgammon-${day}-${stored.id.slice(0, 8)}.mat`,
+        text,
+        'text/plain',
+      );
+      setNote(null);
+    } catch {
+      setNote('The match could not be exported as .mat.');
     }
   }
 
@@ -1015,6 +1287,33 @@ export function Analyze({
           error instanceof Error
             ? error.message
             : 'The backup could not be imported.',
+        );
+      }
+    };
+    reader.onerror = () => setNote('The file could not be read.');
+    reader.readAsText(file);
+  }
+
+  function newMatchId(): string {
+    return typeof crypto !== 'undefined' && 'randomUUID' in crypto
+      ? crypto.randomUUID()
+      : `imported-${Date.now()}-${Math.floor(Math.random() * 1e9)}`;
+  }
+
+  function importMatFile(file: File): void {
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        const imported = importMat(String(reader.result));
+        const row = importedStoredMatch(imported, newMatchId(), Date.now());
+        await storage.put(row);
+        setNote('Match imported — open it to see the analysis.');
+        reload();
+      } catch (error) {
+        setNote(
+          `The .mat file could not be imported: ${
+            error instanceof Error ? error.message : 'unreadable file'
+          }`,
         );
       }
     };
@@ -1090,13 +1389,22 @@ export function Analyze({
                     ) : (
                       <>
                         {stored.status === 'finished' ? (
-                          <button
-                            type="button"
-                            className="history-button"
-                            onClick={() => setOpenId(stored.id)}
-                          >
-                            Open
-                          </button>
+                          <>
+                            <button
+                              type="button"
+                              className="history-button"
+                              onClick={() => setOpenId(stored.id)}
+                            >
+                              Open
+                            </button>
+                            <button
+                              type="button"
+                              className="history-button history-button--quiet"
+                              onClick={() => exportMatchMat(stored)}
+                            >
+                              Export .mat
+                            </button>
+                          </>
                         ) : (
                           <button
                             type="button"
@@ -1146,11 +1454,28 @@ export function Analyze({
                 }}
               />
             </label>
+            <label className="history-button import-label">
+              Import match (.mat)…
+              <input
+                type="file"
+                accept=".mat,text/plain"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (file) {
+                    importMatFile(file);
+                  }
+                  event.target.value = '';
+                }}
+              />
+            </label>
             <p className="backup-hint">
-              Export downloads every match as one JSON file. Import replaces
-              your current history with the file's.
+              Export downloads every match as one JSON file. Import backup
+              replaces your current history with the file's. Import match adds
+              a Jellyfish .mat match to the history, where it analyzes like
+              any other.
             </p>
           </div>
+          <PositionViewer analyzer={analyzer} />
         </>
       )}
     </section>

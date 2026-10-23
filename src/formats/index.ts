@@ -11,6 +11,8 @@ export {
   type EncodeXgidOptions,
   encodeXgid,
 } from '../engine/xgid';
+export { CopyXgidButton } from './CopyXgidButton';
+export { importedStoredMatch } from './imported';
 export {
   exportMat,
   importMat,

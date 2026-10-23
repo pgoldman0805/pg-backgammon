@@ -24,8 +24,9 @@ import {
   serializeBackup,
   snapshotMatch,
 } from '../storage';
+import { exportMat, importMat } from '../formats';
 import { scriptedDice } from '../test/dice';
-import { cubeGameMatch } from '../test/match';
+import { cubeGameMatch, recordOf } from '../test/match';
 import { Analyze } from './Analyze';
 
 /** A finished 1-point match vs Expert: black resigns, white wins 1-0. */
@@ -430,5 +431,140 @@ describe('post-game review', () => {
 
     await user.click(screen.getByRole('button', { name: 'Try again' }));
     expect(await screen.findByLabelText('White error rate')).toBeVisible();
+  });
+});
+
+describe('.mat import and export', () => {
+  it('imports a .mat file and the open flow analyzes it like a native match', async () => {
+    const user = userEvent.setup();
+    const storage = createMemoryStorage();
+    renderAnalyze(storage, fakeAnalyzer());
+    await screen.findByText(/no matches yet/i);
+
+    const text = exportMat(recordOf(cubeGameMatch(2)));
+    const file = new File([text], 'match.mat', { type: 'text/plain' });
+    await user.upload(screen.getByLabelText(/import match/i), file);
+
+    expect(await screen.findByText('Black wins 2–0')).toBeInTheDocument();
+    expect(screen.getByText(/2-point imported match/)).toBeInTheDocument();
+
+    // Ticket 08's open-triggers-analysis fires for the imported row too.
+    await user.click(screen.getByRole('button', { name: 'Open' }));
+    expect(await screen.findByLabelText('White error rate')).toBeVisible();
+    const rows = await storage.list();
+    expect(rows).toHaveLength(1);
+    expect(isMatchAnalysis(rows[0].analysis)).toBe(true);
+  });
+
+  it('rejects a malformed .mat file with a message, never a crash', async () => {
+    const user = userEvent.setup();
+    const storage = createMemoryStorage([finishedMatch()]);
+    renderAnalyze(storage);
+    await screen.findByText('White wins 1–0');
+
+    const file = new File(['not a match'], 'junk.mat', { type: 'text/plain' });
+    await user.upload(screen.getByLabelText(/import match/i), file);
+
+    expect(
+      await screen.findByText(/could not be imported.*point match/i),
+    ).toBeInTheDocument();
+    expect(screen.getByText('White wins 1–0')).toBeInTheDocument();
+    expect(await storage.list()).toHaveLength(1);
+  });
+
+  it('downloads a finished match as .mat text that re-imports identically', async () => {
+    const user = userEvent.setup();
+    const createObjectURL = vi.fn((_blob: Blob) => 'blob:mat');
+    const revokeObjectURL = vi.fn();
+    Object.assign(URL, { createObjectURL, revokeObjectURL });
+    const click = vi
+      .spyOn(HTMLAnchorElement.prototype, 'click')
+      .mockImplementation(() => {});
+    renderAnalyze(createMemoryStorage([reviewMatch()]));
+
+    await user.click(
+      await screen.findByRole('button', { name: 'Export .mat' }),
+    );
+    click.mockRestore();
+
+    const blob = createObjectURL.mock.calls[0][0];
+    const text = await readBlobText(blob);
+    expect(text).toMatch(/^ 2 point match/);
+    expect(importMat(text).record).toEqual(reviewMatch().record);
+  });
+});
+
+describe('XGID position viewer', () => {
+  const START_31 = 'XGID=-b----E-C---eE---c-e----B-:0:0:1:31:0:0:0:7:10';
+
+  async function loadXgid(user: ReturnType<typeof userEvent.setup>, xgid: string) {
+    await user.type(await screen.findByLabelText(/paste an xgid/i), xgid);
+    await user.click(screen.getByRole('button', { name: 'Load position' }));
+  }
+
+  it('loads a pasted XGID into a read-only position with its context', async () => {
+    const user = userEvent.setup();
+    renderAnalyze(createMemoryStorage(), fakeAnalyzer());
+
+    await loadXgid(user, START_31);
+
+    const figure = await screen.findByLabelText('Pasted position');
+    expect(figure).toHaveTextContent(/white to play 3-1/i);
+    expect(figure).toHaveTextContent(/7-point match/i);
+  });
+
+  it('analyzes the loaded position on demand: plays when dice are present', async () => {
+    const user = userEvent.setup();
+    renderAnalyze(createMemoryStorage(), fakeAnalyzer());
+    await loadXgid(user, START_31);
+
+    await user.click(
+      await screen.findByRole('button', { name: 'Analyze position' }),
+    );
+
+    const plays = await screen.findByLabelText('Engine plays');
+    expect(within(plays).getAllByRole('listitem').length).toBeGreaterThan(1);
+    expect(within(plays).getByText('best')).toBeInTheDocument();
+  });
+
+  it('analyzes the cube decision when the XGID has no dice', async () => {
+    const user = userEvent.setup();
+    renderAnalyze(createMemoryStorage(), fakeAnalyzer());
+    await loadXgid(user, START_31.replace(':31:', ':00:'));
+
+    await user.click(
+      await screen.findByRole('button', { name: 'Analyze position' }),
+    );
+
+    const cube = await screen.findByLabelText('Cube equities');
+    expect(within(cube).getByText('No double')).toBeInTheDocument();
+    expect(screen.getByText(/engine:/i)).toBeInTheDocument();
+  });
+
+  it('rejects an invalid XGID with a clear message', async () => {
+    const user = userEvent.setup();
+    renderAnalyze(createMemoryStorage(), fakeAnalyzer());
+
+    await loadXgid(user, 'XGID=garbage');
+
+    expect(await screen.findByText(/not a valid XGID/i)).toBeInTheDocument();
+    expect(screen.queryByLabelText('Pasted position')).not.toBeInTheDocument();
+  });
+});
+
+describe('copy XGID from the review board', () => {
+  it('copies the position before the selected decision', async () => {
+    const user = userEvent.setup();
+    renderAnalyze(createMemoryStorage([await analyzedReviewMatch()]));
+    await user.click(await screen.findByRole('button', { name: 'Open' }));
+    await screen.findByLabelText('Decision detail');
+
+    await user.click(screen.getByRole('button', { name: 'Copy XGID' }));
+
+    // The first decision: White to play 3-1 from the start, 2-point match.
+    expect(await window.navigator.clipboard.readText()).toBe(
+      'XGID=-b----E-C---eE---c-e----B-:0:0:1:31:0:0:0:2:10',
+    );
+    expect(await screen.findByText('Copied')).toBeInTheDocument();
   });
 });
