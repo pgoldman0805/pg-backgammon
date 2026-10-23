@@ -72,7 +72,11 @@ describe('encodeXgid', () => {
       encodeXgid({
         board: initialBoard(),
         onRoll: 'white',
-        match: { matchLength: 7, score: { white: 6, black: 3 }, crawford: true },
+        match: {
+          matchLength: 7,
+          score: { white: 6, black: 3 },
+          crawford: true,
+        },
       }),
     ).toBe('-b----E-C---eE---c-e----B-:0:0:1:00:6:3:1:7:10');
   });

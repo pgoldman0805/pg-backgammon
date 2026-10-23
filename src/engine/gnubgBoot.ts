@@ -22,10 +22,7 @@ export interface GnubgBootOptions {
   /** Pre-fetched wasm bytes (node hosts, bypasses network). */
   readonly wasmBinary?: Uint8Array;
   /** Pre-fetched data package (node hosts, bypasses XHR). */
-  readonly getPreloadedPackage?: (
-    name: string,
-    size: number,
-  ) => ArrayBuffer;
+  readonly getPreloadedPackage?: (name: string, size: number) => ArrayBuffer;
 }
 
 export interface GnubgBoot {
@@ -99,9 +96,7 @@ export function createGnubgBoot(options: GnubgBootOptions = {}): GnubgBoot {
         };
         resolveReady(runCommand);
       } catch (error) {
-        rejectReady(
-          error instanceof Error ? error : new Error(String(error)),
-        );
+        rejectReady(error instanceof Error ? error : new Error(String(error)));
       }
     },
     onAbort: (reason: unknown) => {

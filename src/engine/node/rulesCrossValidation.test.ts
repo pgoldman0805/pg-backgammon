@@ -11,7 +11,12 @@
  */
 import { beforeAll, describe, expect, it } from 'vitest';
 import type { BoardState, DiceRoll, Die, Player } from '../../rules';
-import { applyMovement, createBoard, initialBoard, legalPlays } from '../../rules';
+import {
+  applyMovement,
+  createBoard,
+  initialBoard,
+  legalPlays,
+} from '../../rules';
 import type { GnubgSession } from '../session';
 import { loadGnubgSession } from './loadGnubg';
 
@@ -40,18 +45,14 @@ function assertAgreement(
   const legal = legalPlays(board, player, roll);
   if (legal.length === 0) {
     // Dance: nothing for gnubg to list; rankPlays never consults it.
-    expect(
-      session.rankPlays({ board, onRoll: player }, roll),
-    ).toEqual([]);
+    expect(session.rankPlays({ board, onRoll: player }, roll)).toEqual([]);
     return;
   }
   // Joins every gnubg move to a legal play (throws on mismatch) and the
   // count equality makes it a bijection.
-  const ranked = session.rankPlays(
-    { board, onRoll: player },
-    roll,
-    { difficulty: 'expert' },
-  );
+  const ranked = session.rankPlays({ board, onRoll: player }, roll, {
+    difficulty: 'expert',
+  });
   expect(ranked).toHaveLength(legal.length);
 }
 

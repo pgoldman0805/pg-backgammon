@@ -136,9 +136,7 @@ export function parseCubeAnalysis(lines: readonly string[]): CubeAnalysis {
   }
 
   if (cubelessEquity === undefined || options.length === 0) {
-    throw new Error(
-      `unparseable cube analysis:\n${lines.join('\n')}`,
-    );
+    throw new Error(`unparseable cube analysis:\n${lines.join('\n')}`);
   }
   return { cubelessEquity, chances, options, properAction };
 }

@@ -41,10 +41,7 @@ function encodeBoard(position: EnginePosition): string {
  * Encode a position (and optionally the dice to play) as an XGID string,
  * without the leading `XGID=` prefix.
  */
-export function encodeXgid(
-  position: EnginePosition,
-  roll?: DiceRoll,
-): string {
+export function encodeXgid(position: EnginePosition, roll?: DiceRoll): string {
   const { onRoll, match } = position;
   const cube = match?.cube ?? { value: 1, owner: 'center' as const };
   const cubeLog2 = Math.round(Math.log2(cube.value));

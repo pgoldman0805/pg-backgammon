@@ -64,9 +64,7 @@ describe('applyDifficultyNoise', () => {
       const original = moves.find((m) => m.moveText === move.moveText);
       expect(original).toBeDefined();
       expect(move.equity).not.toBe(original?.equity);
-      expect(Math.abs(move.equity - (original?.equity ?? 0))).toBeLessThan(
-        0.4,
-      );
+      expect(Math.abs(move.equity - (original?.equity ?? 0))).toBeLessThan(0.4);
     }
   });
 

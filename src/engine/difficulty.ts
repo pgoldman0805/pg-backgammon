@@ -38,7 +38,8 @@ function hashSeed(text: string): number {
   }
   h = Math.imul(h ^ (h >>> 16), 2246822507);
   h = Math.imul(h ^ (h >>> 13), 3266489909);
-  return (h ^= h >>> 16) >>> 0;
+  h ^= h >>> 16;
+  return h >>> 0;
 }
 
 /** mulberry32: small deterministic PRNG over a 32-bit state. */

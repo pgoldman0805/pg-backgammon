@@ -11,14 +11,14 @@
 import type { DiceRoll, Play } from '../rules';
 import { applyMovement, legalPlays } from '../rules';
 import { applyDifficultyNoise, DIFFICULTY_SETTINGS } from './difficulty';
-import { boardKey, applyMoveText } from './moveText';
+import { applyMoveText, boardKey } from './moveText';
 import { parseCubeAnalysis, parseEvalOutput, parseHintMoves } from './parse';
 import type {
   CubeAnalysis,
   EnginePosition,
   PositionEvaluation,
-  RankPlaysOptions,
   RankedPlay,
+  RankPlaysOptions,
 } from './types';
 import { encodeXgid } from './xgid';
 

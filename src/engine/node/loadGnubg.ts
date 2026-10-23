@@ -40,7 +40,6 @@ export async function loadGnubgSession(
   // The glue is a classic script: evaluate it with the scope names it
   // expects. `location` satisfies the data-package loader's environment
   // check; `require` serves Emscripten's node paths.
-  // biome-ignore lint/security/noGlobalEval: loading the vendored Emscripten glue is the one sanctioned eval in this repo.
   const evaluateGlue = new Function(
     'Module',
     'require',

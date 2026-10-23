@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { initialBoard } from '../rules';
-import type { EnginePosition } from './types';
 import { createGnubgSession } from './session';
+import type { EnginePosition } from './types';
 
 const OPENING: EnginePosition = {
   board: initialBoard(),
@@ -112,9 +112,7 @@ describe('createGnubgSession', () => {
       difficulty: 'beginner',
     });
     expect(noisyA).toEqual(noisyB);
-    expect(noisyA.map((p) => p.equity)).not.toEqual(
-      clean.map((p) => p.equity),
-    );
+    expect(noisyA.map((p) => p.equity)).not.toEqual(clean.map((p) => p.equity));
     // Ranks and losses are consistent with the noisy ordering.
     expect(noisyA[0].rank).toBe(1);
     expect(noisyA[0].equityLoss).toBe(0);
