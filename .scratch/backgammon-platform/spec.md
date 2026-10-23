@@ -80,6 +80,7 @@ All game history, analysis, and puzzle progress persist in IndexedDB. Desktop-fi
 54. As a learner, I want the puzzle reveal (verdict and equity table, including my missed play) shown beside the board on desktop rather than beneath it, so that I can compare the table against the position without scrolling. (Added 2026-10-23.)
 55. As the owner, I want a Capacitor Android project kept in-repo with a proven debug-APK build (landscape-locked), so that a store release is an afternoon away when wanted — not the delivery path today (see ADR-0003, including the GPL note for selling). (Added 2026-10-23, reshaped same day.)
 56. As the owner, I want the app installable on my phone as a PWA (manifest, icons, service worker precaching the app and engine for offline), hosted on Cloudflare, so that my phone always runs the latest push and mobile UI work has a live target. (Added 2026-10-23.)
+57. As a phone user, I want the app usable at phone viewports: navigation collapses into a hamburger menu, touch targets are finger-sized, safe-area insets are respected in the installed app, every area is readable and overflow-free in portrait, and board play works in landscape (portrait shows the board smaller with a gentle rotate hint). (Added 2026-10-23.)
 
 ### Platform
 
