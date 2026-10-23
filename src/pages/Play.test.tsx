@@ -9,13 +9,19 @@ import userEvent from '@testing-library/user-event';
 import { createFakeEngine, type Engine } from '../engine';
 import { createPlayStore, type PlayStoreOptions } from '../play/store';
 import {
+  type CreateMatchOptions,
   createBoard,
   createGame,
+  createMatch,
   createSeededDice,
   type GameState,
 } from '../rules';
 import { scriptedDice } from '../test/dice';
-import { gatedEngine, manualLoadEngine } from '../test/engine';
+import {
+  gatedEngine,
+  manualLoadEngine,
+  scriptedCubeEngine,
+} from '../test/engine';
 import { Play, type PlayProps } from './Play';
 
 function renderPlay(options: PlayStoreOptions, props?: Partial<PlayProps>) {
@@ -31,14 +37,19 @@ function renderPlay(options: PlayStoreOptions, props?: Partial<PlayProps>) {
   return store;
 }
 
-/** Render mid-game states as a hot-seat game (both sides human). */
+/** Render mid-game states as a hot-seat match (both sides human). */
 function renderHotSeat(options: PlayStoreOptions) {
   return renderPlay(options, {
-    defaultSetup: { mode: 'hotseat', difficulty: 'casual' },
+    defaultSetup: { mode: 'hotseat', difficulty: 'casual', length: 7 },
   });
 }
 
-describe('game setup', () => {
+/** A 7-point match around a given game, unless options say otherwise. */
+function matchWith(game: GameState, options?: Partial<CreateMatchOptions>) {
+  return createMatch({ length: 7, game, ...options });
+}
+
+describe('match setup', () => {
   it('shows the start position with both pip counts', () => {
     renderPlay({ dice: scriptedDice() });
 
@@ -63,8 +74,22 @@ describe('game setup', () => {
       screen.getByRole('button', { name: 'Play as White' }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Hot-seat game' }),
+      screen.getByRole('button', { name: 'Hot-seat match' }),
     ).toBeInTheDocument();
+  });
+
+  it('offers match lengths 1-25 with 7 preselected', async () => {
+    const user = userEvent.setup();
+    const store = renderPlay({ dice: scriptedDice(6, 3) });
+
+    const picker = screen.getByRole('combobox', { name: 'Match length' });
+    expect(picker).toHaveValue('7');
+    expect(picker.querySelectorAll('option')).toHaveLength(25);
+
+    await user.selectOptions(picker, '5');
+    await user.click(screen.getByRole('button', { name: 'Play as White' }));
+    expect(store.getState().match?.length).toBe(5);
+    expect(screen.getByText('5-point match')).toBeInTheDocument();
   });
 
   it('remembers the picked difficulty', async () => {
@@ -77,28 +102,377 @@ describe('game setup', () => {
   });
 });
 
-describe('playing against the computer', () => {
-  it('the computer answers a committed play with its own, visibly', async () => {
-    const user = userEvent.setup();
-    // White opens 6-3; Black (the computer) rolls 5-2; White rolls 4-1 next.
-    const store = renderPlay({ dice: scriptedDice(6, 3, 5, 2, 4, 1) });
+describe('the standing on display', () => {
+  it('shows both match scores, the length and the centered cube', () => {
+    renderHotSeat({
+      match: matchWith(
+        createGame({
+          board: createBoard({
+            white: { points: { 24: 2, 13: 5, 8: 3, 6: 5 } },
+            black: { points: { 1: 2, 12: 5, 17: 3, 19: 5 } },
+          }),
+          player: 'white',
+          roll: [6, 3],
+        }),
+        { score: { white: 3, black: 5 } },
+      ),
+      dice: scriptedDice(),
+    });
 
-    await user.click(screen.getByRole('button', { name: 'Play as White' }));
-    await user.click(
-      screen.getByRole('button', { name: 'Move from point 24' }),
-    );
-    await user.click(screen.getByRole('button', { name: 'Move to point 18' }));
-    await user.click(
-      screen.getByRole('button', { name: 'Move from point 13' }),
-    );
-    await user.click(screen.getByRole('button', { name: 'Move to point 10' }));
-    await user.click(screen.getByRole('button', { name: 'Commit play' }));
+    expect(screen.getByLabelText('White match score')).toHaveTextContent('3');
+    expect(screen.getByLabelText('Black match score')).toHaveTextContent('5');
+    expect(screen.getByText('7-point match')).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('Doubling cube: centered at 1'),
+    ).toBeInTheDocument();
+  });
 
-    // The computer plays Black and hands the turn back.
+  it('shows an owned cube and its holder', () => {
+    renderHotSeat({
+      match: matchWith(
+        createGame({
+          board: createBoard({
+            white: { points: { 24: 2, 13: 5, 8: 3, 6: 5 } },
+            black: { points: { 1: 2, 12: 5, 17: 3, 19: 5 } },
+          }),
+          player: 'white',
+          roll: [6, 3],
+        }),
+        { cube: { value: 2, owner: 'black' } },
+      ),
+      dice: scriptedDice(),
+    });
+
+    expect(
+      screen.getByLabelText('Doubling cube: Black holds it at 2'),
+    ).toBeInTheDocument();
+  });
+
+  it('marks the Crawford game and sets the cube out of play', () => {
+    renderHotSeat({
+      match: matchWith(
+        createGame({
+          board: createBoard({
+            white: { points: { 24: 2, 13: 5, 8: 3, 6: 5 } },
+            black: { points: { 1: 2, 12: 5, 17: 3, 19: 5 } },
+          }),
+          player: 'white',
+          roll: [6, 3],
+        }),
+        { score: { white: 6, black: 2 }, crawford: true },
+      ),
+      dice: scriptedDice(),
+    });
+
+    expect(screen.getByText('Crawford — no doubling')).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('Doubling cube: out of play (Crawford game)'),
+    ).toBeInTheDocument();
+  });
+});
+
+describe('the cube in a hot-seat match', () => {
+  /** White plays the opening 6-3; black reaches the pre-roll decision. */
+  function reachBlackPreRoll(...laterRolls: Parameters<typeof scriptedDice>) {
+    const store = renderHotSeat({
+      dice: scriptedDice(6, 3, ...laterRolls),
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Hot-seat match' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Move from point 24' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Move to point 18' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Move from point 13' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Move to point 10' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Commit play' }));
+    return store;
+  }
+
+  it('offers Double and Roll at the pre-roll moment; Roll starts the turn', () => {
+    reachBlackPreRoll(5, 2);
+
+    expect(screen.getByRole('status')).toHaveTextContent('Black to roll.');
+    expect(
+      screen.getByRole('button', { name: 'Double to 2' }),
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Roll' }));
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'Black to play 5 and 2.',
+    );
+  });
+
+  it('double and take: the cube moves doubled, play goes on', async () => {
+    reachBlackPreRoll(5, 2);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Double to 2' }));
+    expect(screen.getByText('Black doubles to 2')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Take' }));
+    expect(
+      screen.getByLabelText('Doubling cube: White holds it at 2'),
+    ).toBeInTheDocument();
+    // Black can no longer double, so their dice roll themselves.
+    await waitFor(() => {
+      expect(screen.getByRole('status')).toHaveTextContent(
+        'Black to play 5 and 2.',
+      );
+    });
+  });
+
+  it('double and pass: the doubler scores and the game ends', () => {
+    reachBlackPreRoll();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Double to 2' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Pass' }));
+
+    expect(
+      screen.getAllByText(/White passes the double — Black wins 1 point/)
+        .length,
+    ).toBeGreaterThan(0);
+    expect(screen.getByLabelText('Black match score')).toHaveTextContent('1');
+    expect(
+      screen.getByRole('button', { name: 'Next game' }),
+    ).toBeInTheDocument();
+  });
+});
+
+describe('playing the computer at the cube', () => {
+  /** White commits the opening; the engine faces its pre-roll decision. */
+  function reachEnginePreRoll(
+    engine: Engine,
+    ...laterRolls: Parameters<typeof scriptedDice>
+  ) {
+    const store = renderPlay(
+      { dice: scriptedDice(6, 3, ...laterRolls) },
+      { engine },
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Play as White' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Move from point 24' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Move to point 18' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Move from point 13' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Move to point 10' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Commit play' }));
+    return store;
+  }
+
+  it('surfaces the engine double as a take-or-pass decision; take plays on', async () => {
+    reachEnginePreRoll(scriptedCubeEngine('Double, take'), 5, 2);
+
+    expect(await screen.findByText('Black doubles to 2')).toBeInTheDocument();
+    expect(
+      screen.getByText(/Take to play on for 2 points, or pass to concede/),
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Take' }));
+    expect(
+      screen.getByLabelText('Doubling cube: White holds it at 2'),
+    ).toBeInTheDocument();
+    // The engine rolls and plays on at the doubled stake.
+    await waitFor(() => {
+      expect(screen.getByRole('status')).toHaveTextContent('White to roll.');
+    });
+  });
+
+  it('passing the engine double concedes the game', async () => {
+    reachEnginePreRoll(scriptedCubeEngine('Double, take'));
+
+    fireEvent.click(await screen.findByRole('button', { name: 'Pass' }));
+
+    expect(screen.getByLabelText('Black match score')).toHaveTextContent('1');
+    expect(
+      screen.getByRole('button', { name: 'Next game' }),
+    ).toBeInTheDocument();
+  });
+
+  it("the engine answers the user's double and play continues doubled", async () => {
+    // 'No double, take': the engine never doubles itself, and takes when the
+    // user does.
+    reachEnginePreRoll(scriptedCubeEngine('No double, take'), 5, 2, 4, 1);
+
+    // The engine plays its turn and hands White the pre-roll decision.
+    expect(await screen.findByText('White to roll.')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Double to 2' }));
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'White doubles to 2. Black is considering…',
+    );
+
+    // The engine takes; White's dice then roll themselves (no redouble).
+    await waitFor(() => {
+      expect(
+        screen.getByLabelText('Doubling cube: Black holds it at 2'),
+      ).toBeInTheDocument();
+    });
     expect(
       await screen.findByText('White to play 4 and 1.'),
     ).toBeInTheDocument();
-    const plays = store.getState().game?.record.plays ?? [];
+  });
+});
+
+describe('resignation against the computer', () => {
+  it('an accepted resignation ends and scores the game', async () => {
+    // The engine expects less than a point (equity −0.6 for white → +0.6).
+    renderPlay(
+      { dice: scriptedDice(6, 3) },
+      { engine: scriptedCubeEngine('No double, take', { equity: -0.6 }) },
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Play as White' }));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Resign…' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Single — 1 point' }));
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'White offers to resign a single game. Black is considering…',
+    );
+
+    expect(
+      (await screen.findAllByText(/White resigns a single game — Black wins/))
+        .length,
+    ).toBeGreaterThan(0);
+    expect(screen.getByLabelText('Black match score')).toHaveTextContent('1');
+  });
+
+  it('a declined resignation leaves a note and play continues', async () => {
+    // The engine expects a gammon (white equity −1.4): a single is refused.
+    renderPlay(
+      { dice: scriptedDice(6, 3) },
+      { engine: scriptedCubeEngine('No double, take', { equity: -1.4 }) },
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Play as White' }));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Resign…' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Single — 1 point' }));
+
+    await waitFor(() => {
+      expect(screen.getByRole('status')).toHaveTextContent(
+        'Black declined — play on.',
+      );
+    });
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'White to play 6 and 3.',
+    );
+    expect(screen.getByLabelText('Black match score')).toHaveTextContent('0');
+  });
+
+  it('an incoming resignation is an accept-or-decline decision (hot-seat)', () => {
+    renderHotSeat({ dice: scriptedDice(6, 3) });
+    fireEvent.click(screen.getByRole('button', { name: 'Hot-seat match' }));
+
+    // White resigns; the decision passes to Black's seat.
+    fireEvent.click(screen.getByRole('button', { name: 'Resign…' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Gammon — 2 points' }));
+    expect(
+      screen.getByText('White offers to resign a gammon'),
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Accept' }));
+    expect(screen.getByLabelText('Black match score')).toHaveTextContent('2');
+    expect(
+      screen.getByRole('button', { name: 'Next game' }),
+    ).toBeInTheDocument();
+  });
+
+  it('the resignation picker can be cancelled', () => {
+    renderHotSeat({ dice: scriptedDice(6, 3) });
+    fireEvent.click(screen.getByRole('button', { name: 'Hot-seat match' }));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Resign…' }));
+    expect(
+      screen.getByRole('button', { name: 'Gammon — 2 points' }),
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+    expect(
+      screen.queryByRole('button', { name: 'Gammon — 2 points' }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Commit play' }),
+    ).toBeInTheDocument();
+  });
+});
+
+describe('between games and at the match end', () => {
+  function winWhiteGame(options?: Partial<CreateMatchOptions>) {
+    const board = createBoard({
+      white: { points: { 1: 1 }, off: 14 },
+      black: { points: { 24: 1 }, off: 14 },
+    });
+    const store = renderHotSeat({
+      match: matchWith(
+        createGame({ board, player: 'white', roll: [6, 5] }),
+        options,
+      ),
+      dice: scriptedDice(4, 2, 3, 1),
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Move from point 1' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Bear off' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Commit play' }));
+    return store;
+  }
+
+  it('announces the game result and continues into the next game', () => {
+    winWhiteGame();
+
+    expect(
+      screen.getAllByText('White wins a single game — 1 point.').length,
+    ).toBeGreaterThan(0);
+    expect(
+      screen.getByText('White 1 · Black 0 — first to 7'),
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Next game' }));
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'White to play 4 and 2.',
+    );
+    expect(screen.getByLabelText('White match score')).toHaveTextContent('1');
+  });
+
+  it('flags the upcoming Crawford game on the interstitial', () => {
+    winWhiteGame({ score: { white: 5, black: 2 } });
+
+    expect(
+      screen.getByText('Next is the Crawford game — no doubling.'),
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Next game' }));
+    expect(screen.getByText('Crawford — no doubling')).toBeInTheDocument();
+  });
+
+  it('summarises the match at its end and starts a new one', async () => {
+    const store = winWhiteGame({
+      score: { white: 6, black: 3 },
+      crawford: true,
+    });
+
+    expect(
+      screen.getAllByText('White wins the match 7–3').length,
+    ).toBeGreaterThan(0);
+    // The games list reports the deciding game.
+    expect(screen.getByText(/White \+1 — single game/)).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Next game' }),
+    ).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'New match' }));
+    expect(store.getState().match?.score).toEqual({ white: 0, black: 0 });
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'White to play 4 and 2.',
+    );
+  });
+});
+
+describe('playing against the computer', () => {
+  it('the computer answers a committed play with its own, visibly', async () => {
+    // White opens 6-3; Black (the computer) rolls 5-2 after its cube check.
+    const store = renderPlay({ dice: scriptedDice(6, 3, 5, 2) });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Play as White' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Move from point 24' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Move to point 18' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Move from point 13' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Move to point 10' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Commit play' }));
+
+    // The computer plays Black and hands the decision back to White.
+    expect(await screen.findByText('White to roll.')).toBeInTheDocument();
+    const plays = store.getState().match?.game.record.plays ?? [];
     expect(plays).toHaveLength(2);
     expect(plays[1].player).toBe('black');
     expect(plays[1].movements.length).toBeGreaterThan(0);
@@ -128,9 +502,8 @@ describe('playing against the computer', () => {
     ).not.toBeInTheDocument();
 
     act(() => engine.release());
-    expect(
-      await screen.findByText('White to play 5 and 2.'),
-    ).toBeInTheDocument();
+    expect(await screen.findByText('White to roll.')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Roll' }));
     expect(
       screen.getAllByRole('button', { name: /^Move from/ }).length,
     ).toBeGreaterThan(0);
@@ -199,18 +572,25 @@ describe('playing against the computer', () => {
     ).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Retry' }));
-    expect(
-      await screen.findByText('White to play 5 and 2.'),
-    ).toBeInTheDocument();
+    expect(await screen.findByText('White to roll.')).toBeInTheDocument();
   });
 
-  it('plays a complete game against the computer through the UI', async () => {
+  it('plays a complete 1-point match against the computer through the UI', async () => {
     renderPlay({ dice: createSeededDice(7) });
+    fireEvent.click(screen.getByRole('combobox', { name: 'Match length' }));
+    fireEvent.change(screen.getByRole('combobox', { name: 'Match length' }), {
+      target: { value: '1' },
+    });
     fireEvent.click(screen.getByRole('button', { name: 'Play as White' }));
 
     for (let i = 0; i < 4000; i++) {
-      if (screen.queryAllByText(/wins a/).length > 0) {
+      if (screen.queryAllByText(/wins the match/).length > 0) {
         break;
+      }
+      const roll = screen.queryByRole('button', { name: 'Roll' });
+      if (roll) {
+        fireEvent.click(roll);
+        continue;
       }
       const dance = screen.queryByRole('button', { name: 'Continue' });
       if (dance) {
@@ -244,10 +624,10 @@ describe('playing against the computer', () => {
       fireEvent.click(destination);
     }
 
-    expect(screen.getAllByText(/wins a/).length).toBeGreaterThan(0);
-    // The finished game offers the setup again.
+    expect(screen.getAllByText(/wins the match/).length).toBeGreaterThan(0);
+    // The finished match offers a new one.
     expect(
-      screen.getByRole('button', { name: 'Play again' }),
+      screen.getByRole('button', { name: 'New match' }),
     ).toBeInTheDocument();
   }, 30_000);
 });
@@ -257,7 +637,7 @@ describe('click-to-move (hot-seat)', () => {
     const user = userEvent.setup();
     renderHotSeat({ dice: scriptedDice(6, 3, 5, 2) });
 
-    await user.click(screen.getByRole('button', { name: 'Hot-seat game' }));
+    await user.click(screen.getByRole('button', { name: 'Hot-seat match' }));
     expect(screen.getByRole('status')).toHaveTextContent(
       'White to play 6 and 3.',
     );
@@ -288,6 +668,9 @@ describe('click-to-move (hot-seat)', () => {
 
     expect(commit).toBeEnabled();
     await user.click(commit);
+    expect(screen.getByRole('status')).toHaveTextContent('Black to roll.');
+
+    await user.click(screen.getByRole('button', { name: 'Roll' }));
     expect(screen.getByRole('status')).toHaveTextContent(
       'Black to play 5 and 2.',
     );
@@ -296,7 +679,7 @@ describe('click-to-move (hot-seat)', () => {
   it('toggles the highlights off when the origin is clicked again', async () => {
     const user = userEvent.setup();
     renderHotSeat({ dice: scriptedDice(6, 3) });
-    await user.click(screen.getByRole('button', { name: 'Hot-seat game' }));
+    await user.click(screen.getByRole('button', { name: 'Hot-seat match' }));
 
     const origin = screen.getByRole('button', { name: 'Move from point 24' });
     await user.click(origin);
@@ -313,7 +696,7 @@ describe('click-to-move (hot-seat)', () => {
   it('undo restores the position within the turn', async () => {
     const user = userEvent.setup();
     renderHotSeat({ dice: scriptedDice(6, 3) });
-    await user.click(screen.getByRole('button', { name: 'Hot-seat game' }));
+    await user.click(screen.getByRole('button', { name: 'Hot-seat match' }));
 
     const undo = screen.getByRole('button', { name: 'Undo' });
     expect(undo).toBeDisabled();
@@ -345,16 +728,14 @@ describe('dance and forced turns (hot-seat)', () => {
 
   it('resolves a dance with a single continue action', async () => {
     const user = userEvent.setup();
-    renderHotSeat({ game: danceGame(), dice: scriptedDice(5, 2) });
+    renderHotSeat({ match: matchWith(danceGame()), dice: scriptedDice(5, 2) });
 
     expect(screen.getByRole('status')).toHaveTextContent(
       'White rolled 6 and 3 — no legal plays.',
     );
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
-    expect(screen.getByRole('status')).toHaveTextContent(
-      'Black to play 5 and 2.',
-    );
+    expect(screen.getByRole('status')).toHaveTextContent('Black to roll.');
   });
 
   it('resolves a forced play with a single action', async () => {
@@ -364,54 +745,33 @@ describe('dance and forced turns (hot-seat)', () => {
       black: { points: { 15: 2, 1: 13 } },
     });
     renderHotSeat({
-      game: createGame({ board, player: 'white', roll: [6, 3] }),
+      match: matchWith(createGame({ board, player: 'white', roll: [6, 3] })),
       dice: scriptedDice(5, 2),
     });
 
     expect(screen.getByRole('status')).toHaveTextContent('only one legal play');
 
     await user.click(screen.getByRole('button', { name: 'Play forced move' }));
-    expect(screen.getByRole('status')).toHaveTextContent(
-      'Black to play 5 and 2.',
-    );
+    expect(screen.getByRole('status')).toHaveTextContent('Black to roll.');
   });
 });
 
-describe('game end (hot-seat)', () => {
-  it('announces the winner and offers a new game', async () => {
-    const user = userEvent.setup();
-    const board = createBoard({
-      white: { points: { 1: 1 }, off: 14 },
-      black: { points: { 24: 1 }, off: 14 },
-    });
-    renderHotSeat({
-      game: createGame({ board, player: 'white', roll: [6, 5] }),
-      dice: scriptedDice(4, 2),
-    });
-
-    await user.click(screen.getByRole('button', { name: 'Move from point 1' }));
-    await user.click(screen.getByRole('button', { name: 'Bear off' }));
-    await user.click(screen.getByRole('button', { name: 'Commit play' }));
-
-    expect(screen.getByRole('status')).toHaveTextContent(
-      'White wins a single game.',
+describe('a complete hot-seat match with clicks only', () => {
+  it('plays a 1-point match from the opening roll to the summary', () => {
+    renderPlay(
+      { dice: createSeededDice(7) },
+      { defaultSetup: { mode: 'hotseat', difficulty: 'casual', length: 1 } },
     );
-
-    await user.click(screen.getByRole('button', { name: 'Play again' }));
-    expect(screen.getByRole('status')).toHaveTextContent(
-      'White to play 4 and 2.',
-    );
-  });
-});
-
-describe('a complete hot-seat game with clicks only', () => {
-  it('plays from the opening roll to a win through the UI', () => {
-    renderHotSeat({ dice: createSeededDice(7) });
-    fireEvent.click(screen.getByRole('button', { name: 'Hot-seat game' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Hot-seat match' }));
 
     for (let i = 0; i < 5000; i++) {
-      if (screen.queryAllByText(/wins a/).length > 0) {
+      if (screen.queryAllByText(/wins the match/).length > 0) {
         break;
+      }
+      const roll = screen.queryByRole('button', { name: 'Roll' });
+      if (roll) {
+        fireEvent.click(roll);
+        continue;
       }
       const dance = screen.queryByRole('button', { name: 'Continue' });
       if (dance) {
@@ -436,6 +796,6 @@ describe('a complete hot-seat game with clicks only', () => {
       fireEvent.click(destination);
     }
 
-    expect(screen.getAllByText(/wins a/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/wins the match/).length).toBeGreaterThan(0);
   }, 30_000);
 });

@@ -14,7 +14,7 @@ import { createPlayStore } from './store';
 function openingGame(): GameState {
   const store = createPlayStore({ dice: scriptedDice(6, 3) });
   store.dispatch({ type: 'start' });
-  const game = store.getState().game;
+  const game = store.getState().match?.game;
   if (!game) {
     throw new Error('game did not start');
   }
@@ -81,14 +81,15 @@ describe('commit and undo gates', () => {
   it('blocks commit until the play is complete, then allows it', () => {
     const store = createPlayStore({ dice: scriptedDice(6, 3) });
     store.dispatch({ type: 'start' });
-    expect(canCommit(store.getState().game)).toBe(false);
+    const game = () => store.getState().match?.game ?? null;
+    expect(canCommit(game())).toBe(false);
 
     store.dispatch({ type: 'movement', from: 24, die: 6 });
-    expect(canCommit(store.getState().game)).toBe(false);
-    expect(canUndo(store.getState().game)).toBe(true);
+    expect(canCommit(game())).toBe(false);
+    expect(canUndo(game())).toBe(true);
 
     store.dispatch({ type: 'movement', from: 18, die: 3 });
-    expect(canCommit(store.getState().game)).toBe(true);
+    expect(canCommit(game())).toBe(true);
   });
 
   it('disallows undo at the start of a turn', () => {

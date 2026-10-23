@@ -176,12 +176,13 @@ function boardKey(board: BoardState): string {
 }
 
 /**
- * Commit the current turn's movements as a Play. The movements must form a
- * complete legal play (maximum dice used; higher die when only one plays) —
- * a dance commits with zero movements. Appends to the game record, detects
- * game end, and otherwise rolls the next player's turn from `dice`.
+ * Commit the current turn's movements as a Play, without rolling the next
+ * turn. The movements must form a complete legal play (maximum dice used;
+ * higher die when only one plays) — a dance commits with zero movements.
+ * Appends to the game record and detects game end; the returned state has no
+ * turn in progress (the match layer's pre-roll phase, see src/rules/match.ts).
  */
-export function commitPlay(state: GameState, dice: DiceSource): GameState {
+export function commitPlayOnly(state: GameState): GameState {
   const turn = requireTurn(state);
   const plays = legalPlays(turn.startBoard, turn.player, turn.roll);
 
@@ -216,18 +217,45 @@ export function commitPlay(state: GameState, dice: DiceSource): GameState {
     ],
   };
 
-  const result = gameResult(state.board);
-  if (result) {
-    return { board: state.board, turn: null, record, result };
-  }
-
-  const roll: DiceRoll = [dice.rollDie(), dice.rollDie()];
   return {
     board: state.board,
-    turn: newTurn(opponent(turn.player), roll, state.board),
+    turn: null,
     record,
-    result: null,
+    result: gameResult(state.board),
   };
+}
+
+/**
+ * Begin the next player's turn with a known roll, on a game whose previous
+ * play was committed without rolling (see {@link commitPlayOnly}).
+ */
+export function startNextTurn(state: GameState, roll: DiceRoll): GameState {
+  if (state.turn) {
+    throw new Error('a turn is already in progress');
+  }
+  if (state.result) {
+    throw new Error('the game has ended');
+  }
+  const last = state.record.plays[state.record.plays.length - 1];
+  if (!last) {
+    throw new Error('no play has been committed yet');
+  }
+  return {
+    ...state,
+    turn: newTurn(opponent(last.player), roll, state.board),
+  };
+}
+
+/**
+ * Commit the current turn's movements as a Play (see {@link commitPlayOnly})
+ * and, unless the game ended, roll the next player's turn from `dice`.
+ */
+export function commitPlay(state: GameState, dice: DiceSource): GameState {
+  const committed = commitPlayOnly(state);
+  if (committed.result) {
+    return committed;
+  }
+  return startNextTurn(committed, [dice.rollDie(), dice.rollDie()]);
 }
 
 /**

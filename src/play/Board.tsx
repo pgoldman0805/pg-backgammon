@@ -26,12 +26,22 @@ import {
 } from './geometry';
 import { destinationsFrom, movableOrigins } from './selectors';
 
+/** The doubling cube as the board renders it. */
+export interface BoardCube {
+  readonly value: number;
+  readonly owner: Player | 'center';
+  /** True during the Crawford game: the cube is out of play. */
+  readonly outOfPlay?: boolean;
+}
+
 export interface BoardProps {
   /** Null renders the static start position (before the first game). */
   readonly game: GameState | null;
   readonly selected: Point | 'bar' | null;
   readonly onSelect: (origin: Point | 'bar' | null) => void;
   readonly onMove: (from: Point | 'bar', die: Die) => void;
+  /** The doubling cube to render; omit to render no cube (pre-match). */
+  readonly cube?: BoardCube | null;
   /**
    * False renders the position inert (no pick-up or drop targets) — the
    * engine's turn in a vs-computer game. Defaults to true.
@@ -153,6 +163,47 @@ function Checker({
   );
 }
 
+/**
+ * The doubling cube, in the left quadrant's open channel (the dice occupy the
+ * right): mid-channel when centered, shifted toward the owner's side when
+ * owned. A never-turned cube shows its traditional 64 face.
+ */
+function CubeGlyph({ cube }: { cube: BoardCube }) {
+  const size = 64;
+  const x = BOARD.frame + (BOARD.pointWidth * 6) / 2;
+  const y =
+    cube.owner === 'center'
+      ? BOARD.height / 2
+      : cube.owner === 'black'
+        ? BOARD.height / 2 - 48
+        : BOARD.height / 2 + 48;
+  const label = cube.outOfPlay
+    ? 'Doubling cube: out of play (Crawford game)'
+    : cube.owner === 'center'
+      ? `Doubling cube: centered at ${cube.value}`
+      : `Doubling cube: ${cube.owner === 'white' ? 'White' : 'Black'} holds it at ${cube.value}`;
+  return (
+    // biome-ignore lint/a11y/noInteractiveElementToNoninteractiveRole: an SVG <g> is not interactive; img is its true role
+    <g
+      className={`cube ${cube.outOfPlay ? 'cube--out-of-play' : ''}`}
+      role="img"
+      aria-label={label}
+    >
+      <rect
+        x={x - size / 2}
+        y={y - size / 2}
+        width={size}
+        height={size}
+        rx={12}
+        className="cube-face"
+      />
+      <text x={x} y={y + 9} className="cube-value">
+        {cube.owner === 'center' && cube.value === 1 ? 64 : cube.value}
+      </text>
+    </g>
+  );
+}
+
 /** How many of each rolled die remain unused, for fading used dice. */
 function usageFlags(
   roll: readonly Die[],
@@ -174,6 +225,7 @@ export function Board({
   selected,
   onSelect,
   onMove,
+  cube,
   interactive = true,
 }: BoardProps) {
   const board = game?.board ?? initialBoard();
@@ -365,6 +417,9 @@ export function Board({
           {p}
         </text>
       ))}
+
+      {/* The doubling cube */}
+      {cube && <CubeGlyph cube={cube} />}
 
       {/* Dice */}
       {rollDice.map((die, i) => (

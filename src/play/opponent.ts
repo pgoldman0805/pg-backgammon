@@ -1,9 +1,9 @@
 /**
- * The engine opponent: plays one side of a game through the same PlayStore
- * the human uses (the store ticket 03 designed for exactly this). It watches
- * the store, and on the engine's turn chooses a play via Engine.rankPlays at
- * its Difficulty, then dispatches the movements one by one — paced so the
- * human sees them happen — and commits.
+ * The engine opponent: plays one side of a match through the same PlayStore
+ * the human uses. It watches the store and acts whenever a decision is the
+ * engine's: checker plays via Engine.rankPlays at its Difficulty, cube
+ * decisions via Engine.cubeInfo with full match context, resignation
+ * responses via Engine.evaluate — each paced so the human sees them happen.
  *
  * Dances and forced plays resolve from the rules engine alone (no engine
  * round-trip), so they keep working even while the engine payload loads.
@@ -12,13 +12,19 @@
 // Types come straight from the engine seam definition (not the module index)
 // so this file stays free of browser-typed internals: it is compiled both in
 // the app and in the node-typed test program (the real-WASM smoke test).
-import type { Difficulty, Engine } from '../engine/types';
-import type { Play, Player, TurnState } from '../rules';
+import type { Difficulty, Engine, MatchContext } from '../engine/types';
+import {
+  canDouble,
+  type GameEndKind,
+  type MatchState,
+  type Play,
+  type Player,
+} from '../rules';
 import { forcedPlay, isDance } from './selectors';
 import type { PlayStore } from './store';
 
 export interface EngineOpponentState {
-  /** True while a rankPlays call is in flight (the visible thinking state). */
+  /** True while an engine call is in flight (the visible thinking state). */
   readonly thinking: boolean;
   /** Message of the last engine failure; null when healthy. */
   readonly error: string | null;
@@ -39,7 +45,7 @@ export interface EngineOpponentOptions {
 export interface EngineOpponent {
   getState(): EngineOpponentState;
   subscribe(listener: () => void): () => void;
-  /** Re-attempt the current turn after an engine failure. */
+  /** Re-attempt the current decision after an engine failure. */
   retry(): void;
   /** Stop watching the store and discard any in-flight action. */
   dispose(): void;
@@ -47,6 +53,64 @@ export interface EngineOpponent {
 
 const defaultPace = (ms: number) =>
   new Promise<void>((resolve) => setTimeout(resolve, ms));
+
+const opposing = (player: Player): Player =>
+  player === 'white' ? 'black' : 'white';
+
+/** The match context the engine needs for match-aware evaluation. */
+export function matchContext(match: MatchState): MatchContext {
+  return {
+    matchLength: match.length,
+    score: match.score,
+    crawford: match.crawford,
+    cube: match.cube,
+  };
+}
+
+/** gnubg's proper cube action recommends turning the cube now. */
+export function recommendsDouble(properAction: string): boolean {
+  return /^(re)?double/i.test(properAction.trim());
+}
+
+/** gnubg's proper cube action recommends the doubled player pass. */
+export function recommendsPass(properAction: string): boolean {
+  return /pass$/i.test(properAction.trim());
+}
+
+const KIND_POINTS: Record<GameEndKind, number> = {
+  single: 1,
+  gammon: 2,
+  backgammon: 3,
+};
+
+/**
+ * One decision moment, identified by object identity of the plays record (a
+ * new array every commit, a new game every match/game start) plus the phase
+ * and the count of recorded decisions. Stale engine answers never land.
+ */
+interface DecisionToken {
+  readonly phase: MatchState['phase'];
+  readonly plays: MatchState['game']['record']['plays'];
+  readonly decisions: number;
+}
+
+function tokenFor(match: MatchState): DecisionToken {
+  return {
+    phase: match.phase,
+    plays: match.game.record.plays,
+    decisions: match.decisions.length,
+  };
+}
+
+function sameToken(a: DecisionToken | null, b: DecisionToken | null): boolean {
+  return (
+    a !== null &&
+    b !== null &&
+    a.phase === b.phase &&
+    a.plays === b.plays &&
+    a.decisions === b.decisions
+  );
+}
 
 export function createEngineOpponent(
   options: EngineOpponentOptions,
@@ -58,8 +122,8 @@ export function createEngineOpponent(
   let state: EngineOpponentState = { thinking: false, error: null };
   const listeners = new Set<() => void>();
   let disposed = false;
-  /** Roll identity of the turn being (or already) acted on. */
-  let attempted: TurnState['roll'] | null = null;
+  /** The decision moment being (or already) acted on. */
+  let attempted: DecisionToken | null = null;
 
   function setState(next: EngineOpponentState): void {
     if (
@@ -74,54 +138,173 @@ export function createEngineOpponent(
     }
   }
 
-  async function takeTurn(turn: TurnState): Promise<void> {
-    const token = turn.roll;
-    /** The turn is still ours to play (same roll, not disposed). */
-    const live = () => !disposed && store.getState().game?.turn?.roll === token;
+  /** The current match if the captured decision moment is still live. */
+  function liveMatch(token: DecisionToken): MatchState | null {
+    if (disposed) {
+      return null;
+    }
+    const match = store.getState().match;
+    return match && sameToken(tokenFor(match), token) ? match : null;
+  }
+
+  async function think<T>(work: Promise<T>): Promise<T> {
+    setState({ thinking: true, error: null });
     try {
-      const game = store.getState().game;
+      return await work;
+    } finally {
+      setState({ thinking: false, error: state.error });
+    }
+  }
 
-      // A beat before acting, so the engine's roll is visible first.
-      await pace(stepMs);
-      if (!live()) {
+  /** Pre-roll: consider doubling (cube info with match context), then roll. */
+  async function actPreRoll(token: DecisionToken, match: MatchState) {
+    await pace(stepMs);
+    if (!liveMatch(token)) {
+      return;
+    }
+    if (canDouble(match)) {
+      const analysis = await think(
+        engine.cubeInfo({
+          board: match.game.board,
+          onRoll: player,
+          match: matchContext(match),
+        }),
+      );
+      if (!liveMatch(token)) {
         return;
       }
-
-      if (isDance(game)) {
-        store.dispatch({ type: 'commit' });
+      if (recommendsDouble(analysis.properAction)) {
+        store.dispatch({ type: 'double' });
         return;
       }
+    }
+    store.dispatch({ type: 'roll' });
+  }
 
-      let play: Play | null = forcedPlay(game);
-      if (!play) {
-        setState({ thinking: true, error: null });
-        const ranked = await engine.rankPlays(
-          { board: turn.startBoard, onRoll: player },
+  /** The human doubled: answer from the doubler's cube analysis. */
+  async function actCubeOffered(token: DecisionToken, match: MatchState) {
+    await pace(stepMs);
+    if (!liveMatch(token)) {
+      return;
+    }
+    const doubler = match.toRoll as Player;
+    const analysis = await think(
+      engine.cubeInfo({
+        board: match.game.board,
+        onRoll: doubler,
+        match: matchContext(match),
+      }),
+    );
+    if (!liveMatch(token)) {
+      return;
+    }
+    store.dispatch({
+      type: recommendsPass(analysis.properAction) ? 'pass' : 'take',
+    });
+  }
+
+  /**
+   * The human offered to resign: accept when the offered points cover the
+   * engine's expected equity from playing on, decline otherwise.
+   */
+  async function actResignation(token: DecisionToken, match: MatchState) {
+    const pending = match.pendingResignation;
+    if (!pending) {
+      return;
+    }
+    await pace(stepMs);
+    if (!liveMatch(token)) {
+      return;
+    }
+    const onRoll =
+      match.resumePhase === 'turn' && match.game.turn
+        ? match.game.turn.player
+        : (match.toRoll ?? player);
+    const evaluation = await think(
+      engine.evaluate({
+        board: match.game.board,
+        onRoll,
+        match: matchContext(match),
+      }),
+    );
+    if (!liveMatch(token)) {
+      return;
+    }
+    const ourEquity =
+      onRoll === player ? evaluation.equity : -evaluation.equity;
+    const offered = KIND_POINTS[pending.kind];
+    store.dispatch({
+      type: offered + 1e-9 >= ourEquity ? 'accept-resign' : 'decline-resign',
+    });
+  }
+
+  /** The engine's rolled turn: dance, forced play, or ranked checker play. */
+  async function actTurn(token: DecisionToken, match: MatchState) {
+    const turn = match.game.turn;
+    if (!turn) {
+      return;
+    }
+    // A beat before acting, so the engine's roll is visible first.
+    await pace(stepMs);
+    if (!liveMatch(token)) {
+      return;
+    }
+
+    if (isDance(match.game)) {
+      store.dispatch({ type: 'commit' });
+      return;
+    }
+
+    let play: Play | null = forcedPlay(match.game);
+    if (!play) {
+      const ranked = await think(
+        engine.rankPlays(
+          {
+            board: turn.startBoard,
+            onRoll: player,
+            match: matchContext(match),
+          },
           turn.roll,
           { difficulty },
-        );
-        setState({ thinking: false, error: null });
-        if (!live()) {
-          return;
-        }
-        play = ranked[0]?.play ?? null;
-        if (!play) {
-          return;
-        }
+        ),
+      );
+      if (!liveMatch(token)) {
+        return;
       }
+      play = ranked[0]?.play ?? null;
+      if (!play) {
+        return;
+      }
+    }
 
-      for (const movement of play.movements) {
-        store.dispatch({
-          type: 'movement',
-          from: movement.from,
-          die: movement.die,
-        });
-        await pace(stepMs);
-        if (!live()) {
-          return;
-        }
+    for (const movement of play.movements) {
+      store.dispatch({
+        type: 'movement',
+        from: movement.from,
+        die: movement.die,
+      });
+      await pace(stepMs);
+      if (!liveMatch(token)) {
+        return;
       }
-      store.dispatch({ type: 'commit' });
+    }
+    store.dispatch({ type: 'commit' });
+  }
+
+  async function act(token: DecisionToken, match: MatchState): Promise<void> {
+    try {
+      switch (match.phase) {
+        case 'pre-roll':
+          return await actPreRoll(token, match);
+        case 'cube-offered':
+          return await actCubeOffered(token, match);
+        case 'resign-offered':
+          return await actResignation(token, match);
+        case 'turn':
+          return await actTurn(token, match);
+        default:
+          return;
+      }
     } catch (error) {
       attempted = null;
       setState({
@@ -131,23 +314,40 @@ export function createEngineOpponent(
     }
   }
 
+  /** Is the current decision the engine's to make? */
+  function isOurs(match: MatchState): boolean {
+    switch (match.phase) {
+      case 'turn':
+        return (
+          match.game.turn?.player === player &&
+          match.game.turn.movements.length === 0
+        );
+      case 'pre-roll':
+        return match.toRoll === player;
+      case 'cube-offered':
+        // Respond only to the opponent's double, never our own.
+        return match.toRoll === opposing(player);
+      case 'resign-offered':
+        return match.pendingResignation?.by === opposing(player);
+      default:
+        return false;
+    }
+  }
+
   function maybeAct(): void {
     if (disposed || state.error) {
       return;
     }
-    const game = store.getState().game;
-    const turn = game?.turn;
-    if (!game || !turn || game.result) {
+    const match = store.getState().match;
+    if (!match || !isOurs(match)) {
       return;
     }
-    if (turn.player !== player || turn.movements.length > 0) {
+    const token = tokenFor(match);
+    if (sameToken(attempted, token)) {
       return;
     }
-    if (attempted === turn.roll) {
-      return;
-    }
-    attempted = turn.roll;
-    void takeTurn(turn);
+    attempted = token;
+    void act(token, match);
   }
 
   const unsubscribe = store.subscribe(maybeAct);
