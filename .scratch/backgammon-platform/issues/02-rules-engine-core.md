@@ -6,7 +6,7 @@
 
 **Status:** ready-for-agent
 
-- [ ] Legal-play enumeration passes exhaustive unit + property tests, including the must-use-both-dice and use-larger-die rules, bar re-entry, and bear-off edge cases
-- [ ] A recorded game replays to an identical final position (determinism test)
-- [ ] Game end correctly distinguishes single, gammon, backgammon
-- [ ] Interface is pure and synchronous: no React, no worker, no storage imports
+- [x] Legal-play enumeration passes exhaustive unit + property tests, including the must-use-both-dice and use-larger-die rules, bar re-entry, and bear-off edge cases
+- [x] A recorded game replays to an identical final position (determinism test)
+- [x] Game end correctly distinguishes single, gammon, backgammon
+- [x] Interface is pure and synchronous: no React, no worker, no storage imports

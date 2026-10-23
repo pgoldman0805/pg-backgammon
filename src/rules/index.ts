@@ -1,0 +1,42 @@
+/**
+ * The pure, synchronous backgammon rules engine (ADR-0002).
+ *
+ * No React, worker, or storage imports: everything here is plain TypeScript
+ * operating on immutable values, verifiable entirely through tests.
+ */
+
+export {
+  applyMovement,
+  type BoardSpec,
+  createBoard,
+  initialBoard,
+  type PlayerPlacement,
+  pipCount,
+  undoMovement,
+} from './board';
+export { createSeededDice, type DiceSource } from './dice';
+export {
+  applyTurnMovement,
+  type CreateGameOptions,
+  commitPlay,
+  createGame,
+  type GameState,
+  gameResult,
+  startGame,
+  type TurnState,
+  undoTurnMovement,
+} from './game';
+export { computeMovement, legalMovements, legalPlays } from './plays';
+export { type ReplayOutcome, replayGame } from './replay';
+export type {
+  BoardState,
+  CheckerMovement,
+  DiceRoll,
+  Die,
+  GameEndKind,
+  GameRecord,
+  GameResult,
+  Play,
+  Player,
+  Point,
+} from './types';
