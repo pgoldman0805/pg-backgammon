@@ -74,14 +74,24 @@ export interface MatchAnalyzer {
     roll: DiceRoll | null,
   ): Promise<PositionAnalysis>;
   /**
-   * One full-strength ranking through the shared gate — ticket 12's blunder
-   * miner completes play answer tables with it at background priority.
+   * One ranking through the shared gate — ticket 12's blunder miner completes
+   * play answer tables with it at background priority; ticket 18's generator
+   * also screens self-play moves with a weakened `options.difficulty`.
    */
   rankPlays(
     position: EnginePosition,
     roll: DiceRoll,
     priority?: AnalysisPriority,
+    options?: RankPlaysOptions,
   ): Promise<readonly RankedPlay[]>;
+  /**
+   * One cube analysis through the shared gate — ticket 18's generator
+   * evaluates self-play cube questions with it at background priority.
+   */
+  cubeInfo(
+    position: EnginePosition,
+    priority?: AnalysisPriority,
+  ): Promise<CubeAnalysis>;
 }
 
 export interface MatchAnalyzerOptions {
@@ -195,8 +205,12 @@ export function createMatchAnalyzer(
       return { kind: 'cube', cube: await gated.cubeInfo(position) };
     },
 
-    rankPlays(position, roll, priority = 'background') {
-      return gatedEngine(priority).rankPlays(position, roll);
+    rankPlays(position, roll, priority = 'background', rankOptions) {
+      return gatedEngine(priority).rankPlays(position, roll, rankOptions);
+    },
+
+    cubeInfo(position, priority = 'background') {
+      return gatedEngine(priority).cubeInfo(position);
     },
   };
 }
