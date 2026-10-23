@@ -9,7 +9,9 @@ import {
   type Engine,
   type EngineStatus,
   type PositionEvaluation,
+  type RankedPlay,
 } from '../engine';
+import { applyMovement, type CheckerMovement } from '../rules';
 
 /**
  * A fake engine with a scripted cube verdict (gnubg proper-action text) and
@@ -43,6 +45,66 @@ export function scriptedCubeEngine(
     async evaluate(position: Parameters<Engine['evaluate']>[0]) {
       const base = await fake.evaluate(position);
       return { ...base, ...evaluation };
+    },
+  };
+  return engine;
+}
+
+/**
+ * An engine whose rankings give white's opening 24/18 13/10 a fixed equity
+ * and every other play another, so tests control the exact loss Tutor-mode
+ * feedback sees. Records its calls and the last ranking it returned.
+ */
+export function openingFeedbackEngine(
+  chosenEquity: number,
+  bestEquity: number,
+): Engine & {
+  lastRanked: readonly RankedPlay[] | null;
+  calls: Array<{ board: unknown; difficulty: unknown }>;
+} {
+  const fake = createFakeEngine();
+  const openingMovements: CheckerMovement[] = [
+    { from: 24, to: 18, die: 6, hit: false },
+    { from: 13, to: 10, die: 3, hit: false },
+  ];
+  const engine = {
+    ...fake,
+    lastRanked: null as readonly RankedPlay[] | null,
+    calls: [] as Array<{ board: unknown; difficulty: unknown }>,
+    async rankPlays(
+      position: Parameters<Engine['rankPlays']>[0],
+      roll: Parameters<Engine['rankPlays']>[1],
+      options?: Parameters<Engine['rankPlays']>[2],
+    ) {
+      engine.calls.push({
+        board: position.board,
+        difficulty: options?.difficulty,
+      });
+      const ranked = await fake.rankPlays(position, roll, options);
+      const chosenFinal = JSON.stringify(
+        openingMovements.reduce(
+          (board, movement) => applyMovement(board, 'white', movement),
+          position.board,
+        ),
+      );
+      const rescored = ranked
+        .map((entry) => {
+          const final = JSON.stringify(
+            entry.play.movements.reduce(
+              (board, movement) =>
+                applyMovement(board, entry.play.player, movement),
+              position.board,
+            ),
+          );
+          return {
+            ...entry,
+            equity: final === chosenFinal ? chosenEquity : bestEquity,
+          };
+        })
+        .sort((a, b) => b.equity - a.equity)
+        .map((entry, index) => ({ ...entry, rank: index + 1, equityLoss: 0 }));
+      engine.lastRanked = rescored;
+      return rescored;
     },
   };
   return engine;
