@@ -7,6 +7,7 @@ import {
   type EngineStatus,
 } from '../engine';
 import { CopyXgidButton, encodeXgid } from '../formats';
+import { stepMsFor, useAnimationSpeed } from '../play/animation';
 import { type Autoplay, createAutoplay } from '../play/autoplay';
 import { Board } from '../play/Board';
 import { BoardStylePicker } from '../play/BoardStylePicker';
@@ -20,6 +21,8 @@ import { canCommit, canUndo, forcedPlay, isDance } from '../play/selectors';
 import {
   AUTO_FORCED_PLAYS_KEY,
   AUTO_ROLL_RACES_KEY,
+  getStoredSwitch,
+  TUTOR_DEFAULT_KEY,
   useStoredSwitch,
 } from '../play/settings';
 import { createPlayStore, type PlayStore } from '../play/store';
@@ -423,7 +426,11 @@ export function Play({
     useState<EngineOpponentState>(IDLE_OPPONENT);
   const opponentRef = useRef<EngineOpponent | null>(null);
   const previousMatch = useRef<MatchState | null>(null);
-  const [tutorOn, setTutorOn] = useState(false);
+  // Tutor mode starts from its stored default (ticket 20); the toggle then
+  // rules the live match alone and never writes the default back.
+  const [tutorOn, setTutorOn] = useState(() =>
+    getStoredSwitch(TUTOR_DEFAULT_KEY, false),
+  );
   const [tutorState, setTutorState] = useState<TutorState | null>(null);
   const tutorRef = useRef<Tutor | null>(null);
   const [autoRollRaces, setAutoRollRaces] = useStoredSwitch(
@@ -437,6 +444,11 @@ export function Play({
   const autoplaySettings = useRef({ autoRollRaces, autoForcedPlays });
   autoplaySettings.current = { autoRollRaces, autoForcedPlays };
   const autoplayRef = useRef<Autoplay | null>(null);
+  // The checker-animation speed paces the opponent's and autoplay's visible
+  // steps too (ticket 20), so "fast" feels fast end to end. An injected
+  // opponentStepMs (tests) always wins.
+  const [animationSpeed] = useAnimationSpeed();
+  const stepMs = opponentStepMs ?? stepMsFor(animationSpeed);
   const persistence = useMatchPersistence(store, storage);
   // Ticket 08: finished games analyze themselves in the background.
   useAutoAnalysis(store, storage);
@@ -460,7 +472,7 @@ export function Play({
       engine,
       player: 'black',
       difficulty: setup.difficulty,
-      stepMs: opponentStepMs,
+      stepMs,
     });
     opponentRef.current = engineOpponent;
     setOpponentState(engineOpponent.getState());
@@ -472,7 +484,7 @@ export function Play({
       engineOpponent.dispose();
       opponentRef.current = null;
     };
-  }, [store, engine, setup, opponentStepMs]);
+  }, [store, engine, setup, stepMs]);
 
   // Tutor mode (GLOSSARY): one toggle enabling all live analysis. The
   // controller lives exactly as long as the toggle is on in a vs-computer
@@ -506,14 +518,14 @@ export function Play({
       store,
       players: vsComputer ? ['white'] : ['white', 'black'],
       settings: () => autoplaySettings.current,
-      stepMs: opponentStepMs,
+      stepMs,
     });
     autoplayRef.current = autoplay;
     return () => {
       autoplay.dispose();
       autoplayRef.current = null;
     };
-  }, [store, vsComputer, opponentStepMs]);
+  }, [store, vsComputer, stepMs]);
 
   // A settings flip can unlock an action at the current position (e.g. the
   // race pre-roll the stop is showing for): have the controller look again.

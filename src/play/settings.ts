@@ -7,6 +7,12 @@ import { useState } from 'react';
 
 export const AUTO_ROLL_RACES_KEY = 'pg-backgammon.auto-roll-races';
 export const AUTO_FORCED_PLAYS_KEY = 'pg-backgammon.auto-forced-plays';
+/**
+ * Tutor mode's default for new matches (ticket 20): Play's setup card
+ * initializes its toggle from this; the in-game toggle still rules the live
+ * match and never writes back.
+ */
+export const TUTOR_DEFAULT_KEY = 'pg-backgammon.tutor-default';
 
 /** The stored value of an on/off setting, or its default when unset. */
 export function getStoredSwitch(key: string, defaultOn: boolean): boolean {

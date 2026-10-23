@@ -106,40 +106,8 @@
   border-color: currentcolor;
 }
 
-/* Import is a file input dressed as a button. */
-.import-label {
-  display: inline-flex;
-  align-items: center;
-  position: relative;
-}
-
-.import-label input {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.import-label:focus-within {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-/* Backup footer */
-.backup-controls {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding-top: 1rem;
-}
-
-.backup-hint {
-  flex-basis: 100%;
-  font-size: 0.875rem;
-  color: var(--ink-muted);
-}
+/* The backup controls' styles moved with them to src/ui/backup.css
+   (ticket 20): the component now serves Analyze and Settings alike. */
 
 /* The read-only match view */
 .match-view {

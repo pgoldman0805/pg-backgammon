@@ -540,4 +540,14 @@ test('visual audit: every area, both themes, desktop and tablet', async ({
     path: path.join(AUDIT_DIR, 'progress-tooltip-desktop-light.png'),
     fullPage: true,
   });
+
+  // --- Settings: the fifth room (ticket 20) -------------------------------
+  await page.getByRole('link', { name: 'Settings' }).click();
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Settings' }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('switch', { name: 'Auto-roll in races' }),
+  ).toBeVisible();
+  await shoot(page, 'settings');
 });

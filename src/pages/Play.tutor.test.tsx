@@ -6,11 +6,16 @@
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { createFakeEngine } from '../engine/fake';
+import { TUTOR_DEFAULT_KEY } from '../play/settings';
 import { createPlayStore, type PlayStoreOptions } from '../play/store';
 import { createMemoryStorage } from '../storage';
 import { scriptedDice } from '../test/dice';
 import { gatedEngine, openingFeedbackEngine } from '../test/engine';
 import { Play, type PlayProps } from './Play';
+
+afterEach(() => {
+  localStorage.removeItem(TUTOR_DEFAULT_KEY);
+});
 
 function renderPlay(options: PlayStoreOptions, props?: Partial<PlayProps>) {
   const store = createPlayStore(options);
@@ -89,6 +94,38 @@ describe('the Tutor toggle', () => {
 
     noTutorAffordances();
     expect(store.getState().match?.tutorAssisted).toBe(true);
+  });
+
+  it('starts on when the stored default (ticket 20) says so', async () => {
+    localStorage.setItem(TUTOR_DEFAULT_KEY, 'on');
+    const store = renderPlay({ dice: scriptedDice(6, 3) });
+
+    expect(screen.getByRole('switch', { name: 'Tutor mode' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Play as White' }));
+    await waitFor(() => {
+      expect(
+        screen.getByRole('meter', { name: 'Evaluation' }),
+      ).toBeInTheDocument();
+    });
+    expect(store.getState().match?.tutorAssisted).toBe(true);
+  });
+
+  it('rules only new matches: the in-game toggle never writes the default', () => {
+    localStorage.setItem(TUTOR_DEFAULT_KEY, 'on');
+    renderPlay({ dice: scriptedDice(6, 3) });
+    fireEvent.click(screen.getByRole('button', { name: 'Play as White' }));
+
+    fireEvent.click(screen.getByRole('switch', { name: 'Tutor mode' }));
+
+    expect(screen.getByRole('switch', { name: 'Tutor mode' })).toHaveAttribute(
+      'aria-checked',
+      'false',
+    );
+    expect(localStorage.getItem(TUTOR_DEFAULT_KEY)).toBe('on');
   });
 
   it('does not exist in a hot-seat match', () => {
