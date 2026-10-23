@@ -8,6 +8,7 @@
  */
 
 import type {
+  CubeAnalysis,
   CubeInfoOptions,
   Engine,
   EnginePosition,
@@ -40,6 +41,11 @@ export interface DeepenTarget {
   readonly decisionIndex: number;
 }
 
+/** The on-demand analysis of one pasted/viewed position (ticket 10). */
+export type PositionAnalysis =
+  | { readonly kind: 'plays'; readonly plays: readonly RankedPlay[] }
+  | { readonly kind: 'cube'; readonly cube: CubeAnalysis };
+
 export interface MatchAnalyzer {
   /** Analyze one finished game at its standing (cached by content). */
   analyzeGame(
@@ -58,6 +64,15 @@ export interface MatchAnalyzer {
     analysis: MatchAnalysis,
     target: DeepenTarget,
   ): Promise<MatchAnalysis>;
+  /**
+   * Analyze one bare position at user priority: the ranked plays when dice
+   * are given, the cube decision otherwise (the position-viewer seam,
+   * ticket 10).
+   */
+  analyzePosition(
+    position: EnginePosition,
+    roll: DiceRoll | null,
+  ): Promise<PositionAnalysis>;
   /**
    * One full-strength ranking through the shared gate — ticket 12's blunder
    * miner completes play answer tables with it at background priority.
@@ -170,6 +185,14 @@ export function createMatchAnalyzer(
         engine: gatedEngine('user'),
         now,
       });
+    },
+
+    async analyzePosition(position, roll) {
+      const gated = gatedEngine('user');
+      if (roll) {
+        return { kind: 'plays', plays: await gated.rankPlays(position, roll) };
+      }
+      return { kind: 'cube', cube: await gated.cubeInfo(position) };
     },
 
     rankPlays(position, roll, priority = 'background') {

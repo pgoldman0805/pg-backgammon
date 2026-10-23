@@ -20,6 +20,7 @@ export {
   type DeepenTarget,
   type MatchAnalyzer,
   type MatchAnalyzerOptions,
+  type PositionAnalysis,
 } from './analyzer';
 export {
   type AutoAnalysis,

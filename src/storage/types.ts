@@ -16,11 +16,13 @@ export type MatchStatus = 'in-progress' | 'finished';
 /**
  * The setup a match was created with. The index signature keeps the record
  * tolerant of fields added by later tickets (e.g. ticket 09's tutor flag).
+ * Matches imported from .mat files (ticket 10) carry mode 'imported' and no
+ * difficulty — no engine ever played them here.
  */
 export interface MatchConfig {
   readonly length: number;
-  readonly mode: 'computer' | 'hotseat';
-  readonly difficulty: Difficulty;
+  readonly mode: 'computer' | 'hotseat' | 'imported';
+  readonly difficulty?: Difficulty;
   readonly [extra: string]: unknown;
 }
 
