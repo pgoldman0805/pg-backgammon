@@ -89,3 +89,7 @@ A puzzle mined automatically from the player's own analyzed games, at a position
 
 **Theme**:
 A tag classifying what a puzzle teaches (e.g. priming, blitzing, holding game, bear-off, cube handling).
+
+**Drill**:
+One run through a collection of puzzles (a theme or the blunder set), graded as you go.
+_Avoid_: Session
