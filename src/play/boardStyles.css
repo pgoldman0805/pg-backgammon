@@ -1,0 +1,553 @@
+/* Board styles (issue 19): five geographic restylings of the board and
+   checkers, each a palette block scoped to `data-board-style` — on <html> for
+   the real boards (set beside the theme attribute), or on a picker tile for
+   its mini-board preview. The default style sets no attribute, so nothing in
+   this file touches the default rendering.
+
+   Every block redefines the complete board token set from board.css for both
+   themes; the dark blocks carry higher specificity than board.css's
+   `:root[data-theme="dark"]`, so these styles win independent of CSS order.
+   Motif artwork lives in SVG defs (BoardStyleDefs.tsx); this file points
+   board surfaces at those paint servers and colors their strokes/stops. */
+
+/* ------------------------------------------------------------------ */
+/* Classic — the default look, duplicated here only so its picker tile  */
+/* previews correctly while another style is active on the root.        */
+/* Keep in sync with board.css.                                         */
+/* ------------------------------------------------------------------ */
+
+[data-board-style="classic"] {
+  --board-frame: #20312a;
+  --board-felt: #f2f0e9;
+  --board-tray: #e7e4d9;
+  --point-hot: #2d5f4a;
+  --point-cool: #cdc7b8;
+  --point-number: #9fb3a9;
+  --checker-white: #fbfaf7;
+  --checker-white-rim: #403a30;
+  --checker-black: #262219;
+  --checker-black-rim: #d8d2c4;
+  --board-gold: #c79114;
+  --board-gold-soft: rgba(199, 145, 20, 0.22);
+}
+
+:root[data-theme="dark"] [data-board-style="classic"] {
+  --board-frame: #0e120f;
+  --board-felt: #20241f;
+  --board-tray: #272c26;
+  --point-hot: #47835f;
+  --point-cool: #4c473d;
+  --point-number: #5d6b60;
+  --checker-white: #eae6dc;
+  --checker-white-rim: #141210;
+  --checker-black: #1d1b17;
+  --checker-black-rim: #b9b3a4;
+  --board-gold: #f0b429;
+  --board-gold-soft: rgba(240, 180, 41, 0.24);
+}
+
+/* ------------------------------------------------------------------ */
+/* Aegean — Greek tavli. Whitewash and cobalt, sea light, airy.         */
+/* Motifs: faint wave lines across the felt, whitewash keylines around  */
+/* the points (sun on plaster edges).                                   */
+/* ------------------------------------------------------------------ */
+
+:root[data-board-style="aegean"],
+[data-board-style="aegean"] {
+  --board-frame: #1f5494;
+  --board-felt: #f7f9f7;
+  --board-tray: #e3edf3;
+  --point-hot: #2f6cb4;
+  --point-cool: #ddd6c3;
+  --point-number: #a7c3e3;
+  --checker-white: #fdfdfa;
+  --checker-white-rim: #27496d;
+  --checker-black: #1e2c40;
+  --checker-black-rim: #cfdeed;
+  --board-gold: #d1920e;
+  --board-gold-soft: rgba(209, 146, 14, 0.24);
+  --bs-wave: rgba(47, 108, 180, 0.1);
+  --bs-keyline: rgba(255, 255, 255, 0.65);
+}
+
+:root[data-theme="dark"][data-board-style="aegean"],
+:root[data-theme="dark"] [data-board-style="aegean"] {
+  --board-frame: #0d1a2b;
+  --board-felt: #1b242e;
+  --board-tray: #212c39;
+  --point-hot: #3c7ec8;
+  --point-cool: #4f4b3e;
+  --point-number: #5c7696;
+  --checker-white: #e9ecec;
+  --checker-white-rim: #0f1b2b;
+  --checker-black: #131d2a;
+  --checker-black-rim: #a9bfd6;
+  --board-gold: #f0b429;
+  --board-gold-soft: rgba(240, 180, 41, 0.26);
+  --bs-wave: rgba(96, 156, 220, 0.1);
+  --bs-keyline: rgba(233, 236, 236, 0.22);
+}
+
+[data-board-style="aegean"] .board-felt {
+  fill: url(#bs-aegean-waves) var(--board-felt);
+}
+
+[data-board-style="aegean"] .point--hot,
+[data-board-style="aegean"] .point--cool {
+  stroke: var(--bs-keyline);
+  stroke-width: 1.5;
+}
+
+/* ------------------------------------------------------------------ */
+/* Bosphorus — Turkish tavla. Walnut, mother-of-pearl, teal, brass.     */
+/* Motifs: wood grain on frame and trays; a pearl sheen on the cool     */
+/* points, white checkers, dice and cube; brass inlay rings.            */
+/* ------------------------------------------------------------------ */
+
+:root[data-board-style="bosphorus"],
+[data-board-style="bosphorus"] {
+  --board-frame: #2e1f13;
+  --board-felt: #9a7342;
+  --board-tray: #6d4e2c;
+  --point-hot: #175952;
+  --point-cool: #e7ddc6;
+  --point-number: #c9a05e;
+  --checker-white: #f5eedd;
+  --checker-white-rim: #553b18;
+  --checker-black: #20150d;
+  --checker-black-rim: #d8bc85;
+  --board-gold: #f2b63e;
+  --board-gold-soft: rgba(242, 182, 62, 0.28);
+  --bs-grain-dark: rgba(20, 10, 2, 0.35);
+  --bs-grain-light: rgba(228, 185, 123, 0.18);
+  --bs-pearl-hi: #fdfbf3;
+  --bs-pearl-rose: #f1e3dd;
+  --bs-pearl-green: #e2e3d6;
+  --bs-inlay: #a57b24;
+}
+
+:root[data-theme="dark"][data-board-style="bosphorus"],
+:root[data-theme="dark"] [data-board-style="bosphorus"] {
+  --board-frame: #170f08;
+  --board-felt: #3f2e1b;
+  --board-tray: #241810;
+  --point-hot: #1e6a5e;
+  --point-cool: #b3a489;
+  --point-number: #8a6f46;
+  --checker-white: #ebe1ca;
+  --checker-white-rim: #241808;
+  --checker-black: #140d07;
+  --checker-black-rim: #c2a672;
+  --board-gold: #f4bd4e;
+  --board-gold-soft: rgba(244, 189, 78, 0.3);
+  --bs-grain-dark: rgba(0, 0, 0, 0.5);
+  --bs-grain-light: rgba(214, 170, 110, 0.12);
+  --bs-pearl-hi: #d9cfb8;
+  --bs-pearl-rose: #c8b8ac;
+  --bs-pearl-green: #b7b8a4;
+  --bs-inlay: #cfa95c;
+}
+
+[data-board-style="bosphorus"] .board-frame {
+  fill: url(#bs-bosphorus-wood-frame) var(--board-frame);
+}
+
+[data-board-style="bosphorus"] .board-tray {
+  fill: url(#bs-bosphorus-wood-tray) var(--board-tray);
+}
+
+[data-board-style="bosphorus"] .point--cool {
+  fill: url(#bs-bosphorus-pearl) var(--point-cool);
+}
+
+[data-board-style="bosphorus"] .checker--white .checker-body,
+[data-board-style="bosphorus"] .cube-face,
+[data-board-style="bosphorus"] .die--white .die-face {
+  fill: url(#bs-bosphorus-pearl) var(--checker-white);
+}
+
+/* Mother-of-pearl inlay rings in brass. */
+[data-board-style="bosphorus"] .checker--white .checker-inner {
+  stroke: var(--bs-inlay);
+  opacity: 0.8;
+}
+
+[data-board-style="bosphorus"] .checker--black .checker-inner {
+  stroke: var(--bs-inlay);
+  opacity: 0.7;
+}
+
+/* ------------------------------------------------------------------ */
+/* Marrakech — zellige. Terracotta, Majorelle blue, saffron.            */
+/* Motifs: eight-point star tiling on the frame; terracotta grout       */
+/* keylines around the glazed points.                                   */
+/* ------------------------------------------------------------------ */
+
+:root[data-board-style="marrakech"],
+[data-board-style="marrakech"] {
+  --board-frame: #a34a20;
+  --board-felt: #eeddba;
+  --board-tray: #dec89d;
+  --point-hot: #4f46c8;
+  --point-cool: #f8f2e2;
+  --point-number: #f3cf96;
+  --checker-white: #fbf5e7;
+  --checker-white-rim: #8c3a1c;
+  --checker-black: #241d38;
+  --checker-black-rim: #e2b765;
+  --board-gold: #cd8512;
+  --board-gold-soft: rgba(205, 133, 18, 0.24);
+  --bs-star: rgba(255, 219, 153, 0.4);
+  --bs-star-2: rgba(84, 28, 5, 0.33);
+  --bs-grout: rgba(163, 74, 32, 0.55);
+}
+
+:root[data-theme="dark"][data-board-style="marrakech"],
+:root[data-theme="dark"] [data-board-style="marrakech"] {
+  --board-frame: #4f2310;
+  --board-felt: #33271a;
+  --board-tray: #27190e;
+  --point-hot: #6a61e0;
+  --point-cool: #baa987;
+  --point-number: #d9a35f;
+  --checker-white: #f0e7d2;
+  --checker-white-rim: #44200e;
+  --checker-black: #191330;
+  --checker-black-rim: #d9ad55;
+  --board-gold: #ecb13c;
+  --board-gold-soft: rgba(236, 177, 60, 0.28);
+  --bs-star: rgba(255, 210, 140, 0.28);
+  --bs-star-2: rgba(0, 0, 0, 0.35);
+  --bs-grout: rgba(222, 150, 90, 0.4);
+}
+
+[data-board-style="marrakech"] .board-frame {
+  fill: url(#bs-marrakech-zellige) var(--board-frame);
+}
+
+[data-board-style="marrakech"] .point--hot,
+[data-board-style="marrakech"] .point--cool {
+  stroke: var(--bs-grout);
+  stroke-width: 2;
+}
+
+/* ------------------------------------------------------------------ */
+/* Kyoto — charcoal lacquer, vermilion, restrained gold.                */
+/* Motifs: asanoha-style lattice on the cool points; a lacquer sheen    */
+/* and a quiet maki-e gold ring on the black checkers.                  */
+/* ------------------------------------------------------------------ */
+
+:root[data-board-style="kyoto"],
+[data-board-style="kyoto"] {
+  --board-frame: #262122;
+  --board-felt: #ece4d3;
+  --board-tray: #dcd2bd;
+  --point-hot: #b23a24;
+  --point-cool: #c6bfae;
+  --point-number: #99938a;
+  --checker-white: #f6f2e7;
+  --checker-white-rim: #332e2c;
+  --checker-black: #141011;
+  --checker-black-rim: #cf6a4d;
+  --board-gold: #c79514;
+  --board-gold-soft: rgba(199, 149, 20, 0.22);
+  --bs-asanoha: rgba(60, 52, 40, 0.18);
+  --bs-lacquer-hi: #352c2f;
+}
+
+:root[data-theme="dark"][data-board-style="kyoto"],
+:root[data-theme="dark"] [data-board-style="kyoto"] {
+  --board-frame: #151112;
+  --board-felt: #27221f;
+  --board-tray: #2e2824;
+  --point-hot: #cd4b2e;
+  --point-cool: #4d463e;
+  --point-number: #6e665d;
+  --checker-white: #efe9da;
+  --checker-white-rim: #171312;
+  --checker-black: #0f0c0d;
+  --checker-black-rim: #d4745a;
+  --board-gold: #dcae2f;
+  --board-gold-soft: rgba(220, 174, 47, 0.26);
+  --bs-asanoha: rgba(220, 205, 180, 0.13);
+  --bs-lacquer-hi: #2b2326;
+}
+
+[data-board-style="kyoto"] .point--cool {
+  fill: url(#bs-kyoto-asanoha) var(--point-cool);
+}
+
+[data-board-style="kyoto"] .checker--black .checker-body {
+  fill: url(#bs-kyoto-lacquer) var(--checker-black);
+}
+
+[data-board-style="kyoto"] .checker--black .checker-inner {
+  stroke: var(--board-gold);
+  opacity: 0.55;
+}
+
+/* ------------------------------------------------------------------ */
+/* Reykjavík — glacial minimalism. Cool blues, bone, basalt.            */
+/* Motifs: an ice-sheen gradient down the felt; hairline basalt-column  */
+/* striations on the frame. Nothing else — stillness is the style.      */
+/* ------------------------------------------------------------------ */
+
+:root[data-board-style="reykjavik"],
+[data-board-style="reykjavik"] {
+  --board-frame: #2b3236;
+  --board-felt: #f1f4f5;
+  --board-tray: #e3e8ea;
+  --point-hot: #527e92;
+  --point-cool: #ded9ca;
+  --point-number: #93a2ab;
+  --checker-white: #f7f5ee;
+  --checker-white-rim: #343a3e;
+  --checker-black: #22282c;
+  --checker-black-rim: #c3ccd2;
+  --board-gold: #c79114;
+  --board-gold-soft: rgba(199, 145, 20, 0.2);
+  --bs-ice-hi: #dfeaf0;
+  --bs-basalt-line: rgba(255, 255, 255, 0.07);
+}
+
+:root[data-theme="dark"][data-board-style="reykjavik"],
+:root[data-theme="dark"] [data-board-style="reykjavik"] {
+  --board-frame: #10151a;
+  --board-felt: #1c2226;
+  --board-tray: #21282d;
+  --point-hot: #639bb4;
+  --point-cool: #514f44;
+  --point-number: #566269;
+  --checker-white: #e8e6dd;
+  --checker-white-rim: #0f1417;
+  --checker-black: #161b1f;
+  --checker-black-rim: #adbac2;
+  --board-gold: #f0b429;
+  --board-gold-soft: rgba(240, 180, 41, 0.24);
+  --bs-ice-hi: #223038;
+  --bs-basalt-line: rgba(255, 255, 255, 0.05);
+}
+
+[data-board-style="reykjavik"] .board-felt {
+  fill: url(#bs-reykjavik-ice) var(--board-felt);
+}
+
+[data-board-style="reykjavik"] .board-frame {
+  fill: url(#bs-reykjavik-basalt) var(--board-frame);
+}
+
+/* ------------------------------------------------------------------ */
+/* Motif paint — the defs' colors, all driven by the tokens above so    */
+/* the dark variants flow through automatically.                        */
+/* ------------------------------------------------------------------ */
+
+.bs-pattern-bg--frame {
+  fill: var(--board-frame);
+}
+
+.bs-pattern-bg--tray {
+  fill: var(--board-tray);
+}
+
+.bs-pattern-bg--felt {
+  fill: var(--board-felt);
+}
+
+.bs-pattern-bg--cool {
+  fill: var(--point-cool);
+}
+
+.bs-wave-line {
+  fill: none;
+  stroke: var(--bs-wave);
+  stroke-width: 2.5;
+}
+
+.bs-grain--dark {
+  fill: none;
+  stroke: var(--bs-grain-dark);
+}
+
+.bs-grain--light {
+  fill: none;
+  stroke: var(--bs-grain-light);
+}
+
+.bs-pearl-stop-hi {
+  stop-color: var(--bs-pearl-hi);
+}
+
+.bs-pearl-stop-rose {
+  stop-color: var(--bs-pearl-rose);
+}
+
+.bs-pearl-stop-green {
+  stop-color: var(--bs-pearl-green);
+}
+
+.bs-pearl-stop-base {
+  stop-color: var(--point-cool);
+}
+
+.bs-star-line {
+  fill: none;
+  stroke: var(--bs-star);
+  stroke-width: 1.5;
+}
+
+.bs-star-line--deep {
+  fill: none;
+  stroke: var(--bs-star-2);
+  stroke-width: 1.5;
+}
+
+.bs-star-dot {
+  fill: var(--bs-star);
+}
+
+.bs-asanoha-line {
+  fill: none;
+  stroke: var(--bs-asanoha);
+  stroke-width: 1.2;
+}
+
+.bs-lacquer-stop-hi {
+  stop-color: var(--bs-lacquer-hi);
+}
+
+.bs-lacquer-stop-base {
+  stop-color: var(--checker-black);
+}
+
+.bs-ice-stop-hi {
+  stop-color: var(--bs-ice-hi);
+}
+
+.bs-ice-stop-base {
+  stop-color: var(--board-felt);
+}
+
+.bs-basalt-line {
+  fill: none;
+  stroke: var(--bs-basalt-line);
+  stroke-width: 1.5;
+}
+
+/* ------------------------------------------------------------------ */
+/* The picker: six radio tiles with mini-board previews, in the setup   */
+/* card's visual language (the gold selection ring matches the          */
+/* difficulty pills).                                                   */
+/* ------------------------------------------------------------------ */
+
+.board-style-picker {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.board-style-legend {
+  margin: 0 auto 0.5rem;
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+.board-style-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.board-style-tile {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.25rem;
+  padding: 0.45rem 0.55rem 0.3rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+
+.board-style-tile:hover {
+  border-color: var(--ink-muted);
+}
+
+.board-style-tile input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Each tile's gold is its own style's gold: the ring previews the
+   action color too. */
+.board-style-tile:has(input:checked) {
+  border-color: var(--board-gold);
+  background: var(--board-gold-soft);
+  color: var(--ink);
+}
+
+.board-style-tile:has(input:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.board-style-name {
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.style-preview {
+  display: block;
+  width: 64px;
+  height: auto;
+}
+
+.sp-frame {
+  fill: var(--board-frame);
+}
+
+.sp-felt {
+  fill: var(--board-felt);
+}
+
+.sp-hot {
+  fill: var(--point-hot);
+}
+
+.sp-cool {
+  fill: var(--point-cool);
+}
+
+.sp-white {
+  fill: var(--checker-white);
+  stroke: var(--checker-white-rim);
+  stroke-width: 1.5;
+}
+
+.sp-black {
+  fill: var(--checker-black);
+  stroke: var(--checker-black-rim);
+  stroke-width: 1.5;
+}
+
+.board-style-mood {
+  margin: 0.45rem 0 0;
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+}
+
+/* The HUD's picker disclosure chip ("Board style") opens the picker
+   below the setting switches mid-match. */
+.setting-switch[aria-expanded="true"] {
+  border-color: var(--accent);
+  color: var(--ink);
+}
+
+.play-hud .board-style-picker {
+  margin-top: 0.4rem;
+}
