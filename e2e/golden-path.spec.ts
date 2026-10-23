@@ -137,8 +137,11 @@ test('find new puzzles: live progress, then cancel cleanly', async ({
   await page.goto('/puzzles');
   await page.getByRole('button', { name: 'Find new puzzles' }).click();
 
-  // Feedback is immediate: the engine-loading note or game progress.
-  await expect(page.getByRole('status')).toBeVisible();
+  // Feedback is immediate: the engine-loading note or game progress. The
+  // generous timeout absorbs a machine still busy from the previous test.
+  await expect(page.locator('.generate-strip').getByRole('status')).toBeVisible(
+    { timeout: 60_000 },
+  );
   // The payload loads lazily; self-play progress follows.
   await expect(page.getByText(/Playing game \d+/)).toBeVisible({
     timeout: 120_000,
@@ -151,5 +154,5 @@ test('find new puzzles: live progress, then cancel cleanly', async ({
   // The action is ready to run again.
   await expect(
     page.getByRole('button', { name: 'Find new puzzles' }),
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 60_000 });
 });

@@ -178,7 +178,7 @@ export async function minePuzzles(): Promise<void> {
   );
   log(`Wrote ${target}`);
   for (const theme of PUZZLE_THEMES) {
-    const count = mined.byTheme.get(theme)?.length ?? 0;
+    const count = byTheme.get(theme)?.length ?? 0;
     if (count < MIN_PER_THEME) {
       log(
         `WARNING: ${theme} has ${count} < ${MIN_PER_THEME} puzzles — ` +
