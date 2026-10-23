@@ -271,6 +271,17 @@
   text-align: left;
 }
 
+.equity-row--missed td {
+  color: var(--miss);
+  background: color-mix(in srgb, var(--miss) 9%, transparent);
+}
+
+.equity-row--missed td:first-child {
+  background:
+    linear-gradient(var(--miss) 0 0) left / 3px 100% no-repeat,
+    color-mix(in srgb, var(--miss) 9%, transparent);
+}
+
 .equity-row--missed .equity-move,
 .equity-row--missed .equity-number {
   color: var(--miss);
