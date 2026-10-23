@@ -73,6 +73,8 @@ All game history, analysis, and puzzle progress persist in IndexedDB. Desktop-fi
 47. As a learner, I want a much larger bundled curated set (≥25 per theme), so that themed drills don't run dry in one sitting. (Added 2026-10-23.)
 48. As a learner, I want the app to generate new puzzles on demand using the engine (self-play mining in the browser, persisted locally, slotted into their themes), so that I never run out of fresh material. (Added 2026-10-23.)
 49. As a player, I want to choose among geographically-inspired Board styles (at least five beyond the default, each with unique artwork, palette, and mood), so that the board feels like mine. Board styles restyle the board and checkers only, work in both light and dark app themes, and never compromise training readability. (Added 2026-10-23.)
+50. As a user, I want a Settings area collecting every controllable preference in one place (theme, Board style, Tutor mode default, auto-roll in races, auto-play forced plays, checker animation, and data management), so that I don't hunt for controls across pages. In-context quick toggles stay where they are; Settings is the comprehensive home. (Added 2026-10-23.)
+51. As a player, I want checker movements animated as smooth travel with a configurable speed (off / fast / normal / slow; "off" is instant), applying to opponent moves, auto-played forced plays, two-movement clicks, and my own click-to-move, so that moves are easy to follow at my pace. Dragging stays direct; prefers-reduced-motion defaults animation off. (Added 2026-10-23.)
 
 ### Platform
 
