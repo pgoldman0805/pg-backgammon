@@ -60,7 +60,10 @@ export interface GameRecord {
   /** The position the game started from (standard or arbitrary). */
   readonly initialBoard: BoardState;
   /** Opening-roll attempts; doubles reroll. Empty for games from arbitrary positions. */
-  readonly openingRolls: ReadonlyArray<{ readonly white: Die; readonly black: Die }>;
+  readonly openingRolls: ReadonlyArray<{
+    readonly white: Die;
+    readonly black: Die;
+  }>;
   readonly firstPlayer: Player;
   readonly plays: readonly Play[];
 }

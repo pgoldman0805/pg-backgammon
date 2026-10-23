@@ -1,5 +1,11 @@
 import { describe, expect, test } from 'vitest';
-import { applyMovement, createBoard, initialBoard, pipCount, undoMovement } from './board';
+import {
+  applyMovement,
+  createBoard,
+  initialBoard,
+  pipCount,
+  undoMovement,
+} from './board';
 
 describe('initialBoard', () => {
   test('sets up the standard backgammon starting position', () => {
@@ -111,7 +117,12 @@ describe('applyMovement and undoMovement', () => {
     expect(entered.points[21]).toBe(1);
     expect(undoMovement(entered, 'white', entry)).toEqual(board);
 
-    const bearOff = { from: 3, to: 'off' as const, die: 3 as const, hit: false };
+    const bearOff = {
+      from: 3,
+      to: 'off' as const,
+      die: 3 as const,
+      hit: false,
+    };
     const borneOff = applyMovement(board, 'white', bearOff);
     expect(borneOff.off.white).toBe(14);
     expect(borneOff.points[3]).toBe(0);

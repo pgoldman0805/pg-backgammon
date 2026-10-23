@@ -5,7 +5,10 @@ import type { BoardState, Play } from './types';
 
 /** Apply all of a play's movements to a board. */
 function applyPlay(board: BoardState, play: Play): BoardState {
-  return play.movements.reduce((b, m) => applyMovement(b, play.player, m), board);
+  return play.movements.reduce(
+    (b, m) => applyMovement(b, play.player, m),
+    board,
+  );
 }
 
 describe('legalPlays: using both dice', () => {
@@ -34,7 +37,9 @@ describe('legalPlays: using both dice', () => {
     });
     const plays = legalPlays(board, 'white', [2, 1]);
     expect(plays).toHaveLength(2);
-    const hitting = plays.filter((p) => p.movements.some((m) => m.to === 8 && m.hit));
+    const hitting = plays.filter((p) =>
+      p.movements.some((m) => m.to === 8 && m.hit),
+    );
     expect(hitting).toHaveLength(1);
     expect(applyPlay(board, hitting[0]).bar.black).toBe(1);
   });
@@ -43,7 +48,9 @@ describe('legalPlays: using both dice', () => {
     const plays = legalPlays(initialBoard(), 'white', [3, 1]);
     const goldenPoint = plays.filter((p) => {
       const final = applyPlay(initialBoard(), p);
-      return final.points[5] === 2 && final.points[8] === 2 && final.points[6] === 4;
+      return (
+        final.points[5] === 2 && final.points[8] === 2 && final.points[6] === 4
+      );
     });
     expect(goldenPoint).toHaveLength(1);
     for (const play of plays) {
@@ -91,7 +98,9 @@ describe('legalPlays: when only one die can be played', () => {
     });
     const plays = legalPlays(board, 'white', [4, 3]);
     expect(plays).toHaveLength(1);
-    expect(plays[0].movements).toEqual([{ from: 24, to: 20, die: 4, hit: false }]);
+    expect(plays[0].movements).toEqual([
+      { from: 24, to: 20, die: 4, hit: false },
+    ]);
   });
 
   test('the lower die is played when the higher die has no legal movement', () => {
@@ -101,7 +110,9 @@ describe('legalPlays: when only one die can be played', () => {
     });
     const plays = legalPlays(board, 'white', [4, 3]);
     expect(plays).toHaveLength(1);
-    expect(plays[0].movements).toEqual([{ from: 24, to: 21, die: 3, hit: false }]);
+    expect(plays[0].movements).toEqual([
+      { from: 24, to: 21, die: 3, hit: false },
+    ]);
   });
 
   test('a fully blocked roll is a dance: no legal plays', () => {
@@ -124,9 +135,16 @@ describe('legalPlays: bar entry', () => {
     const plays = legalPlays(board, 'white', [3, 5]);
     expect(plays).toHaveLength(2);
     for (const play of plays) {
-      expect(play.movements[0]).toEqual({ from: 'bar', to: 20, die: 5, hit: false });
+      expect(play.movements[0]).toEqual({
+        from: 'bar',
+        to: 20,
+        die: 5,
+        hit: false,
+      });
     }
-    const destinations = plays.map((p) => Number(p.movements[1].to)).sort((x, y) => x - y);
+    const destinations = plays
+      .map((p) => Number(p.movements[1].to))
+      .sort((x, y) => x - y);
     expect(destinations).toEqual([10, 17]); // 13->10 or 20->17 with the 3
   });
 

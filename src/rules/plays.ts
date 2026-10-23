@@ -1,5 +1,13 @@
 import { applyMovement } from './board';
-import type { BoardState, CheckerMovement, DiceRoll, Die, Play, Player, Point } from './types';
+import type {
+  BoardState,
+  CheckerMovement,
+  DiceRoll,
+  Die,
+  Play,
+  Player,
+  Point,
+} from './types';
 
 const sign = (player: Player): 1 | -1 => (player === 'white' ? 1 : -1);
 
@@ -147,7 +155,10 @@ function expand(
     expansion = { length: 0, results: [{ movements: [], board }] };
   } else {
     let best = 0;
-    let results: Array<{ movements: readonly CheckerMovement[]; board: BoardState }> = [];
+    let results: Array<{
+      movements: readonly CheckerMovement[];
+      board: BoardState;
+    }> = [];
     for (const movement of candidates) {
       const nextBoard = applyMovement(board, player, movement);
       const index = dice.indexOf(movement.die);
@@ -160,7 +171,10 @@ function expand(
       }
       if (total === best) {
         for (const r of child.results) {
-          results.push({ movements: [movement, ...r.movements], board: r.board });
+          results.push({
+            movements: [movement, ...r.movements],
+            board: r.board,
+          });
         }
       }
     }
@@ -180,7 +194,11 @@ function expand(
  *
  * Returns an empty array when no checker can move (a dance / no-play).
  */
-export function legalPlays(board: BoardState, player: Player, roll: DiceRoll): Play[] {
+export function legalPlays(
+  board: BoardState,
+  player: Player,
+  roll: DiceRoll,
+): Play[] {
   const [a, b] = roll;
   const dice: Die[] = a === b ? [a, a, a, a] : [a, b];
   const { length, results } = expand(board, player, dice, new Map());

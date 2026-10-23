@@ -2,7 +2,8 @@ import type { BoardState, CheckerMovement, Player } from './types';
 
 const sign = (player: Player): 1 | -1 => (player === 'white' ? 1 : -1);
 
-const opponent = (player: Player): Player => (player === 'white' ? 'black' : 'white');
+const opponent = (player: Player): Player =>
+  player === 'white' ? 'black' : 'white';
 
 export interface PlayerPlacement {
   /** Checker count per point (1-24). */
@@ -33,7 +34,11 @@ export function createBoard(spec: BoardSpec): BoardState {
       if (count < 0) {
         throw new Error(`negative checker count on point ${point}`);
       }
-      if (count > 0 && points[point] !== 0 && Math.sign(points[point]) !== sign(player)) {
+      if (
+        count > 0 &&
+        points[point] !== 0 &&
+        Math.sign(points[point]) !== sign(player)
+      ) {
         throw new Error(`both players occupy point ${point}`);
       }
       points[point] += count * sign(player);
@@ -70,10 +75,6 @@ export function initialBoard(): BoardState {
   };
 }
 
-/**
- * Pips remaining for a player: sum of each checker's distance from bearing
- * off. A checker on the bar is 25 pips away; borne-off checkers count 0.
- */
 /**
  * Apply one checker movement for `player`. The movement is trusted to have
  * been produced by legal-movement computation; only structural invariants are
@@ -151,6 +152,10 @@ export function undoMovement(
   return { points, bar, off };
 }
 
+/**
+ * Pips remaining for a player: sum of each checker's distance from bearing
+ * off. A checker on the bar is 25 pips away; borne-off checkers count 0.
+ */
 export function pipCount(board: BoardState, player: Player): number {
   let pips = 25 * board.bar[player];
   for (let p = 1; p <= 24; p++) {
