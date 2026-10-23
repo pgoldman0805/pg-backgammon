@@ -95,6 +95,9 @@ A puzzle from the bundled, hand-tagged set that ships with the app.
 **Blunder puzzle**:
 A puzzle mined automatically from the player's own analyzed games, at a position where they blundered.
 
+**Generated puzzle**:
+A puzzle found on demand by in-app engine self-play mining (the "Find new puzzles" action), stored locally and drilled inside its theme beside curated puzzles.
+
 **Theme**:
 A tag classifying what a puzzle teaches (e.g. priming, blitzing, holding game, bear-off, cube handling).
 

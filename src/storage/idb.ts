@@ -12,9 +12,9 @@ import type { MatchStorage, StoredMatch } from './types';
 const DB_NAME = 'pg-backgammon';
 /**
  * v1: matches (ticket 07). v2: + puzzle-progress (ticket 11).
- * v3: + blunder-puzzles (ticket 12).
+ * v3: + blunder-puzzles (ticket 12). v4: + generated-puzzles (ticket 18).
  */
-const DB_VERSION = 3;
+const DB_VERSION = 4;
 const MATCHES = 'matches';
 
 /** The puzzle-progress object store, added by the v2 upgrade. */
@@ -22,6 +22,9 @@ export const PUZZLE_PROGRESS_STORE = 'puzzle-progress';
 
 /** The mined blunder-puzzle object store, added by the v3 upgrade. */
 export const BLUNDER_PUZZLES_STORE = 'blunder-puzzles';
+
+/** The self-play generated-puzzle object store, added by the v4 upgrade. */
+export const GENERATED_PUZZLES_STORE = 'generated-puzzles';
 
 export interface IndexedDbStorageOptions {
   /** Defaults to the global indexedDB. */
@@ -54,6 +57,9 @@ function openDatabase(factory: IDBFactory, name: string): Promise<IDBDatabase> {
       }
       if (!db.objectStoreNames.contains(BLUNDER_PUZZLES_STORE)) {
         db.createObjectStore(BLUNDER_PUZZLES_STORE, { keyPath: 'id' });
+      }
+      if (!db.objectStoreNames.contains(GENERATED_PUZZLES_STORE)) {
+        db.createObjectStore(GENERATED_PUZZLES_STORE, { keyPath: 'id' });
       }
     };
     request.onsuccess = () => resolve(request.result);

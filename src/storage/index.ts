@@ -19,6 +19,13 @@ export {
   isBlunderPuzzle,
   type MinedMatchStamps,
 } from './blunderPuzzles';
+export {
+  createIndexedDbGeneratedPuzzleStorage,
+  createMemoryGeneratedPuzzleStorage,
+  type GeneratedPuzzleStorage,
+  getGeneratedPuzzleStorage,
+  isGeneratedPuzzle,
+} from './generatedPuzzles';
 export { createIndexedDbStorage, type IndexedDbStorageOptions } from './idb';
 export { getMatchStorage, getObservableMatchStorage } from './instance';
 export { createMemoryStorage } from './memory';

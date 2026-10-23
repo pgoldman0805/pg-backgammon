@@ -97,6 +97,25 @@
   vertical-align: 0.1em;
 }
 
+/* "Find new puzzles" (ticket 18): the generate action reads as one more
+   ledger line, tucked under the themes it feeds. The live status is plain
+   muted text — the moving number is the only motion. */
+.generate-strip {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 54rem;
+  padding: 0.85rem 0;
+  margin: -2rem 0 2rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.generate-status {
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
 /* The drill */
 .puzzle-hud {
   display: flex;
@@ -256,8 +275,13 @@
 }
 
 @media (max-width: 760px) {
-  .theme-row {
+  .theme-row,
+  .generate-strip {
     flex-wrap: wrap;
+  }
+
+  .generate-status {
+    white-space: normal;
   }
 
   .theme-meta {
