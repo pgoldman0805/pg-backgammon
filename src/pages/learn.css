@@ -1,0 +1,79 @@
+/* The Learn area (ticket 32): the glossary, in the shell's paper/ink/green
+   language. Grouped like Settings — each section marked by the board-point
+   triangle from the nav — but laid out as a reference: the term in a quiet
+   left column, its definition in the reading column beside it, folding to a
+   stack on phones. */
+
+.learn-intro {
+  margin-bottom: 2.5rem;
+  max-width: 54ch;
+}
+
+.glossary-group {
+  margin-bottom: 2.75rem;
+}
+
+.glossary-group-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding-bottom: 0.4rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.glossary-point {
+  flex: none;
+  align-self: center;
+  fill: var(--accent);
+}
+
+.glossary-group-header h2 {
+  font-size: 1.1rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.glossary-group-blurb {
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+.glossary-list {
+  margin: 0;
+}
+
+.glossary-entry {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  gap: 0.35rem 1.5rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--line);
+  scroll-margin-top: 1.5rem;
+}
+
+.glossary-entry:last-child {
+  border-bottom: 0;
+}
+
+.glossary-term-name {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.glossary-def {
+  margin: 0;
+  color: var(--ink-muted);
+  line-height: 1.55;
+}
+
+/* Tablet and phone: the term sits above its definition. */
+@media (max-width: 860px) {
+  .glossary-entry {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+}

@@ -53,6 +53,7 @@ import {
   useMatchPersistence,
 } from '../storage';
 import { playerName, signedEquityText } from '../ui/format';
+import { GlossaryTerm } from '../ui/GlossaryTerm';
 import '../play/board.css';
 
 const KIND_TEXT = {
@@ -366,7 +367,7 @@ function EvalBar({ state }: { state: TutorState | null }) {
         <span className="eval-tick" aria-hidden="true" />
       </div>
       <span className="eval-caption">
-        {percent}% · {equityText}
+        {percent}% · <GlossaryTerm id="equity">{equityText}</GlossaryTerm>
       </span>
     </div>
   );
@@ -390,7 +391,11 @@ function FeedbackNote({ feedback }: { feedback: TutorFeedback }) {
       <span
         className={`feedback-chip feedback-chip--${feedback.classification}`}
       >
-        {label}
+        {feedback.classification === 'ok' ? (
+          label
+        ) : (
+          <GlossaryTerm id={feedback.classification}>{label}</GlossaryTerm>
+        )}
       </span>
       {feedback.equityLoss > 0 && (
         <span className="tutor-note-loss">
@@ -971,7 +976,7 @@ export function Play({
           <span className="chip-name">White</span>
           {/* biome-ignore lint/a11y/useSemanticElements: a labelled inline stat; fieldset/section would be wrong semantics */}
           <span className="chip-pips" role="group" aria-label="White pip count">
-            {pipCount(board, 'white')}
+            <GlossaryTerm id="pips">{pipCount(board, 'white')}</GlossaryTerm>
           </span>
           {match && (
             // biome-ignore lint/a11y/useSemanticElements: a labelled inline stat; fieldset/section would be wrong semantics
@@ -994,7 +999,10 @@ export function Play({
                 ? '1-point match'
                 : `${match.length}-point match`}
               {match.crawford && (
-                <span className="crawford-badge">Crawford — no doubling</span>
+                <span className="crawford-badge">
+                  <GlossaryTerm id="crawford">Crawford</GlossaryTerm> — no
+                  doubling
+                </span>
               )}
               {xgid && (
                 <CopyXgidButton
@@ -1029,7 +1037,7 @@ export function Play({
           )}
           {/* biome-ignore lint/a11y/useSemanticElements: a labelled inline stat; fieldset/section would be wrong semantics */}
           <span className="chip-pips" role="group" aria-label="Black pip count">
-            {pipCount(board, 'black')}
+            <GlossaryTerm id="pips">{pipCount(board, 'black')}</GlossaryTerm>
           </span>
           {match && (
             // biome-ignore lint/a11y/useSemanticElements: a labelled inline stat; fieldset/section would be wrong semantics
