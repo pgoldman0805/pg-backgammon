@@ -62,6 +62,9 @@ export function matchContext(match: MatchState): MatchContext {
     score: match.score,
     crawford: match.crawford,
     cube: match.cube,
+    // A money session evaluates under the Jacoby rule; match play omits the
+    // flag entirely, so match-aware contexts stay byte-for-byte unchanged.
+    ...(match.money ? { jacoby: true } : {}),
   };
 }
 

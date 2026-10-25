@@ -28,6 +28,7 @@ import {
   passDouble,
   rollTurn,
   startMatch,
+  startMoneyGame,
   takebackPlay,
   takeDouble,
   undoMatchMovement,
@@ -40,8 +41,12 @@ export interface PlayState {
 }
 
 export type PlayAction =
-  /** Start a fresh match (also abandons any match in progress). */
-  | { type: 'start'; length?: number }
+  /**
+   * Start a fresh match or money session (also abandons any in progress).
+   * `money` starts an unlimited money session (GLOSSARY "Money play"); `length`
+   * is ignored then.
+   */
+  | { type: 'start'; length?: number; money?: boolean }
   /** Move one checker by one die within the current turn. */
   | { type: 'movement'; from: Point | 'bar'; die: Die }
   /** Undo the most recent movement of the current turn. */
@@ -127,7 +132,11 @@ export function createPlayStore(options: PlayStoreOptions = {}): PlayStore {
   function reduce(action: PlayAction): PlayState | null {
     try {
       if (action.type === 'start') {
-        return { match: startMatch(action.length ?? 7, dice) };
+        return {
+          match: action.money
+            ? startMoneyGame(dice)
+            : startMatch(action.length ?? 7, dice),
+        };
       }
       const match = state.match;
       if (!match) {

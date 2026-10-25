@@ -133,11 +133,20 @@ function currentXgid(match: MatchState | null): string | null {
 
 export type PlayMode = 'computer' | 'hotseat';
 
+/**
+ * Match play to a point target, or a money session (GLOSSARY "Money play"):
+ * unlimited single games, the cube live from the start, gammons scored under
+ * the Jacoby rule.
+ */
+export type GameType = 'match' | 'money';
+
 export interface PlaySetup {
   readonly mode: PlayMode;
   readonly difficulty: Difficulty;
-  /** Match length in points, 1-25. */
+  /** Match length in points, 1-25 (ignored for a money session). */
   readonly length: number;
+  /** Match play or a money session; absent means match. */
+  readonly gameType?: GameType;
 }
 
 export interface PlayProps {
@@ -163,14 +172,14 @@ export interface PlayProps {
  */
 function initialSetup(): PlaySetup {
   if (!hasPlayedBefore()) {
-    return { mode: 'computer', ...NOVICE_SETUP };
+    return { mode: 'computer', gameType: 'match', ...NOVICE_SETUP };
   }
   const storedId = getStoredDifficulty();
   const difficulty =
     DIFFICULTIES.find((d) => d.id === storedId)?.id ??
     RETURNING_FALLBACK.difficulty;
   const length = getStoredLength() ?? RETURNING_FALLBACK.length;
-  return { mode: 'computer', difficulty, length };
+  return { mode: 'computer', difficulty, length, gameType: 'match' };
 }
 
 /** Rebuild the setup pickers' state from a stored match's config. */
@@ -179,17 +188,29 @@ function setupFromConfig(config: MatchConfig): PlaySetup {
   return {
     mode: config.mode === 'hotseat' ? 'hotseat' : 'computer',
     difficulty: difficulty ?? 'casual',
-    length: typeof config.length === 'number' ? config.length : 7,
+    length:
+      typeof config.length === 'number' && config.length > 0
+        ? config.length
+        : 7,
+    gameType: config.gameType === 'money' ? 'money' : 'match',
   };
 }
 
 /** One line describing a stored match, e.g. "5-point match vs Casual". */
 function storedMatchName(stored: StoredMatch): string {
-  return stored.config.mode === 'hotseat'
-    ? `${stored.config.length}-point hot-seat match`
-    : `${stored.config.length}-point match vs ${difficultyLabel(
-        stored.config.difficulty ?? 'casual',
-      )}`;
+  const { config } = stored;
+  const opponent =
+    config.mode === 'hotseat'
+      ? 'hot-seat'
+      : `vs ${difficultyLabel(config.difficulty ?? 'casual')}`;
+  if (config.gameType === 'money') {
+    return config.mode === 'hotseat'
+      ? 'Money session (hot-seat)'
+      : `Money session vs ${difficultyLabel(config.difficulty ?? 'casual')}`;
+  }
+  return config.mode === 'hotseat'
+    ? `${config.length}-point hot-seat match`
+    : `${config.length}-point match ${opponent}`;
 }
 
 function points(n: number): string {
@@ -309,6 +330,49 @@ function LengthPicker({
     </label>
   );
 }
+
+const GAME_TYPES: ReadonlyArray<{ id: GameType; label: string }> = [
+  { id: 'match', label: 'Match' },
+  { id: 'money', label: 'Money play' },
+];
+
+/**
+ * Choose match play (to a point target) or a money session (GLOSSARY "Money
+ * play"). Mirrors the difficulty pills so the two game types read as one
+ * family; the money hint names what changes rather than leaving the choice
+ * unexplained.
+ */
+function GameTypePicker({
+  value,
+  onChange,
+}: {
+  value: GameType;
+  onChange: (gameType: GameType) => void;
+}) {
+  return (
+    <fieldset className="difficulty-picker">
+      <legend className="difficulty-legend">Game</legend>
+      <div className="difficulty-options">
+        {GAME_TYPES.map((type) => (
+          <label key={type.id} className="difficulty-pill">
+            <input
+              type="radio"
+              name="game-type"
+              value={type.id}
+              checked={value === type.id}
+              onChange={() => onChange(type.id)}
+            />
+            {type.label}
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+/** What a money session changes, spelled out beside the picker. */
+const MONEY_HINT =
+  'Unlimited games, cube live from the start, gammons under the Jacoby rule.';
 
 function EngineNote({
   status,
@@ -804,12 +868,15 @@ export function Play({
       tutorRef.current?.dispose();
       tutorRef.current = null;
     }
+    const money = setup.gameType === 'money';
     persistence.begin({
       mode,
       difficulty: setup.difficulty,
-      length: setup.length,
+      // A money session has no target: store 0 so the config reads as money.
+      length: money ? 0 : setup.length,
+      gameType: setup.gameType,
     });
-    store.dispatch({ type: 'start', length: setup.length });
+    store.dispatch({ type: 'start', length: setup.length, money });
   }
 
   /** Pick a stored in-progress match back up exactly where it stood. */
@@ -860,11 +927,22 @@ export function Play({
     rememberSetupChoice(setup.difficulty, length);
     setSetup((current) => ({ ...current, length }));
   };
+  const chooseGameType = (gameType: GameType): void => {
+    setSetup((current) => ({ ...current, gameType }));
+  };
 
   const setupPickers = (
     <>
       <DifficultyPicker value={setup.difficulty} onChange={chooseDifficulty} />
-      <LengthPicker value={setup.length} onChange={chooseLength} />
+      <GameTypePicker
+        value={setup.gameType ?? 'match'}
+        onChange={chooseGameType}
+      />
+      {setup.gameType === 'money' ? (
+        <p className="setting-switch-hint">{MONEY_HINT}</p>
+      ) : (
+        <LengthPicker value={setup.length} onChange={chooseLength} />
+      )}
     </>
   );
 
@@ -946,6 +1024,7 @@ export function Play({
   /** Between games: the result, the standing, and the way onward. */
   const gameOverCard = (current: MatchState) => {
     const nextIsCrawford =
+      !current.money &&
       !current.crawfordPlayed &&
       (current.score.white === current.length - 1 ||
         current.score.black === current.length - 1);
@@ -955,8 +1034,8 @@ export function Play({
           {current.gameResult ? gameEndText(current.gameResult) : ''}
         </p>
         <p className="score-line" id={dialogDescId}>
-          White {current.score.white} · Black {current.score.black} — first to{' '}
-          {current.length}
+          White {current.score.white} · Black {current.score.black}
+          {current.money ? ' — running total' : ` — first to ${current.length}`}
         </p>
         {nextIsCrawford && (
           <p className="dialog-note">
@@ -1156,9 +1235,18 @@ export function Play({
           </p>
           {match && (
             <p className="match-caption">
-              {match.length === 1
-                ? '1-point match'
-                : `${match.length}-point match`}
+              {match.money ? (
+                <>
+                  Money play
+                  <span className="crawford-badge">
+                    <GlossaryTerm id="jacoby">Jacoby</GlossaryTerm>
+                  </span>
+                </>
+              ) : match.length === 1 ? (
+                '1-point match'
+              ) : (
+                `${match.length}-point match`
+              )}
               {match.crawford && (
                 <span className="crawford-badge">
                   <GlossaryTerm id="crawford">Crawford</GlossaryTerm> — no

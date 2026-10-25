@@ -90,6 +90,13 @@ const ENTRIES = {
     long: 'The Crawford rule fires exactly once per match: the first game after either player gets within one point of winning is played with no doubling allowed. After that one game, the cube comes back and the trailer can start doubling again.',
     category: 'play',
   },
+  jacoby: {
+    term: 'Jacoby rule',
+    short:
+      'A money-play rule: a gammon or backgammon counts only as a single until someone has turned the cube.',
+    long: 'In money play the Jacoby rule stops gammons and backgammons from counting double unless the cube has already been turned that game. It keeps either side from sitting on an undoubled position purely to grind out a gammon, so the cube stays central to the game.',
+    category: 'play',
+  },
   race: {
     term: 'Race',
     short:

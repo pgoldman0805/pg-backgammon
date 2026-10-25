@@ -131,6 +131,23 @@ describe('match setup', () => {
     expect(screen.getByText('5-point match')).toBeInTheDocument();
   });
 
+  it('starts an unlimited money session when the money game type is chosen', async () => {
+    const user = userEvent.setup();
+    const store = renderPlay({ dice: scriptedDice(6, 3) });
+
+    // Choosing money play drops the match-length picker — a money session has
+    // no target.
+    await user.click(screen.getByRole('radio', { name: 'Money play' }));
+    expect(
+      screen.queryByRole('combobox', { name: 'Match length' }),
+    ).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Play as White' }));
+    expect(store.getState().match?.money).toBe(true);
+    expect(screen.getByText(/Money play/)).toBeInTheDocument();
+    expect(screen.queryByText(/-point match/)).not.toBeInTheDocument();
+  });
+
   it('remembers the picked difficulty', async () => {
     const user = userEvent.setup();
     renderPlay({ dice: scriptedDice() });

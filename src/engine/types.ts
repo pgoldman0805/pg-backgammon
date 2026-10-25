@@ -32,6 +32,12 @@ export interface MatchContext {
   readonly crawford?: boolean;
   /** Defaults to a centered 1-cube. */
   readonly cube?: CubeState;
+  /**
+   * Apply the Jacoby rule when evaluating a money game (matchLength 0): a
+   * gammon or backgammon counts only once the cube has been turned. The cube
+   * decision reflects it; match play ignores it. Defaults to off.
+   */
+  readonly jacoby?: boolean;
 }
 
 /** A position presented to the engine, with the player to act. */

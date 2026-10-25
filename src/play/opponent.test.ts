@@ -137,6 +137,56 @@ describe('engine turn (checker play)', () => {
     ]);
     opponent.dispose();
   });
+
+  it('asks the cube with a Jacoby money context in a money session', async () => {
+    const store = createPlayStore({
+      match: createMatch({
+        length: 0,
+        money: true,
+        game: createGame({
+          board: createBoard({
+            white: { points: { 24: 2, 13: 5, 8: 3, 6: 5 } },
+            black: { points: { 1: 2, 12: 5, 17: 3, 19: 5 } },
+          }),
+          player: 'white',
+          roll: [6, 3],
+        }),
+      }),
+      dice: scriptedDice(3, 1, 5, 2),
+    });
+    store.dispatch({ type: 'movement', from: 24, die: 6 });
+    store.dispatch({ type: 'movement', from: 13, die: 3 });
+    store.dispatch({ type: 'commit' });
+
+    const fake = createFakeEngine();
+    const contexts: unknown[] = [];
+    const engine: Engine = {
+      ...fake,
+      cubeInfo(position, options) {
+        contexts.push(position.match);
+        return fake.cubeInfo(position, options);
+      },
+    };
+    const opponent = createEngineOpponent({
+      store,
+      engine,
+      player: 'black',
+      difficulty: 'expert',
+      ...opponentOptions(),
+    });
+
+    await vi.waitFor(() => {
+      expect(contexts.length).toBeGreaterThan(0);
+    });
+    expect(contexts[0]).toEqual({
+      matchLength: 0,
+      score: { white: 0, black: 0 },
+      crawford: false,
+      cube: { value: 1, owner: 'center' },
+      jacoby: true,
+    });
+    opponent.dispose();
+  });
 });
 
 describe('the engine at the cube', () => {
