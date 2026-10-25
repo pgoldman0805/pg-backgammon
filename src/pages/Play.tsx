@@ -347,6 +347,103 @@ function EngineNote({
 const IDLE_OPPONENT: EngineOpponentState = { thinking: false, error: null };
 
 /**
+ * Any focusable control inside a dialog, for its focus trap. Disabled controls
+ * and explicitly-removed ones (tabindex -1, like the dialog container itself)
+ * are skipped.
+ */
+const DIALOG_FOCUSABLE =
+  'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+/**
+ * A modal dialog over the board (ticket 44), following the restore-dialog
+ * pattern ticket 27 established in BackupControls. It owns the accessibility
+ * contract the cube, resign, game-over and match-over banners share: a dialog
+ * role with an accessible name, focus moved into the dialog on open (so screen
+ * readers announce its name and description) and trapped while open, and focus
+ * restored to the opener on close. Escape closes it only when `onDismiss` is
+ * given — the required cube decision passes none, so there is no unsafe
+ * keyboard escape from it, while the resign dialog passes "decline" (play on).
+ */
+function PlayDialog({
+  labelledBy,
+  describedBy,
+  onDismiss,
+  children,
+}: {
+  labelledBy: string;
+  describedBy?: string;
+  onDismiss?: () => void;
+  children: React.ReactNode;
+}) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const restoreFocusRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    restoreFocusRef.current = document.activeElement as HTMLElement | null;
+    dialogRef.current?.focus();
+    return () => {
+      const previous = restoreFocusRef.current;
+      if (previous?.isConnected) {
+        previous.focus();
+      }
+    };
+  }, []);
+
+  function onKeyDown(event: React.KeyboardEvent): void {
+    if (event.key === 'Escape') {
+      if (onDismiss) {
+        event.stopPropagation();
+        onDismiss();
+      }
+      return;
+    }
+    if (event.key !== 'Tab') {
+      return;
+    }
+    const dialog = dialogRef.current;
+    const focusable = dialog
+      ? Array.from(dialog.querySelectorAll<HTMLElement>(DIALOG_FOCUSABLE))
+      : [];
+    if (focusable.length === 0) {
+      event.preventDefault();
+      return;
+    }
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    const active = document.activeElement;
+    // Focus resting on the container itself (its initial home) tabs to an end
+    // rather than escaping to whatever sits behind the overlay.
+    if (active === dialog || !dialog?.contains(active)) {
+      event.preventDefault();
+      (event.shiftKey ? last : first).focus();
+    } else if (event.shiftKey && active === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && active === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  return (
+    <div className="play-banner">
+      <div
+        className="setup-card play-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={labelledBy}
+        aria-describedby={describedBy}
+        tabIndex={-1}
+        ref={dialogRef}
+        onKeyDown={onKeyDown}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/**
  * One labeled on/off switch in the Play area's visual language: the Tutor
  * mode toggle, on the setup card and in the HUD during a match. (The
  * preference switches moved to Settings — ticket 25.) A one-line hint names
@@ -500,6 +597,10 @@ export function Play({
   // opponentStepMs (tests) always wins.
   const [animationSpeed] = useAnimationSpeed();
   const stepMs = opponentStepMs ?? stepMsFor(animationSpeed);
+  // One title/description id pair for whichever decision or result dialog is
+  // open (ticket 44); only one is ever mounted at a time, so sharing is safe.
+  const dialogTitleId = useId();
+  const dialogDescId = useId();
   const persistence = useMatchPersistence(store, storage);
   // Ticket 08: finished games analyze themselves in the background.
   useAutoAnalysis(store, storage);
@@ -849,29 +950,27 @@ export function Play({
       (current.score.white === current.length - 1 ||
         current.score.black === current.length - 1);
     return (
-      <div className="play-banner">
-        <div className="setup-card">
-          <p className="setup-title">
-            {current.gameResult ? gameEndText(current.gameResult) : ''}
+      <PlayDialog labelledBy={dialogTitleId} describedBy={dialogDescId}>
+        <p className="setup-title" id={dialogTitleId}>
+          {current.gameResult ? gameEndText(current.gameResult) : ''}
+        </p>
+        <p className="score-line" id={dialogDescId}>
+          White {current.score.white} · Black {current.score.black} — first to{' '}
+          {current.length}
+        </p>
+        {nextIsCrawford && (
+          <p className="dialog-note">
+            Next is the Crawford game — no doubling.
           </p>
-          <p className="score-line">
-            White {current.score.white} · Black {current.score.black} — first to{' '}
-            {current.length}
-          </p>
-          {nextIsCrawford && (
-            <p className="dialog-note">
-              Next is the Crawford game — no doubling.
-            </p>
-          )}
-          <button
-            type="button"
-            className="play-button play-button--primary"
-            onClick={() => store.dispatch({ type: 'next-game' })}
-          >
-            Next game
-          </button>
-        </div>
-      </div>
+        )}
+        <button
+          type="button"
+          className="play-button play-button--primary"
+          onClick={() => store.dispatch({ type: 'next-game' })}
+        >
+          Next game
+        </button>
+      </PlayDialog>
     );
   };
 
@@ -879,38 +978,36 @@ export function Play({
   const matchOverCard = (current: MatchState) => {
     const winner = current.winner ?? 'white';
     return (
-      <div className="play-banner">
-        <div className="setup-card">
-          <p className="setup-title">
-            {playerName(winner)} wins the match {current.score[winner]}–
-            {current.score[opponent(winner)]}
-          </p>
-          <ol className="match-games">
-            {current.games.map((completed, index) => (
-              <li
-                // biome-ignore lint/suspicious/noArrayIndexKey: games are an append-only sequence
-                key={index}
-              >
-                {playerName(completed.result.winner)} +{completed.result.points}
-                {' — '}
-                {completed.result.end === 'pass'
-                  ? 'double passed'
-                  : completed.result.end === 'resignation'
-                    ? `resigned ${KIND_TEXT[completed.result.kind]}`
-                    : KIND_TEXT[completed.result.kind]}
-                {completed.crawford ? ' (Crawford)' : ''}
-              </li>
-            ))}
-          </ol>
-          {setupPickers}
-          {startButtons('New match', setup.mode)}
-          <EngineNote
-            status={engineStatus}
-            opponentError={opponentState.error}
-            onRetry={retryEngine}
-          />
-        </div>
-      </div>
+      <PlayDialog labelledBy={dialogTitleId}>
+        <p className="setup-title" id={dialogTitleId}>
+          {playerName(winner)} wins the match {current.score[winner]}–
+          {current.score[opponent(winner)]}
+        </p>
+        <ol className="match-games">
+          {current.games.map((completed, index) => (
+            <li
+              // biome-ignore lint/suspicious/noArrayIndexKey: games are an append-only sequence
+              key={index}
+            >
+              {playerName(completed.result.winner)} +{completed.result.points}
+              {' — '}
+              {completed.result.end === 'pass'
+                ? 'double passed'
+                : completed.result.end === 'resignation'
+                  ? `resigned ${KIND_TEXT[completed.result.kind]}`
+                  : KIND_TEXT[completed.result.kind]}
+              {completed.crawford ? ' (Crawford)' : ''}
+            </li>
+          ))}
+        </ol>
+        {setupPickers}
+        {startButtons('New match', setup.mode)}
+        <EngineNote
+          status={engineStatus}
+          opponentError={opponentState.error}
+          onRetry={retryEngine}
+        />
+      </PlayDialog>
     );
   };
 
@@ -918,34 +1015,34 @@ export function Play({
   const cubeDialog = (current: MatchState) => {
     const doubler = current.toRoll ?? 'white';
     const stake = current.cube.value;
+    // No onDismiss: a doubled player must take or pass, so Escape would have no
+    // non-destructive default to fall back to.
     return (
-      <div className="play-banner">
-        <div className="setup-card">
-          <p className="setup-title">
-            {playerName(doubler)} doubles to {stake * 2}
-          </p>
-          <p className="dialog-note">
-            Take to play on for {points(stake * 2)}, or pass to concede{' '}
-            {points(stake)}.
-          </p>
-          <div className="dialog-actions">
-            <button
-              type="button"
-              className="play-button play-button--primary"
-              onClick={() => store.dispatch({ type: 'take' })}
-            >
-              Take
-            </button>
-            <button
-              type="button"
-              className="play-button"
-              onClick={() => store.dispatch({ type: 'pass' })}
-            >
-              Pass
-            </button>
-          </div>
+      <PlayDialog labelledBy={dialogTitleId} describedBy={dialogDescId}>
+        <p className="setup-title" id={dialogTitleId}>
+          {playerName(doubler)} doubles to {stake * 2}
+        </p>
+        <p className="dialog-note" id={dialogDescId}>
+          Take to play on for {points(stake * 2)}, or pass to concede{' '}
+          {points(stake)}.
+        </p>
+        <div className="dialog-actions">
+          <button
+            type="button"
+            className="play-button play-button--primary"
+            onClick={() => store.dispatch({ type: 'take' })}
+          >
+            Take
+          </button>
+          <button
+            type="button"
+            className="play-button"
+            onClick={() => store.dispatch({ type: 'pass' })}
+          >
+            Pass
+          </button>
         </div>
-      </div>
+      </PlayDialog>
     );
   };
 
@@ -954,33 +1051,37 @@ export function Play({
     current: MatchState,
     pending: { by: Player; kind: GameEndKind },
   ) => (
-    <div className="play-banner">
-      <div className="setup-card">
-        <p className="setup-title">
-          {playerName(pending.by)} offers to resign a {KIND_TEXT[pending.kind]}
-        </p>
-        <p className="dialog-note">
-          Accept to win {points(KIND_POINTS[pending.kind] * current.cube.value)}
-          , or decline to play on.
-        </p>
-        <div className="dialog-actions">
-          <button
-            type="button"
-            className="play-button play-button--primary"
-            onClick={() => store.dispatch({ type: 'accept-resign' })}
-          >
-            Accept
-          </button>
-          <button
-            type="button"
-            className="play-button"
-            onClick={() => store.dispatch({ type: 'decline-resign' })}
-          >
-            Decline
-          </button>
-        </div>
+    // Escape declines (play on): the non-destructive answer to a resignation
+    // offer, so a keyboard user can wave it away without touching the mouse.
+    <PlayDialog
+      labelledBy={dialogTitleId}
+      describedBy={dialogDescId}
+      onDismiss={() => store.dispatch({ type: 'decline-resign' })}
+    >
+      <p className="setup-title" id={dialogTitleId}>
+        {playerName(pending.by)} offers to resign a {KIND_TEXT[pending.kind]}
+      </p>
+      <p className="dialog-note" id={dialogDescId}>
+        Accept to win {points(KIND_POINTS[pending.kind] * current.cube.value)},
+        or decline to play on.
+      </p>
+      <div className="dialog-actions">
+        <button
+          type="button"
+          className="play-button play-button--primary"
+          onClick={() => store.dispatch({ type: 'accept-resign' })}
+        >
+          Accept
+        </button>
+        <button
+          type="button"
+          className="play-button"
+          onClick={() => store.dispatch({ type: 'decline-resign' })}
+        >
+          Decline
+        </button>
       </div>
-    </div>
+    </PlayDialog>
   );
 
   const resignButton = match && (
