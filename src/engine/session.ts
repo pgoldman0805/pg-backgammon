@@ -10,7 +10,11 @@
 
 import type { DiceRoll, Play } from '../rules';
 import { applyMovement, legalPlays } from '../rules';
-import { applyDifficultyNoise, DIFFICULTY_SETTINGS } from './difficulty';
+import {
+  applyCubeDifficulty,
+  applyDifficultyNoise,
+  DIFFICULTY_SETTINGS,
+} from './difficulty';
 import { applyMoveText, boardKey } from './moveText';
 import { parseCubeAnalysis, parseEvalOutput, parseHintMoves } from './parse';
 import type {
@@ -169,11 +173,20 @@ export function createGnubgSession(run: RunCommand): GnubgSession {
     },
 
     cubeInfo(position, options) {
+      // A weakened difficulty keeps the full-strength cube evaluation and
+      // perturbs it afterwards (seeded, reproducible), so Expert/World-class
+      // and every analysis call stay engine-correct; effort is ignored then.
+      const noise = options?.difficulty
+        ? DIFFICULTY_SETTINGS[options.difficulty].noise
+        : 0;
       const plies =
-        options?.effort === 'deep' ? DEEP.plies : FULL_STRENGTH.plies;
+        !options?.difficulty && options?.effort === 'deep'
+          ? DEEP.plies
+          : FULL_STRENGTH.plies;
       run(`set evaluation cubedecision evaluation plies ${plies}`);
-      preparePosition(position, undefined, 0);
-      return parseCubeAnalysis(run('hint'));
+      const xgid = preparePosition(position, undefined, 0);
+      const analysis = parseCubeAnalysis(run('hint'));
+      return noise > 0 ? applyCubeDifficulty(analysis, noise, xgid) : analysis;
     },
   };
 }

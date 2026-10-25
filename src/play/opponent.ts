@@ -162,11 +162,14 @@ export function createEngineOpponent(
     }
     if (canDouble(match)) {
       const analysis = await think(
-        engine.cubeInfo({
-          board: match.game.board,
-          onRoll: player,
-          match: matchContext(match),
-        }),
+        engine.cubeInfo(
+          {
+            board: match.game.board,
+            onRoll: player,
+            match: matchContext(match),
+          },
+          { difficulty },
+        ),
       );
       if (!liveMatch(token)) {
         return;
@@ -187,11 +190,14 @@ export function createEngineOpponent(
     }
     const doubler = match.toRoll as Player;
     const analysis = await think(
-      engine.cubeInfo({
-        board: match.game.board,
-        onRoll: doubler,
-        match: matchContext(match),
-      }),
+      engine.cubeInfo(
+        {
+          board: match.game.board,
+          onRoll: doubler,
+          match: matchContext(match),
+        },
+        { difficulty },
+      ),
     );
     if (!liveMatch(token)) {
       return;

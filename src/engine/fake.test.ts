@@ -1,9 +1,25 @@
 import { describe, expect, it } from 'vitest';
 import { applyMovement, initialBoard, legalPlays } from '../rules';
+import { cubeProperAction } from './difficulty';
 import { createFakeEngine } from './fake';
 import type { EngineStatus } from './types';
 
 const OPENING = { board: initialBoard(), onRoll: 'white' } as const;
+
+/** A racing position with white ~30 pips ahead: a clear doubling decision. */
+const WHITE_AHEAD = {
+  board: {
+    points: (() => {
+      const points = new Array<number>(25).fill(0);
+      points[2] = 2; // white almost home (pip 4)
+      points[8] = -2; // black well back (pip 34)
+      return points;
+    })(),
+    bar: { white: 0, black: 0 },
+    off: { white: 13, black: 13 },
+  },
+  onRoll: 'white',
+} as const;
 
 describe('createFakeEngine', () => {
   it('honors the Engine lifecycle contract', async () => {
@@ -125,5 +141,52 @@ describe('createFakeEngine', () => {
       'Double, pass',
     ]);
     expect(analysis.properAction.length).toBeGreaterThan(0);
+  });
+
+  it('keeps its cube verdict consistent with its own equities', async () => {
+    // The proper action the fake reports is exactly what the shared cube math
+    // derives from its three equities, so a weakened level only ever deviates
+    // through seeded noise — never a hidden rule change at noise zero.
+    const engine = createFakeEngine();
+    for (const position of [OPENING, WHITE_AHEAD]) {
+      const analysis = await engine.cubeInfo(position);
+      expect(analysis.properAction).toBe(cubeProperAction(analysis.options));
+    }
+  });
+
+  it('recommends doubling when far ahead, standing pat when even', async () => {
+    const engine = createFakeEngine();
+    expect((await engine.cubeInfo(OPENING)).properAction).toMatch(
+      /^no double/i,
+    );
+    expect((await engine.cubeInfo(WHITE_AHEAD)).properAction).toMatch(
+      /^double/i,
+    );
+  });
+
+  it('weakens the cube decision at a difficulty, deterministically', async () => {
+    const engine = createFakeEngine();
+    const full = await engine.cubeInfo(WHITE_AHEAD);
+    const beginnerA = await engine.cubeInfo(WHITE_AHEAD, {
+      difficulty: 'beginner',
+    });
+    const beginnerB = await engine.cubeInfo(WHITE_AHEAD, {
+      difficulty: 'beginner',
+    });
+    expect(beginnerA).toEqual(beginnerB);
+    expect(beginnerA.options.map((o) => o.equity)).not.toEqual(
+      full.options.map((o) => o.equity),
+    );
+  });
+
+  it('leaves the cube decision engine-correct at Expert and World-class', async () => {
+    const engine = createFakeEngine();
+    const full = await engine.cubeInfo(WHITE_AHEAD);
+    expect(
+      await engine.cubeInfo(WHITE_AHEAD, { difficulty: 'expert' }),
+    ).toEqual(full);
+    expect(
+      await engine.cubeInfo(WHITE_AHEAD, { difficulty: 'world-class' }),
+    ).toEqual(full);
   });
 });
