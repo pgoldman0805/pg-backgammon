@@ -9,7 +9,10 @@
  * Exits non-zero if any stored answer no longer matches the engine.
  */
 
-import { checkPuzzle } from '../src/engine/node/curatedValidation';
+import {
+  checkPlayDepthAgreement,
+  checkPuzzle,
+} from '../src/engine/node/curatedValidation';
 import { loadGnubgSession } from '../src/engine/node/loadGnubg';
 import { BUNDLED_PUZZLES } from '../src/puzzles/bundledSet';
 import { PUZZLE_THEMES } from '../src/puzzles/types';
@@ -21,8 +24,18 @@ export async function validatePuzzles(): Promise<void> {
 
   let checked = 0;
   let failed = 0;
+  let depthFlips = 0;
   for (const puzzle of BUNDLED_PUZZLES) {
     const problems = checkPuzzle(session, puzzle);
+    // Ticket 35 agreement gate: a play puzzle's 2-ply best must still be best
+    // at 3-ply — its top play must not flip at greater depth.
+    if (puzzle.kind === 'play') {
+      const flips = checkPlayDepthAgreement(session, puzzle);
+      if (flips.length > 0) {
+        depthFlips++;
+      }
+      problems.push(...flips);
+    }
     checked++;
     if (problems.length > 0) {
       failed++;
@@ -50,7 +63,8 @@ export async function validatePuzzles(): Promise<void> {
     `Validated ${checked} puzzles (${plays} play, ${cubes} cube; ` +
       `${themeCounts}) against the WASM engine in ` +
       `${Math.round((Date.now() - started) / 1000)}s: ` +
-      `${checked - failed} ok, ${failed} failed.`,
+      `${checked - failed} ok, ${failed} failed ` +
+      `(${depthFlips} play puzzles flipped top play at 3-ply).`,
   );
   if (failed > 0) {
     process.exitCode = 1;

@@ -71,6 +71,10 @@ export function scriptedMiningEngine(): SelfPlayMiningEngine {
       rank(position.board, position.onRoll, roll),
     rankPlays: async (position, roll) =>
       rank(position.board, position.onRoll, roll),
+    // The deep check agrees with the 2-ply ranking by default (same order),
+    // so the agreement gate keeps every otherwise-qualified play puzzle.
+    deepRankPlays: async (position, roll) =>
+      rank(position.board, position.onRoll, roll),
     cubeInfo: async () => cube,
   };
 }

@@ -53,6 +53,12 @@ describe('glossary data', () => {
     expect(entry.term).toBe('Crawford game');
   });
 
+  it('makes clear the 2-ply eval is an engine evaluation, not a rollout', () => {
+    const entry = GLOSSARY['two-ply'];
+    expect(entry.short.toLowerCase()).toContain('rollout');
+    expect(entry.long.toLowerCase()).toContain('rollout');
+  });
+
   it('guards arbitrary strings so callers can wrap only known terms', () => {
     expect(hasGlossaryEntry('priming')).toBe(true);
     // A theme another ticket might add is not (yet) a glossary term.

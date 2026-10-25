@@ -11,8 +11,12 @@
 export {
   CLASSIFICATION_THRESHOLDS,
   classifyEquityLoss,
+  classifyPlayLoss,
   type ErrorClassification,
   equityLoss,
+  isOpeningPlay,
+  OPENING_NOISE_MARGIN,
+  OPENING_PLY_COUNT,
 } from './analysis';
 export { type CreateEngineOptions, createGnubgEngine } from './client';
 export {

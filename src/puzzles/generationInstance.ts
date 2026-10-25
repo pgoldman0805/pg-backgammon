@@ -31,6 +31,12 @@ export function getPuzzleGenerationService(): PuzzleGenerationService {
           }),
         rankPlays: (position, roll) =>
           getMatchAnalyzer().rankPlays(position, roll, 'background'),
+        // The agreement gate: a deeper (3-ply, bounded) ranking, so a kept
+        // puzzle's top play cannot flip at greater depth.
+        deepRankPlays: (position, roll) =>
+          getMatchAnalyzer().rankPlays(position, roll, 'background', {
+            effort: 'deep',
+          }),
         cubeInfo: (position) =>
           getMatchAnalyzer().cubeInfo(position, 'background'),
       },

@@ -90,6 +90,10 @@ export async function minePuzzles(): Promise<void> {
     screenPlays: async (position, roll) =>
       session.rankPlays(position, roll, { difficulty: 'expert' }),
     rankPlays: async (position, roll) => session.rankPlays(position, roll),
+    // Agreement gate: a deeper (3-ply, bounded) ranking, so a kept puzzle's
+    // top play cannot flip between 2-ply and the deeper check (no rollouts).
+    deepRankPlays: async (position, roll) =>
+      session.rankPlays(position, roll, { effort: 'deep' }),
     cubeInfo: async (position) => session.cubeInfo(position),
   };
   const started = Date.now();
@@ -173,7 +177,8 @@ export async function minePuzzles(): Promise<void> {
   }
   log(
     `play candidates screened ${result.stats.playScreened}, confirmed ` +
-      `${result.stats.playConfirmed}; cube positions evaluated ` +
+      `${result.stats.playConfirmed} (${result.stats.playDeepRejected} ` +
+      `dropped: top play flipped at 3-ply); cube positions evaluated ` +
       `${result.stats.cubeEvaluated}, accepted ${result.stats.cubeAccepted}.`,
   );
   log(`Wrote ${target}`);

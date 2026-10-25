@@ -172,8 +172,8 @@ const ENTRIES = {
   'two-ply': {
     term: '2-ply',
     short:
-      'How deep the engine looked before scoring: it weighed every play, then every reply. One ply is one half-turn of look-ahead.',
-    long: 'A ply is one side’s turn of look-ahead. At 2-ply the engine considers each candidate play and the opponent’s best answer before judging it. Analyzing deeper (3-ply) looks one turn further and is slower but sharper on close decisions.',
+      'A quick engine evaluation, not a rollout: it weighed every play and the best reply (two half-turns of look-ahead). Deeper on demand, so a close call can differ from the rollout answer.',
+    long: 'A ply is one side’s turn of look-ahead. At 2-ply the engine considers each candidate play and the opponent’s best answer before judging it — an evaluation, not a rollout (which would play the position out thousands of times). It is quick and reliable, but on the closest decisions a rollout can disagree, so you can analyze deeper (3-ply) for a sharper, though still not rolled-out, read.',
     category: 'analysis',
   },
   'tutor-mode': {

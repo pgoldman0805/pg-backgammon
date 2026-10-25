@@ -11,7 +11,11 @@
 // Engine types come from the seam definition and the shared analysis
 // primitives from their own module (not the engine index), so this pipeline
 // compiles in the node-typed test program too (the real-WASM golden test).
-import { classifyEquityLoss, equityLoss } from '../engine/analysis';
+import {
+  classifyEquityLoss,
+  classifyPlayLoss,
+  equityLoss,
+} from '../engine/analysis';
 import type { AnalysisEffort, Engine, RankedPlay } from '../engine/types';
 import {
   applyMovement,
@@ -132,7 +136,10 @@ export async function analyzePlayMoment(
     totalPlays: ranked.length,
     alternatives,
     equityLoss: loss,
-    classification: classifyEquityLoss(loss),
+    // Opening plays are judged at 2-ply but disagree with rollout consensus on
+    // several well-known openings; within the noise margin they are not
+    // flagged as errors or blunders (classifyPlayLoss).
+    classification: classifyPlayLoss(loss, moment.playIndex),
     plies: effortPlies[effort],
   };
 }
