@@ -8,11 +8,11 @@
  * - `audit` (npm run e2e:audit): the visual-audit screenshot harness for
  *   ticket 14; writes PNGs under .scratch/backgammon-platform/audit/.
  *
- * The webServer builds first, so `npm run e2e` is self-contained. It serves
+ * The webServer builds first, so `npm run e2e` is self-contained: it serves
  * dist with `vite preview` (ticket 23 pointed `npm run preview` at wrangler
- * dev, which rejects --strictPort). During development, keep
- * `npm run build && npx vite preview --port 4173 --strictPort` running and
- * Playwright reuses it.
+ * dev, which rejects --strictPort). It does NOT reuse an existing server on
+ * :4173 — with multiple worktrees sharing the port that would serve a stale
+ * build and give false-green results — so free the port before running.
  */
 
 import { defineConfig } from '@playwright/test';
@@ -39,7 +39,11 @@ export default defineConfig({
   webServer: {
     command: 'npm run build && npx vite preview --port 4173 --strictPort',
     url: 'http://localhost:4173',
-    reuseExistingServer: true,
+    // Never reuse a server already on :4173. With multiple git worktrees sharing
+    // this fixed port, `true` would silently serve a *stale* build from another
+    // worktree and produce false-green e2e results. `false` forces each run to
+    // serve its own build (and fail loudly on a port clash, which is correct).
+    reuseExistingServer: false,
     timeout: 240_000,
   },
 });
