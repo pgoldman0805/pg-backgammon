@@ -31,10 +31,10 @@ import { encodeXgid } from './xgid';
 export type RunCommand = (command: string) => readonly string[];
 
 /** Full-strength analysis settings (ADR-0001 ground truth). */
-const FULL_STRENGTH = { plies: 2, noise: 0 } as const;
+const FULL_STRENGTH = { plies: 2, noise: 0, bias: 0 } as const;
 
 /** On-demand deepening: 3-ply, bounded by the ply-3 move filters below. */
-const DEEP = { plies: 3, noise: 0 } as const;
+const DEEP = { plies: 3, noise: 0, bias: 0 } as const;
 
 const INIT_COMMANDS = [
   'set confirm new off',
@@ -127,8 +127,8 @@ export function createGnubgSession(run: RunCommand): GnubgSession {
       }
 
       const ordered =
-        settings.noise > 0
-          ? applyDifficultyNoise(parsed, settings.noise, xgid)
+        settings.noise > 0 || settings.bias > 0
+          ? applyDifficultyNoise(parsed, settings, xgid)
           : [...parsed];
       const bestEquity = ordered[0].equity;
 

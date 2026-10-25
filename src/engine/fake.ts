@@ -119,11 +119,11 @@ export function createFakeEngine(): Engine {
 
       const settings = options?.difficulty
         ? DIFFICULTY_SETTINGS[options.difficulty]
-        : { noise: 0 };
+        : { noise: 0, bias: 0 };
       const seed = `${boardKey(position.board)}|${roll[0]}${roll[1]}`;
       const ordered =
-        settings.noise > 0
-          ? applyDifficultyNoise(scored, settings.noise, seed)
+        settings.noise > 0 || settings.bias > 0
+          ? applyDifficultyNoise(scored, settings, seed)
           : scored;
 
       const best = ordered[0].equity;

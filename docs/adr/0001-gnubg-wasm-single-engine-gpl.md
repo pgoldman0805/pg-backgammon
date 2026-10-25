@@ -9,6 +9,6 @@ The app needs world-class play (as the top difficulty and as ground truth for th
 
 ## Consequences
 
-- Difficulty levels reuse gnubg's own technique: Gaussian noise on 0-ply evaluations (Beginner 0.060 → Expert none) and 2-ply for the top level.
+- Difficulty levels weaken a 0-ply base in TypeScript (see `src/engine/difficulty.ts`): symmetric Gaussian equity noise that widens toward Beginner, plus a directional "human-error" bias toward characteristic beginner mistakes (over-hitting, running a back checker). Expert is clean 0-ply and World-class clean 2-ply, both unweakened. (Ticket 36 replaced the earlier symmetric-noise-only recipe; the noise is applied here, not via gnubg's own saturated WASM noise mode.)
 - The engine runs in a Web Worker; the UI never blocks on evaluation.
 - Analyzer conventions (EMG equity loss, error/blunder thresholds, error rate per decision) follow gnubg/XG standards.

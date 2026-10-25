@@ -3,6 +3,7 @@ import {
   applyCubeDifficulty,
   applyDifficultyNoise,
   DIFFICULTY_SETTINGS,
+  type DifficultySettings,
   seededGaussian,
 } from './difficulty';
 import type { CubeAnalysis } from './types';
@@ -42,14 +43,43 @@ function cubeAnalysis(
 }
 
 describe('DIFFICULTY_SETTINGS', () => {
-  it('matches the ADR-0001 difficulty recipe', () => {
-    expect(DIFFICULTY_SETTINGS).toEqual({
-      beginner: { plies: 0, noise: 0.06 },
-      casual: { plies: 0, noise: 0.05 },
-      intermediate: { plies: 0, noise: 0.03 },
-      expert: { plies: 0, noise: 0 },
-      'world-class': { plies: 2, noise: 0 },
+  it('keeps Expert and World-class at full strength (clean 0-ply / 2-ply)', () => {
+    expect(DIFFICULTY_SETTINGS.expert).toEqual({
+      plies: 0,
+      noise: 0,
+      bias: 0,
     });
+    expect(DIFFICULTY_SETTINGS['world-class']).toEqual({
+      plies: 2,
+      noise: 0,
+      bias: 0,
+    });
+  });
+
+  it('weakens every lower level with both random noise and human-error bias', () => {
+    for (const level of ['beginner', 'casual', 'intermediate'] as const) {
+      expect(DIFFICULTY_SETTINGS[level].plies).toBe(0);
+      expect(DIFFICULTY_SETTINGS[level].noise).toBeGreaterThan(0);
+      expect(DIFFICULTY_SETTINGS[level].bias).toBeGreaterThan(0);
+    }
+  });
+
+  it('widens monotonically toward Beginner in both noise and bias', () => {
+    const rising = ['intermediate', 'casual', 'beginner'] as const;
+    for (let i = 1; i < rising.length; i++) {
+      expect(DIFFICULTY_SETTINGS[rising[i]].noise).toBeGreaterThan(
+        DIFFICULTY_SETTINGS[rising[i - 1]].noise,
+      );
+      expect(DIFFICULTY_SETTINGS[rising[i]].bias).toBeGreaterThan(
+        DIFFICULTY_SETTINGS[rising[i - 1]].bias,
+      );
+    }
+  });
+
+  it('opens a real gap at the bottom (Beginner noise clears Intermediate by >2x)', () => {
+    expect(DIFFICULTY_SETTINGS.beginner.noise).toBeGreaterThan(
+      2 * DIFFICULTY_SETTINGS.intermediate.noise,
+    );
   });
 });
 
@@ -77,6 +107,13 @@ describe('seededGaussian', () => {
   });
 });
 
+/** Pure symmetric noise, no human-error bias (isolates the random-slip term). */
+const pureNoise = (noise: number): DifficultySettings => ({
+  plies: 0,
+  noise,
+  bias: 0,
+});
+
 describe('applyDifficultyNoise', () => {
   const moves = [
     { moveText: '8/5 6/5', equity: 0.219 },
@@ -84,18 +121,35 @@ describe('applyDifficultyNoise', () => {
     { moveText: '24/20', equity: -0.02 },
   ];
 
-  it('returns the input untouched at zero noise', () => {
-    expect(applyDifficultyNoise(moves, 0, 'position-key')).toEqual(moves);
+  it('returns the input untouched at zero noise and zero bias', () => {
+    expect(
+      applyDifficultyNoise(moves, DIFFICULTY_SETTINGS.expert, 'position-key'),
+    ).toEqual(moves);
+    expect(
+      applyDifficultyNoise(
+        moves,
+        DIFFICULTY_SETTINGS['world-class'],
+        'position-key',
+      ),
+    ).toEqual(moves);
   });
 
   it('is deterministic for the same position seed', () => {
-    const a = applyDifficultyNoise(moves, 0.06, 'position-key');
-    const b = applyDifficultyNoise(moves, 0.06, 'position-key');
+    const a = applyDifficultyNoise(
+      moves,
+      DIFFICULTY_SETTINGS.beginner,
+      'position-key',
+    );
+    const b = applyDifficultyNoise(
+      moves,
+      DIFFICULTY_SETTINGS.beginner,
+      'position-key',
+    );
     expect(a).toEqual(b);
   });
 
   it('perturbs equities within plausible noise bounds', () => {
-    const noisy = applyDifficultyNoise(moves, 0.06, 'position-key');
+    const noisy = applyDifficultyNoise(moves, pureNoise(0.06), 'position-key');
     for (const move of noisy) {
       const original = moves.find((m) => m.moveText === move.moveText);
       expect(original).toBeDefined();
@@ -104,8 +158,12 @@ describe('applyDifficultyNoise', () => {
     }
   });
 
-  it('returns moves sorted by noisy equity, best first', () => {
-    const noisy = applyDifficultyNoise(moves, 0.06, 'position-key');
+  it('returns moves sorted by perturbed equity, best first', () => {
+    const noisy = applyDifficultyNoise(
+      moves,
+      DIFFICULTY_SETTINGS.beginner,
+      'position-key',
+    );
     for (let i = 1; i < noisy.length; i++) {
       expect(noisy[i - 1].equity).toBeGreaterThanOrEqual(noisy[i].equity);
     }
@@ -119,13 +177,144 @@ describe('applyDifficultyNoise', () => {
         { moveText: 'best', equity: 0.03 },
         { moveText: 'second', equity: 0.01 },
       ];
-      const noisy = applyDifficultyNoise(pair, 0.06, `position-${i}`);
+      const noisy = applyDifficultyNoise(
+        pair,
+        pureNoise(0.06),
+        `position-${i}`,
+      );
       if (noisy[0].moveText === 'second') {
         flips++;
       }
     }
     expect(flips).toBeGreaterThan(trials * 0.1);
     expect(flips).toBeLessThan(trials * 0.9);
+  });
+
+  // --- Human-error bias (the "textured" weakening) --------------------------
+
+  /** Fraction of sampled positions where `tempt` is chosen over `best`. */
+  function chosenRate(
+    best: { moveText: string; equity: number },
+    tempt: { moveText: string; equity: number },
+    settings: DifficultySettings,
+    trials = 500,
+  ): number {
+    let chosen = 0;
+    for (let i = 0; i < trials; i++) {
+      // Best listed first, as the clean engine would rank it.
+      const ranked = applyDifficultyNoise([best, tempt], settings, `p-${i}`);
+      if (ranked[0].moveText === tempt.moveText) {
+        chosen++;
+      }
+    }
+    return chosen / trials;
+  }
+
+  it('biases Beginner toward hitting over a quiet, better play (over-hitting)', () => {
+    // A quiet builder is the real best (+0.10); a hit (gnubg marks it "*") is
+    // clearly worse (+0.06) but tempting to a beginner.
+    const quietBest = { moveText: '13/11 13/7', equity: 0.1 };
+    const tempingHit = { moveText: '13/7* 8/5', equity: 0.06 };
+
+    const withBias = chosenRate(
+      quietBest,
+      tempingHit,
+      DIFFICULTY_SETTINGS.beginner,
+    );
+    const noiseOnly = chosenRate(
+      quietBest,
+      tempingHit,
+      pureNoise(DIFFICULTY_SETTINGS.beginner.noise),
+    );
+
+    // The bias pulls the choice toward the hit well beyond symmetric noise,
+    // and makes the (worse) hit the majority choice: recognizable over-hitting.
+    expect(withBias).toBeGreaterThan(noiseOnly + 0.1);
+    expect(withBias).toBeGreaterThan(0.5);
+  });
+
+  it('biases Beginner toward running a back checker over a better play', () => {
+    const quietBest = { moveText: '13/10 6/5', equity: 0.1 };
+    // A back checker breaks out of the opponent's home board (origin point 24).
+    const running = { moveText: '24/20 13/11', equity: 0.07 };
+
+    const withBias = chosenRate(
+      quietBest,
+      running,
+      DIFFICULTY_SETTINGS.beginner,
+    );
+    const noiseOnly = chosenRate(
+      quietBest,
+      running,
+      pureNoise(DIFFICULTY_SETTINGS.beginner.noise),
+    );
+
+    expect(withBias).toBeGreaterThan(noiseOnly + 0.05);
+    expect(withBias).toBeGreaterThan(0.5);
+  });
+
+  it('does not bias a play that offers no beginner temptation', () => {
+    const best = { moveText: '13/11 13/7', equity: 0.1 };
+    const other = { moveText: '13/10 8/5', equity: 0.06 };
+    // Neither move hits or runs a back checker: with the same symmetric noise,
+    // bias changes nothing, so Beginner and a noise-only model agree exactly.
+    expect(chosenRate(best, other, DIFFICULTY_SETTINGS.beginner)).toBe(
+      chosenRate(best, other, pureNoise(DIFFICULTY_SETTINGS.beginner.noise)),
+    );
+  });
+
+  it('biases harder at Beginner than at Intermediate (same temptation)', () => {
+    const quietBest = { moveText: '13/11 13/7', equity: 0.1 };
+    const tempingHit = { moveText: '13/7* 8/5', equity: 0.06 };
+    expect(
+      chosenRate(quietBest, tempingHit, DIFFICULTY_SETTINGS.beginner),
+    ).toBeGreaterThan(
+      chosenRate(quietBest, tempingHit, DIFFICULTY_SETTINGS.intermediate),
+    );
+  });
+
+  // --- Monotonic strength gap across the five levels ------------------------
+
+  /**
+   * Mean true-equity lost by the level's chosen play over a fixed pool of
+   * sampled positions. Each position lists its plays best-first by true
+   * equity; some offer a tempting (hit / back-checker) alternative. Lower mean
+   * loss = stronger play.
+   */
+  function meanEquityLoss(settings: DifficultySettings): number {
+    const pool = samplePositions();
+    let total = 0;
+    for (let i = 0; i < pool.length; i++) {
+      const moves = pool[i];
+      const chosen = applyDifficultyNoise(moves, settings, `gap-${i}`)[0];
+      const trueBest = Math.max(...moves.map((m) => m.equity));
+      const trueChosen =
+        moves.find((m) => m.moveText === chosen.moveText)?.equity ?? trueBest;
+      total += trueBest - trueChosen;
+    }
+    return total / pool.length;
+  }
+
+  it('shows a measurable, monotonic strength gap across the five levels', () => {
+    const loss = (level: keyof typeof DIFFICULTY_SETTINGS) =>
+      meanEquityLoss(DIFFICULTY_SETTINGS[level]);
+
+    const beginner = loss('beginner');
+    const casual = loss('casual');
+    const intermediate = loss('intermediate');
+
+    expect(beginner).toBeGreaterThan(casual);
+    expect(casual).toBeGreaterThan(intermediate);
+    expect(intermediate).toBeGreaterThan(0);
+    // Expert and World-class never give up equity: they pick the true best.
+    expect(loss('expert')).toBe(0);
+    expect(loss('world-class')).toBe(0);
+  });
+
+  it('separates Beginner from Intermediate by a wide margin, not a sliver', () => {
+    expect(meanEquityLoss(DIFFICULTY_SETTINGS.beginner)).toBeGreaterThan(
+      2 * meanEquityLoss(DIFFICULTY_SETTINGS.intermediate),
+    );
   });
 });
 
@@ -246,3 +435,40 @@ describe('applyCubeDifficulty', () => {
     expect(applyCubeDifficulty(response, 0.06, 'pos')).toEqual(response);
   });
 });
+
+/**
+ * A fixed pool of synthetic checker-play positions for the strength-gap test:
+ * each is a plays list ranked best-first by true equity, with a blend of
+ * tempting (hit / back-checker) and quiet alternatives so the human-error bias
+ * and the random slips both get exercised.
+ */
+function samplePositions(): { moveText: string; equity: number }[][] {
+  const pool: { moveText: string; equity: number }[][] = [];
+  for (let i = 0; i < 400; i++) {
+    const gap = 0.02 + (i % 5) * 0.015; // 0.02 .. 0.08
+    const flavor = i % 3;
+    if (flavor === 0) {
+      // Quiet best vs a tempting hit.
+      pool.push([
+        { moveText: '13/11 13/8', equity: 0.1 },
+        { moveText: '13/8* 6/5', equity: 0.1 - gap },
+        { moveText: '24/18 13/11', equity: 0.1 - gap - 0.02 },
+      ]);
+    } else if (flavor === 1) {
+      // Quiet best vs running a back checker.
+      pool.push([
+        { moveText: '13/9 8/5', equity: 0.05 },
+        { moveText: '24/20 13/11', equity: 0.05 - gap },
+        { moveText: '8/5 6/4', equity: 0.05 - gap - 0.02 },
+      ]);
+    } else {
+      // No temptation: only quiet plays, close together.
+      pool.push([
+        { moveText: '13/10 13/8', equity: 0.0 },
+        { moveText: '13/8 8/6', equity: -gap },
+        { moveText: '13/11 6/3', equity: -gap - 0.02 },
+      ]);
+    }
+  }
+  return pool;
+}
