@@ -1,4 +1,12 @@
 import '@testing-library/jest-dom/vitest';
+import { configure } from '@testing-library/react';
+
+// Ticket 43 route-splits the areas with React.lazy, so navigating to an area
+// now resolves a dynamic import. Under Vitest's parallel workers the on-demand
+// transform of a freshly-imported chunk can take well over the 1 s default,
+// so give findBy/waitFor room to await a genuine chunk load rather than
+// flaking. Elements that never appear simply fail a few seconds later.
+configure({ asyncUtilTimeout: 10_000 });
 
 // Node 24+ ships an experimental Web Storage global (gated behind
 // --localstorage-file) whose `localStorage` getter returns undefined and

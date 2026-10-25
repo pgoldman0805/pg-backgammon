@@ -55,5 +55,9 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     // Agent worktrees live under .claude/worktrees and must not be swept into this run
     include: ['src/**/*.test.{ts,tsx}'],
+    // Ticket 43: route-split areas resolve a dynamic import on first navigation;
+    // the on-demand chunk transform can be slow under parallel workers, so the
+    // raised findBy timeout (src/test/setup.ts) needs matching head-room here.
+    testTimeout: 30_000,
   },
 });
