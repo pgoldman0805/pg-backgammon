@@ -624,6 +624,14 @@
   text-decoration: underline;
 }
 
+/* The cube, resign, game-over and match-over banners are modal dialogs
+   (ticket 44): focus moves to the card itself on open so assistive tech
+   announces the decision, so its programmatic focus shows no outline — the
+   buttons inside keep their own focus-visible rings. */
+.play-dialog:focus {
+  outline: none;
+}
+
 /* Cube and resignation dialogs reuse the setup card. */
 .dialog-note {
   font-size: 0.9rem;
