@@ -44,6 +44,10 @@
   border-top: 2px solid var(--accent);
   border-radius: var(--control-radius);
   box-shadow: 0 6px 20px -8px rgb(0 0 0 / 35%);
+  /* The popover can sit inside a HUD chip that sets `white-space: nowrap`
+     (to keep e.g. "167 pips" on one line). Without resetting it, the
+     definition inherits nowrap and overflows its box instead of wrapping. */
+  white-space: normal;
   overflow-wrap: break-word;
 }
 
