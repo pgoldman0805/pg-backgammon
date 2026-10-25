@@ -1,9 +1,45 @@
 import { describe, expect, it } from 'vitest';
 import {
+  applyCubeDifficulty,
   applyDifficultyNoise,
   DIFFICULTY_SETTINGS,
   seededGaussian,
 } from './difficulty';
+import type { CubeAnalysis } from './types';
+
+/** A money-game cube analysis with the three standard options. */
+function cubeAnalysis(
+  noDouble: number,
+  doubleTake: number,
+  doublePass: number,
+  properAction: string,
+): CubeAnalysis {
+  return {
+    cubelessEquity: noDouble,
+    chances: {
+      win: 0.6,
+      winGammon: 0.1,
+      winBackgammon: 0.01,
+      lose: 0.4,
+      loseGammon: 0.08,
+      loseBackgammon: 0.005,
+    },
+    options: [
+      { action: 'No double', equity: noDouble, equityDiff: 0 },
+      {
+        action: 'Double, take',
+        equity: doubleTake,
+        equityDiff: doubleTake - noDouble,
+      },
+      {
+        action: 'Double, pass',
+        equity: doublePass,
+        equityDiff: doublePass - noDouble,
+      },
+    ],
+    properAction,
+  };
+}
 
 describe('DIFFICULTY_SETTINGS', () => {
   it('matches the ADR-0001 difficulty recipe', () => {
@@ -90,5 +126,123 @@ describe('applyDifficultyNoise', () => {
     }
     expect(flips).toBeGreaterThan(trials * 0.1);
     expect(flips).toBeLessThan(trials * 0.9);
+  });
+});
+
+describe('applyCubeDifficulty', () => {
+  // A borderline double: holding (+0.50) barely beats the doubled-take value
+  // (+0.52); the opponent passes nothing, so the proper action is Double, take.
+  const borderlineDouble = cubeAnalysis(0.5, 0.52, 1, 'Double, take');
+
+  it('returns the analysis untouched at zero noise', () => {
+    expect(applyCubeDifficulty(borderlineDouble, 0, 'pos')).toEqual(
+      borderlineDouble,
+    );
+  });
+
+  it('leaves Expert and World-class engine-correct (their noise is zero)', () => {
+    for (const level of ['expert', 'world-class'] as const) {
+      const { noise } = DIFFICULTY_SETTINGS[level];
+      expect(applyCubeDifficulty(borderlineDouble, noise, 'pos')).toEqual(
+        borderlineDouble,
+      );
+    }
+  });
+
+  it('is deterministic for the same position seed', () => {
+    const a = applyCubeDifficulty(borderlineDouble, 0.06, 'pos');
+    const b = applyCubeDifficulty(borderlineDouble, 0.06, 'pos');
+    expect(a).toEqual(b);
+  });
+
+  it('perturbs the three cubeful equities within plausible bounds', () => {
+    const noisy = applyCubeDifficulty(borderlineDouble, 0.06, 'pos');
+    expect(noisy.options.map((o) => o.action)).toEqual([
+      'No double',
+      'Double, take',
+      'Double, pass',
+    ]);
+    for (const option of noisy.options) {
+      const original = borderlineDouble.options.find(
+        (o) => o.action === option.action,
+      );
+      expect(option.equity).not.toBe(original?.equity);
+      expect(Math.abs(option.equity - (original?.equity ?? 0))).toBeLessThan(
+        0.4,
+      );
+    }
+  });
+
+  it('flips a borderline double sometimes but not always (degrades cube play)', () => {
+    let noDoubles = 0;
+    const trials = 300;
+    for (let i = 0; i < trials; i++) {
+      const verdict = applyCubeDifficulty(borderlineDouble, 0.06, `pos-${i}`);
+      if (/^no double/i.test(verdict.properAction)) {
+        noDoubles++;
+      }
+    }
+    expect(noDoubles).toBeGreaterThan(trials * 0.1);
+    expect(noDoubles).toBeLessThan(trials * 0.9);
+  });
+
+  it('keeps a clear double correct almost always', () => {
+    // Doubling is worth +0.80 vs holding at -0.20: a wide, obvious double.
+    const clear = cubeAnalysis(-0.2, 0.8, 1, 'Double, take');
+    let doubles = 0;
+    const trials = 300;
+    for (let i = 0; i < trials; i++) {
+      const verdict = applyCubeDifficulty(clear, 0.06, `clear-${i}`);
+      if (/^double/i.test(verdict.properAction)) {
+        doubles++;
+      }
+    }
+    expect(doubles).toBeGreaterThan(trials * 0.95);
+  });
+
+  it('flips a borderline take/pass decision over sampled positions', () => {
+    // Double, take vs Double, pass are neck and neck (+0.98 vs +1.00): the
+    // responder's take/pass should waver under noise.
+    const borderlineTake = cubeAnalysis(0.4, 0.98, 1, 'Double, take');
+    let passes = 0;
+    const trials = 300;
+    for (let i = 0; i < trials; i++) {
+      const verdict = applyCubeDifficulty(borderlineTake, 0.06, `take-${i}`);
+      if (/pass$/i.test(verdict.properAction)) {
+        passes++;
+      }
+    }
+    expect(passes).toBeGreaterThan(trials * 0.1);
+    expect(passes).toBeLessThan(trials * 0.9);
+  });
+
+  it('weakens more at Beginner than at Intermediate', () => {
+    const flipRate = (noise: number): number => {
+      let flips = 0;
+      const trials = 400;
+      for (let i = 0; i < trials; i++) {
+        const verdict = applyCubeDifficulty(borderlineDouble, noise, `r-${i}`);
+        if (/^no double/i.test(verdict.properAction)) {
+          flips++;
+        }
+      }
+      return flips / trials;
+    };
+    expect(flipRate(DIFFICULTY_SETTINGS.beginner.noise)).toBeGreaterThan(
+      flipRate(DIFFICULTY_SETTINGS.intermediate.noise),
+    );
+  });
+
+  it('leaves a non-standard (take/pass response) analysis untouched', () => {
+    const response: CubeAnalysis = {
+      cubelessEquity: 0.3,
+      chances: borderlineDouble.chances,
+      options: [
+        { action: 'Take', equity: 0.3, equityDiff: 0 },
+        { action: 'Pass', equity: 1, equityDiff: 0.7 },
+      ],
+      properAction: 'Take',
+    };
+    expect(applyCubeDifficulty(response, 0.06, 'pos')).toEqual(response);
   });
 });

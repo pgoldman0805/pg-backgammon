@@ -8,7 +8,8 @@
  */
 
 import { describe, expect, it, vi } from 'vitest';
-import type { Engine } from '../engine';
+import type { CubeAnalysis, Engine } from '../engine';
+import { applyCubeDifficulty, DIFFICULTY_SETTINGS } from '../engine/difficulty';
 import { createFakeEngine } from '../engine/fake';
 import {
   createBoard,
@@ -164,6 +165,58 @@ describe('the engine at the cube', () => {
     return store;
   }
 
+  it('asks the cube at its configured difficulty before rolling', async () => {
+    const store = blackPreRoll();
+    const fake = createFakeEngine();
+    const cubeDifficulties: (string | undefined)[] = [];
+    const engine: Engine = {
+      ...fake,
+      cubeInfo(position, options) {
+        cubeDifficulties.push(options?.difficulty);
+        return fake.cubeInfo(position, options);
+      },
+    };
+    const opponent = createEngineOpponent({
+      store,
+      engine,
+      player: 'black',
+      difficulty: 'beginner',
+      ...opponentOptions(),
+    });
+
+    await vi.waitFor(() => {
+      expect(cubeDifficulties.length).toBeGreaterThan(0);
+    });
+    expect(cubeDifficulties).toEqual(['beginner']);
+    opponent.dispose();
+  });
+
+  it('answers a double at its configured difficulty', async () => {
+    const store = whiteDoubled();
+    const fake = createFakeEngine();
+    const cubeDifficulties: (string | undefined)[] = [];
+    const engine: Engine = {
+      ...fake,
+      cubeInfo(position, options) {
+        cubeDifficulties.push(options?.difficulty);
+        return fake.cubeInfo(position, options);
+      },
+    };
+    const opponent = createEngineOpponent({
+      store,
+      engine,
+      player: 'black',
+      difficulty: 'casual',
+      ...opponentOptions(),
+    });
+
+    await vi.waitFor(() => {
+      expect(cubeDifficulties.length).toBeGreaterThan(0);
+    });
+    expect(cubeDifficulties).toEqual(['casual']);
+    opponent.dispose();
+  });
+
   it('doubles before rolling when cube info recommends it', async () => {
     const store = blackPreRoll();
     const engine = scriptedCubeEngine('Double, take');
@@ -280,6 +333,96 @@ describe('the engine at the cube', () => {
     expect(store.getState().match?.score).toEqual({ white: 1, black: 0 });
     opponent.dispose();
   });
+
+  /**
+   * A cube engine whose base verdict is a borderline double (holding +0.50
+   * barely beats the doubled-take value +0.52); each call perturbs it at the
+   * asked difficulty with a fresh position seed, so a run of calls samples a
+   * run of positions. Two instances share the same seed sequence, making a
+   * Beginner run and an Expert run directly comparable.
+   */
+  function samplingCubeEngine(): Engine {
+    const fake = createFakeEngine();
+    const borderline: CubeAnalysis = {
+      cubelessEquity: 0.5,
+      chances: {
+        win: 0.62,
+        winGammon: 0.1,
+        winBackgammon: 0.01,
+        lose: 0.38,
+        loseGammon: 0.07,
+        loseBackgammon: 0.004,
+      },
+      options: [
+        { action: 'No double', equity: 0.5, equityDiff: 0 },
+        { action: 'Double, take', equity: 0.52, equityDiff: 0.02 },
+        { action: 'Double, pass', equity: 1, equityDiff: 0.5 },
+      ],
+      properAction: 'Double, take',
+    };
+    let sample = 0;
+    return {
+      ...fake,
+      async cubeInfo(_position, options) {
+        const seed = `sample-${sample++}`;
+        const noise = options?.difficulty
+          ? DIFFICULTY_SETTINGS[options.difficulty].noise
+          : 0;
+        return applyCubeDifficulty(borderline, noise, seed);
+      },
+    };
+  }
+
+  /** Run one Beginner-vs-Expert pre-roll cube decision on a fresh store. */
+  async function doubledAtPreRoll(
+    engine: Engine,
+    difficulty: 'beginner' | 'expert',
+  ): Promise<boolean> {
+    const store = blackPreRoll();
+    // White's opening play is already on record; black acts next.
+    const baseline = store.getState().match?.game.record.plays.length ?? 0;
+    const opponent = createEngineOpponent({
+      store,
+      engine,
+      player: 'black',
+      difficulty,
+      ...opponentOptions(),
+    });
+    // Wait until the decision settles: a double (cube-offered) or a roll that
+    // produces black's play. (vi.waitFor retries only on a throw, so assert.)
+    await vi.waitFor(() => {
+      const match = store.getState().match;
+      expect(
+        match?.phase === 'cube-offered' ||
+          (match?.game.record.plays.length ?? 0) > baseline,
+      ).toBe(true);
+    });
+    const doubled = store.getState().match?.phase === 'cube-offered';
+    opponent.dispose();
+    return doubled;
+  }
+
+  it('varies its cube action by difficulty over sampled positions', async () => {
+    const samples = 40;
+    const beginnerEngine = samplingCubeEngine();
+    const expertEngine = samplingCubeEngine();
+    const beginner: boolean[] = [];
+    const expert: boolean[] = [];
+    for (let i = 0; i < samples; i++) {
+      beginner.push(await doubledAtPreRoll(beginnerEngine, 'beginner'));
+      expert.push(await doubledAtPreRoll(expertEngine, 'expert'));
+    }
+
+    // Expert plays the engine-correct double every time (noise is zero).
+    expect(expert.every((d) => d)).toBe(true);
+    // Beginner misses the double on some sampled positions — the gap the
+    // ticket closes — but not on all of them.
+    const beginnerDoubles = beginner.filter((d) => d).length;
+    expect(beginnerDoubles).toBeLessThan(samples);
+    expect(beginnerDoubles).toBeGreaterThan(0);
+    // And the two difficulties genuinely disagree somewhere.
+    expect(beginner).not.toEqual(expert);
+  }, 20_000);
 });
 
 describe('the engine answering resignations', () => {

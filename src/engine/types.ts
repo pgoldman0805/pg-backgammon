@@ -117,6 +117,14 @@ export interface RankPlaysOptions {
 }
 
 export interface CubeInfoOptions {
+  /**
+   * Weaken the cube decision to this difficulty: position-seeded deterministic
+   * noise on the three cubeful equities, which can flip the double/take/pass
+   * verdict. Omit for full strength (as analysis, post-game review, and Tutor
+   * always do). Takes precedence over `effort`.
+   */
+  readonly difficulty?: Difficulty;
+  /** Full-strength effort; ignored when a difficulty weakens the decision. */
   readonly effort?: AnalysisEffort;
 }
 

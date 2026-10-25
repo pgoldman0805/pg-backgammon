@@ -10,7 +10,7 @@
  * is applied here in TypeScript over clean engine equities instead.
  */
 
-import type { Difficulty } from './types';
+import type { CubeAnalysis, CubeDecisionOption, Difficulty } from './types';
 
 export interface DifficultySettings {
   /** Engine lookahead for this strength. */
@@ -95,4 +95,97 @@ export function applyDifficultyNoise<
         noise * seededGaussian(`${positionSeed}|${move.moveText}`),
     }))
     .sort((a, b) => b.equity - a.equity);
+}
+
+/** Match a cube option by its role in the standard three-way doubler analysis. */
+function findOption(
+  options: readonly CubeDecisionOption[],
+  pattern: RegExp,
+): CubeDecisionOption | undefined {
+  return options.find((option) => pattern.test(option.action));
+}
+
+/**
+ * gnubg's proper cube action, derived from the three cubeful equities of a
+ * standard doubler analysis (on-roll / doubler perspective). The responder
+ * minimizes the doubler's equity, so a take is chosen only when it leaves the
+ * doubler worse off than a pass; the value of doubling is that choice, and the
+ * double is correct when it beats holding the cube. The affirmative/negative
+ * wording comes from the options so "Redouble"/"No redouble" carry through.
+ *
+ * Returns null for any non-standard shape (e.g. a bare take/pass response),
+ * which the caller treats as "leave the verdict as-is". Sharing this one
+ * derivation keeps the fake engine's verdict consistent with the perturbation,
+ * so a weakened opponent only ever deviates through noise, never a rule change.
+ */
+export function cubeProperAction(
+  options: readonly CubeDecisionOption[],
+): string | null {
+  const noDouble = findOption(options, /^no\b/i);
+  const take = findOption(options, /take$/i);
+  const pass = findOption(options, /pass$/i);
+  if (!noDouble || !take || !pass) {
+    return null;
+  }
+  const responderTakes = take.equity < pass.equity;
+  const doubleValue = responderTakes ? take.equity : pass.equity;
+  const shouldDouble = doubleValue > noDouble.equity;
+  const affirmative = take.action.split(',')[0].trim();
+  const doublePart = shouldDouble ? affirmative : noDouble.action;
+  return `${doublePart}, ${responderTakes ? 'take' : 'pass'}`;
+}
+
+/**
+ * The cube-play analog of {@link applyDifficultyNoise}: perturb a cube
+ * decision with position-seeded Gaussian noise so a weakened opponent makes
+ * loose or missed doubles and wrong takes/passes at a rate that scales with
+ * the level's checker-play noise. Each of the three cubeful equities
+ * (no-double / double-take / double-pass) gets independent, reproducible
+ * noise of the given standard deviation, then the proper action is recomputed
+ * from the noisy equities — so a close decision flips often and a clear one
+ * almost never. Zero noise returns the analysis unchanged, which keeps Expert,
+ * World-class, and every analysis/Tutor call engine-correct.
+ *
+ * Only the standard three-option doubler analysis is perturbed; any other
+ * shape (e.g. a bare take/pass response) is returned untouched.
+ */
+export function applyCubeDifficulty(
+  analysis: CubeAnalysis,
+  noise: number,
+  positionSeed: string,
+): CubeAnalysis {
+  if (noise === 0) {
+    return analysis;
+  }
+  const noDouble = findOption(analysis.options, /^no\b/i);
+  const take = findOption(analysis.options, /take$/i);
+  const pass = findOption(analysis.options, /pass$/i);
+  if (!noDouble || !take || !pass) {
+    return analysis;
+  }
+
+  const noisyByAction = new Map<string, CubeDecisionOption>();
+  for (const option of [noDouble, take, pass]) {
+    noisyByAction.set(option.action, {
+      ...option,
+      equity:
+        option.equity +
+        noise * seededGaussian(`${positionSeed}|cube|${option.action}`),
+    });
+  }
+  const noisyOptions = analysis.options.map(
+    (option) => noisyByAction.get(option.action) ?? option,
+  );
+  // Refresh gnubg's diff-against-first-listed convention over the noisy values.
+  const base = noisyOptions[0].equity;
+  const options = noisyOptions.map((option) => ({
+    ...option,
+    equityDiff: Number((option.equity - base).toFixed(6)),
+  }));
+
+  return {
+    ...analysis,
+    options,
+    properAction: cubeProperAction(options) ?? analysis.properAction,
+  };
 }

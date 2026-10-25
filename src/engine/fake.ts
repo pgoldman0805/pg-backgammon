@@ -11,13 +11,16 @@
 import type { DiceRoll, Play } from '../rules';
 import { applyMovement, legalPlays, opponent, pipCount } from '../rules';
 import {
+  applyCubeDifficulty,
   applyDifficultyNoise,
+  cubeProperAction,
   DIFFICULTY_SETTINGS,
   seededGaussian,
 } from './difficulty';
 import { boardKey } from './moveText';
 import type {
   CubeAnalysis,
+  CubeDecisionOption,
   Engine,
   EnginePosition,
   EngineStatus,
@@ -151,27 +154,38 @@ export function createFakeEngine(): Engine {
         options?.effort === 'deep'
           ? 0.004 * seededGaussian(`${boardKey(position.board)}|deep-cube`)
           : 0;
+      // A simple cube model: holding the cube is worth the cubeless equity, a
+      // doubled game roughly doubles it (capped at a one-point pass), and a
+      // pass concedes one point. The proper action is derived by the same
+      // shared math the difficulty perturbation uses, so a weakened level only
+      // ever deviates through seeded noise — never a hidden rule change.
       const equity = Number((heuristicEquity(position) + refined).toFixed(6));
-      const double = Math.min(1, 2 * equity);
-      const shouldDouble = equity > 0.35 && double < 1;
-      return {
+      const double = Number(Math.min(1, 2 * equity).toFixed(6));
+      const options3: CubeDecisionOption[] = [
+        { action: 'No double', equity, equityDiff: 0 },
+        {
+          action: 'Double, take',
+          equity: double,
+          equityDiff: Number((double - equity).toFixed(6)),
+        },
+        {
+          action: 'Double, pass',
+          equity: 1,
+          equityDiff: Number((1 - equity).toFixed(6)),
+        },
+      ];
+      const analysis: CubeAnalysis = {
         cubelessEquity: equity,
         chances: chancesFromEquity(equity),
-        options: [
-          { action: 'No double', equity, equityDiff: 0 },
-          {
-            action: 'Double, take',
-            equity: double,
-            equityDiff: Number((double - equity).toFixed(6)),
-          },
-          {
-            action: 'Double, pass',
-            equity: 1,
-            equityDiff: Number((1 - equity).toFixed(6)),
-          },
-        ],
-        properAction: shouldDouble ? 'Double, take' : 'No double, take',
+        options: options3,
+        properAction: cubeProperAction(options3) ?? 'No double, take',
       };
+      const noise = options?.difficulty
+        ? DIFFICULTY_SETTINGS[options.difficulty].noise
+        : 0;
+      return noise > 0
+        ? applyCubeDifficulty(analysis, noise, boardKey(position.board))
+        : analysis;
     },
 
     dispose() {

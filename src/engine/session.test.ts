@@ -180,6 +180,29 @@ describe('createGnubgSession', () => {
     expect(analysis.options).toHaveLength(3);
   });
 
+  it('weakens the cube decision at a difficulty, deterministically', () => {
+    const sessionA = createGnubgSession(scriptedRun({ hint: CUBE_BLOCK }).run);
+    const sessionB = createGnubgSession(scriptedRun({ hint: CUBE_BLOCK }).run);
+    const full = sessionA.cubeInfo(OPENING);
+    const beginnerA = sessionA.cubeInfo(OPENING, { difficulty: 'beginner' });
+    const beginnerB = sessionB.cubeInfo(OPENING, { difficulty: 'beginner' });
+
+    expect(beginnerA).toEqual(beginnerB);
+    expect(beginnerA.options.map((o) => o.equity)).not.toEqual(
+      full.options.map((o) => o.equity),
+    );
+  });
+
+  it('leaves the cube decision engine-correct at Expert and World-class', () => {
+    const { run } = scriptedRun({ hint: CUBE_BLOCK });
+    const session = createGnubgSession(run);
+    const full = session.cubeInfo(OPENING);
+    expect(session.cubeInfo(OPENING, { difficulty: 'expert' })).toEqual(full);
+    expect(session.cubeInfo(OPENING, { difficulty: 'world-class' })).toEqual(
+      full,
+    );
+  });
+
   it('ranks plays at 3-ply when asked for deep effort', () => {
     const { run, commands } = scriptedRun({ hint: HINT_31 });
     const session = createGnubgSession(run);

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import type { Engine } from '../engine';
 import { createFakeEngine } from '../engine/fake';
 import {
   acceptResignation,
@@ -62,6 +63,21 @@ describe('analyzeGame', () => {
       expect(played[0].equityLoss).toBeCloseTo(play.equityLoss, 10);
       expect(play.alternatives.length).toBeLessThanOrEqual(6);
     }
+  });
+
+  it('never weakens cube decisions with a difficulty (analysis is full strength)', async () => {
+    const fake = createFakeEngine();
+    const cubeDifficulties: (string | undefined)[] = [];
+    const engine: Engine = {
+      ...fake,
+      cubeInfo(position, options) {
+        cubeDifficulties.push(options?.difficulty);
+        return fake.cubeInfo(position, options);
+      },
+    };
+    await analyzeGame(cubeGame().games[0], STANDING, { engine });
+    expect(cubeDifficulties.length).toBeGreaterThan(0);
+    expect(cubeDifficulties.every((d) => d === undefined)).toBe(true);
   });
 
   it('classifies Black’s early double as a costed cube error', async () => {
