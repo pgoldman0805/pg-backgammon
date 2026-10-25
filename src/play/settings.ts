@@ -33,6 +33,20 @@ export const HAS_PLAYED_KEY = 'pg-backgammon.has-played-before';
 export const DIFFICULTY_KEY = 'pg-backgammon.difficulty';
 export const MATCH_LENGTH_KEY = 'pg-backgammon.match-length';
 
+/**
+ * How many matches the user has started on this device (ticket 31). Drives
+ * Tutor mode's first-matches default below; written only ever upward, never
+ * reset, so the newcomer window closes for good once it is spent.
+ */
+export const MATCHES_STARTED_KEY = 'pg-backgammon.matches-started';
+
+/**
+ * How many of a newcomer's first matches open with Tutor mode on by default
+ * (ticket 31) — long enough to discover the hint, post-play feedback and the
+ * eval bar — before the default reverts to the Settings preference.
+ */
+export const FIRST_RUN_TUTOR_MATCHES = 3;
+
 /** The gentle opening a first-time user sees before they choose otherwise. */
 export const NOVICE_SETUP: { difficulty: Difficulty; length: number } = {
   difficulty: 'beginner',
@@ -74,6 +88,53 @@ export function rememberSetupChoice(difficulty: string, length: number): void {
   localStorage.setItem(DIFFICULTY_KEY, difficulty);
   localStorage.setItem(MATCH_LENGTH_KEY, String(length));
   localStorage.setItem(HAS_PLAYED_KEY, 'on');
+}
+
+/** How many matches have been started on this device (0 if never/invalid). */
+export function getMatchesStarted(): number {
+  const raw = localStorage.getItem(MATCHES_STARTED_KEY);
+  const started = raw === null ? Number.NaN : Number(raw);
+  return Number.isInteger(started) && started >= 0 ? started : 0;
+}
+
+/** Record that a match has been started, advancing the first-run counter. */
+export function rememberMatchStarted(): void {
+  localStorage.setItem(MATCHES_STARTED_KEY, String(getMatchesStarted() + 1));
+}
+
+/**
+ * Whether Tutor mode should open on for the next new match (ticket 31). A
+ * saved preference (the Settings "Tutor mode for new matches" switch) always
+ * wins, so an existing user is never force-re-enabled. With no saved
+ * preference, a newcomer's first few matches open with Tutor on so the
+ * learning surfaces are discovered; after the window it falls back to off.
+ */
+export function tutorModeDefault(): boolean {
+  const stored = localStorage.getItem(TUTOR_DEFAULT_KEY);
+  if (stored === 'on' || stored === 'off') {
+    return stored === 'on';
+  }
+  return getMatchesStarted() < FIRST_RUN_TUTOR_MATCHES;
+}
+
+/**
+ * Seed the first-run match counter once, before the Play page reads Tutor
+ * mode's first-matches default (ticket 31). Run at app start:
+ *  - a user who already played before this feature shipped (the has-played
+ *    flag is set but no counter exists yet) is seeded past the window, so
+ *    Tutor is never force-enabled on them;
+ *  - a brand-new user is seeded to zero, so their first matches open with
+ *    Tutor on and a later picker tweak can never be mistaken for prior play.
+ * Idempotent: once a counter exists it is left untouched.
+ */
+export function initFirstRunTutorWindow(): void {
+  if (localStorage.getItem(MATCHES_STARTED_KEY) !== null) {
+    return;
+  }
+  localStorage.setItem(
+    MATCHES_STARTED_KEY,
+    hasPlayedBefore() ? String(FIRST_RUN_TUTOR_MATCHES) : '0',
+  );
 }
 
 /** The stored value of an on/off setting, or its default when unset. */

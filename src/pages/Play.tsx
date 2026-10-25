@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react';
 import { Link } from 'react-router-dom';
 import { useAutoAnalysis } from '../analysis';
 import {
@@ -28,8 +34,9 @@ import {
   hasPlayedBefore,
   NOVICE_SETUP,
   RETURNING_FALLBACK,
+  rememberMatchStarted,
   rememberSetupChoice,
-  TUTOR_DEFAULT_KEY,
+  tutorModeDefault,
 } from '../play/settings';
 import { createPlayStore, type PlayStore } from '../play/store';
 import {
@@ -342,30 +349,49 @@ const IDLE_OPPONENT: EngineOpponentState = { thinking: false, error: null };
 /**
  * One labeled on/off switch in the Play area's visual language: the Tutor
  * mode toggle, on the setup card and in the HUD during a match. (The
- * preference switches moved to Settings — ticket 25.)
+ * preference switches moved to Settings — ticket 25.) A one-line hint names
+ * what the toggle turns on, so its purpose is plain rather than a bare label
+ * (ticket 31); it is tied to the switch for assistive tech.
  */
 function SettingSwitch({
   label,
+  hint,
   on,
   onChange,
 }: {
   label: string;
+  hint?: string;
   on: boolean;
   onChange: (on: boolean) => void;
 }) {
+  const hintId = useId();
   return (
-    <button
-      type="button"
-      role="switch"
-      aria-checked={on}
-      className="setting-switch"
-      onClick={() => onChange(!on)}
-    >
-      <span className="setting-switch-dot" aria-hidden="true" />
-      {label}
-    </button>
+    <span className="setting-switch-field">
+      <button
+        type="button"
+        role="switch"
+        aria-checked={on}
+        aria-describedby={hint ? hintId : undefined}
+        className="setting-switch"
+        onClick={() => onChange(!on)}
+      >
+        <span className="setting-switch-dot" aria-hidden="true" />
+        {label}
+      </button>
+      {hint && (
+        <span className="setting-switch-hint" id={hintId}>
+          {hint}
+        </span>
+      )}
+    </span>
   );
 }
+
+/**
+ * What Tutor mode turns on, spelled out beside the toggle (ticket 31): live
+ * coaching — the hint, feedback on every play, and the eval bar.
+ */
+const TUTOR_HINT = 'Coaching as you play: hints, feedback, and the eval bar.';
 
 /**
  * The eval bar (GLOSSARY "Eval bar"): White's share of the game, in the two
@@ -460,11 +486,11 @@ export function Play({
     useState<EngineOpponentState>(IDLE_OPPONENT);
   const opponentRef = useRef<EngineOpponent | null>(null);
   const previousMatch = useRef<MatchState | null>(null);
-  // Tutor mode starts from its stored default (ticket 20); the toggle then
-  // rules the live match alone and never writes the default back.
-  const [tutorOn, setTutorOn] = useState(() =>
-    getStoredSwitch(TUTOR_DEFAULT_KEY, false),
-  );
+  // Tutor mode starts from its first-matches default (ticket 31): a saved
+  // Settings preference if there is one, otherwise on for a newcomer's first
+  // few matches. The toggle then rules the live match alone and never writes
+  // the default back.
+  const [tutorOn, setTutorOn] = useState(() => tutorModeDefault());
   const [tutorState, setTutorState] = useState<TutorState | null>(null);
   const tutorRef = useRef<Tutor | null>(null);
   const autopilotRef = useRef<RaceAutopilot | null>(null);
@@ -665,6 +691,9 @@ export function Play({
     // Starting a match counts as "has played before" (ticket 33): the next
     // visit opens on this difficulty and length, not the novice defaults.
     rememberSetupChoice(setup.difficulty, setup.length);
+    // It also advances the first-run window (ticket 31): once a newcomer has
+    // played their first few matches, Tutor mode stops defaulting on.
+    rememberMatchStarted();
     setSetup((current) => ({ ...current, mode }));
     if (mode !== 'computer') {
       // Tutor mode is live analysis of the player's own game against the
@@ -793,6 +822,7 @@ export function Play({
         <div className="setting-switches">
           <SettingSwitch
             label="Tutor mode"
+            hint={TUTOR_HINT}
             on={tutorOn}
             onChange={setTutorOn}
           />
@@ -1046,6 +1076,7 @@ export function Play({
             <div className="setting-switches">
               <SettingSwitch
                 label="Tutor mode"
+                hint={TUTOR_HINT}
                 on={tutorOn}
                 onChange={setTutorOn}
               />

@@ -1,21 +1,31 @@
 /**
- * Tutor mode through the Play page (GLOSSARY "Tutor mode"): one toggle, off
- * by default, that enables the hint, post-play feedback, the eval bar and
- * takebacks — and leaves zero tutor affordances in the DOM when off.
+ * Tutor mode through the Play page (GLOSSARY "Tutor mode"): one toggle that
+ * enables the hint, post-play feedback, the eval bar and takebacks — on by
+ * default for a newcomer's first matches (ticket 31), governed by the Settings
+ * preference thereafter, and leaving zero tutor affordances in the DOM when
+ * off.
  */
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { createFakeEngine } from '../engine/fake';
-import { TUTOR_DEFAULT_KEY } from '../play/settings';
+import {
+  FIRST_RUN_TUTOR_MATCHES,
+  MATCHES_STARTED_KEY,
+  TUTOR_DEFAULT_KEY,
+} from '../play/settings';
 import { createPlayStore, type PlayStoreOptions } from '../play/store';
 import { createMemoryStorage } from '../storage';
 import { scriptedDice } from '../test/dice';
 import { gatedEngine, openingFeedbackEngine } from '../test/engine';
 import { Play, type PlayProps } from './Play';
 
-afterEach(() => {
-  localStorage.removeItem(TUTOR_DEFAULT_KEY);
+// A deterministic baseline: an explicit "off" preference, so a render that
+// does not opt into the first-run default starts with Tutor off (as most of
+// these behavior tests expect) and clicking the toggle turns it on.
+beforeEach(() => {
+  localStorage.clear();
+  localStorage.setItem(TUTOR_DEFAULT_KEY, 'off');
 });
 
 function renderPlay(options: PlayStoreOptions, props?: Partial<PlayProps>) {
@@ -54,7 +64,7 @@ const noTutorAffordances = () => {
 };
 
 describe('the Tutor toggle', () => {
-  it('is off by default, with zero tutor affordances in the DOM', () => {
+  it('stays off with the preference off, leaving zero tutor affordances', () => {
     const store = renderPlay({ dice: scriptedDice(6, 3) });
     fireEvent.click(screen.getByRole('button', { name: 'Play as White' }));
 
@@ -62,6 +72,52 @@ describe('the Tutor toggle', () => {
     expect(toggle).toHaveAttribute('aria-checked', 'false');
     noTutorAffordances();
     expect(store.getState().match?.tutorAssisted).toBe(false);
+  });
+
+  it("defaults on for a newcomer's first matches (ticket 31)", async () => {
+    // A brand-new user: no saved preference, no matches started yet.
+    localStorage.clear();
+    const store = renderPlay({ dice: scriptedDice(6, 3) });
+
+    expect(screen.getByRole('switch', { name: 'Tutor mode' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Play as White' }));
+    await waitFor(() => {
+      expect(
+        screen.getByRole('meter', { name: 'Evaluation' }),
+      ).toBeInTheDocument();
+    });
+    expect(store.getState().match?.tutorAssisted).toBe(true);
+  });
+
+  it('reverts to off once the first-run window is spent (ticket 31)', () => {
+    // No saved preference, but the newcomer window has been used up.
+    localStorage.clear();
+    localStorage.setItem(MATCHES_STARTED_KEY, String(FIRST_RUN_TUTOR_MATCHES));
+    const store = renderPlay({ dice: scriptedDice(6, 3) });
+    fireEvent.click(screen.getByRole('button', { name: 'Play as White' }));
+
+    expect(screen.getByRole('switch', { name: 'Tutor mode' })).toHaveAttribute(
+      'aria-checked',
+      'false',
+    );
+    noTutorAffordances();
+    expect(store.getState().match?.tutorAssisted).toBe(false);
+  });
+
+  it('names what it turns on, not just "Tutor mode" (ticket 31)', () => {
+    renderPlay({ dice: scriptedDice(6, 3) });
+
+    const toggle = screen.getByRole('switch', { name: 'Tutor mode' });
+    const hintId = toggle.getAttribute('aria-describedby');
+    expect(hintId).toBeTruthy();
+    const hint = hintId && document.getElementById(hintId);
+    expect(hint).toHaveTextContent(/hints/i);
+    expect(hint).toHaveTextContent(/feedback/i);
+    expect(hint).toHaveTextContent(/eval bar/i);
   });
 
   it('switches on mid-game: the eval bar appears and the game is flagged', async () => {
