@@ -7,6 +7,7 @@
  */
 
 import type { MatchState } from '../rules';
+import type { SaveHealthReporter } from './saveHealth';
 import { snapshotMatch } from './snapshot';
 import type { MatchConfig, MatchStorage, StoredMatch } from './types';
 
@@ -32,6 +33,12 @@ export interface MatchPersisterOptions {
   readonly debounceMs?: number;
   readonly now?: () => number;
   readonly newId?: () => string;
+  /**
+   * Told the outcome of every write, so the app can warn the moment saving
+   * stops working (review finding #3). Optional: tests and headless callers
+   * leave it out.
+   */
+  readonly saveHealth?: SaveHealthReporter;
 }
 
 export interface MatchPersister {
@@ -57,6 +64,7 @@ export function createMatchPersister(
   options: MatchPersisterOptions,
 ): MatchPersister {
   const { store, storage } = options;
+  const saveHealth = options.saveHealth;
   const debounceMs = options.debounceMs ?? 250;
   const now = options.now ?? Date.now;
   const newId = options.newId ?? defaultId;
@@ -91,9 +99,14 @@ export function createMatchPersister(
       const row: StoredMatch = carried ? { ...carried, ...snapshot } : snapshot;
       try {
         await storage.put(row);
+        // The write landed: storage is healthy (clears a prior warning).
+        saveHealth?.reportSuccess();
       } catch {
-        // Persistence must never break play; the next change retries.
+        // Persistence must never break play; the next change retries. But the
+        // failure is no longer silent — the player is warned their progress
+        // isn't being saved so they can export a backup now.
         dirty = true;
+        saveHealth?.reportFailure();
       }
     });
     return queue;

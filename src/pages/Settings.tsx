@@ -22,6 +22,7 @@ import {
 import { getMatchStorage, type MatchStorage } from '../storage';
 import { setTheme, type Theme, useTheme } from '../theme';
 import { BackupControls } from '../ui/BackupControls';
+import { StorageStatus } from '../ui/StorageStatus';
 import './settings.css';
 
 const THEMES: ReadonlyArray<{ id: Theme; label: string }> = [
@@ -240,6 +241,7 @@ export function Settings({ storage: injectedStorage }: SettingsProps = {}) {
       </Section>
 
       <Section title="Data" blurb="Your match history lives in this browser.">
+        <StorageStatus />
         <BackupControls storage={storage} />
       </Section>
     </section>

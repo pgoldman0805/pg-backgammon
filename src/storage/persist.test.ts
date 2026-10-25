@@ -230,4 +230,40 @@ describe('match persistence', () => {
 
     await expect(persister.flush()).resolves.toBeUndefined();
   });
+
+  it('reports a save failure, then recovery, through save health', async () => {
+    let failNext = true;
+    const inner = createMemoryStorage();
+    const storage: MatchStorage = {
+      ...inner,
+      put: (match) =>
+        failNext
+          ? Promise.reject(new Error('quota exceeded'))
+          : inner.put(match),
+    };
+    const reportFailure = vi.fn();
+    const reportSuccess = vi.fn();
+    const store = createPlayStore({ dice: scriptedDice(6, 3, 5, 2, 4, 1) });
+    const persister = createMatchPersister({
+      store,
+      storage,
+      debounceMs: 10_000,
+      saveHealth: { reportFailure, reportSuccess },
+    });
+
+    persister.begin(config);
+    store.dispatch({ type: 'start', length: 3 });
+    await persister.flush();
+
+    // The quota error is surfaced, not swallowed in silence.
+    expect(reportFailure).toHaveBeenCalled();
+    expect(reportSuccess).not.toHaveBeenCalled();
+
+    // A later change writes successfully: health recovers.
+    failNext = false;
+    playOpening(store);
+    await persister.flush();
+
+    expect(reportSuccess).toHaveBeenCalled();
+  });
 });

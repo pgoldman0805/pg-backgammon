@@ -5,11 +5,15 @@
  */
 
 export {
+  type BackupSummary,
   exportBackup,
   type HistoryBackup,
+  type ImportBackupOptions,
+  type ImportMode,
   importBackup,
   parseBackup,
   serializeBackup,
+  summarizeBackup,
 } from './backup';
 export {
   type BlunderPuzzleStorage,
@@ -42,12 +46,26 @@ export {
   type PersistedIdentity,
 } from './persist';
 export {
+  estimateStorage,
+  type PersistenceState,
+  persistedState,
+  requestPersistentStorage,
+  type StorageUsage,
+} from './persistentStorage';
+export {
   createIndexedDbPuzzleProgressStorage,
   createMemoryPuzzleProgressStorage,
   getPuzzleProgressStorage,
   isPuzzleProgressState,
   type PuzzleProgressStorage,
 } from './puzzleProgress';
+export {
+  createSaveHealthMonitor,
+  getSaveHealthMonitor,
+  type SaveHealth,
+  type SaveHealthMonitor,
+  type SaveHealthReporter,
+} from './saveHealth';
 export { isStoredMatch, snapshotMatch } from './snapshot';
 export type {
   MatchConfig,

@@ -1,6 +1,7 @@
 import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './App';
+import { getSaveHealthMonitor } from './storage';
 
 beforeEach(() => {
   window.history.replaceState(null, '', '/');
@@ -218,6 +219,32 @@ describe('reload during a game', () => {
     );
     expect(screen.getByLabelText('White match score')).toHaveTextContent('0');
     expect(screen.getByLabelText('Black match score')).toHaveTextContent('0');
+  });
+});
+
+describe('save-failure banner', () => {
+  afterEach(() => {
+    // Reset the app-wide monitor so the warning never leaks between tests.
+    getSaveHealthMonitor().reportSuccess();
+  });
+
+  it('shows no banner while storage is healthy', () => {
+    render(<App />);
+
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+  });
+
+  it('warns app-wide the moment saving fails', () => {
+    render(<App />);
+
+    act(() => {
+      getSaveHealthMonitor().reportFailure();
+    });
+
+    expect(screen.getByRole('alert')).toHaveTextContent(/isn't being saved/i);
+    expect(
+      screen.getByRole('button', { name: /export backup/i }),
+    ).toBeInTheDocument();
   });
 });
 

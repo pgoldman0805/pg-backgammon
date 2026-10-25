@@ -38,7 +38,14 @@ async function bootSession(): Promise<GnubgSession> {
 
 function ensureSession(): Promise<GnubgSession> {
   if (!sessionPromise) {
-    sessionPromise = bootSession();
+    // Don't cache a rejected boot: a failed fetch/compile must not poison
+    // every later request with the same stale failure. Clearing the slot on
+    // failure lets a re-sent request re-attempt the boot. (The client also
+    // replaces the whole worker on retry; this keeps a single worker honest.)
+    sessionPromise = bootSession().catch((error: unknown) => {
+      sessionPromise = undefined;
+      throw error;
+    });
   }
   return sessionPromise;
 }

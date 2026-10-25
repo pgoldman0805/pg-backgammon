@@ -68,6 +68,15 @@ describe('the Settings room', () => {
     expect(screen.getByLabelText(/import backup/i)).toBeInTheDocument();
   });
 
+  it('shows the durable-storage row in the Data section', async () => {
+    renderSettings();
+
+    // jsdom has no StorageManager, so the row degrades to "Unavailable" —
+    // it still appears, rather than silently reassuring the player.
+    expect(await screen.findByText('Durable storage')).toBeInTheDocument();
+    expect(screen.getByText('Unavailable')).toBeInTheDocument();
+  });
+
   it('persists the Play switches under the keys Play reads', async () => {
     const user = userEvent.setup();
     renderSettings();
@@ -147,6 +156,11 @@ describe('the Settings room', () => {
 
     const file = new File([json], 'backup.json', { type: 'application/json' });
     await user.upload(screen.getByLabelText(/import backup/i), file);
+
+    // Ticket 27: picking a file confirms before replacing anything.
+    await user.click(
+      await screen.findByRole('button', { name: /replace history/i }),
+    );
 
     expect(await screen.findByText(/backup imported/i)).toBeInTheDocument();
     expect((await storage.list()).map((row) => row.id)).toEqual([

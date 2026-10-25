@@ -300,7 +300,14 @@ function EngineNote({
     );
   }
   if (status === 'loading') {
-    return <p className="engine-note">Engine loading…</p>;
+    return (
+      <p className="engine-note">
+        Engine loading…
+        <button type="button" className="play-button" onClick={onRetry}>
+          Retry
+        </button>
+      </p>
+    );
   }
   return null;
 }
@@ -670,6 +677,13 @@ export function Play({
   }, [resumeMatchId, persistence.resumable, match]);
 
   function retryEngine(): void {
+    // A stuck load or a failed boot needs a clean slate: drop the worker
+    // (its boot promise may be cached-rejected) so initialize builds a fresh
+    // one. A ready engine with only a transient opponent error keeps its
+    // worker and just re-asks the opponent.
+    if (engineStatus === 'loading' || engineStatus === 'error') {
+      engine.dispose();
+    }
     engine.initialize().catch(() => {});
     opponentRef.current?.retry();
   }

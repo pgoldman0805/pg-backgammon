@@ -13,6 +13,7 @@ import {
   type MatchStoreLike,
   type PersistedIdentity,
 } from './persist';
+import { getSaveHealthMonitor } from './saveHealth';
 import { isStoredMatch } from './snapshot';
 import type { MatchConfig, MatchStorage, StoredMatch } from './types';
 
@@ -38,6 +39,9 @@ export function useMatchPersistence(
       store,
       storage,
       identity: identityRef.current,
+      // Surface write failures app-wide so the save-failure banner can warn
+      // the player the moment their progress stops being saved (ticket 26).
+      saveHealth: getSaveHealthMonitor(),
     });
     persisterRef.current = persister;
     return () => {

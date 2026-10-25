@@ -22,12 +22,57 @@ import type { EngineRequest, EngineResponse } from './workerProtocol';
 export interface EngineTransport {
   postMessage(request: EngineRequest): void;
   onMessage(handler: (response: EngineResponse) => void): void;
+  /**
+   * Report a worker-level failure (an uncaught error or a failed
+   * deserialization) that never arrives as a normal response. Optional so
+   * lightweight transports need not implement it.
+   */
+  onError?(handler: (error: Error) => void): void;
   terminate(): void;
 }
 
 export interface CreateEngineOptions {
   /** Defaults to spawning the real gnubg worker. */
   readonly createTransport?: () => EngineTransport;
+  /**
+   * Bound (ms) on the boot handshake. A stalled WASM fetch that never
+   * answers resolves to the `error` state after this, instead of hanging
+   * on "Engine loading…" forever. `Infinity` disables the bound.
+   * Defaults to {@link DEFAULT_BOOT_TIMEOUT_MS}.
+   */
+  readonly bootTimeoutMs?: number;
+}
+
+/**
+ * 60s: a safety net for a genuinely stuck fetch, not a tight SLA. It is set
+ * well above a legitimately slow cold WASM load (the manual loading-state
+ * Retry is the fast escape); only a load that is truly wedged reaches it.
+ */
+export const DEFAULT_BOOT_TIMEOUT_MS = 60_000;
+
+/**
+ * Reject if `promise` does not settle within `ms`. The timeout error is
+ * recoverable: the caller drops into the `error` state with Retry offered.
+ */
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  if (!Number.isFinite(ms)) {
+    return promise;
+  }
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new Error(`engine boot timed out after ${ms}ms`));
+    }, ms);
+    promise.then(
+      (value) => {
+        clearTimeout(timer);
+        resolve(value);
+      },
+      (error: unknown) => {
+        clearTimeout(timer);
+        reject(error);
+      },
+    );
+  });
 }
 
 /** Omit distributed over the request union (plain Omit collapses it). */
@@ -46,12 +91,25 @@ function createWorkerTransport(): EngineTransport {
       worker.onmessage = (event: MessageEvent<EngineResponse>) =>
         handler(event.data);
     },
+    onError: (handler) => {
+      // A crashing worker fires `onerror`; a message that fails to
+      // deserialize fires `onmessageerror`. Either leaves every pending
+      // request unanswered, so surface it as a worker failure.
+      worker.onerror = (event: ErrorEvent) => {
+        event.preventDefault();
+        handler(new Error(event.message || 'engine worker crashed'));
+      };
+      worker.onmessageerror = () => {
+        handler(new Error('engine worker sent an unreadable message'));
+      };
+    },
     terminate: () => worker.terminate(),
   };
 }
 
 export function createGnubgEngine(options: CreateEngineOptions = {}): Engine {
   const createTransport = options.createTransport ?? createWorkerTransport;
+  const bootTimeoutMs = options.bootTimeoutMs ?? DEFAULT_BOOT_TIMEOUT_MS;
 
   let status: EngineStatus = 'idle';
   const listeners = new Set<(status: EngineStatus) => void>();
@@ -62,6 +120,11 @@ export function createGnubgEngine(options: CreateEngineOptions = {}): Engine {
     { resolve: (result: unknown) => void; reject: (error: Error) => void }
   >();
   let initializing: Promise<void> | undefined;
+  // Bumped whenever a boot starts or a worker is abandoned, so a stale
+  // handshake that settles late (a retried-past stall, a disposed boot)
+  // can recognize it is no longer the current attempt and keep its hands
+  // off shared state.
+  let generation = 0;
 
   function setStatus(next: EngineStatus): void {
     if (status === next) {
@@ -73,10 +136,32 @@ export function createGnubgEngine(options: CreateEngineOptions = {}): Engine {
     }
   }
 
+  /** Settle every in-flight request with the same failure. */
+  function failPending(error: Error): void {
+    for (const entry of pending.values()) {
+      entry.reject(error);
+    }
+    pending.clear();
+  }
+
+  /**
+   * Abandon the current worker: reject outstanding work and drop the
+   * transport so the next use boots a fresh one from a clean slate. The
+   * old worker (if any) may have a cached, rejected boot promise, so a
+   * genuine retry must replace it rather than re-ask it.
+   */
+  function teardownTransport(error: Error): void {
+    generation++;
+    failPending(error);
+    transport?.terminate();
+    transport = undefined;
+  }
+
   function ensureTransport(): EngineTransport {
     if (!transport) {
-      transport = createTransport();
-      transport.onMessage((response) => {
+      const created = createTransport();
+      transport = created;
+      created.onMessage((response) => {
         const entry = pending.get(response.id);
         if (!entry) {
           return;
@@ -87,6 +172,17 @@ export function createGnubgEngine(options: CreateEngineOptions = {}): Engine {
         } else {
           entry.reject(new Error(response.error));
         }
+      });
+      created.onError?.((error) => {
+        // The worker crashed: no response will ever come for anything in
+        // flight. Reject it all, abandon the dead worker, and drop into a
+        // recoverable error so Retry can boot a fresh one.
+        if (transport !== created) {
+          return;
+        }
+        initializing = undefined;
+        teardownTransport(error);
+        setStatus('error');
       });
     }
     return transport;
@@ -106,13 +202,28 @@ export function createGnubgEngine(options: CreateEngineOptions = {}): Engine {
 
   function initialize(): Promise<void> {
     if (!initializing) {
+      const attempt = ++generation;
       setStatus('loading');
-      initializing = send<void>({ kind: 'initialize' }).then(
-        () => setStatus('ready'),
-        (error) => {
-          initializing = undefined;
-          setStatus('error');
-          throw error;
+      initializing = withTimeout(
+        send<void>({ kind: 'initialize' }),
+        bootTimeoutMs,
+      ).then(
+        () => {
+          if (attempt === generation) {
+            setStatus('ready');
+          }
+        },
+        (error: unknown) => {
+          const failure =
+            error instanceof Error ? error : new Error(String(error));
+          // A newer attempt (or a dispose) has superseded this boot; its
+          // late failure is no longer anyone's concern.
+          if (attempt === generation) {
+            initializing = undefined;
+            teardownTransport(failure);
+            setStatus('error');
+          }
+          throw failure;
         },
       );
     }
@@ -159,13 +270,7 @@ export function createGnubgEngine(options: CreateEngineOptions = {}): Engine {
     },
 
     dispose() {
-      const error = new Error('engine disposed');
-      for (const entry of pending.values()) {
-        entry.reject(error);
-      }
-      pending.clear();
-      transport?.terminate();
-      transport = undefined;
+      teardownTransport(new Error('engine disposed'));
       initializing = undefined;
       setStatus('idle');
     },
