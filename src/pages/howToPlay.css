@@ -1,0 +1,188 @@
+/* The how-to-play primer (ticket 30): built in the Learn area's paper/ink/
+   green language, marked by the same board-point triangle as every other
+   section. Each fundamental pairs a short reading column with a small diagram
+   drawn from the board's own point triangles — the app's signature, put to
+   work teaching. On a phone the diagram drops below the prose. */
+
+.primer {
+  margin-bottom: 3.5rem;
+}
+
+.primer-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding-bottom: 0.4rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.primer-point {
+  flex: none;
+  align-self: center;
+  fill: var(--accent);
+}
+
+.primer-header h2 {
+  font-size: 1.1rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.primer-blurb {
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+.primer-intro {
+  margin-bottom: 2rem;
+  max-width: 54ch;
+}
+
+.htp-topic {
+  padding: 1.4rem 0;
+  border-bottom: 1px solid var(--line);
+  scroll-margin-top: 1.5rem;
+}
+
+.htp-topic:last-child {
+  border-bottom: 0;
+}
+
+.htp-topic-heading {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+/* Prose leads, the diagram sits beside it and holds a steady width. */
+.htp-topic-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.75rem;
+}
+
+.htp-prose {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.htp-prose p {
+  margin-bottom: 0.7rem;
+  line-height: 1.55;
+}
+
+.htp-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.htp-figure {
+  flex: none;
+  width: 190px;
+  margin: 0.1rem 0 0;
+}
+
+.htp-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* --- Diagram parts, all on the shell's tokens so both themes just work --- */
+
+.htp-frame,
+.htp-barstrip,
+.htp-tray,
+.htp-cube,
+.htp-die {
+  fill: color-mix(in srgb, var(--accent) 5%, var(--bg));
+  stroke: var(--line);
+  stroke-width: 1.5;
+}
+
+.htp-bar {
+  fill: var(--line);
+}
+
+.htp-home {
+  fill: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.htp-point {
+  fill: color-mix(in srgb, var(--ink) 16%, transparent);
+}
+
+.htp-point--a {
+  fill: color-mix(in srgb, var(--accent) 34%, transparent);
+}
+
+.htp-checker {
+  stroke-width: 1.5;
+}
+
+/* Your checkers read light-on-paper with an ink rim; the opponent's are
+   solid ink; a hit checker carries the one rust reserved for cost. */
+.htp-checker--you {
+  fill: var(--bg);
+  stroke: var(--ink);
+}
+
+.htp-checker--them {
+  fill: var(--ink);
+  stroke: var(--ink);
+}
+
+.htp-checker--hit {
+  fill: var(--danger);
+  stroke: var(--danger);
+}
+
+.htp-ghost {
+  fill: none;
+  stroke: var(--ink-muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+}
+
+.htp-arrow {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.htp-arrow--hit {
+  stroke: var(--danger);
+}
+
+.htp-arrowhead {
+  fill: var(--accent);
+}
+
+.htp-arrowhead--hit {
+  fill: var(--danger);
+}
+
+.htp-die-pip {
+  fill: var(--ink);
+}
+
+.htp-cube-face {
+  fill: var(--ink);
+  font-size: 34px;
+  font-weight: 650;
+}
+
+@media (max-width: 640px) {
+  /* Phone: stack the diagram under its prose, centred and a touch smaller. */
+  .htp-topic-body {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .htp-figure {
+    width: 170px;
+    align-self: center;
+  }
+}

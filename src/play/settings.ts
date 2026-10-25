@@ -13,6 +13,13 @@ export const AUTO_FORCED_PLAYS_KEY = 'pg-backgammon.auto-forced-plays';
  * match and never writes back.
  */
 export const TUTOR_DEFAULT_KEY = 'pg-backgammon.tutor-default';
+/**
+ * Whether the newcomer has seen the how-to-play primer (ticket 30). Its own
+ * flag, deliberately independent of any first-run-defaults flag, so the
+ * primer nudge can be surfaced and dismissed without touching other first-run
+ * behaviour. Set the moment the Learn area is opened or the nudge dismissed.
+ */
+export const PRIMER_SEEN_KEY = 'pg-backgammon.primer-seen';
 
 /** The stored value of an on/off setting, or its default when unset. */
 export function getStoredSwitch(key: string, defaultOn: boolean): boolean {
@@ -34,4 +41,14 @@ export function useStoredSwitch(
     setOn(next);
   };
   return [on, update];
+}
+
+/** Whether the how-to-play primer has been seen (ticket 30). */
+export function hasPrimerBeenSeen(): boolean {
+  return getStoredSwitch(PRIMER_SEEN_KEY, false);
+}
+
+/** Record that the primer has been seen, so the first-run nudge retires. */
+export function markPrimerSeen(): void {
+  localStorage.setItem(PRIMER_SEEN_KEY, 'on');
 }

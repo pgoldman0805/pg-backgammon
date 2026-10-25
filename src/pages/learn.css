@@ -28,7 +28,7 @@
   fill: var(--accent);
 }
 
-.glossary-group-header h2 {
+.glossary-group-header h3 {
   font-size: 1.1rem;
   font-weight: 650;
   letter-spacing: -0.01em;
