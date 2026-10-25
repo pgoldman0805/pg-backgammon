@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import {
   BrowserRouter,
   NavLink,
@@ -6,16 +6,38 @@ import {
   Routes,
   useLocation,
 } from 'react-router-dom';
-import { Analyze } from './pages/Analyze';
-import { Learn } from './pages/Learn';
+// Play is the landing route ('/'): it ships in the entry chunk so the first
+// screen paints without a second round-trip.
 import { Play } from './pages/Play';
-import { Progress } from './pages/Progress';
-import { Puzzles } from './pages/Puzzles';
-import { Settings } from './pages/Settings';
-import { useBlunderMining } from './puzzles';
+// Imported from the leaf module, not the './puzzles' barrel: the barrel also
+// re-exports the curated set and the generator, and pulling the hook through
+// it would risk dragging that data back into the initial Play chunk.
+import { useBlunderMining } from './puzzles/useBlunderMining';
 import { useTheme } from './theme';
 import { FirstRunPrimerPrompt } from './ui/FirstRunPrimerPrompt';
 import { SaveFailureBanner } from './ui/SaveFailureBanner';
+
+// Ticket 43: every non-landing area is its own chunk, dynamically imported the
+// first time its route is opened. A Play-only visitor never downloads the
+// Analyze, Progress, Settings or Learn code, and — crucially — never the
+// ~1.3 MB curated puzzle set that rides along in the Puzzles chunk.
+// vite-plugin-pwa's glob precache still covers every emitted chunk, so the app
+// stays fully offline-capable after first load.
+const Analyze = lazy(() =>
+  import('./pages/Analyze').then((m) => ({ default: m.Analyze })),
+);
+const Learn = lazy(() =>
+  import('./pages/Learn').then((m) => ({ default: m.Learn })),
+);
+const Progress = lazy(() =>
+  import('./pages/Progress').then((m) => ({ default: m.Progress })),
+);
+const Puzzles = lazy(() =>
+  import('./pages/Puzzles').then((m) => ({ default: m.Puzzles })),
+);
+const Settings = lazy(() =>
+  import('./pages/Settings').then((m) => ({ default: m.Settings })),
+);
 
 /** Play, with the match id Analyze's "Resume" put into the route state. */
 function PlayRoute() {
@@ -154,6 +176,20 @@ function ShellHeader() {
   );
 }
 
+/**
+ * The stand-in while a route's chunk is in flight (ticket 43). After first
+ * load every chunk is in the service-worker precache, so this is near-
+ * instant on return visits and only briefly visible on the very first open
+ * of each area — no jarring blank. role="status" announces it politely.
+ */
+function RouteFallback() {
+  return (
+    <p className="route-loading" role="status" aria-live="polite">
+      Loading…
+    </p>
+  );
+}
+
 function App() {
   // Ticket 12: analyzed blunders mine themselves into puzzles app-wide.
   useBlunderMining();
@@ -167,14 +203,16 @@ function App() {
       <SaveFailureBanner />
       <FirstRunPrimerPrompt />
       <main className="shell-main" id="content">
-        <Routes>
-          <Route path="/" element={<PlayRoute />} />
-          <Route path="/analyze" element={<Analyze />} />
-          <Route path="/puzzles" element={<Puzzles />} />
-          <Route path="/progress" element={<Progress />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/learn" element={<Learn />} />
-        </Routes>
+        <Suspense fallback={<RouteFallback />}>
+          <Routes>
+            <Route path="/" element={<PlayRoute />} />
+            <Route path="/analyze" element={<Analyze />} />
+            <Route path="/puzzles" element={<Puzzles />} />
+            <Route path="/progress" element={<Progress />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/learn" element={<Learn />} />
+          </Routes>
+        </Suspense>
       </main>
     </BrowserRouter>
   );

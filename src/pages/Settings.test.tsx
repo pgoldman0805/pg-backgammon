@@ -182,7 +182,8 @@ describe('theme, shared with the header toggle', () => {
       screen.getByRole('button', { name: 'Switch to dark theme' }),
     ).toBeInTheDocument();
 
-    await user.click(screen.getByRole('radio', { name: 'Dark' }));
+    // Settings is a lazily-loaded chunk (ticket 43): await its content.
+    await user.click(await screen.findByRole('radio', { name: 'Dark' }));
 
     expect(document.documentElement).toHaveAttribute('data-theme', 'dark');
     expect(
@@ -200,7 +201,8 @@ describe('theme, shared with the header toggle', () => {
       screen.getByRole('button', { name: 'Switch to dark theme' }),
     );
 
-    expect(screen.getByRole('radio', { name: 'Dark' })).toBeChecked();
+    // Settings is a lazily-loaded chunk (ticket 43): await its content.
+    expect(await screen.findByRole('radio', { name: 'Dark' })).toBeChecked();
   });
 });
 

@@ -8,7 +8,7 @@ beforeEach(() => {
 });
 
 describe('navigation shell', () => {
-  it('shows the five areas in the navigation and opens on Play', () => {
+  it('shows the five areas in the navigation and opens on Play', async () => {
     render(<App />);
 
     const nav = screen.getByRole('navigation');
@@ -17,7 +17,7 @@ describe('navigation shell', () => {
     }
 
     expect(
-      screen.getByRole('heading', { level: 1, name: 'Play' }),
+      await screen.findByRole('heading', { level: 1, name: 'Play' }),
     ).toBeInTheDocument();
   });
 
@@ -29,8 +29,9 @@ describe('navigation shell', () => {
 
       await user.click(screen.getByRole('link', { name: area }));
 
+      // The area is a lazily-loaded chunk (ticket 43): await its heading.
       expect(
-        screen.getByRole('heading', { level: 1, name: area }),
+        await screen.findByRole('heading', { level: 1, name: area }),
       ).toBeInTheDocument();
     },
   );
@@ -51,7 +52,7 @@ describe('navigation shell', () => {
 
     await user.keyboard('{Enter}');
     expect(
-      screen.getByRole('heading', { level: 1, name: 'Puzzles' }),
+      await screen.findByRole('heading', { level: 1, name: 'Puzzles' }),
     ).toBeInTheDocument();
   });
 });
@@ -65,7 +66,7 @@ describe('Learn area (ticket 32)', () => {
     await user.click(within(nav).getByRole('link', { name: 'Learn' }));
 
     expect(
-      screen.getByRole('heading', { level: 1, name: 'Learn' }),
+      await screen.findByRole('heading', { level: 1, name: 'Learn' }),
     ).toBeInTheDocument();
     const glossary = screen.getByRole('region', { name: /glossary/i });
     expect(
@@ -110,8 +111,9 @@ describe('phone menu', () => {
     const menu = screen.getByRole('navigation', { name: 'Menu' });
     await user.click(within(menu).getByRole('link', { name: 'Puzzles' }));
 
+    // Puzzles is a lazily-loaded chunk (ticket 43): await its heading.
     expect(
-      screen.getByRole('heading', { level: 1, name: 'Puzzles' }),
+      await screen.findByRole('heading', { level: 1, name: 'Puzzles' }),
     ).toBeInTheDocument();
     expect(
       screen.queryByRole('navigation', { name: 'Menu' }),
