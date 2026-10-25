@@ -7,7 +7,13 @@
  * dismisses the open popover.
  */
 
-import { type ReactNode, useId, useState } from 'react';
+import {
+  type ReactNode,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import { GLOSSARY, type GlossaryTermId } from './glossary';
 import './term.css';
 
@@ -27,6 +33,40 @@ export function GlossaryTerm({
   const [pinned, setPinned] = useState(false);
   const open = hovering || pinned;
 
+  // The popover is absolutely positioned at the term's left edge, so a term
+  // on the right of a narrow screen would push its box off-screen. On open,
+  // measure and shift it horizontally so it always stays within the viewport.
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const popoverRef = useRef<HTMLSpanElement>(null);
+  const [shiftX, setShiftX] = useState(0);
+
+  useLayoutEffect(() => {
+    if (!open) {
+      setShiftX(0);
+      return;
+    }
+    const trigger = triggerRef.current;
+    const popover = popoverRef.current;
+    if (!trigger || !popover) {
+      return;
+    }
+    const t = trigger.getBoundingClientRect();
+    const p = popover.getBoundingClientRect();
+    if (p.width === 0) {
+      return; // no real layout (e.g. jsdom) — leave the CSS default.
+    }
+    const margin = 8;
+    const vw = window.innerWidth;
+    let s = 0;
+    if (t.left + p.width > vw - margin) {
+      s = vw - margin - (t.left + p.width); // shift left so it fits
+    }
+    if (t.left + s < margin) {
+      s = margin - t.left; // never push past the left edge either
+    }
+    setShiftX(s);
+  }, [open]);
+
   const close = () => {
     setHovering(false);
     setPinned(false);
@@ -35,6 +75,7 @@ export function GlossaryTerm({
   return (
     <span className="term">
       <button
+        ref={triggerRef}
         type="button"
         className="term-trigger"
         aria-describedby={descId}
@@ -53,7 +94,13 @@ export function GlossaryTerm({
       >
         {children ?? entry.term}
       </button>
-      <span role="tooltip" className="term-popover" hidden={!open}>
+      <span
+        ref={popoverRef}
+        role="tooltip"
+        className="term-popover"
+        hidden={!open}
+        style={shiftX ? { left: `${shiftX}px` } : undefined}
+      >
         <span className="term-popover-name" aria-hidden="true">
           {entry.term}
         </span>
