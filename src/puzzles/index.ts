@@ -48,6 +48,7 @@ export {
   deriveCubeChoices,
   mirrorBoard,
   mirrorMovement,
+  scoreContextLabel,
   toEnginePosition,
 } from './mining';
 export { getBlunderMiningService } from './miningInstance';

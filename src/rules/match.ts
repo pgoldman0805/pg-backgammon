@@ -107,6 +107,13 @@ export interface MatchGameRecord {
   /** True when this game was the Crawford game (doubling disabled). */
   readonly crawford: boolean;
   /**
+   * True when the game was played as a money game (GLOSSARY "Money play"):
+   * the Jacoby rule applied, so a gammon or backgammon counts only once the
+   * cube has been turned. Deterministic replay needs this to re-score the
+   * game exactly as it was settled.
+   */
+  readonly money: boolean;
+  /**
    * True when Tutor mode was enabled at any point during the game. Progress
    * stats exclude tutor-assisted games (GLOSSARY "Tutor mode", ticket 13).
    */
@@ -121,9 +128,15 @@ export interface MatchRecord {
 }
 
 export interface MatchState {
-  /** Match target in points, 1-25. */
+  /** Match target in points, 1-25; 0 for a money session (no target). */
   readonly length: number;
   readonly score: MatchScore;
+  /**
+   * True for a money session (GLOSSARY "Money play"): unlimited single games,
+   * a cube live from the start that is never dead, gammons/backgammons scored,
+   * the Jacoby rule, and no Crawford or match target. False for match play.
+   */
+  readonly money: boolean;
   /** True while the game in progress is the Crawford game. */
   readonly crawford: boolean;
   /** True once a Crawford game has started (it never recurs). */
@@ -167,6 +180,7 @@ function isCrawfordGame(
 }
 
 export interface CreateMatchOptions {
+  /** Match target in points, 1-25; ignored (forced to 0) for a money game. */
   readonly length: number;
   /** The game in progress; must have an active turn. */
   readonly game: GameState;
@@ -175,33 +189,46 @@ export interface CreateMatchOptions {
   /** Defaults to the Crawford derivation from the score. */
   readonly crawford?: boolean;
   readonly crawfordPlayed?: boolean;
+  /**
+   * Assemble a money session instead of a match (GLOSSARY "Money play"): no
+   * target, no Crawford, the Jacoby rule, a cube that is never dead.
+   */
+  readonly money?: boolean;
 }
 
 /**
  * Assemble a match around a game in progress (tests, puzzles, resumption).
- * `startMatch` is the standard entry point.
+ * `startMatch` and `startMoneyGame` are the standard entry points.
  */
 export function createMatch(options: CreateMatchOptions): MatchState {
-  const { length, game } = options;
-  if (!Number.isInteger(length) || length < 1 || length > 25) {
+  const { game } = options;
+  const money = options.money ?? false;
+  // A money session has no target: length 0 is its sentinel, and the 1-25
+  // range check and score-below-length guard apply to match play alone.
+  const length = money ? 0 : options.length;
+  if (!money && (!Number.isInteger(length) || length < 1 || length > 25)) {
     throw new Error(`match length must be an integer 1-25, got ${length}`);
   }
   const score = options.score ?? { white: 0, black: 0 };
-  if (score.white >= length || score.black >= length) {
+  if (!money && (score.white >= length || score.black >= length)) {
     throw new Error('scores must be below the match length');
   }
   if (!game.turn || game.result) {
     throw new Error('the game must have a turn in progress');
   }
   const cube = options.cube ?? { value: 1, owner: 'center' };
-  const crawford =
-    options.crawford ??
-    isCrawfordGame(score, length, options.crawfordPlayed ?? false);
+  const crawford = money
+    ? false
+    : (options.crawford ??
+      isCrawfordGame(score, length, options.crawfordPlayed ?? false));
   return {
     length,
     score,
+    money,
     crawford,
-    crawfordPlayed: (options.crawfordPlayed ?? false) || crawford,
+    crawfordPlayed: money
+      ? false
+      : (options.crawfordPlayed ?? false) || crawford,
     cube,
     game,
     phase: 'turn',
@@ -219,6 +246,15 @@ export function createMatch(options: CreateMatchOptions): MatchState {
 /** Start a match to `length` points: game 1 begins with the opening roll. */
 export function startMatch(length: number, dice: DiceSource): MatchState {
   return createMatch({ length, game: startGame(dice) });
+}
+
+/**
+ * Start a money session (GLOSSARY "Money play"): unlimited single games with
+ * the cube live from the start and the Jacoby rule. Game 1 begins with the
+ * opening roll.
+ */
+export function startMoneyGame(dice: DiceSource): MatchState {
+  return createMatch({ length: 0, money: true, game: startGame(dice) });
 }
 
 function requirePhase(state: MatchState, phase: MatchPhase): void {
@@ -252,13 +288,14 @@ export function commitMatchPlay(state: MatchState): MatchState {
   const player = state.game.turn?.player as Player;
   const game = commitPlayOnly(state.game);
   if (game.result) {
+    const scored = scoreGame(game.result.kind, state.cube, state.money);
     return settleGame(
       { ...state, game },
       {
         winner: game.result.winner,
         end: 'checkers',
-        kind: game.result.kind,
-        points: game.result.points * state.cube.value,
+        kind: scored.kind,
+        points: scored.points,
       },
     );
   }
@@ -301,6 +338,10 @@ export function canDouble(state: MatchState): boolean {
   }
   if (state.cube.owner !== 'center' && state.cube.owner !== state.toRoll) {
     return false;
+  }
+  // The money cube is never dead — there is no target to overshoot.
+  if (state.money) {
+    return true;
   }
   return state.score[state.toRoll] + state.cube.value < state.length;
 }
@@ -365,6 +406,24 @@ const KIND_POINTS: Record<GameEndKind, 1 | 2 | 3> = {
 };
 
 /**
+ * Score a game outcome into match points, applying the Jacoby rule in money
+ * play (GLOSSARY "Money play"): a gammon or backgammon counts only once the
+ * cube has been turned (its value is past 1), so an undoubled gammon or
+ * backgammon is scored as a plain single. Returns the kind that actually
+ * scored and the points it is worth at the given cube. Match play never
+ * clamps — gammons always count toward the match.
+ */
+function scoreGame(
+  kind: GameEndKind,
+  cube: CubeState,
+  money: boolean,
+): { kind: GameEndKind; points: number } {
+  const clamped =
+    money && cube.value === 1 && kind !== 'single' ? 'single' : kind;
+  return { kind: clamped, points: KIND_POINTS[clamped] * cube.value };
+}
+
+/**
  * Offer to resign the game as a single, gammon or backgammon. Either player
  * may offer whenever the game is live and no other offer is pending; the
  * opponent accepts or declines.
@@ -396,6 +455,7 @@ export function acceptResignation(state: MatchState): MatchState {
     MatchState['pendingResignation']
   >;
   const winner = opponent(pending.by);
+  const scored = scoreGame(pending.kind, state.cube, state.money);
   return settleGame(
     {
       ...state,
@@ -412,8 +472,8 @@ export function acceptResignation(state: MatchState): MatchState {
     {
       winner,
       end: 'resignation',
-      kind: pending.kind,
-      points: KIND_POINTS[pending.kind] * state.cube.value,
+      kind: scored.kind,
+      points: scored.points,
     },
   );
 }
@@ -523,11 +583,9 @@ export function takebackPlay(state: MatchState, player: Player): MatchState {
  */
 export function nextGame(state: MatchState, dice: DiceSource): MatchState {
   requirePhase(state, 'game-over');
-  const crawford = isCrawfordGame(
-    state.score,
-    state.length,
-    state.crawfordPlayed,
-  );
+  const crawford = state.money
+    ? false
+    : isCrawfordGame(state.score, state.length, state.crawfordPlayed);
   return {
     ...state,
     crawford,
@@ -592,11 +650,12 @@ export function replayMatchGame(record: MatchGameRecord): MatchGameReplay {
           );
         }
         if (decision.accepted) {
+          const scored = scoreGame(resignation.kind, cube, record.money);
           decided = {
             winner: opponent(resignation.by),
             end: 'resignation',
-            kind: resignation.kind,
-            points: KIND_POINTS[resignation.kind] * cube.value,
+            kind: scored.kind,
+            points: scored.points,
           };
         }
         resignation = null;
@@ -635,11 +694,12 @@ export function replayMatchGame(record: MatchGameRecord): MatchGameReplay {
     if (!checkers) {
       throw new Error('the record ends before the game does');
     }
+    const scored = scoreGame(checkers.kind, cube, record.money);
     decided = {
       winner: checkers.winner,
       end: 'checkers',
-      kind: checkers.kind,
-      points: checkers.points * cube.value,
+      kind: scored.kind,
+      points: scored.points,
     };
   }
   return { board, result: decided };
@@ -666,7 +726,8 @@ export function replayMatch(record: MatchRecord): MatchReplay {
       white: score.white + (result.winner === 'white' ? result.points : 0),
       black: score.black + (result.winner === 'black' ? result.points : 0),
     };
-    if (score[result.winner] >= record.length) {
+    // A money record (length 0) has no target, so it never declares a winner.
+    if (record.length > 0 && score[result.winner] >= record.length) {
       winner = result.winner;
     }
   }
@@ -685,11 +746,13 @@ function settleGame(state: MatchState, result: MatchGameResult): MatchState {
       game: state.game.record,
       decisions: state.decisions,
       crawford: state.crawford,
+      money: state.money,
       tutorAssisted: state.tutorAssisted,
       result,
     },
   ];
-  const won = score[result.winner] >= state.length;
+  // A money session has no target, so a game is only ever game-over.
+  const won = !state.money && score[result.winner] >= state.length;
   return {
     ...state,
     score,

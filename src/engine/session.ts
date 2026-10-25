@@ -184,9 +184,25 @@ export function createGnubgSession(run: RunCommand): GnubgSession {
           ? DEEP.plies
           : FULL_STRENGTH.plies;
       run(`set evaluation cubedecision evaluation plies ${plies}`);
-      const xgid = preparePosition(position, undefined, 0);
-      const analysis = parseCubeAnalysis(run('hint'));
-      return noise > 0 ? applyCubeDifficulty(analysis, noise, xgid) : analysis;
+      // A money session (matchLength 0) under the Jacoby rule values gammons
+      // only once the cube is turned, which shifts the cube decision. Toggle
+      // gnubg's global Jacoby flag for this one evaluation, then restore it —
+      // the session's baseline is Jacoby off (INIT_COMMANDS).
+      const jacoby = position.match?.jacoby ?? false;
+      if (jacoby) {
+        run('set jacoby on');
+      }
+      try {
+        const xgid = preparePosition(position, undefined, 0);
+        const analysis = parseCubeAnalysis(run('hint'));
+        return noise > 0
+          ? applyCubeDifficulty(analysis, noise, xgid)
+          : analysis;
+      } finally {
+        if (jacoby) {
+          run('set jacoby off');
+        }
+      }
     },
   };
 }

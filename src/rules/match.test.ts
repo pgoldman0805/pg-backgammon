@@ -603,6 +603,7 @@ describe('deterministic replay of match records', () => {
         game: live.game.record,
         decisions: [],
         crawford: false,
+        money: false,
         tutorAssisted: false,
         result: {
           winner: 'white',

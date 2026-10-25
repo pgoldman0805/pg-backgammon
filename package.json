@@ -16,6 +16,7 @@
     "icons": "node scripts/generateIcons.mjs",
     "mine:puzzles": "node scripts/mine.mjs && biome check --write src/puzzles/curatedSet.ts",
     "mine:basics": "node scripts/mineBasics.mjs && biome check --write src/puzzles/basicsSet.ts",
+    "mine:score-cubes": "node scripts/mineScoreCubes.mjs && biome check --write src/puzzles/scoreCubeSet.ts",
     "validate:puzzles": "node scripts/validate.mjs",
     "e2e": "playwright test --project=smoke",
     "e2e:audit": "playwright test --project=audit",

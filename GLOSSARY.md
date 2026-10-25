@@ -21,6 +21,13 @@ _Avoid_: Move (ambiguous: sometimes means one checker's hop), turn
 **Cube decision**:
 A doubling-cube choice: whether to double, and whether to take or pass when doubled. Scored by the analyzer separately from plays.
 
+**Money play**:
+A game mode outside any match: unlimited single games, the cube live from the first roll and never dead, gammons and backgammons scored, and the **Jacoby rule** in force. Score accumulates across games but there is no target, so a session never ends on its own.
+_Avoid_: Money session (as the mode name), unlimited mode
+
+**Jacoby rule**:
+A money-play rule: a gammon or backgammon counts only as a single until the cube has been turned (doubled and taken). Keeps either side from grinding out an undoubled gammon and keeps the cube central.
+
 **Movement**:
 One checker's move by a single die. A Play combines one or more movements.
 _Avoid_: Hop, step

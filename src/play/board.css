@@ -382,6 +382,13 @@
   opacity: 0.35;
 }
 
+/* Centered and never turned (ticket 41): the stake at rest. Quieter than a
+   held, doubled cube so it reads as "available at the current stake," not a
+   loud "64" asserting high stakes in no-doubling or early states. */
+.cube--centered {
+  opacity: 0.6;
+}
+
 /* Dice */
 .die-face {
   stroke-width: 2;
@@ -813,20 +820,26 @@
   margin-bottom: 0.9rem;
 }
 
-/* The eval bar: White's share of the game, in the two checker colors. */
+/* The eval bar: White's share of the game, in the two checker colors.
+   Ticket 41 (review finding #21): a bounded, chunky two-tone gauge anchored by
+   the HUD with its value beside it — not a thin, pill-shaped rail stretched
+   the full width with the number stranded far right, which read as a loading
+   bar. It no longer grows to fill the Tutor strip. */
 .eval-bar {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  flex: 1 1 240px;
-  min-width: 200px;
+  gap: 0.5rem;
+  flex: 0 0 auto;
 }
 
 .eval-track {
   position: relative;
-  flex: 1;
-  height: 12px;
-  border-radius: 999px;
+  flex: 0 0 auto;
+  width: 148px;
+  /* Chunky and squared — a position gauge (White's share over Black's) that
+     reads as a contest, not a progress rail creeping from empty to full. */
+  height: 20px;
+  border-radius: 5px;
   background: var(--checker-black);
   border: 1px solid var(--checker-black-rim);
   overflow: hidden;
@@ -841,6 +854,7 @@
   transition: width 400ms ease;
 }
 
+/* The 50/50 reference line: the gauge pivots around the middle. */
 .eval-tick {
   position: absolute;
   top: 0;

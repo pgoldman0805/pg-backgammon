@@ -203,6 +203,32 @@ describe('createGnubgSession', () => {
     );
   });
 
+  it('evaluates a money cube under Jacoby, then restores Jacoby off', () => {
+    const { run, commands } = scriptedRun({ hint: CUBE_BLOCK });
+    const session = createGnubgSession(run);
+    const money: EnginePosition = {
+      board: initialBoard(),
+      onRoll: 'white',
+      match: { matchLength: 0, score: { white: 0, black: 0 }, jacoby: true },
+    };
+    session.cubeInfo(money);
+
+    const on = commands.lastIndexOf('set jacoby on');
+    const hint = commands.lastIndexOf('hint');
+    const off = commands.lastIndexOf('set jacoby off');
+    expect(on).toBeGreaterThan(-1);
+    expect(on).toBeLessThan(hint);
+    expect(off).toBeGreaterThan(hint);
+  });
+
+  it('leaves Jacoby off for a plain (non-money) cube decision', () => {
+    const { run, commands } = scriptedRun({ hint: CUBE_BLOCK });
+    const session = createGnubgSession(run);
+    const before = commands.length;
+    session.cubeInfo(OPENING);
+    expect(commands.slice(before)).not.toContain('set jacoby on');
+  });
+
   it('ranks plays at 3-ply when asked for deep effort', () => {
     const { run, commands } = scriptedRun({ hint: HINT_31 });
     const session = createGnubgSession(run);
