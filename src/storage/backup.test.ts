@@ -5,12 +5,14 @@ import {
   importBackup,
   parseBackup,
   serializeBackup,
+  summarizeBackup,
 } from './backup';
 import { createMemoryBlunderPuzzleStorage } from './blunderPuzzles';
 import { createMemoryGeneratedPuzzleStorage } from './generatedPuzzles';
 import { createMemoryStorage } from './memory';
 import { createMemoryPuzzleProgressStorage } from './puzzleProgress';
 import { storedMatchFixture } from './storageContract';
+import type { MatchStorage } from './types';
 
 const progressFixture: PuzzleProgressState = {
   themes: { 'bear-off': { solved: 3, missed: 1, streak: 2 } },
@@ -376,5 +378,273 @@ describe('history backup', () => {
     await importBackup(target, parseBackup(json));
 
     expect((await target.list()).map((m) => m.id)).toEqual(['good']);
+  });
+});
+
+describe('atomic restore', () => {
+  /** Wraps a storage so a put of a chosen id rejects, as a quota error would. */
+  function failingPutStorage(base: MatchStorage, failId: string): MatchStorage {
+    return {
+      ...base,
+      async put(match) {
+        if (match.id === failId) {
+          throw new Error('QuotaExceededError');
+        }
+        return base.put(match);
+      },
+    };
+  }
+
+  it('leaves the prior history fully intact when a restore fails midway', async () => {
+    const base = createMemoryStorage([
+      storedMatchFixture({ id: 'kept-1', updatedAt: 1_000 }),
+      storedMatchFixture({ id: 'kept-2', updatedAt: 2_000 }),
+    ]);
+    const storage = failingPutStorage(base, 'incoming-2');
+    const json = JSON.stringify({
+      app: 'pg-backgammon',
+      format: 1,
+      exportedAt: 0,
+      matches: [
+        storedMatchFixture({ id: 'incoming-1' }),
+        storedMatchFixture({ id: 'incoming-2' }),
+        storedMatchFixture({ id: 'incoming-3' }),
+      ],
+    });
+
+    await expect(importBackup(storage, parseBackup(json))).rejects.toThrow();
+
+    expect((await storage.list()).map((m) => m.id).sort()).toEqual([
+      'kept-1',
+      'kept-2',
+    ]);
+  });
+
+  it('rolls puzzle, blunder and generated stores back together on failure', async () => {
+    const base = createMemoryStorage([
+      storedMatchFixture({ id: 'kept', updatedAt: 1_000 }),
+    ]);
+    const storage = failingPutStorage(base, 'incoming');
+
+    const progress = createMemoryPuzzleProgressStorage();
+    await progress.save(progressFixture);
+    const blunders = createMemoryBlunderPuzzleStorage();
+    await blunders.putAll([blunderFixture]);
+    const generatedFixture = {
+      ...blunderFixture,
+      id: 'generated-7-1',
+      source: 'generated',
+      origin: undefined,
+    } as CubePuzzle;
+    const generated = createMemoryGeneratedPuzzleStorage();
+    await generated.putAll([generatedFixture]);
+
+    const json = JSON.stringify({
+      app: 'pg-backgammon',
+      format: 4,
+      exportedAt: 0,
+      matches: [storedMatchFixture({ id: 'incoming' })],
+      puzzleProgress: { ...progressFixture, solvedIds: ['other'] },
+      blunderPuzzles: [{ ...blunderFixture, id: 'blunder:x:0:0' }],
+      generatedPuzzles: [{ ...generatedFixture, id: 'generated-9-9' }],
+    });
+
+    await expect(
+      importBackup(storage, parseBackup(json), progress, blunders, generated),
+    ).rejects.toThrow();
+
+    expect((await storage.list()).map((m) => m.id)).toEqual(['kept']);
+    expect(await progress.load()).toEqual(progressFixture);
+    expect(await blunders.list()).toEqual([blunderFixture]);
+    expect(await generated.list()).toEqual([generatedFixture]);
+  });
+});
+
+describe('merge import', () => {
+  it("keeps existing matches and adds only the file's non-duplicates", async () => {
+    const target = createMemoryStorage([
+      storedMatchFixture({ id: 'existing', updatedAt: 1_000 }),
+      storedMatchFixture({ id: 'shared', updatedAt: 1_000, winner: 'white' }),
+    ]);
+    const json = JSON.stringify({
+      app: 'pg-backgammon',
+      format: 1,
+      exportedAt: 0,
+      matches: [
+        storedMatchFixture({ id: 'shared', updatedAt: 9_999, winner: 'black' }),
+        storedMatchFixture({ id: 'incoming' }),
+      ],
+    });
+
+    await importBackup(
+      target,
+      parseBackup(json),
+      undefined,
+      undefined,
+      undefined,
+      {
+        mode: 'merge',
+      },
+    );
+
+    expect((await target.list()).map((m) => m.id).sort()).toEqual([
+      'existing',
+      'incoming',
+      'shared',
+    ]);
+    // A duplicate id is a non-import: the existing match is left untouched.
+    expect((await target.get('shared'))?.winner).toBe('white');
+  });
+
+  it('merges blunder and generated puzzles by id, preserving existing', async () => {
+    const generatedFixture = {
+      ...blunderFixture,
+      id: 'generated-7-1',
+      source: 'generated',
+      origin: undefined,
+    } as CubePuzzle;
+    const blunders = createMemoryBlunderPuzzleStorage();
+    await blunders.putAll([blunderFixture]);
+    await blunders.markMined('m1', 123);
+    const generated = createMemoryGeneratedPuzzleStorage();
+    await generated.putAll([generatedFixture]);
+
+    const json = JSON.stringify({
+      app: 'pg-backgammon',
+      format: 4,
+      exportedAt: 0,
+      matches: [],
+      blunderPuzzles: [
+        blunderFixture,
+        { ...blunderFixture, id: 'blunder:m2:0:0' },
+      ],
+      generatedPuzzles: [
+        generatedFixture,
+        { ...generatedFixture, id: 'generated-9-9' },
+      ],
+    });
+
+    await importBackup(
+      createMemoryStorage(),
+      parseBackup(json),
+      createMemoryPuzzleProgressStorage(),
+      blunders,
+      generated,
+      { mode: 'merge' },
+    );
+
+    expect((await blunders.list()).map((p) => p.id)).toEqual([
+      'blunder:m1:0:1',
+      'blunder:m2:0:0',
+    ]);
+    // Merge never clears, so the mined-match bookkeeping survives.
+    expect(await blunders.loadMined()).toEqual({ m1: 123 });
+    expect((await generated.list()).map((p) => p.id)).toEqual([
+      'generated-7-1',
+      'generated-9-9',
+    ]);
+  });
+
+  it('unions solved puzzle ids on merge without discarding existing progress', async () => {
+    const existing = createMemoryPuzzleProgressStorage();
+    await existing.save(progressFixture); // solvedIds: ['curated-001']
+    const json = JSON.stringify({
+      app: 'pg-backgammon',
+      format: 2,
+      exportedAt: 0,
+      matches: [],
+      puzzleProgress: {
+        ...progressFixture,
+        solvedIds: ['curated-001', 'curated-050'],
+        updatedAt: 9_999,
+      },
+    });
+
+    await importBackup(
+      createMemoryStorage(),
+      parseBackup(json),
+      existing,
+      undefined,
+      undefined,
+      {
+        mode: 'merge',
+      },
+    );
+
+    const merged = await existing.load();
+    expect([...(merged?.solvedIds ?? [])].sort()).toEqual([
+      'curated-001',
+      'curated-050',
+    ]);
+  });
+
+  it('still defaults to replace, wiping matches the file omits', async () => {
+    const target = createMemoryStorage([storedMatchFixture({ id: 'old' })]);
+    const json = JSON.stringify({
+      app: 'pg-backgammon',
+      format: 1,
+      exportedAt: 0,
+      matches: [storedMatchFixture({ id: 'new' })],
+    });
+
+    await importBackup(target, parseBackup(json));
+
+    expect((await target.list()).map((m) => m.id)).toEqual(['new']);
+  });
+});
+
+describe('backup summary', () => {
+  it('counts matches, puzzles and whether progress rides along', async () => {
+    const generatedFixture = {
+      ...blunderFixture,
+      id: 'generated-7-1',
+      source: 'generated',
+      origin: undefined,
+    } as CubePuzzle;
+    const source = createMemoryStorage([
+      storedMatchFixture({ id: 'a' }),
+      storedMatchFixture({ id: 'b' }),
+    ]);
+    const progress = createMemoryPuzzleProgressStorage();
+    await progress.save(progressFixture);
+    const blunders = createMemoryBlunderPuzzleStorage();
+    await blunders.putAll([blunderFixture]);
+    const generated = createMemoryGeneratedPuzzleStorage();
+    await generated.putAll([generatedFixture]);
+
+    const backup = await exportBackup(
+      source,
+      () => 7_000,
+      progress,
+      blunders,
+      generated,
+    );
+
+    expect(summarizeBackup(backup)).toEqual({
+      format: 4,
+      exportedAt: 7_000,
+      matches: 2,
+      blunderPuzzles: 1,
+      generatedPuzzles: 1,
+      puzzles: 2,
+      hasPuzzleProgress: true,
+    });
+  });
+
+  it('reports zero puzzles and no progress for a format-1 file', () => {
+    const summary = summarizeBackup(
+      parseBackup(
+        '{"app":"pg-backgammon","format":1,"exportedAt":3,"matches":[]}',
+      ),
+    );
+    expect(summary).toEqual({
+      format: 1,
+      exportedAt: 3,
+      matches: 0,
+      blunderPuzzles: 0,
+      generatedPuzzles: 0,
+      puzzles: 0,
+      hasPuzzleProgress: false,
+    });
   });
 });
