@@ -548,9 +548,31 @@ test('visual audit: every area, both themes, desktop through phone', async ({
   await expect(
     page.getByRole('group', { name: 'White error rate' }),
   ).toBeVisible({ timeout: 480_000 });
+  const reviewFigure = page.getByRole('figure', { name: 'Review position' });
+  await expect(reviewFigure).toBeVisible();
+
+  // Ticket 45: assert the review renders real content, not just that the
+  // regions exist. The board draws an SVG in the figure, the error rate shows
+  // a numeric PR, the decision list has rows, the engine alternatives carry
+  // signed equity numbers, and a beginner match earns at least one
+  // classification badge (Blunder/Error/Dubious).
   await expect(
-    page.getByRole('figure', { name: 'Review position' }),
+    reviewFigure.getByRole('img', { name: 'Backgammon board' }),
   ).toBeVisible();
+  await expect(
+    page.getByRole('group', { name: 'White error rate' }),
+  ).toHaveText(/^\d+\.\d$/);
+  const decisionRows = page.locator('.decision-list .decision-row');
+  expect(await decisionRows.count()).toBeGreaterThan(0);
+  const firstEquity = page
+    .getByRole('list', { name: 'Engine alternatives' })
+    .locator('.alternative-equity')
+    .first();
+  await expect(firstEquity).toHaveText(/[+−]\d+\.\d{3}/);
+  const badge = page.locator('.review-badge').first();
+  await expect(badge).toBeVisible();
+  await expect(badge).toHaveText(/Blunder|Error|Dubious/);
+
   await shoot(page, 'analyze-review');
 
   await page.getByRole('button', { name: 'Back to history' }).click();
@@ -558,9 +580,20 @@ test('visual audit: every area, both themes, desktop through phone', async ({
     .getByLabel('Paste an XGID')
     .fill('XGID=-b----E-C---eE---c-e----B-:0:0:1:31:0:0:0:7:10');
   await page.getByRole('button', { name: 'Load position' }).click();
+  const pastedFigure = page.getByRole('figure', { name: 'Pasted position' });
+  await expect(pastedFigure).toBeVisible();
+  // Ticket 45: the pasted position really renders a board, and analyzing it
+  // ranks its plays with signed equities (the XGID above is the opening
+  // position with a 3-1 roll, so it has legal plays rather than a dance).
   await expect(
-    page.getByRole('figure', { name: 'Pasted position' }),
+    pastedFigure.getByRole('img', { name: 'Backgammon board' }),
   ).toBeVisible();
+  await page.getByRole('button', { name: 'Analyze position' }).click();
+  const enginePlays = page.getByRole('list', { name: 'Engine plays' });
+  await expect(enginePlays).toBeVisible({ timeout: 120_000 });
+  await expect(enginePlays.locator('.alternative-equity').first()).toHaveText(
+    /[+−]\d+\.\d{3}/,
+  );
   await shoot(page, 'analyze-viewer');
 
   // --- Puzzles: browse, drill, the equity-table reveal --------------------
