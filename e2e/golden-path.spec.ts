@@ -18,7 +18,8 @@ import { playUntilMatchOver, startComputerMatch } from './helpers';
 test('golden path: play a match, review it, see puzzles', async ({ page }) => {
   test.setTimeout(600_000);
 
-  // --- Play: a 1-point match vs Beginner, Tutor off (the default). --------
+  // --- Play: a 1-point match vs Beginner, Tutor switched off by the helper
+  //     (a newcomer's first matches now default it on — ticket 31). ---------
   await page.goto('/');
   await expect(
     page.getByRole('button', { name: 'Play as White' }),

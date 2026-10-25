@@ -722,6 +722,23 @@
   gap: 0.4rem 0.6rem;
 }
 
+/* The toggle plus its one-line purpose hint, stacked (ticket 31). */
+.setting-switch-field {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.setting-switch-hint {
+  max-width: 24rem;
+  color: var(--ink-muted);
+  font-size: 0.75rem;
+  line-height: 1.35;
+  text-align: center;
+  text-wrap: balance;
+}
+
 .setting-switch {
   display: inline-flex;
   align-items: center;

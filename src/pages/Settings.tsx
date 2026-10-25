@@ -224,7 +224,7 @@ export function Settings({ storage: injectedStorage }: SettingsProps = {}) {
         />
         <SwitchRow
           name="Tutor mode for new matches"
-          hint="Each new match starts with live analysis on; the in-game toggle still rules the match at hand."
+          hint="Coaching as you play — hints, post-play feedback, and the eval bar — on for each new match. The in-game toggle still rules the match at hand."
           on={tutorDefault}
           onChange={setTutorDefault}
         />

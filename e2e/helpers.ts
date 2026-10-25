@@ -28,11 +28,13 @@ export async function startComputerMatch(
 ): Promise<void> {
   await page.getByRole('radio', { name: difficulty }).check();
   await page.getByLabel('Match length').selectOption({ label: length });
-  if (tutor) {
-    const switchButton = page.getByRole('switch', { name: 'Tutor mode' });
-    if ((await switchButton.getAttribute('aria-checked')) !== 'true') {
-      await switchButton.click();
-    }
+  // Drive Tutor mode to exactly the requested state: a newcomer's first few
+  // matches now open with it on by default (ticket 31), so a false here must
+  // actively switch it off rather than assume it already is.
+  const switchButton = page.getByRole('switch', { name: 'Tutor mode' });
+  const tutorOn = (await switchButton.getAttribute('aria-checked')) === 'true';
+  if (tutor !== tutorOn) {
+    await switchButton.click();
   }
   await page.getByRole('button', { name: 'Play as White' }).click();
 }
