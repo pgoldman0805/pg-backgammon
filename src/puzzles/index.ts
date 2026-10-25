@@ -5,6 +5,7 @@
  * helpers (ticket 12's blunder mining builds on the same model).
  */
 
+export { BASICS_PUZZLES } from './basicsSet';
 export {
   type BlunderMiningDeps,
   blunderPuzzleId,
@@ -16,6 +17,7 @@ export {
   type BlunderMiningServiceOptions,
   createBlunderMiningService,
 } from './blunderMiningService';
+export { BUNDLED_PUZZLES } from './bundledSet';
 export {
   cubeContentKey,
   playContentKey,

@@ -1,5 +1,6 @@
 import {
   act,
+  cleanup,
   fireEvent,
   render,
   screen,
@@ -81,7 +82,8 @@ describe('match setup', () => {
     expect(hint).toHaveClass('rotate-hint');
   });
 
-  it('offers the five difficulties with Casual preselected', () => {
+  it('offers the five difficulties with Beginner preselected for a newcomer', () => {
+    // Ticket 33: a first-time user is started gently on the Beginner opponent.
     renderPlay({ dice: scriptedDice() });
 
     for (const label of [
@@ -93,7 +95,8 @@ describe('match setup', () => {
     ]) {
       expect(screen.getByRole('radio', { name: label })).toBeInTheDocument();
     }
-    expect(screen.getByRole('radio', { name: 'Casual' })).toBeChecked();
+    expect(screen.getByRole('radio', { name: 'Beginner' })).toBeChecked();
+    expect(screen.getByRole('radio', { name: 'Casual' })).not.toBeChecked();
     expect(
       screen.getByRole('button', { name: 'Play as White' }),
     ).toBeInTheDocument();
@@ -102,12 +105,14 @@ describe('match setup', () => {
     ).toBeInTheDocument();
   });
 
-  it('offers match lengths 1-25 with 7 preselected', async () => {
+  it('offers match lengths 1-25 with a quick single game preselected for a newcomer', async () => {
+    // Ticket 33: a first-time user starts with a quick 1-point match, not the
+    // 7-point marathon a beginner does not yet understand.
     const user = userEvent.setup();
     const store = renderPlay({ dice: scriptedDice(6, 3) });
 
     const picker = screen.getByRole('combobox', { name: 'Match length' });
-    expect(picker).toHaveValue('7');
+    expect(picker).toHaveValue('1');
     expect(picker.querySelectorAll('option')).toHaveLength(25);
 
     await user.selectOptions(picker, '5');
@@ -122,7 +127,41 @@ describe('match setup', () => {
 
     await user.click(screen.getByRole('radio', { name: 'Expert' }));
     expect(screen.getByRole('radio', { name: 'Expert' })).toBeChecked();
-    expect(screen.getByRole('radio', { name: 'Casual' })).not.toBeChecked();
+    expect(screen.getByRole('radio', { name: 'Beginner' })).not.toBeChecked();
+  });
+
+  it('opens a returning player on their own last choice, not the novice setup', () => {
+    // Ticket 33: once a choice is remembered (flag + stored values), the next
+    // visit honors it. A fresh mount reads the persisted difficulty and length.
+    localStorage.setItem('pg-backgammon.has-played-before', 'on');
+    localStorage.setItem('pg-backgammon.difficulty', 'intermediate');
+    localStorage.setItem('pg-backgammon.match-length', '9');
+    renderPlay({ dice: scriptedDice() });
+
+    expect(screen.getByRole('radio', { name: 'Intermediate' })).toBeChecked();
+    expect(screen.getByRole('combobox', { name: 'Match length' })).toHaveValue(
+      '9',
+    );
+  });
+
+  it('remembers a choice across mounts once the user changes a picker', async () => {
+    const user = userEvent.setup();
+    renderPlay({ dice: scriptedDice() });
+
+    await user.selectOptions(
+      screen.getByRole('combobox', { name: 'Match length' }),
+      '5',
+    );
+    await user.click(screen.getByRole('radio', { name: 'Expert' }));
+
+    // A second, independent mount (storage not cleared) sees the returning
+    // player's own choice rather than Beginner + 1-point.
+    cleanup();
+    renderPlay({ dice: scriptedDice() });
+    expect(screen.getByRole('radio', { name: 'Expert' })).toBeChecked();
+    expect(screen.getByRole('combobox', { name: 'Match length' })).toHaveValue(
+      '5',
+    );
   });
 });
 
@@ -265,9 +304,14 @@ describe('playing the computer at the cube', () => {
     engine: Engine,
     ...laterRolls: Parameters<typeof scriptedDice>
   ) {
+    // The cube is dead in a 1-point match (the novice default), so these
+    // cube tests pin a 7-point match where doubling is live.
     const store = renderPlay(
       { dice: scriptedDice(6, 3, ...laterRolls) },
-      { engine },
+      {
+        engine,
+        defaultSetup: { mode: 'computer', difficulty: 'casual', length: 7 },
+      },
     );
     fireEvent.click(screen.getByRole('button', { name: 'Play as White' }));
     fireEvent.click(screen.getByRole('button', { name: 'Move from point 24' }));
@@ -334,9 +378,14 @@ describe('playing the computer at the cube', () => {
 describe('resignation against the computer', () => {
   it('an accepted resignation ends and scores the game', async () => {
     // The engine expects less than a point (equity −0.6 for white → +0.6).
+    // A 7-point match keeps the win at game-over (a 1-point match would end
+    // the whole match), so the resignation result still shows on the status.
     renderPlay(
       { dice: scriptedDice(6, 3) },
-      { engine: scriptedCubeEngine('No double, take', { equity: -0.6 }) },
+      {
+        engine: scriptedCubeEngine('No double, take', { equity: -0.6 }),
+        defaultSetup: { mode: 'computer', difficulty: 'casual', length: 7 },
+      },
     );
     fireEvent.click(screen.getByRole('button', { name: 'Play as White' }));
 
@@ -357,7 +406,10 @@ describe('resignation against the computer', () => {
     // The engine expects a gammon (white equity −1.4): a single is refused.
     renderPlay(
       { dice: scriptedDice(6, 3) },
-      { engine: scriptedCubeEngine('No double, take', { equity: -1.4 }) },
+      {
+        engine: scriptedCubeEngine('No double, take', { equity: -1.4 }),
+        defaultSetup: { mode: 'computer', difficulty: 'casual', length: 7 },
+      },
     );
     fireEvent.click(screen.getByRole('button', { name: 'Play as White' }));
 
@@ -485,7 +537,11 @@ describe('between games and at the match end', () => {
 describe('playing against the computer', () => {
   it('the computer answers a committed play with its own, visibly', async () => {
     // White opens 6-3; Black (the computer) rolls 5-2 after its cube check.
-    const store = renderPlay({ dice: scriptedDice(6, 3, 5, 2) });
+    // A 7-point match keeps White's pre-roll a real "White to roll." moment.
+    const store = renderPlay(
+      { dice: scriptedDice(6, 3, 5, 2) },
+      { defaultSetup: { mode: 'computer', difficulty: 'casual', length: 7 } },
+    );
 
     fireEvent.click(screen.getByRole('button', { name: 'Play as White' }));
     fireEvent.click(screen.getByRole('button', { name: 'Move from point 24' }));
@@ -506,7 +562,15 @@ describe('playing against the computer', () => {
     const user = userEvent.setup();
     const engine = gatedEngine();
     // Black wins the opening roll (6 beats 3), so the engine moves first.
-    renderPlay({ dice: scriptedDice(3, 6, 5, 2) }, { engine });
+    renderPlay(
+      { dice: scriptedDice(3, 6, 5, 2) },
+      {
+        engine,
+        // A 7-point match keeps White's pre-roll a real decision ("White to
+        // roll."); the 1-point novice default would auto-roll (dead cube).
+        defaultSetup: { mode: 'computer', difficulty: 'casual', length: 7 },
+      },
+    );
 
     await user.click(screen.getByRole('button', { name: 'Play as White' }));
     await waitFor(() => {
@@ -605,7 +669,15 @@ describe('playing against the computer', () => {
       },
     };
     // Black wins the opening roll, so the failure hits immediately.
-    renderPlay({ dice: scriptedDice(3, 6, 5, 2) }, { engine });
+    renderPlay(
+      { dice: scriptedDice(3, 6, 5, 2) },
+      {
+        engine,
+        // A 7-point match keeps White's pre-roll a real decision ("White to
+        // roll."); the 1-point novice default would auto-roll (dead cube).
+        defaultSetup: { mode: 'computer', difficulty: 'casual', length: 7 },
+      },
+    );
 
     await user.click(screen.getByRole('button', { name: 'Play as White' }));
     expect(
@@ -955,10 +1027,11 @@ describe('persistence and resume', () => {
     });
     const [stored] = await storage.list();
     expect(stored.status).toBe('in-progress');
+    // Ticket 33: a first-run hot-seat start carries the novice defaults.
     expect(stored.config).toMatchObject({
       mode: 'hotseat',
-      difficulty: 'casual',
-      length: 7,
+      difficulty: 'beginner',
+      length: 1,
     });
     expect(stored.state?.game.turn?.roll).toEqual([6, 3]);
   });
@@ -1041,7 +1114,10 @@ describe('persistence and resume', () => {
 describe('copy XGID from the HUD', () => {
   it('copies the current position, dice included, as an XGID', async () => {
     const user = userEvent.setup();
-    renderPlay({ dice: scriptedDice(6, 3) });
+    renderPlay(
+      { dice: scriptedDice(6, 3) },
+      { defaultSetup: { mode: 'hotseat', difficulty: 'casual', length: 7 } },
+    );
     await user.click(screen.getByRole('button', { name: 'Hot-seat match' }));
 
     await user.click(screen.getByRole('button', { name: 'Copy XGID' }));

@@ -10,7 +10,7 @@
 import { getMatchAnalyzer } from '../analysis';
 import { getBlunderPuzzleStorage } from '../storage/blunderPuzzles';
 import { getGeneratedPuzzleStorage } from '../storage/generatedPuzzles';
-import { CURATED_PUZZLES } from './curatedSet';
+import { BUNDLED_PUZZLES } from './bundledSet';
 import {
   createPuzzleGenerationService,
   type PuzzleGenerationService,
@@ -35,7 +35,7 @@ export function getPuzzleGenerationService(): PuzzleGenerationService {
           getMatchAnalyzer().cubeInfo(position, 'background'),
       },
       storage: getGeneratedPuzzleStorage(),
-      curated: CURATED_PUZZLES,
+      curated: BUNDLED_PUZZLES,
       blunders: getBlunderPuzzleStorage(),
     });
   }

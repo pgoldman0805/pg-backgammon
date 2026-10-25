@@ -210,7 +210,9 @@ describe('reload during a game', () => {
       await screen.findByRole('button', { name: 'Resume match' }),
     );
 
-    expect(screen.getByText('7-point match')).toBeInTheDocument();
+    // Ticket 33: a first-time user's hot-seat match opens as a quick 1-point
+    // game, and resume restores exactly that.
+    expect(screen.getByText('1-point match')).toBeInTheDocument();
     expect(screen.getByLabelText('White pip count')).toHaveTextContent(
       pipsBefore.white ?? '',
     );

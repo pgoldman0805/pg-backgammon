@@ -15,7 +15,7 @@ import type { EngineStatus } from '../engine';
 import { Board } from '../play/Board';
 import { getPlayEngine } from '../play/engineInstance';
 import { canCommit, canUndo } from '../play/selectors';
-import { CURATED_PUZZLES } from '../puzzles/curatedSet';
+import { BUNDLED_PUZZLES } from '../puzzles/bundledSet';
 import { getPuzzleGenerationService } from '../puzzles/generationInstance';
 import type {
   GenerationStatus,
@@ -70,6 +70,10 @@ import './puzzles.css';
 const BLUNDER_COLLECTION_LABEL = 'From your games';
 
 const THEME_TEXT: Record<PuzzleTheme, { label: string; blurb: string }> = {
+  basics: {
+    label: 'Basics',
+    blurb: 'The fundamentals: make a point, hit and cover, run and bear off.',
+  },
   priming: {
     label: 'Priming',
     blurb: 'Build a wall of points in front of enemy checkers.',
@@ -186,7 +190,7 @@ function cubeSummary(grade: CubeGrade): string {
 }
 
 export interface PuzzlesProps {
-  /** Injectable for tests; defaults to the bundled curated set. */
+  /** Injectable for tests; defaults to the full bundled set (Basics first). */
   puzzles?: readonly Puzzle[];
   /** Injectable for tests; defaults to the shared IndexedDB storage. */
   storage?: PuzzleProgressStorage;
@@ -206,7 +210,7 @@ export interface PuzzlesProps {
 }
 
 export function Puzzles({
-  puzzles = CURATED_PUZZLES,
+  puzzles = BUNDLED_PUZZLES,
   storage: injectedStorage,
   blunderStorage: injectedBlunderStorage,
   generatedStorage: injectedGeneratedStorage,

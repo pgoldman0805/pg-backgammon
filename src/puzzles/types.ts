@@ -8,8 +8,13 @@
 
 import type { BoardState, CheckerMovement, DiceRoll, Player } from '../rules';
 
-/** The five curated themes (GLOSSARY "Theme"). */
+/**
+ * The curated themes (GLOSSARY "Theme"), in drill order. "Basics" comes
+ * first (ticket 33): the fundamentals — legal moves, hitting, bearing off —
+ * a newcomer should drill before the advanced tactical themes.
+ */
 export const PUZZLE_THEMES = [
+  'basics',
   'priming',
   'blitzing',
   'holding-game',
@@ -18,6 +23,15 @@ export const PUZZLE_THEMES = [
 ] as const;
 
 export type PuzzleTheme = (typeof PUZZLE_THEMES)[number];
+
+/**
+ * The themes the self-play miner can tag from position heuristics. "Basics"
+ * is hand-authored (scripts/mineBasics.ts), never mined, so it is excluded
+ * here — the miner's per-theme targets only apply to what it can produce.
+ */
+export const MINEABLE_THEMES = PUZZLE_THEMES.filter(
+  (theme): theme is Exclude<PuzzleTheme, 'basics'> => theme !== 'basics',
+);
 
 /**
  * Curated ships with the app; blunder puzzles are mined from the player's
