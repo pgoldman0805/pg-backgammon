@@ -22,6 +22,7 @@ import {
   type Player,
 } from '../rules';
 import { costCubeResponse, costDoubleDecision, cubeEquities } from './cube';
+import { rollLuck } from './luck';
 import {
   ANALYSIS_FORMAT,
   type AnalyzedCube,
@@ -31,6 +32,7 @@ import {
   type GameAnalysis,
   type MatchAnalysis,
   type PlayAlternative,
+  type PlayerLuck,
   type PlayerSummary,
 } from './types';
 import {
@@ -205,24 +207,40 @@ function needsEngine(moment: DecisionMoment): boolean {
   return moment.kind !== 'play' || moment.legalPlayCount >= 2;
 }
 
+/** An analyzed game's decisions plus the net luck tallied over its rolls. */
+interface MomentAnalysis {
+  readonly decisions: AnalyzedDecision[];
+  readonly luck: { white: number; black: number };
+}
+
 async function analyzeMoments(
   moments: readonly DecisionMoment[],
   engine: Engine,
   tick: () => void,
-): Promise<AnalyzedDecision[]> {
+): Promise<MomentAnalysis> {
   const decisions: AnalyzedDecision[] = [];
+  const luck = { white: 0, black: 0 };
   for (const moment of moments) {
     if (!needsEngine(moment)) {
       continue;
     }
     if (moment.kind === 'play') {
-      decisions.push(await analyzePlayMoment(moment, engine));
+      const play = await analyzePlayMoment(moment, engine);
+      decisions.push(play);
+      // The realized term is the best-play equity the review already found
+      // (alternatives[0] is the top-ranked play); the pre-roll expectation is
+      // one position evaluation.
+      luck[moment.player] += await rollLuck(
+        engine,
+        { board: moment.board, onRoll: moment.player, match: moment.context },
+        play.alternatives[0].equity,
+      );
     } else {
       decisions.push(...(await analyzeCubeMoment(moment, engine)));
     }
     tick();
   }
-  return decisions;
+  return { decisions, luck };
 }
 
 const EMPTY_SUMMARY: PlayerSummary = {
@@ -281,12 +299,28 @@ function total(summaries: readonly PlayerSummary[]): PlayerSummary {
 /** Rebuild a game analysis around an updated decision list (deepening). */
 export function assembleGameAnalysis(
   decisions: readonly AnalyzedDecision[],
+  luck?: PlayerLuck,
 ): GameAnalysis {
   return {
     decisions,
     white: summarize(decisions, 'white'),
     black: summarize(decisions, 'black'),
+    ...(luck ? { luck } : {}),
   };
+}
+
+/** Sum the per-game luck into match luck; absent when no game carries it. */
+function totalLuck(games: readonly GameAnalysis[]): PlayerLuck | undefined {
+  if (!games.some((game) => game.luck)) {
+    return undefined;
+  }
+  return games.reduce<PlayerLuck>(
+    (acc, game) => ({
+      white: acc.white + (game.luck?.white ?? 0),
+      black: acc.black + (game.luck?.black ?? 0),
+    }),
+    { white: 0, black: 0 },
+  );
 }
 
 /** Rebuild match totals around updated game analyses (deepening). */
@@ -294,12 +328,14 @@ export function assembleMatchAnalysis(
   games: readonly GameAnalysis[],
   analyzedAt: number,
 ): MatchAnalysis {
+  const luck = totalLuck(games);
   return {
     format: ANALYSIS_FORMAT,
     analyzedAt,
     games,
     white: total(games.map((g) => g.white)),
     black: total(games.map((g) => g.black)),
+    ...(luck ? { luck } : {}),
   };
 }
 
@@ -312,11 +348,15 @@ export async function analyzeGame(
   const moments = walkGame(record, standing);
   const queries = moments.filter(needsEngine).length;
   let done = 0;
-  const decisions = await analyzeMoments(moments, options.engine, () => {
-    done += 1;
-    options.onProgress?.(done, queries);
-  });
-  return assembleGameAnalysis(decisions);
+  const { decisions, luck } = await analyzeMoments(
+    moments,
+    options.engine,
+    () => {
+      done += 1;
+      options.onProgress?.(done, queries);
+    },
+  );
+  return assembleGameAnalysis(decisions, luck);
 }
 
 /** Analyze a whole recorded match, every game at its true standing. */
@@ -335,11 +375,15 @@ export async function analyzeMatch(
   let done = 0;
   const games: GameAnalysis[] = [];
   for (const moments of walks) {
-    const decisions = await analyzeMoments(moments, options.engine, () => {
-      done += 1;
-      options.onProgress?.(done, totalQueries);
-    });
-    games.push(assembleGameAnalysis(decisions));
+    const { decisions, luck } = await analyzeMoments(
+      moments,
+      options.engine,
+      () => {
+        done += 1;
+        options.onProgress?.(done, totalQueries);
+      },
+    );
+    games.push(assembleGameAnalysis(decisions, luck));
   }
   return assembleMatchAnalysis(games, (options.now ?? Date.now)());
 }

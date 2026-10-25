@@ -62,6 +62,20 @@ export function lossText(loss: number): string {
 }
 
 /**
+ * Net luck for display (GLOSSARY "Luck"): a signed EMG figure to two
+ * decimals, lucky positive, with a real minus sign. A figure that rounds to
+ * nothing shows a neutral unsigned zero. Kept visually distinct from PR so
+ * the dice are never mistaken for the skill number.
+ */
+export function luckText(luck: number): string {
+  const rounded = Math.abs(luck) < 0.005 ? 0 : luck;
+  if (rounded === 0) {
+    return '0.00';
+  }
+  return `${rounded < 0 ? '−' : '+'}${Math.abs(rounded).toFixed(2)}`;
+}
+
+/**
  * A byte count for people: plain bytes under a kilobyte, otherwise KB/MB/GB
  * (base 1024) to one decimal. Used for the storage-usage figure in Settings
  * (ticket 26).

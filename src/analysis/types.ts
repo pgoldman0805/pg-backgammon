@@ -70,6 +70,17 @@ export interface AnalyzedCube {
 
 export type AnalyzedDecision = AnalyzedPlay | AnalyzedCube;
 
+/**
+ * Net luck for each side over a game or match (GLOSSARY "Luck"): the summed
+ * per-roll luck, in EMG, from each player's own perspective. Positive means
+ * the dice beat an average roll. Deliberately separate from PlayerSummary —
+ * luck grades the dice, not the decisions, and is never folded into PR.
+ */
+export interface PlayerLuck {
+  readonly white: number;
+  readonly black: number;
+}
+
 /** Per-player quality over a game or match (GLOSSARY "Error rate"). */
 export interface PlayerSummary {
   /** Unforced decisions analyzed (plays and cube decisions). */
@@ -87,6 +98,11 @@ export interface GameAnalysis {
   readonly decisions: readonly AnalyzedDecision[];
   readonly white: PlayerSummary;
   readonly black: PlayerSummary;
+  /**
+   * Net luck for each side this game (GLOSSARY "Luck"). Optional: reviews
+   * written before this field existed simply carry no luck and display none.
+   */
+  readonly luck?: PlayerLuck;
 }
 
 export interface MatchAnalysis {
@@ -97,6 +113,8 @@ export interface MatchAnalysis {
   readonly games: readonly GameAnalysis[];
   readonly white: PlayerSummary;
   readonly black: PlayerSummary;
+  /** Net luck for each side over the match: the sum of the per-game luck. */
+  readonly luck?: PlayerLuck;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

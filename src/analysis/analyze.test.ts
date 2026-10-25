@@ -172,6 +172,15 @@ describe('analyzeGame', () => {
     const b = await analyzeGame(game, STANDING, { engine: createFakeEngine() });
     expect(a).toEqual(b);
   });
+
+  it('reports a per-side luck figure for the game', async () => {
+    const analysis = await analyzeGame(cubeGame().games[0], STANDING, {
+      engine: createFakeEngine(),
+    });
+    expect(analysis.luck).toBeDefined();
+    expect(Number.isFinite(analysis.luck?.white)).toBe(true);
+    expect(Number.isFinite(analysis.luck?.black)).toBe(true);
+  });
 });
 
 describe('analyzeMatch', () => {
@@ -233,6 +242,24 @@ describe('analyzeMatch', () => {
     expect(seen.every(([done, total]) => done <= total && total === 5)).toBe(
       true,
     );
+  });
+
+  it('aggregates per-game luck into the match luck, per side', async () => {
+    const match = twoGameMatch();
+    const record = { length: match.length, games: match.games };
+    const analysis = await analyzeMatch(record, {
+      engine: createFakeEngine(),
+      now: () => 1,
+    });
+
+    expect(analysis.luck).toBeDefined();
+    for (const player of ['white', 'black'] as const) {
+      const summed = analysis.games.reduce(
+        (sum, game) => sum + (game.luck?.[player] ?? 0),
+        0,
+      );
+      expect(analysis.luck?.[player]).toBeCloseTo(summed, 10);
+    }
   });
 
   it('survives JSON round-tripping (plain serializable data)', async () => {

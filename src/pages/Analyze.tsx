@@ -54,6 +54,7 @@ import {
 import { BackupControls } from '../ui/BackupControls';
 import {
   lossText,
+  luckText,
   playerName,
   prText,
   signedEquityText,
@@ -619,6 +620,23 @@ function Review({
             <span className="summary-band">
               {skillBand(analysis[player].errorRate)}
             </span>
+            {analysis.luck && (
+              // Net luck sits apart from the PR number: the dice, not the
+              // decisions. Positive is lucky (GLOSSARY "Luck").
+              // biome-ignore lint/a11y/useSemanticElements: a labelled inline stat, like the error rate beside it
+              <span
+                className="summary-luck"
+                role="group"
+                aria-label={`${playerName(player)} net luck`}
+              >
+                <span className="summary-luck-value">
+                  {luckText(analysis.luck[player])}
+                </span>
+                <span className="summary-luck-unit" aria-hidden="true">
+                  luck
+                </span>
+              </span>
+            )}
             <span className="summary-counts">
               <Counts summary={analysis[player]} />
             </span>
@@ -629,6 +647,13 @@ function Review({
           <GlossaryTerm id="equity">equity</GlossaryTerm> lost per unforced
           decision, on the scale serious players use — lower is better.
         </p>
+        {analysis.luck && (
+          <p className="summary-hint">
+            <GlossaryTerm id="luck">Luck</GlossaryTerm>: the equity the dice
+            handed each side versus an average roll — positive is lucky. Kept
+            separate from PR, which grades only your decisions.
+          </p>
+        )}
       </section>
 
       {analysis.games.length > 1 && (
@@ -654,8 +679,14 @@ function Review({
                 Game {index + 1}
                 <span className="game-tab-rate">
                   {prText(game.white.errorRate)} ·{' '}
-                  {prText(game.black.errorRate)}
+                  {prText(game.black.errorRate)} PR
                 </span>
+                {game.luck && (
+                  <span className="game-tab-luck">
+                    {luckText(game.luck.white)} · {luckText(game.luck.black)}{' '}
+                    luck
+                  </span>
+                )}
               </button>
             );
           })}
