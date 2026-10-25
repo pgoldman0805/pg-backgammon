@@ -178,7 +178,10 @@ describe('deleting a match', () => {
     const storage = createMemoryStorage([finishedMatch()]);
     renderAnalyze(storage);
 
-    await user.click(await screen.findByRole('button', { name: 'Delete…' }));
+    await user.click(
+      await screen.findByRole('button', { name: /more actions/i }),
+    );
+    await user.click(screen.getByRole('menuitem', { name: 'Delete…' }));
     await user.click(screen.getByRole('button', { name: 'Delete match' }));
 
     expect(await screen.findByText(/no matches yet/i)).toBeInTheDocument();
@@ -190,11 +193,104 @@ describe('deleting a match', () => {
     const storage = createMemoryStorage([finishedMatch()]);
     renderAnalyze(storage);
 
-    await user.click(await screen.findByRole('button', { name: 'Delete…' }));
+    await user.click(
+      await screen.findByRole('button', { name: /more actions/i }),
+    );
+    await user.click(screen.getByRole('menuitem', { name: 'Delete…' }));
     await user.click(screen.getByRole('button', { name: 'Keep' }));
 
     expect(screen.getByText('White wins 1–0')).toBeInTheDocument();
     expect(await storage.list()).toHaveLength(1);
+  });
+});
+
+describe('ledger overflow menu and sort/filter', () => {
+  it('leads each row with Open and tucks Export and Delete into a menu', async () => {
+    const user = userEvent.setup();
+    renderAnalyze(createMemoryStorage([finishedMatch()]));
+
+    // Open stands on its own as the primary action.
+    expect(await screen.findByRole('button', { name: 'Open' })).toBeVisible();
+    // Export and Delete are out of sight until the overflow menu opens.
+    expect(
+      screen.queryByRole('menuitem', { name: 'Export .mat' }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('menuitem', { name: 'Delete…' }),
+    ).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /more actions/i }));
+
+    const menu = screen.getByRole('menu');
+    expect(
+      within(menu).getByRole('menuitem', { name: 'Export .mat' }),
+    ).toBeVisible();
+    expect(
+      within(menu).getByRole('menuitem', { name: 'Delete…' }),
+    ).toBeVisible();
+  });
+
+  it('closes the overflow menu on Escape', async () => {
+    const user = userEvent.setup();
+    renderAnalyze(createMemoryStorage([finishedMatch()]));
+
+    await user.click(
+      await screen.findByRole('button', { name: /more actions/i }),
+    );
+    expect(screen.getByRole('menu')).toBeInTheDocument();
+
+    await user.keyboard('{Escape}');
+
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+  });
+
+  it('deletes through the menu, after confirming', async () => {
+    const user = userEvent.setup();
+    const storage = createMemoryStorage([finishedMatch()]);
+    renderAnalyze(storage);
+
+    await user.click(
+      await screen.findByRole('button', { name: /more actions/i }),
+    );
+    await user.click(screen.getByRole('menuitem', { name: 'Delete…' }));
+    await user.click(screen.getByRole('button', { name: 'Delete match' }));
+
+    expect(await screen.findByText(/no matches yet/i)).toBeInTheDocument();
+    expect(await storage.list()).toEqual([]);
+  });
+
+  it('filters the ledger by a search query', async () => {
+    const user = userEvent.setup();
+    renderAnalyze(createMemoryStorage([finishedMatch(), liveMatch()]));
+    await screen.findByText('White wins 1–0');
+
+    await user.type(
+      screen.getByRole('searchbox', { name: /filter matches/i }),
+      'hot-seat',
+    );
+
+    expect(screen.queryByText('White wins 1–0')).not.toBeInTheDocument();
+    expect(screen.getByText('White 2 · Black 1')).toBeInTheDocument();
+  });
+
+  it('sorts oldest first on demand, newest first by default', async () => {
+    const user = userEvent.setup();
+    renderAnalyze(createMemoryStorage([finishedMatch(), liveMatch()]));
+    await screen.findByText('White wins 1–0');
+
+    // Default is newest first: the live match (Feb) leads the finished (Jan).
+    const before = screen.getAllByRole('listitem');
+    expect(
+      within(before[0]).queryByText('White 2 · Black 1'),
+    ).toBeInTheDocument();
+
+    await user.selectOptions(
+      screen.getByRole('combobox', { name: /sort matches/i }),
+      'oldest',
+    );
+
+    const after = screen.getAllByRole('listitem');
+    expect(within(after[0]).queryByText('White wins 1–0')).toBeInTheDocument();
   });
 });
 
@@ -426,6 +522,19 @@ describe('post-game review', () => {
     expect(within(alternatives).getByText(/best/i)).toBeInTheDocument();
   });
 
+  it('labels the equity and loss columns of the review (ticket 42)', async () => {
+    const user = userEvent.setup();
+    renderAnalyze(createMemoryStorage([await analyzedReviewMatch()]));
+    await user.click(await screen.findByRole('button', { name: 'Open' }));
+
+    // The played checker play's alternatives carry headers over the two
+    // right-hand number columns, like the Puzzles reveal does.
+    await user.click(screen.getByRole('button', { name: /white plays 3-1/i }));
+    const alternatives = screen.getByLabelText('Engine alternatives');
+    expect(within(alternatives).getByText('Equity')).toBeInTheDocument();
+    expect(within(alternatives).getByText('Loss')).toBeInTheDocument();
+  });
+
   it('steps through the decisions with next and previous', async () => {
     const user = userEvent.setup();
     renderAnalyze(createMemoryStorage([await analyzedReviewMatch()]));
@@ -559,8 +668,9 @@ describe('.mat import and export', () => {
     renderAnalyze(createMemoryStorage([reviewMatch()]));
 
     await user.click(
-      await screen.findByRole('button', { name: 'Export .mat' }),
+      await screen.findByRole('button', { name: /more actions/i }),
     );
+    await user.click(screen.getByRole('menuitem', { name: 'Export .mat' }));
     click.mockRestore();
 
     const blob = createObjectURL.mock.calls[0][0];

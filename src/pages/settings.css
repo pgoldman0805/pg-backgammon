@@ -80,65 +80,8 @@
   flex: none;
 }
 
-/* The on/off switch: a track and thumb in the training green, with the
-   state spelled out so it never reads as ambiguous. */
-.settings-switch {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.25rem 0.7rem 0.25rem 0.3rem;
-  font: inherit;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--ink-muted);
-  background: transparent;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  cursor: pointer;
-}
-
-.settings-switch:hover {
-  border-color: var(--ink-muted);
-}
-
-.settings-switch-thumb {
-  position: relative;
-  width: 34px;
-  height: 18px;
-  border-radius: 999px;
-  background: var(--line);
-  transition: background 150ms ease;
-}
-
-.settings-switch-thumb::after {
-  content: "";
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--bg);
-  transition: transform 150ms ease;
-}
-
-.settings-switch[aria-checked="true"] {
-  border-color: var(--accent);
-  color: var(--ink);
-}
-
-.settings-switch[aria-checked="true"] .settings-switch-thumb {
-  background: var(--accent);
-}
-
-.settings-switch[aria-checked="true"] .settings-switch-thumb::after {
-  transform: translateX(16px);
-}
-
-.settings-switch-state {
-  min-width: 1.6em;
-  text-align: left;
-}
+/* The on/off switch is the shared Switch (ticket 42) — see src/ui/switch.css.
+   Settings names it from the row's label, so the control shows only On/Off. */
 
 /* Pill radio groups (theme, animation speed): the Play area's pill
    vocabulary, selection in the accent. */
@@ -183,13 +126,6 @@
   outline-offset: 2px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .settings-switch-thumb,
-  .settings-switch-thumb::after {
-    transition: none;
-  }
-}
-
 @media (max-width: 640px) {
   .setting-row {
     align-items: flex-start;
@@ -203,12 +139,8 @@
     min-width: 0;
   }
 
-  /* Phone touch sizing (ticket 24): switches and pills grow to fingertip
-     height; their look is unchanged. */
-  .settings-switch {
-    min-height: 44px;
-  }
-
+  /* Phone touch sizing (ticket 24): the shared switch handles its own 44px
+     target; the pills grow here. */
   .setting-pill {
     display: inline-flex;
     align-items: center;

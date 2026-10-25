@@ -124,6 +124,123 @@
   border-color: currentcolor;
 }
 
+/* The ledger's lead action (ticket 42): Open/Resume, filled in the accent so
+   one action clearly leads each row and the rest tuck into the ⋯ menu. */
+.history-button--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+
+.history-button--primary:hover {
+  filter: brightness(1.1);
+  border-color: var(--accent);
+}
+
+/* Ledger toolbar (ticket 42): a filter box and a sort control above the
+   history, so a growing ledger stays manageable. Quiet by default — the
+   same hairline-outline vocabulary as the row buttons. */
+.ledger-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.ledger-search {
+  flex: 1 1 18rem;
+  min-width: 0;
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.7rem;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--control-radius);
+}
+
+.ledger-search:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.ledger-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+.ledger-sort select {
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.6rem;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--control-radius);
+  cursor: pointer;
+}
+
+.ledger-sort select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.ledger-empty {
+  color: var(--ink-muted);
+  padding: 1rem 0 2rem;
+}
+
+/* Per-row overflow menu (ticket 42): the ⋯ trigger and its popover of
+   secondary actions. The popover anchors to the trigger's right edge so it
+   never pushes the row's layout around. */
+.row-menu {
+  position: relative;
+  display: inline-flex;
+}
+
+.history-button--menu {
+  padding: 0.35rem 0.6rem;
+  line-height: 1;
+  font-size: 1.1rem;
+}
+
+.row-menu-list {
+  position: absolute;
+  top: calc(100% + 0.3rem);
+  right: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  min-width: 10rem;
+  padding: 0.25rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--control-radius);
+  box-shadow: 0 6px 20px -8px rgb(0 0 0 / 35%);
+}
+
+.row-menu-item {
+  font: inherit;
+  font-size: 0.9rem;
+  text-align: left;
+  padding: 0.45rem 0.6rem;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-radius: calc(var(--control-radius) - 2px);
+  cursor: pointer;
+}
+
+.row-menu-item:hover,
+.row-menu-item:focus-visible {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  outline: none;
+}
+
 /* The backup controls' styles moved with them to src/ui/backup.css
    (ticket 20): the component now serves Analyze and Settings alike. */
 
@@ -521,6 +638,30 @@
   margin: 0;
   padding: 0;
   border-top: 1px solid var(--line);
+}
+
+/* Column headers (ticket 42): a labelling row over the alternatives grid,
+   aligned to the same tracks as the rows beneath it. Quiet, like the Puzzles
+   reveal's table head. */
+.alternative-head {
+  display: grid;
+  grid-template-columns: 1.4rem minmax(0, 1fr) 4.2rem 3.6rem;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.3rem 0.35rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.alternative-head--static {
+  grid-template-columns: minmax(0, 1fr) 4.2rem;
+}
+
+.alternative-head-equity,
+.alternative-head-loss {
+  justify-self: end;
 }
 
 .alternative-row {

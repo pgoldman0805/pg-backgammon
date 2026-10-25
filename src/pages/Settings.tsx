@@ -23,6 +23,7 @@ import { getMatchStorage, type MatchStorage } from '../storage';
 import { setTheme, type Theme, useTheme } from '../theme';
 import { BackupControls } from '../ui/BackupControls';
 import { StorageStatus } from '../ui/StorageStatus';
+import { Switch } from '../ui/Switch';
 import './settings.css';
 
 const THEMES: ReadonlyArray<{ id: Theme; label: string }> = [
@@ -92,7 +93,7 @@ function Row({
   );
 }
 
-/** An on/off setting in the Play area's switch vocabulary, named by its row. */
+/** An on/off setting using the shared switch (ticket 42), named by its row. */
 function SwitchRow({
   name,
   hint,
@@ -107,19 +108,7 @@ function SwitchRow({
   const labelId = useId();
   return (
     <Row name={name} hint={hint} labelId={labelId}>
-      <button
-        type="button"
-        role="switch"
-        aria-checked={on}
-        aria-labelledby={labelId}
-        className="settings-switch"
-        onClick={() => onChange(!on)}
-      >
-        <span className="settings-switch-thumb" aria-hidden="true" />
-        <span className="settings-switch-state" aria-hidden="true">
-          {on ? 'On' : 'Off'}
-        </span>
-      </button>
+      <Switch labelledBy={labelId} on={on} onChange={onChange} />
     </Row>
   );
 }
