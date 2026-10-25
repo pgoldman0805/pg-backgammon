@@ -5,6 +5,21 @@
    bars in the review's blunder rust, so "blunder" wears the same color in
    Analyze and Progress. */
 
+/* Desktop reclaims width for the charts (ticket 40). The two stacked
+   time-series are the page's payoff — "am I improving?" — and read far larger
+   here than at the shell's 68ch reading measure; the responsive SVGs fill
+   whatever the shell gives them. Tablet and phone keep the narrow measure
+   (reset below), so only the desktop tier changes. */
+.shell-main:has(.progress-area) {
+  max-width: 64rem;
+}
+
+@media (max-width: 860px) {
+  .shell-main:has(.progress-area) {
+    max-width: 68ch;
+  }
+}
+
 .progress-area {
   --series-rate: #0e7a4e;
   --series-blunder: #a2402c;
