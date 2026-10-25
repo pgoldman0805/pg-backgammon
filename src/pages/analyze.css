@@ -256,6 +256,29 @@
   color: var(--ink-muted);
 }
 
+/* Net luck: the dice, deliberately quieter and set apart from the PR number
+   so the two are never read as one. */
+.summary-luck {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  padding-left: 0.9rem;
+  border-left: 1px solid var(--line);
+}
+
+.summary-luck-value {
+  font-size: 1.05rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.summary-luck-unit {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  letter-spacing: 0.02em;
+}
+
 .summary-counts {
   font-size: 0.85rem;
   color: var(--ink-muted);
@@ -281,11 +304,12 @@
   color: var(--ink-muted);
   background: transparent;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 1rem;
   cursor: pointer;
   display: inline-flex;
-  align-items: baseline;
-  gap: 0.5rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
 }
 
 .game-tab[aria-pressed="true"] {
@@ -296,6 +320,12 @@
 .game-tab-rate {
   font-size: 0.78rem;
   font-variant-numeric: tabular-nums;
+}
+
+.game-tab-luck {
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-muted);
 }
 
 /* Two panes: the decision ledger and the board with its detail. */

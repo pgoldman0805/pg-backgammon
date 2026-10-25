@@ -73,8 +73,11 @@ export async function deepenDecision(
   const decisions = game.decisions.map(
     (existing, index) => replacements.get(index) ?? existing,
   );
+  // Luck grades the dice, not the decision; deepening one play never changes
+  // it, so carry the game's luck through untouched (and the match luck with
+  // it, as assembleMatchAnalysis re-sums the per-game figures).
   const games = analysis.games.map((existing, index) =>
-    index === gameIndex ? assembleGameAnalysis(decisions) : existing,
+    index === gameIndex ? assembleGameAnalysis(decisions, game.luck) : existing,
   );
   return assembleMatchAnalysis(games, (options.now ?? Date.now)());
 }

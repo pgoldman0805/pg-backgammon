@@ -18,6 +18,7 @@ const REQUIRED_TOOLTIP_TERMS: GlossaryTermId[] = [
   'emg',
   'pr',
   'error-rate',
+  'luck',
   'crawford',
   'blunder',
   'error',

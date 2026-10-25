@@ -134,6 +134,13 @@ const ENTRIES = {
     long: 'The error rate adds up all the equity you gave away and divides by the number of real decisions you faced (forced plays do not count). It is the headline quality score, shown here as PR: the smaller it is, the closer you played to the engine.',
     category: 'analysis',
   },
+  luck: {
+    term: 'Luck',
+    short:
+      'How kind the dice were — the equity your rolls handed you versus an average roll from the same spots. Positive is lucky; it is separate from PR, which grades only your decisions.',
+    long: 'For every roll, the engine compares what your best play was worth against the average over all 21 possible rolls from that position. The difference is that roll’s luck, and the game’s figure adds them up: a big plus means the dice did you favours, a minus means they did not. It is deliberately kept apart from PR so you can tell a bad-dice loss from a bad-play one.',
+    category: 'analysis',
+  },
   error: {
     term: 'Error',
     short:

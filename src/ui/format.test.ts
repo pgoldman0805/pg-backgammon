@@ -1,4 +1,4 @@
-import { formatBytes, prText, skillBand } from './format';
+import { formatBytes, luckText, prText, skillBand } from './format';
 
 describe('prText', () => {
   it('scales the EMG error rate to XG-style PR (×500), lower is better', () => {
@@ -23,6 +23,22 @@ describe('skillBand', () => {
     expect(skillBand(0.016)).toBe('Advanced'); // PR 8, not Expert
     expect(skillBand(0.026)).toBe('Intermediate'); // PR 13, not Advanced
     expect(skillBand(0.04)).toBe('Beginner'); // PR 20, not Intermediate
+  });
+});
+
+describe('luckText', () => {
+  it('shows net luck signed to two decimals, lucky is positive', () => {
+    expect(luckText(0.42)).toBe('+0.42');
+    expect(luckText(1.5)).toBe('+1.50');
+  });
+
+  it('uses a real minus sign for unlucky figures', () => {
+    expect(luckText(-1.1)).toBe('−1.10');
+  });
+
+  it('shows a neutral zero with no sign', () => {
+    expect(luckText(0)).toBe('0.00');
+    expect(luckText(0.004)).toBe('0.00');
   });
 });
 

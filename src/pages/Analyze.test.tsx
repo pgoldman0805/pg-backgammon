@@ -28,7 +28,7 @@ import {
 } from '../storage';
 import { scriptedDice } from '../test/dice';
 import { cubeGameMatch, recordOf } from '../test/match';
-import { skillBand } from '../ui/format';
+import { luckText, skillBand } from '../ui/format';
 import { GLOSSARY } from '../ui/glossary';
 import { Analyze } from './Analyze';
 
@@ -376,6 +376,30 @@ describe('post-game review', () => {
       within(matchSummary).getAllByText(skillBand(analysis.white.errorRate))
         .length,
     ).toBeGreaterThan(0);
+  });
+
+  it('shows a per-side luck figure, labelled and kept apart from PR', async () => {
+    const user = userEvent.setup();
+    const stored = await analyzedReviewMatch();
+    renderAnalyze(createMemoryStorage([stored]));
+    await user.click(await screen.findByRole('button', { name: 'Open' }));
+
+    const analysis = stored.analysis;
+    if (!isMatchAnalysis(analysis) || !analysis.luck) {
+      throw new Error('fixture must carry luck');
+    }
+    const summary = await screen.findByLabelText('Match error rates');
+
+    const whiteLuck = within(summary).getByLabelText('White net luck');
+    expect(whiteLuck).toHaveTextContent(luckText(analysis.luck.white));
+    expect(within(summary).getByLabelText('Black net luck')).toHaveTextContent(
+      luckText(analysis.luck.black),
+    );
+    // The dice figure is defined with a tooltip and never conflated with PR.
+    expect(
+      within(summary).getByRole('button', { name: 'Luck' }),
+    ).toHaveAccessibleDescription(GLOSSARY.luck.short);
+    expect(whiteLuck).not.toHaveTextContent('PR');
   });
 
   it('opens a decision on the board with the engine alternatives', async () => {

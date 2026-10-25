@@ -59,6 +59,23 @@ describe('deepenDecision', () => {
     expect(deepened.games[0].decisions[takeIndex].plies).toBe(3);
   });
 
+  it('preserves the game and match luck (deepening grades skill, not dice)', async () => {
+    const record = recordOf(cubeGame());
+    const engine = createFakeEngine();
+    const base = await analyzeMatch(record, { engine, now: () => 1 });
+    const target = base.games[0].decisions.findIndex((d) => d.kind === 'play');
+
+    const deepened = await deepenDecision(record, base, {
+      gameIndex: 0,
+      decisionIndex: target,
+      engine,
+      now: () => 2,
+    });
+
+    expect(deepened.games[0].luck).toEqual(base.games[0].luck);
+    expect(deepened.luck).toEqual(base.luck);
+  });
+
   it('is idempotent for an already-deepened decision', async () => {
     const record = recordOf(cubeGame());
     const engine = createFakeEngine();

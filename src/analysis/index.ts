@@ -41,6 +41,7 @@ export {
   isMatchAnalysis,
   type MatchAnalysis,
   type PlayAlternative,
+  type PlayerLuck,
   type PlayerSummary,
 } from './types';
 export { useAutoAnalysis } from './useAutoAnalysis';
