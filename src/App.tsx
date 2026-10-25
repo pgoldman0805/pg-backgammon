@@ -13,6 +13,7 @@ import { Puzzles } from './pages/Puzzles';
 import { Settings } from './pages/Settings';
 import { useBlunderMining } from './puzzles';
 import { useTheme } from './theme';
+import { SaveFailureBanner } from './ui/SaveFailureBanner';
 
 /** Play, with the match id Analyze's "Resume" put into the route state. */
 function PlayRoute() {
@@ -159,6 +160,7 @@ function App() {
         Skip to content
       </a>
       <ShellHeader />
+      <SaveFailureBanner />
       <main className="shell-main" id="content">
         <Routes>
           <Route path="/" element={<PlayRoute />} />

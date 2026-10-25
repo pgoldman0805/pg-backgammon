@@ -68,6 +68,15 @@ describe('the Settings room', () => {
     expect(screen.getByLabelText(/import backup/i)).toBeInTheDocument();
   });
 
+  it('shows the durable-storage row in the Data section', async () => {
+    renderSettings();
+
+    // jsdom has no StorageManager, so the row degrades to "Unavailable" —
+    // it still appears, rather than silently reassuring the player.
+    expect(await screen.findByText('Durable storage')).toBeInTheDocument();
+    expect(screen.getByText('Unavailable')).toBeInTheDocument();
+  });
+
   it('persists the Play switches under the keys Play reads', async () => {
     const user = userEvent.setup();
     renderSettings();

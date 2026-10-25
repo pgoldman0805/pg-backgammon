@@ -1,0 +1,88 @@
+/* The storage status row (ticket 26): a quiet status block in the Settings
+   Data section, in the shell's paper/ink/green language. The one colour note
+   is semantic — the durability badge is green when on, rust when off, muted
+   when the browser can't say — matching the app's gold-good / rust-cost
+   vocabulary. */
+
+.storage-status {
+  padding: 0.9rem 0 1.1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.storage-status-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.storage-status-name {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.storage-badge {
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--ink-muted);
+}
+
+.storage-badge--persisted {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.storage-badge--not-persisted {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 45%, var(--line));
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+}
+
+.storage-status-hint {
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+  max-width: 52ch;
+  margin-top: 0.3rem;
+}
+
+.storage-usage {
+  margin-top: 0.9rem;
+}
+
+.storage-usage-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.875rem;
+}
+
+.storage-usage-label {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.storage-usage-figure {
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.storage-meter {
+  margin-top: 0.4rem;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.storage-meter-fill {
+  display: block;
+  height: 100%;
+  min-width: 2px;
+  border-radius: inherit;
+  background: var(--accent);
+}

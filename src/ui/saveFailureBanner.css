@@ -1,0 +1,65 @@
+/* The save-failure banner (ticket 26): a non-blocking strip under the header,
+   carried in the app's rust note — the one colour reserved for cost and risk —
+   so it reads as a genuine warning without the alarm of a modal. It spans the
+   content width and pushes nothing around; the player can keep going. */
+
+.save-failure-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  flex-wrap: wrap;
+  padding: 0.75rem calc(1.5rem + var(--safe-right)) 0.75rem
+    calc(1.5rem + var(--safe-left));
+  background: color-mix(in srgb, var(--danger) 12%, var(--bg));
+  border-bottom: 1px solid color-mix(in srgb, var(--danger) 45%, var(--line));
+  color: var(--ink);
+}
+
+.save-failure-copy {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.save-failure-lead {
+  font-weight: 650;
+  color: var(--danger);
+}
+
+.save-failure-detail {
+  color: var(--ink-muted);
+}
+
+.save-failure-note {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--ink-muted);
+}
+
+.save-failure-export {
+  flex: none;
+  padding: 0.4rem 1rem;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--bg);
+  background: var(--danger);
+  border: 1px solid var(--danger);
+  border-radius: var(--control-radius);
+  cursor: pointer;
+}
+
+.save-failure-export:hover {
+  background: color-mix(in srgb, var(--danger) 85%, black);
+}
+
+@media (max-width: 640px) {
+  .save-failure-banner {
+    padding: 0.75rem calc(1rem + var(--safe-right)) 0.75rem
+      calc(1rem + var(--safe-left));
+  }
+
+  .save-failure-export {
+    min-height: 44px;
+  }
+}
