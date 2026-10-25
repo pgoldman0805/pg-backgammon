@@ -22,7 +22,7 @@ import {
   type Player,
 } from '../rules';
 import { costCubeResponse, costDoubleDecision, cubeEquities } from './cube';
-import { ALL_ROLLS, OPENING_ROLLS, rollLuck } from './luck';
+import { rollLuck } from './luck';
 import {
   ANALYSIS_FORMAT,
   type AnalyzedCube,
@@ -228,14 +228,12 @@ async function analyzeMoments(
       const play = await analyzePlayMoment(moment, engine);
       decisions.push(play);
       // The realized term is the best-play equity the review already found
-      // (alternatives[0] is the top-ranked play); the baseline costs the
-      // remaining rolls. The opening roll is drawn from non-doubles only.
+      // (alternatives[0] is the top-ranked play); the pre-roll expectation is
+      // one position evaluation.
       luck[moment.player] += await rollLuck(
         engine,
         { board: moment.board, onRoll: moment.player, match: moment.context },
-        moment.roll,
         play.alternatives[0].equity,
-        moment.playIndex === 0 ? OPENING_ROLLS : ALL_ROLLS,
       );
     } else {
       decisions.push(...(await analyzeCubeMoment(moment, engine)));
