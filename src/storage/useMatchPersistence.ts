@@ -7,6 +7,7 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { reconcileLiveMatchMirror } from './liveMatch';
 import {
   createMatchPersister,
   type MatchPersister,
@@ -54,8 +55,12 @@ export function useMatchPersistence(
 
   useEffect(() => {
     let cancelled = false;
-    storage
-      .list()
+    // Fold any hide-time mirror back into storage first: a move made inside
+    // the save debounce before an unprompted reload lives only in the
+    // localStorage mirror until now (ticket 47). Then list, so the recovered
+    // match is offered for resume.
+    reconcileLiveMatchMirror(storage)
+      .then(() => storage.list())
       .then((rows) => {
         if (!cancelled) {
           setResumable(

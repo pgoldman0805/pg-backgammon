@@ -38,14 +38,21 @@ function mulberry32(seed: number): () => number {
 
 const RESIGN_KINDS: readonly GameEndKind[] = ['single', 'gammon', 'backgammon'];
 
-/** Play a whole seeded match to match-over through the rules engine. */
-export function generateFinishedMatch(seed: number): MatchState {
+/**
+ * Play a whole seeded match to match-over through the rules engine. The match
+ * length defaults to a seeded 1-3; pass `length` to force a specific target
+ * (e.g. a longer match for round-trip coverage of lengths > 3).
+ */
+export function generateFinishedMatch(
+  seed: number,
+  length?: number,
+): MatchState {
   const rand = mulberry32(seed);
   const dice: DiceSource = {
     rollDie: () => (Math.floor(rand() * 6) + 1) as Die,
   };
-  const length = 1 + Math.floor(rand() * 3);
-  let match = startMatch(length, dice);
+  const matchLength = length ?? 1 + Math.floor(rand() * 3);
+  let match = startMatch(matchLength, dice);
   let safety = 0;
   while (match.phase !== 'match-over') {
     if (++safety > 20000) {

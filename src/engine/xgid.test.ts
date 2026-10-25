@@ -203,6 +203,7 @@ describe('decodeXgid', () => {
     ['-b----E-C---eE---c-e----B-:0:0:1:71:0:0:0:7:10', 'bad die'],
     ['-b----E-C---eE---c-e----B-:0:0:1:31:7:0:0:7:10', 'score at length'],
     ['-b----E-C---eE---c-e----B-:0:3:1:31:0:0:0:7:10', 'bad cube owner'],
+    ['-b----E-C---eE---c-e----B-:0:0:1:00:0:0:0:99:10', 'match length over 25'],
   ])('rejects %s (%s) with a clear message', (text) => {
     expect(() => decodeXgid(text)).toThrowError(/not a valid XGID/i);
   });

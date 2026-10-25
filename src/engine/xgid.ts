@@ -234,6 +234,12 @@ export function decodeXgid(text: string): DecodedXgid {
   if (matchLength < 0) {
     throw invalid('the match length cannot be negative');
   }
+  // Bound the match length like the .mat importer: 0 is a money session,
+  // real matches play to at most 25 points. An unbounded value here would
+  // flow into match context and the MET lookups unchecked.
+  if (matchLength > 25) {
+    throw invalid(`matches play to at most 25 points, got ${matchLength}`);
+  }
   if (
     matchLength > 0 &&
     (scoreWhite >= matchLength || scoreBlack >= matchLength)
