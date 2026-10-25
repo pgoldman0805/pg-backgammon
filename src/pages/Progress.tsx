@@ -21,7 +21,7 @@ import {
   type MatchStorage,
   type StoredMatch,
 } from '../storage';
-import { rateText } from '../ui/format';
+import { errorRatePr, prText, skillBand } from '../ui/format';
 import './progress.css';
 
 const DIFFICULTY_LABEL: Record<string, string> = DIFFICULTY_LABELS;
@@ -243,7 +243,7 @@ function Tooltip({
       <p className="tooltip-value">
         {lead === 'rate' ? (
           <>
-            <strong>{rateText(point.errorRate)}</strong> error rate
+            <strong>{prText(point.errorRate)}</strong> PR
           </>
         ) : (
           <>
@@ -254,8 +254,8 @@ function Tooltip({
       </p>
       <p className="tooltip-detail">
         {lead === 'rate'
-          ? `${count(point.blunders, 'blunder')} · ${point.decisions} decisions`
-          : `error rate ${rateText(point.errorRate)} · ${point.decisions} decisions`}
+          ? `${skillBand(point.errorRate)} · ${count(point.blunders, 'blunder')} · ${point.decisions} decisions`
+          : `PR ${prText(point.errorRate)} · ${point.decisions} decisions`}
       </p>
       {point.gamesExcluded > 0 && (
         <p className="tooltip-note">{exclusionText(point)}</p>
@@ -328,7 +328,7 @@ function RateChart({ points }: { points: readonly ProgressPoint[] }) {
     setPinned((current) => (current?.index === state.index ? null : state));
   const height = 240;
   const layout = layoutFor(height, points.length);
-  const values = points.map((point) => point.errorRate * 1000);
+  const values = points.map((point) => errorRatePr(point.errorRate));
   const ticks = ticksFor(Math.max(...values), false);
   const max = ticks[ticks.length - 1];
   const y = (value: number) =>
@@ -344,9 +344,10 @@ function RateChart({ points }: { points: readonly ProgressPoint[] }) {
   return (
     <figure className="progress-chart">
       <figcaption>
-        <h2>Error rate per match</h2>
+        <h2>PR per match</h2>
         <p className="chart-subtitle">
-          Equity lost per unforced decision, in thousandths — lower is better.
+          Performance rating — equity lost per unforced decision, on the scale
+          serious players use. Lower is better.
         </p>
       </figcaption>
       <div className="chart-plot">
@@ -393,7 +394,7 @@ function RateChart({ points }: { points: readonly ProgressPoint[] }) {
               y={lastY < layout.plotTop + 20 ? lastY + 20 : lastY - 11}
               textAnchor="middle"
             >
-              {rateText(points[last].errorRate)}
+              {prText(points[last].errorRate)}
             </text>
           </g>
         </svg>
@@ -405,7 +406,7 @@ function RateChart({ points }: { points: readonly ProgressPoint[] }) {
           onPin={pin}
           label={(point, i) =>
             `Match ${i + 1} of ${points.length}, ${dateText(point.when)}, ` +
-            `${matchLabel(point)}: error rate ${rateText(point.errorRate)} over ` +
+            `${matchLabel(point)}: PR ${prText(point.errorRate)} over ` +
             `${point.decisions} decisions, ${count(point.blunders, 'blunder')}` +
             (point.gamesExcluded > 0 ? `. ${exclusionText(point)}.` : '.')
           }
@@ -510,22 +511,25 @@ function StatStrip({ data }: { data: ProgressData }) {
       </div>
       <div className="stat">
         <span className="stat-label">
-          Error rate, last {totals.recentCount}{' '}
+          PR, last {totals.recentCount}{' '}
           {totals.recentCount === 1 ? 'match' : 'matches'}
         </span>
         <span className="stat-value">
           {totals.recentErrorRate === null
             ? '–'
-            : rateText(totals.recentErrorRate)}
+            : prText(totals.recentErrorRate)}
         </span>
+        {totals.recentErrorRate !== null && (
+          <span className="stat-band">{skillBand(totals.recentErrorRate)}</span>
+        )}
       </div>
       <div className="stat">
         <span className="stat-label">Blunders in all</span>
         <span className="stat-value">{totals.blunders}</span>
       </div>
       <p className="stat-hint">
-        Error rate is equity lost per unforced decision, in thousandths — lower
-        is better.
+        PR (performance rating) is equity lost per unforced decision, on the
+        scale serious players use — lower is better.
       </p>
     </section>
   );
@@ -540,7 +544,7 @@ function NumbersTable({ points }: { points: readonly ProgressPoint[] }) {
           <tr>
             <th scope="col">Match</th>
             <th scope="col">Finished</th>
-            <th scope="col">Error rate</th>
+            <th scope="col">PR</th>
             <th scope="col">Blunders</th>
             <th scope="col">Decisions</th>
             <th scope="col">Games counted</th>
@@ -551,7 +555,7 @@ function NumbersTable({ points }: { points: readonly ProgressPoint[] }) {
             <tr key={point.matchId}>
               <th scope="row">{matchLabel(point)}</th>
               <td>{dateText(point.when)}</td>
-              <td>{rateText(point.errorRate)}</td>
+              <td>{prText(point.errorRate)}</td>
               <td>{point.blunders}</td>
               <td>{point.decisions}</td>
               <td>
@@ -620,10 +624,10 @@ export function Progress({ storage: injectedStorage }: ProgressProps = {}) {
             </p>
           )}
           <p>
-            Finish a match against the computer and its analysis lands here —
-            error rate over time, blunder counts, and how both are trending.
-            Tutor-assisted games are excluded, so leave Tutor mode off when you
-            want a match to move these charts.
+            Finish a match against the computer and its analysis lands here — PR
+            over time, blunder counts, and how both are trending. Tutor-assisted
+            games are excluded, so leave Tutor mode off when you want a match to
+            move these charts.
           </p>
           <Link className="progress-empty-link" to="/">
             Start a match

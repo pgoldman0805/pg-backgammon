@@ -613,7 +613,7 @@ test('visual audit: every area, both themes, desktop through phone', async ({
 
   // --- Progress: charts over the seeded history ---------------------------
   await page.getByRole('link', { name: 'Progress' }).click();
-  await expect(page.getByText('Error rate per match')).toBeVisible();
+  await expect(page.getByText('PR per match')).toBeVisible();
   await shoot(page, 'progress');
 
   // One extra: a pinned tooltip, desktop light only.

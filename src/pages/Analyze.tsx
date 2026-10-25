@@ -52,7 +52,13 @@ import {
   type StoredMatch,
 } from '../storage';
 import { BackupControls } from '../ui/BackupControls';
-import { lossText, playerName, rateText, signedEquityText } from '../ui/format';
+import {
+  lossText,
+  playerName,
+  prText,
+  signedEquityText,
+  skillBand,
+} from '../ui/format';
 import { GlossaryTerm } from '../ui/GlossaryTerm';
 import '../play/board.css';
 import './analyze.css';
@@ -605,7 +611,13 @@ function Review({
               role="group"
               aria-label={`${playerName(player)} error rate`}
             >
-              {rateText(analysis[player].errorRate)}
+              {prText(analysis[player].errorRate)}
+            </span>
+            <span className="summary-unit" aria-hidden="true">
+              PR
+            </span>
+            <span className="summary-band">
+              {skillBand(analysis[player].errorRate)}
             </span>
             <span className="summary-counts">
               <Counts summary={analysis[player]} />
@@ -613,9 +625,9 @@ function Review({
           </div>
         ))}
         <p className="summary-hint">
-          <GlossaryTerm id="error-rate">Error rate</GlossaryTerm>:{' '}
+          <GlossaryTerm id="pr">PR</GlossaryTerm>:{' '}
           <GlossaryTerm id="equity">equity</GlossaryTerm> lost per unforced
-          decision, in thousandths — lower is better.
+          decision, on the scale serious players use — lower is better.
         </p>
       </section>
 
@@ -641,8 +653,8 @@ function Review({
               >
                 Game {index + 1}
                 <span className="game-tab-rate">
-                  {rateText(game.white.errorRate)} ·{' '}
-                  {rateText(game.black.errorRate)}
+                  {prText(game.white.errorRate)} ·{' '}
+                  {prText(game.black.errorRate)}
                 </span>
               </button>
             );

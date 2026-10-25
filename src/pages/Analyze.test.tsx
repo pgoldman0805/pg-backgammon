@@ -28,6 +28,7 @@ import {
 } from '../storage';
 import { scriptedDice } from '../test/dice';
 import { cubeGameMatch, recordOf } from '../test/match';
+import { skillBand } from '../ui/format';
 import { GLOSSARY } from '../ui/glossary';
 import { Analyze } from './Analyze';
 
@@ -357,17 +358,24 @@ describe('post-game review', () => {
       screen.getByRole('button', { name: /doubles to 2/i }),
     ).toHaveTextContent(/blunder/i);
 
-    // Per-player error rates, in thousandths, straight from the analysis.
+    // Per-player quality as XG-style PR (×500), straight from the analysis,
+    // with its skill band alongside and the unit labelled PR.
     const analysis = stored.analysis;
     if (!isMatchAnalysis(analysis)) {
       throw new Error('fixture must carry an analysis');
     }
     expect(screen.getByLabelText('White error rate')).toHaveTextContent(
-      (analysis.white.errorRate * 1000).toFixed(1),
+      (analysis.white.errorRate * 500).toFixed(1),
     );
     expect(screen.getByLabelText('Black error rate')).toHaveTextContent(
-      (analysis.black.errorRate * 1000).toFixed(1),
+      (analysis.black.errorRate * 500).toFixed(1),
     );
+    const matchSummary = screen.getByLabelText('Match error rates');
+    expect(within(matchSummary).getAllByText('PR').length).toBeGreaterThan(0);
+    expect(
+      within(matchSummary).getAllByText(skillBand(analysis.white.errorRate))
+        .length,
+    ).toBeGreaterThan(0);
   });
 
   it('opens a decision on the board with the engine alternatives', async () => {
@@ -417,8 +425,8 @@ describe('post-game review', () => {
 
     const summary = await screen.findByLabelText('Match error rates');
     expect(
-      within(summary).getByRole('button', { name: 'Error rate' }),
-    ).toHaveAccessibleDescription(GLOSSARY['error-rate'].short);
+      within(summary).getByRole('button', { name: 'PR' }),
+    ).toHaveAccessibleDescription(GLOSSARY.pr.short);
     expect(
       within(summary).getByRole('button', { name: 'equity' }),
     ).toHaveAccessibleDescription(GLOSSARY.equity.short);

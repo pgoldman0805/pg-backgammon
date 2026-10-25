@@ -19,11 +19,11 @@ function renderProgress(storage: MatchStorage) {
 }
 
 /** One clean match and one partially tutor-assisted match, plus noise rows
- * that must not contribute. Hand-computed expectations:
- * - clean:   20 decisions, 0.200 lost, 2 blunders → rate 10.0 (Jan 2026)
+ * that must not contribute. Hand-computed expectations (PR = EMG × 500):
+ * - clean:   20 decisions, 0.200 lost, 2 blunders → PR 5.0 (Jan 2026)
  * - partial: 25 counted decisions (the tutor game's 10 skipped), 0.300
- *            lost, 2 blunders, 2 of 3 games counted → rate 12.0 (Feb 2026)
- * - totals:  2 matches, 4 blunders, recent average (10.0 + 12.0) / 2 = 11.0
+ *            lost, 2 blunders, 2 of 3 games counted → PR 6.0 (Feb 2026)
+ * - totals:  2 matches, 4 blunders, recent average (5.0 + 6.0) / 2 = 5.5
  */
 function seededStorage(): MatchStorage {
   return createMemoryStorage([
@@ -67,7 +67,7 @@ describe('the progress view', () => {
       name: 'Progress summary',
     });
     expect(stats).toHaveTextContent('Matches analyzed2');
-    expect(stats).toHaveTextContent('Error rate, last 2 matches11.0');
+    expect(stats).toHaveTextContent('PR, last 2 matches5.5');
     expect(stats).toHaveTextContent('Blunders in all4');
   });
 
@@ -76,12 +76,12 @@ describe('the progress view', () => {
 
     expect(
       await screen.findByRole('button', {
-        name: /match 1 of 2.*error rate 10\.0 over 20 decisions, 2 blunders/i,
+        name: /match 1 of 2.*PR 5\.0 over 20 decisions, 2 blunders/i,
       }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole('button', {
-        name: /match 2 of 2.*error rate 12\.0 over 25 decisions, 2 blunders. 1 of 3 games was tutor-assisted and excluded/i,
+        name: /match 2 of 2.*PR 6\.0 over 25 decisions, 2 blunders. 1 of 3 games was tutor-assisted and excluded/i,
       }),
     ).toBeInTheDocument();
     // The blunder chart carries its own pair of points.
@@ -116,30 +116,30 @@ describe('the progress view', () => {
     renderProgress(seededStorage());
 
     const point = await screen.findByRole('button', {
-      name: /match 2 of 2.*error rate 12\.0/i,
+      name: /match 2 of 2.*PR 6\.0/i,
     });
     fireEvent.focus(point);
 
-    expect(screen.getByText('12.0', { selector: 'strong' })).toBeVisible();
+    expect(screen.getByText('6.0', { selector: 'strong' })).toBeVisible();
     expect(
       screen.getByText(/1 of 3 games was tutor-assisted and excluded/i),
     ).toBeInTheDocument();
 
     fireEvent.blur(point);
-    expect(screen.queryByText('12.0', { selector: 'strong' })).toBeNull();
+    expect(screen.queryByText('6.0', { selector: 'strong' })).toBeNull();
   });
 
   it('pins the readout on click and unpins on a second click', async () => {
     renderProgress(seededStorage());
 
     const point = await screen.findByRole('button', {
-      name: /match 2 of 2.*error rate 12\.0/i,
+      name: /match 2 of 2.*PR 6\.0/i,
     });
     fireEvent.click(point);
-    expect(screen.getByText('12.0', { selector: 'strong' })).toBeVisible();
+    expect(screen.getByText('6.0', { selector: 'strong' })).toBeVisible();
 
     fireEvent.click(point);
-    expect(screen.queryByText('12.0', { selector: 'strong' })).toBeNull();
+    expect(screen.queryByText('6.0', { selector: 'strong' })).toBeNull();
   });
 
   it('offers every plotted number in a table view', async () => {
@@ -152,7 +152,7 @@ describe('the progress view', () => {
     expect(table).toBeInTheDocument();
     expect(partialRow).toBeDefined();
     expect(partialRow).toHaveTextContent('7-point vs Expert');
-    expect(partialRow).toHaveTextContent('12.0');
+    expect(partialRow).toHaveTextContent('6.0');
     expect(partialRow).toHaveTextContent('25');
   });
 });

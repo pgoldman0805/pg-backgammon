@@ -1,4 +1,30 @@
-import { formatBytes } from './format';
+import { formatBytes, prText, skillBand } from './format';
+
+describe('prText', () => {
+  it('scales the EMG error rate to XG-style PR (×500), lower is better', () => {
+    // 0.01 equity lost per decision is a PR of 5.0, half the old mEMG 10.0.
+    expect(prText(0.01)).toBe('5.0');
+    expect(prText(0.03)).toBe('15.0');
+    expect(prText(0)).toBe('0.0');
+  });
+});
+
+describe('skillBand', () => {
+  it('names the familiar band a PR falls in, lower is better', () => {
+    expect(skillBand(0.008)).toBe('World-class'); // PR 4
+    expect(skillBand(0.014)).toBe('Expert'); // PR 7
+    expect(skillBand(0.02)).toBe('Advanced'); // PR 10
+    expect(skillBand(0.03)).toBe('Intermediate'); // PR 15
+    expect(skillBand(0.05)).toBe('Beginner'); // PR 25
+  });
+
+  it('puts each band boundary on the lower (better) side', () => {
+    expect(skillBand(0.01)).toBe('Expert'); // PR 5, not World-class
+    expect(skillBand(0.016)).toBe('Advanced'); // PR 8, not Expert
+    expect(skillBand(0.026)).toBe('Intermediate'); // PR 13, not Advanced
+    expect(skillBand(0.04)).toBe('Beginner'); // PR 20, not Intermediate
+  });
+});
 
 describe('formatBytes', () => {
   it('shows plain bytes below a kilobyte', () => {
