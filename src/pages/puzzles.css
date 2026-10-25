@@ -125,6 +125,22 @@
   padding-bottom: 1.5rem;
 }
 
+/* The browse view reclaims desktop width (ticket 40): the theme and blunder
+   ledgers already declare a 54rem measure, but the shell's 68ch reading
+   column clipped them to ~500px. Widening the shell lets the theme list and
+   the generate strip finally reach that intended measure. This governs only
+   the browse view (no .puzzle-drill); tablet and phone keep the narrow
+   measure (reset below), so only the desktop tier changes. */
+.shell-main:has(.puzzles-area):not(:has(.puzzle-drill)) {
+  max-width: 58rem;
+}
+
+@media (max-width: 860px) {
+  .shell-main:has(.puzzles-area):not(:has(.puzzle-drill)) {
+    max-width: 68ch;
+  }
+}
+
 .puzzle-layout {
   display: flex;
   align-items: flex-start;
