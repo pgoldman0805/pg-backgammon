@@ -21,6 +21,13 @@ import {
   type Play,
   type Player,
 } from '../rules';
+import {
+  type DecisionToken,
+  matchForToken,
+  resolvePacing,
+  sameToken,
+  tokenFor,
+} from './controllerCore';
 import { forcedPlay, isDance } from './selectors';
 import type { PlayStore } from './store';
 
@@ -52,9 +59,6 @@ export interface EngineOpponent {
   dispose(): void;
 }
 
-const defaultPace = (ms: number) =>
-  new Promise<void>((resolve) => setTimeout(resolve, ms));
-
 /** The match context the engine needs for match-aware evaluation. */
 export function matchContext(match: MatchState): MatchContext {
   return {
@@ -84,41 +88,11 @@ const KIND_POINTS: Record<GameEndKind, number> = {
   backgammon: 3,
 };
 
-/**
- * One decision moment, identified by object identity of the plays record (a
- * new array every commit, a new game every match/game start) plus the phase
- * and the count of recorded decisions. Stale engine answers never land.
- */
-interface DecisionToken {
-  readonly phase: MatchState['phase'];
-  readonly plays: MatchState['game']['record']['plays'];
-  readonly decisions: number;
-}
-
-function tokenFor(match: MatchState): DecisionToken {
-  return {
-    phase: match.phase,
-    plays: match.game.record.plays,
-    decisions: match.decisions.length,
-  };
-}
-
-function sameToken(a: DecisionToken | null, b: DecisionToken | null): boolean {
-  return (
-    a !== null &&
-    b !== null &&
-    a.phase === b.phase &&
-    a.plays === b.plays &&
-    a.decisions === b.decisions
-  );
-}
-
 export function createEngineOpponent(
   options: EngineOpponentOptions,
 ): EngineOpponent {
   const { store, engine, player, difficulty } = options;
-  const stepMs = options.stepMs ?? 450;
-  const pace = options.pace ?? defaultPace;
+  const { stepMs, pace } = resolvePacing(options);
 
   let state: EngineOpponentState = { thinking: false, error: null };
   const listeners = new Set<() => void>();
@@ -141,11 +115,7 @@ export function createEngineOpponent(
 
   /** The current match if the captured decision moment is still live. */
   function liveMatch(token: DecisionToken): MatchState | null {
-    if (disposed) {
-      return null;
-    }
-    const match = store.getState().match;
-    return match && sameToken(tokenFor(match), token) ? match : null;
+    return disposed ? null : matchForToken(store, token);
   }
 
   async function think<T>(work: Promise<T>): Promise<T> {

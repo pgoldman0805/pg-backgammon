@@ -16,6 +16,15 @@
 
 import type { Engine } from '../engine/types';
 import { isRace, type MatchState, type Player } from '../rules';
+import {
+  type DecisionToken,
+  gameLive,
+  isTakeback,
+  matchForToken,
+  resolvePacing,
+  sameToken,
+  tokenFor,
+} from './controllerCore';
 import { matchContext } from './opponent';
 import { forcedPlay } from './selectors';
 import type { PlayStore } from './store';
@@ -47,49 +56,11 @@ export interface RaceAutopilot {
   dispose(): void;
 }
 
-/**
- * One decision moment, identified by object identity of the plays record (a
- * new array every commit, takeback and game) plus the phase and the count of
- * recorded decisions — the same notion the engine opponent uses, so the
- * controller acts at most once per moment.
- */
-interface DecisionToken {
-  readonly phase: MatchState['phase'];
-  readonly plays: MatchState['game']['record']['plays'];
-  readonly decisions: number;
-}
-
-function tokenFor(match: MatchState): DecisionToken {
-  return {
-    phase: match.phase,
-    plays: match.game.record.plays,
-    decisions: match.decisions.length,
-  };
-}
-
-function sameToken(a: DecisionToken | null, b: DecisionToken | null): boolean {
-  return (
-    a !== null &&
-    b !== null &&
-    a.phase === b.phase &&
-    a.plays === b.plays &&
-    a.decisions === b.decisions
-  );
-}
-
-function gameLive(match: MatchState): boolean {
-  return match.phase !== 'game-over' && match.phase !== 'match-over';
-}
-
-const defaultPace = (ms: number) =>
-  new Promise<void>((resolve) => setTimeout(resolve, ms));
-
 export function createRaceAutopilot(
   options: RaceAutopilotOptions,
 ): RaceAutopilot {
   const { store, engine, player } = options;
-  const stepMs = options.stepMs ?? 450;
-  const pace = options.pace ?? defaultPace;
+  const { stepMs, pace } = resolvePacing(options);
 
   let active = false;
   let disposed = false;
@@ -115,11 +86,7 @@ export function createRaceAutopilot(
    * abandoned turn never advances another step.
    */
   function liveMatch(token: DecisionToken): MatchState | null {
-    if (disposed || !active) {
-      return null;
-    }
-    const match = store.getState().match;
-    return match && sameToken(tokenFor(match), token) ? match : null;
+    return disposed || !active ? null : matchForToken(store, token);
   }
 
   /**
@@ -239,12 +206,7 @@ export function createRaceAutopilot(
     }
     // A takeback shortened the same game's record: the user wants the wheel
     // back, so the restored turn is theirs.
-    if (
-      match &&
-      prev &&
-      match.game.record.initialBoard === prev.game.record.initialBoard &&
-      match.game.record.plays.length < prev.game.record.plays.length
-    ) {
+    if (isTakeback(prev, match)) {
       setActive(false);
       return;
     }

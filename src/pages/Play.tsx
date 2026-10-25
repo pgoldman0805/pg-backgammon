@@ -7,13 +7,7 @@ import {
 } from 'react';
 import { Link } from 'react-router-dom';
 import { useAutoAnalysis } from '../analysis';
-import {
-  DIFFICULTY_LABELS,
-  type Difficulty,
-  type Engine,
-  type EngineStatus,
-} from '../engine';
-import { CopyXgidButton, encodeXgid } from '../formats';
+import type { Difficulty, Engine } from '../engine';
 import { stepMsFor, useAnimationSpeed } from '../play/animation';
 import { createAutoplay } from '../play/autoplay';
 import { Board } from '../play/Board';
@@ -28,127 +22,60 @@ import { canCommit, canUndo, forcedPlay, isDance } from '../play/selectors';
 import {
   AUTO_FORCED_PLAYS_KEY,
   AUTO_ROLL_RACES_KEY,
-  getStoredDifficulty,
-  getStoredLength,
   getStoredSwitch,
-  hasPlayedBefore,
-  NOVICE_SETUP,
-  RETURNING_FALLBACK,
   rememberMatchStarted,
   rememberSetupChoice,
   tutorModeDefault,
 } from '../play/settings';
 import { createPlayStore, type PlayStore } from '../play/store';
-import {
-  createTutor,
-  type Tutor,
-  type TutorFeedback,
-  type TutorState,
-} from '../play/tutor';
+import { createTutor, type Tutor, type TutorState } from '../play/tutor';
 import {
   canDouble,
   canTakeback,
   type GameEndKind,
   initialBoard,
   isRace,
-  type MatchGameResult,
   type MatchState,
   opponent,
   type Player,
   type Point,
-  pipCount,
 } from '../rules';
 import {
   getMatchStorage,
-  type MatchConfig,
   type MatchStorage,
   type StoredMatch,
   useMatchPersistence,
 } from '../storage';
-import { playerName, signedEquityText } from '../ui/format';
-import { GlossaryTerm } from '../ui/GlossaryTerm';
-import { Switch } from '../ui/Switch';
+import { playerName } from '../ui/format';
+import { PlayDialog } from './play/PlayDialog';
+import { PlayHud } from './play/PlayHud';
+import {
+  DifficultyPicker,
+  EngineNote,
+  GameTypePicker,
+  LengthPicker,
+  MONEY_HINT,
+  SettingSwitch,
+  TUTOR_HINT,
+} from './play/PlaySetup';
+import {
+  currentXgid,
+  type GameType,
+  gameEndText,
+  IDLE_OPPONENT,
+  initialSetup,
+  KIND_POINTS,
+  KIND_TEXT,
+  type PlayMode,
+  type PlaySetup,
+  points,
+  RESIGN_LABEL,
+  setupFromConfig,
+  statusText,
+  storedMatchName,
+} from './play/playFormat';
+import { EvalBar, FeedbackNote } from './play/tutorSurfaces';
 import '../play/board.css';
-
-const KIND_TEXT = {
-  single: 'single game',
-  gammon: 'gammon',
-  backgammon: 'backgammon',
-} as const;
-
-const KIND_POINTS = { single: 1, gammon: 2, backgammon: 3 } as const;
-
-const RESIGN_LABEL = {
-  single: 'Single',
-  gammon: 'Gammon',
-  backgammon: 'Backgammon',
-} as const;
-
-/** The five opponent strengths (GLOSSARY "Difficulty"), weakest first. */
-const DIFFICULTIES: ReadonlyArray<{ id: Difficulty; label: string }> = (
-  Object.keys(DIFFICULTY_LABELS) as Difficulty[]
-).map((id) => ({ id, label: DIFFICULTY_LABELS[id] }));
-
-function difficultyLabel(difficulty: Difficulty): string {
-  return DIFFICULTY_LABELS[difficulty] ?? difficulty;
-}
-
-/**
- * The XGID of the current decision point (ticket 10): the pre-play position
- * with the dice during a turn, the pre-roll position otherwise, a pending
- * double while the cube is offered. Null once the game is settled.
- */
-function currentXgid(match: MatchState | null): string | null {
-  if (!match) {
-    return null;
-  }
-  const context = {
-    matchLength: match.length,
-    score: match.score,
-    crawford: match.crawford,
-    cube: match.cube,
-  };
-  if (match.phase === 'turn' && match.game.turn) {
-    const turn = match.game.turn;
-    return encodeXgid(
-      { board: turn.startBoard, onRoll: turn.player, match: context },
-      turn.roll,
-    );
-  }
-  if (match.phase === 'pre-roll' && match.toRoll) {
-    return encodeXgid({
-      board: match.game.board,
-      onRoll: match.toRoll,
-      match: context,
-    });
-  }
-  if (match.phase === 'cube-offered' && match.toRoll) {
-    return encodeXgid(
-      { board: match.game.board, onRoll: match.toRoll, match: context },
-      undefined,
-      { pendingDouble: true },
-    );
-  }
-  return null;
-}
-
-export type PlayMode = 'computer' | 'hotseat';
-
-/**
- * Match play to a point target, or a money session (GLOSSARY "Money play"):
- * unlimited single games, the cube live from the start, gammons scored under
- * the Jacoby rule.
- */
-export type GameType = 'match' | 'money';
-
-export interface PlaySetup {
-  readonly mode: PlayMode;
-  readonly difficulty: Difficulty;
-  /** Match length in points, 1-25 (ignored for a money session). */
-  readonly length: number;
-  /** Match play or a money session; absent means match. */
-  readonly gameType?: GameType;
-}
 
 export interface PlayProps {
   /** Injectable for tests; defaults to a fresh store with fair dice. */
@@ -163,465 +90,6 @@ export interface PlayProps {
   storage?: MatchStorage;
   /** Resume this stored match on arrival (Analyze's "Resume" route state). */
   resumeMatchId?: string;
-}
-
-/**
- * The setup card's opening state (ticket 33). A first-time user starts on the
- * novice defaults (Beginner, a quick 1-point game); once they have started a
- * match or changed a picker, their own remembered choice wins. Mode always
- * opens on vs-computer — the hot-seat button is one click away.
- */
-function initialSetup(): PlaySetup {
-  if (!hasPlayedBefore()) {
-    return { mode: 'computer', gameType: 'match', ...NOVICE_SETUP };
-  }
-  const storedId = getStoredDifficulty();
-  const difficulty =
-    DIFFICULTIES.find((d) => d.id === storedId)?.id ??
-    RETURNING_FALLBACK.difficulty;
-  const length = getStoredLength() ?? RETURNING_FALLBACK.length;
-  return { mode: 'computer', difficulty, length, gameType: 'match' };
-}
-
-/** Rebuild the setup pickers' state from a stored match's config. */
-function setupFromConfig(config: MatchConfig): PlaySetup {
-  const difficulty = DIFFICULTIES.find((d) => d.id === config.difficulty)?.id;
-  return {
-    mode: config.mode === 'hotseat' ? 'hotseat' : 'computer',
-    difficulty: difficulty ?? 'casual',
-    length:
-      typeof config.length === 'number' && config.length > 0
-        ? config.length
-        : 7,
-    gameType: config.gameType === 'money' ? 'money' : 'match',
-  };
-}
-
-/** One line describing a stored match, e.g. "5-point match vs Casual". */
-function storedMatchName(stored: StoredMatch): string {
-  const { config } = stored;
-  const opponent =
-    config.mode === 'hotseat'
-      ? 'hot-seat'
-      : `vs ${difficultyLabel(config.difficulty ?? 'casual')}`;
-  if (config.gameType === 'money') {
-    return config.mode === 'hotseat'
-      ? 'Money session (hot-seat)'
-      : `Money session vs ${difficultyLabel(config.difficulty ?? 'casual')}`;
-  }
-  return config.mode === 'hotseat'
-    ? `${config.length}-point hot-seat match`
-    : `${config.length}-point match ${opponent}`;
-}
-
-function points(n: number): string {
-  return n === 1 ? '1 point' : `${n} points`;
-}
-
-/** How the finished game ended, e.g. "White wins a gammon — 2 points." */
-function gameEndText(result: MatchGameResult): string {
-  switch (result.end) {
-    case 'checkers':
-      return `${playerName(result.winner)} wins a ${KIND_TEXT[result.kind]} — ${points(result.points)}.`;
-    case 'pass':
-      return `${playerName(opponent(result.winner))} passes the double — ${playerName(result.winner)} wins ${points(result.points)}.`;
-    case 'resignation':
-      return `${playerName(opponent(result.winner))} resigns a ${KIND_TEXT[result.kind]} — ${playerName(result.winner)} wins ${points(result.points)}.`;
-  }
-}
-
-function statusText(
-  match: MatchState | null,
-  thinking: boolean,
-  vsComputer: boolean,
-): string {
-  if (!match) {
-    return '';
-  }
-  if (thinking) {
-    return 'Black is thinking…';
-  }
-  const considering = (responder: Player) =>
-    vsComputer && responder === 'black' ? ' Black is considering…' : '';
-  switch (match.phase) {
-    case 'match-over': {
-      const winner = match.winner ?? 'white';
-      return `${playerName(winner)} wins the match ${match.score[winner]}–${match.score[opponent(winner)]}.`;
-    }
-    case 'game-over':
-      return match.gameResult ? gameEndText(match.gameResult) : '';
-    case 'cube-offered': {
-      const doubler = match.toRoll ?? 'white';
-      return `${playerName(doubler)} doubles to ${match.cube.value * 2}.${considering(opponent(doubler))}`;
-    }
-    case 'resign-offered': {
-      const pending = match.pendingResignation;
-      if (!pending) {
-        return '';
-      }
-      return `${playerName(pending.by)} offers to resign a ${KIND_TEXT[pending.kind]}.${considering(opponent(pending.by))}`;
-    }
-    case 'pre-roll':
-      return `${playerName(match.toRoll ?? 'white')} to roll.`;
-    case 'turn': {
-      const turn = match.game.turn;
-      if (!turn) {
-        return '';
-      }
-      const dice = `${turn.roll[0]} and ${turn.roll[1]}`;
-      if (isDance(match.game)) {
-        return `${playerName(turn.player)} rolled ${dice} — no legal plays.`;
-      }
-      if (forcedPlay(match.game)) {
-        return `${playerName(turn.player)} to play ${dice} — only one legal play.`;
-      }
-      return `${playerName(turn.player)} to play ${dice}.`;
-    }
-  }
-}
-
-function DifficultyPicker({
-  value,
-  onChange,
-}: {
-  value: Difficulty;
-  onChange: (difficulty: Difficulty) => void;
-}) {
-  return (
-    <fieldset className="difficulty-picker">
-      <legend className="difficulty-legend">Difficulty</legend>
-      <div className="difficulty-options">
-        {DIFFICULTIES.map((difficulty) => (
-          <label key={difficulty.id} className="difficulty-pill">
-            <input
-              type="radio"
-              name="difficulty"
-              value={difficulty.id}
-              checked={value === difficulty.id}
-              onChange={() => onChange(difficulty.id)}
-            />
-            {difficulty.label}
-          </label>
-        ))}
-      </div>
-    </fieldset>
-  );
-}
-
-function LengthPicker({
-  value,
-  onChange,
-}: {
-  value: number;
-  onChange: (length: number) => void;
-}) {
-  return (
-    <label className="length-picker">
-      Match length
-      <select
-        value={value}
-        onChange={(event) => onChange(Number(event.target.value))}
-      >
-        {Array.from({ length: 25 }, (_, i) => i + 1).map((n) => (
-          <option key={n} value={n}>
-            {points(n)}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
-}
-
-const GAME_TYPES: ReadonlyArray<{ id: GameType; label: string }> = [
-  { id: 'match', label: 'Match' },
-  { id: 'money', label: 'Money play' },
-];
-
-/**
- * Choose match play (to a point target) or a money session (GLOSSARY "Money
- * play"). Mirrors the difficulty pills so the two game types read as one
- * family; the money hint names what changes rather than leaving the choice
- * unexplained.
- */
-function GameTypePicker({
-  value,
-  onChange,
-}: {
-  value: GameType;
-  onChange: (gameType: GameType) => void;
-}) {
-  return (
-    <fieldset className="difficulty-picker">
-      <legend className="difficulty-legend">Game</legend>
-      <div className="difficulty-options">
-        {GAME_TYPES.map((type) => (
-          <label key={type.id} className="difficulty-pill">
-            <input
-              type="radio"
-              name="game-type"
-              value={type.id}
-              checked={value === type.id}
-              onChange={() => onChange(type.id)}
-            />
-            {type.label}
-          </label>
-        ))}
-      </div>
-    </fieldset>
-  );
-}
-
-/** What a money session changes, spelled out beside the picker. */
-const MONEY_HINT =
-  'Unlimited games, cube live from the start, gammons under the Jacoby rule.';
-
-function EngineNote({
-  status,
-  opponentError,
-  onRetry,
-}: {
-  status: EngineStatus;
-  opponentError: string | null;
-  onRetry: () => void;
-}) {
-  if (status === 'error' || opponentError) {
-    return (
-      <p className="engine-note engine-note--error">
-        {status === 'error'
-          ? 'The engine failed to load.'
-          : 'The computer could not move.'}
-        <button type="button" className="play-button" onClick={onRetry}>
-          Retry
-        </button>
-      </p>
-    );
-  }
-  if (status === 'loading') {
-    return (
-      <p className="engine-note">
-        Engine loading…
-        <button type="button" className="play-button" onClick={onRetry}>
-          Retry
-        </button>
-      </p>
-    );
-  }
-  return null;
-}
-
-const IDLE_OPPONENT: EngineOpponentState = { thinking: false, error: null };
-
-/**
- * Any focusable control inside a dialog, for its focus trap. Disabled controls
- * and explicitly-removed ones (tabindex -1, like the dialog container itself)
- * are skipped.
- */
-const DIALOG_FOCUSABLE =
-  'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
-
-/**
- * A modal dialog over the board (ticket 44), following the restore-dialog
- * pattern ticket 27 established in BackupControls. It owns the accessibility
- * contract the cube, resign, game-over and match-over banners share: a dialog
- * role with an accessible name, focus moved into the dialog on open (so screen
- * readers announce its name and description) and trapped while open, and focus
- * restored to the opener on close. Escape closes it only when `onDismiss` is
- * given — the required cube decision passes none, so there is no unsafe
- * keyboard escape from it, while the resign dialog passes "decline" (play on).
- */
-function PlayDialog({
-  labelledBy,
-  describedBy,
-  onDismiss,
-  children,
-}: {
-  labelledBy: string;
-  describedBy?: string;
-  onDismiss?: () => void;
-  children: React.ReactNode;
-}) {
-  const dialogRef = useRef<HTMLDivElement>(null);
-  const restoreFocusRef = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    restoreFocusRef.current = document.activeElement as HTMLElement | null;
-    dialogRef.current?.focus();
-    return () => {
-      const previous = restoreFocusRef.current;
-      if (previous?.isConnected) {
-        previous.focus();
-      }
-    };
-  }, []);
-
-  function onKeyDown(event: React.KeyboardEvent): void {
-    if (event.key === 'Escape') {
-      if (onDismiss) {
-        event.stopPropagation();
-        onDismiss();
-      }
-      return;
-    }
-    if (event.key !== 'Tab') {
-      return;
-    }
-    const dialog = dialogRef.current;
-    const focusable = dialog
-      ? Array.from(dialog.querySelectorAll<HTMLElement>(DIALOG_FOCUSABLE))
-      : [];
-    if (focusable.length === 0) {
-      event.preventDefault();
-      return;
-    }
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    const active = document.activeElement;
-    // Focus resting on the container itself (its initial home) tabs to an end
-    // rather than escaping to whatever sits behind the overlay.
-    if (active === dialog || !dialog?.contains(active)) {
-      event.preventDefault();
-      (event.shiftKey ? last : first).focus();
-    } else if (event.shiftKey && active === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && active === last) {
-      event.preventDefault();
-      first.focus();
-    }
-  }
-
-  return (
-    <div className="play-banner">
-      <div
-        className="setup-card play-dialog"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={labelledBy}
-        aria-describedby={describedBy}
-        tabIndex={-1}
-        ref={dialogRef}
-        onKeyDown={onKeyDown}
-      >
-        {children}
-      </div>
-    </div>
-  );
-}
-
-/**
- * One labeled on/off switch in the Play area: the Tutor mode toggle, on the
- * setup card and in the HUD during a match. (The preference switches moved to
- * Settings — ticket 25.) It wraps the shared Switch (ticket 42) with a
- * one-line hint naming what the toggle turns on, so its purpose is plain
- * rather than a bare label (ticket 31); the hint is tied to the switch for
- * assistive tech.
- */
-function SettingSwitch({
-  label,
-  hint,
-  on,
-  onChange,
-}: {
-  label: string;
-  hint?: string;
-  on: boolean;
-  onChange: (on: boolean) => void;
-}) {
-  const hintId = useId();
-  return (
-    <span className="setting-switch-field">
-      <Switch
-        label={label}
-        on={on}
-        onChange={onChange}
-        describedBy={hint ? hintId : undefined}
-      />
-      {hint && (
-        <span className="setting-switch-hint" id={hintId}>
-          {hint}
-        </span>
-      )}
-    </span>
-  );
-}
-
-/**
- * What Tutor mode turns on, spelled out beside the toggle (ticket 31): live
- * coaching — the hint, feedback on every play, and the eval bar.
- */
-const TUTOR_HINT = 'Coaching as you play: hints, feedback, and the eval bar.';
-
-/**
- * The eval bar (GLOSSARY "Eval bar"): White's share of the game, in the two
- * checker colors, with the win chance and equity spelled out beside it.
- */
-function EvalBar({ state }: { state: TutorState | null }) {
-  const evaluation = state?.evaluation ?? null;
-  const percent = evaluation ? Math.round(evaluation.winProbability * 100) : 50;
-  const equityText = evaluation ? signedEquityText(evaluation.equity, 2) : '…';
-  return (
-    <div className="eval-bar">
-      {/* biome-ignore lint/a11y/useSemanticElements: a meter element would add native-widget styling the board design replaces */}
-      <div
-        role="meter"
-        aria-label="Evaluation"
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={percent}
-        aria-valuetext={`White wins ${percent}% of the time`}
-        className="eval-track"
-      >
-        <span className="eval-fill" style={{ width: `${percent}%` }} />
-        <span className="eval-tick" aria-hidden="true" />
-      </div>
-      <span className="eval-caption">
-        {percent}% · <GlossaryTerm id="equity">{equityText}</GlossaryTerm>
-      </span>
-    </div>
-  );
-}
-
-const FEEDBACK_LABEL = {
-  ok: 'Good',
-  dubious: 'Dubious',
-  error: 'Error',
-  blunder: 'Blunder',
-} as const;
-
-/** Post-play feedback (GLOSSARY): classification, cost, and the better play. */
-function FeedbackNote({ feedback }: { feedback: TutorFeedback }) {
-  const label =
-    feedback.equityLoss === 0
-      ? 'Best play'
-      : FEEDBACK_LABEL[feedback.classification];
-  return (
-    <p className="tutor-note" role="note" aria-label="Play feedback">
-      <span
-        className={`feedback-chip feedback-chip--${feedback.classification}`}
-      >
-        {feedback.classification === 'ok' ? (
-          label
-        ) : (
-          <GlossaryTerm id={feedback.classification}>{label}</GlossaryTerm>
-        )}
-      </span>
-      {feedback.equityLoss > 0 && (
-        <span className="tutor-note-loss">
-          {' '}
-          −{feedback.equityLoss.toFixed(2)}
-        </span>
-      )}
-      {feedback.classification !== 'ok' && (
-        <span> · Best: {feedback.bestMoveText}</span>
-      )}
-      {/* The live eval is a 2-ply engine read, not a rollout — so a close call
-          can differ from the rollout answer. */}
-      <span className="tutor-note-depth">
-        {' · '}
-        <GlossaryTerm id="two-ply">2-ply</GlossaryTerm>
-      </span>
-    </p>
-  );
 }
 
 export function Play({
@@ -1211,99 +679,19 @@ export function Play({
       <p className="rotate-hint">
         Turn your phone sideways for a bigger board.
       </p>
-      <div className="play-hud">
-        <div
-          className={`player-chip ${actor === 'white' ? 'player-chip--active' : ''}`}
-        >
-          <span className="chip-swatch chip-swatch--white" aria-hidden="true" />
-          <span className="chip-name">White</span>
-          {/* biome-ignore lint/a11y/useSemanticElements: a labelled inline stat; fieldset/section would be wrong semantics */}
-          <span className="chip-pips" role="group" aria-label="White pip count">
-            <GlossaryTerm id="pips">{pipCount(board, 'white')}</GlossaryTerm>
-          </span>
-          {match && (
-            // biome-ignore lint/a11y/useSemanticElements: a labelled inline stat; fieldset/section would be wrong semantics
-            <span
-              className="chip-score"
-              role="group"
-              aria-label="White match score"
-            >
-              {match.score.white}
-            </span>
-          )}
-        </div>
-        <div className="play-center">
-          <p className="play-status" role="status">
-            {declineNote ? `${status} ${declineNote}` : status}
-          </p>
-          {match && (
-            <p className="match-caption">
-              {match.money ? (
-                <>
-                  Money play
-                  <span className="crawford-badge">
-                    <GlossaryTerm id="jacoby">Jacoby</GlossaryTerm>
-                  </span>
-                </>
-              ) : match.length === 1 ? (
-                '1-point match'
-              ) : (
-                `${match.length}-point match`
-              )}
-              {match.crawford && (
-                <span className="crawford-badge">
-                  <GlossaryTerm id="crawford">Crawford</GlossaryTerm> — no
-                  doubling
-                </span>
-              )}
-              {xgid && (
-                <CopyXgidButton
-                  xgid={xgid}
-                  className="play-button play-button--quiet copy-xgid"
-                />
-              )}
-            </p>
-          )}
-          {match && vsComputer && (
-            <div className="setting-switches">
-              <SettingSwitch
-                label="Tutor mode"
-                hint={TUTOR_HINT}
-                on={tutorOn}
-                onChange={setTutorOn}
-              />
-            </div>
-          )}
-        </div>
-        <div
-          className={`player-chip player-chip--mirror ${actor === 'black' ? 'player-chip--active' : ''}`}
-        >
-          <span className="chip-swatch chip-swatch--black" aria-hidden="true" />
-          <span className="chip-name">Black</span>
-          {vsComputer && (
-            <span className="chip-tag">
-              {difficultyLabel(setup.difficulty)}
-              {thinking && (
-                <span className="chip-thinking" aria-hidden="true" />
-              )}
-            </span>
-          )}
-          {/* biome-ignore lint/a11y/useSemanticElements: a labelled inline stat; fieldset/section would be wrong semantics */}
-          <span className="chip-pips" role="group" aria-label="Black pip count">
-            <GlossaryTerm id="pips">{pipCount(board, 'black')}</GlossaryTerm>
-          </span>
-          {match && (
-            // biome-ignore lint/a11y/useSemanticElements: a labelled inline stat; fieldset/section would be wrong semantics
-            <span
-              className="chip-score"
-              role="group"
-              aria-label="Black match score"
-            >
-              {match.score.black}
-            </span>
-          )}
-        </div>
-      </div>
+      <PlayHud
+        actor={actor}
+        board={board}
+        match={match ?? null}
+        status={status}
+        declineNote={declineNote}
+        xgid={xgid}
+        vsComputer={vsComputer}
+        difficulty={setup.difficulty}
+        thinking={thinking}
+        tutorOn={tutorOn}
+        onTutorChange={setTutorOn}
+      />
 
       {match && vsComputer && tutorOn && (
         <div className="tutor-strip">
