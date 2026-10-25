@@ -11,7 +11,34 @@
 import type { CubeAnalysis, EnginePosition } from '../engine/types';
 import type { BoardState, CheckerMovement } from '../rules';
 import { pipCount } from '../rules';
-import type { CubeChoice, Puzzle, PuzzleTheme } from './types';
+import type {
+  CubeChoice,
+  Puzzle,
+  PuzzleMatchContext,
+  PuzzleTheme,
+} from './types';
+
+/**
+ * A short, player-facing label for the match situation a puzzle sits in
+ * (ticket 38), from the hero's (White's) perspective. Money play, the
+ * Crawford game, double match point, and otherwise the two "away" counts —
+ * how many points each side still needs — which is how players name the score
+ * a cube decision turns on.
+ */
+export function scoreContextLabel(match: PuzzleMatchContext): string {
+  if (match.matchLength <= 0) {
+    return 'Money play';
+  }
+  if (match.crawford) {
+    return 'Crawford game';
+  }
+  const whiteAway = match.matchLength - match.score.white;
+  const blackAway = match.matchLength - match.score.black;
+  if (whiteAway === 1 && blackAway === 1) {
+    return 'double match point';
+  }
+  return `${whiteAway}-away/${blackAway}-away`;
+}
 
 /** Reflect the board so each player takes the other's checkers and seats. */
 export function mirrorBoard(board: BoardState): BoardState {

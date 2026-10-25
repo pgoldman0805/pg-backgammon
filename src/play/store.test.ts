@@ -55,6 +55,16 @@ describe('starting a match', () => {
     expect(store.getState().match?.length).toBe(5);
   });
 
+  it('starts a money session when start carries money', () => {
+    const store = createPlayStore({ dice: scriptedDice(6, 3) });
+    store.dispatch({ type: 'start', money: true });
+
+    const match = store.getState().match;
+    expect(match?.money).toBe(true);
+    expect(match?.length).toBe(0);
+    expect(match?.cube).toEqual({ value: 1, owner: 'center' });
+  });
+
   it('notifies subscribers when the state changes', () => {
     const store = createPlayStore({ dice: scriptedDice(2, 5) });
     let notified = 0;

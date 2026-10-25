@@ -27,6 +27,7 @@ import {
   gradePlayAttempt,
   type PlayGrade,
 } from '../puzzles/grade';
+import { scoreContextLabel } from '../puzzles/mining';
 import { getBlunderMiningService } from '../puzzles/miningInstance';
 import {
   advanceRun,
@@ -795,6 +796,13 @@ export function Puzzles({
         <div className="puzzle-hud">
           <p className="puzzle-prompt" role="status">
             {prompt}
+            {current.kind === 'cube' && current.match.matchLength > 0 && (
+              // Ticket 38: a score-dependent cube puzzle wears its match score,
+              // since the take point — and so the right answer — turns on it.
+              <span className="source-badge">
+                {scoreContextLabel(current.match)}
+              </span>
+            )}
             {current.source === 'blunder' && (
               <span className="source-badge">{BLUNDER_COLLECTION_LABEL}</span>
             )}

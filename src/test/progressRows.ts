@@ -29,6 +29,7 @@ export function gameRecord(tutorAssisted: boolean): MatchGameRecord {
     },
     decisions: [],
     crawford: false,
+    money: false,
     tutorAssisted,
     result: { winner: 'white', end: 'checkers', kind: 'single', points: 1 },
   };

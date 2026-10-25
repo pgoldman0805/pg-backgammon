@@ -59,6 +59,7 @@ export {
   replayMatchGame,
   rollTurn,
   startMatch,
+  startMoneyGame,
   takebackPlay,
   takeDouble,
   undoMatchMovement,

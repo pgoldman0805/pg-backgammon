@@ -614,6 +614,8 @@ function parseGame(
     },
     decisions,
     crawford,
+    // Imported .mat games are match play, never money sessions.
+    money: false,
     tutorAssisted: false,
     result: { winner: 'white', end: 'checkers', kind: 'single', points: 0 },
   };
