@@ -234,9 +234,31 @@ describe('backup', () => {
     const file = new File([json], 'backup.json', { type: 'application/json' });
     await user.upload(screen.getByLabelText(/import backup/i), file);
 
+    // Ticket 27: a restore is confirmed before it touches the history.
+    await user.click(
+      await screen.findByRole('button', { name: /replace history/i }),
+    );
+
     expect(await screen.findByText('White wins 1–0')).toBeInTheDocument();
     expect(screen.queryByText('White 2 · Black 1')).not.toBeInTheDocument();
     expect((await storage.list()).map((m) => m.id)).toEqual(['stored-done']);
+  });
+
+  it('leaves the history untouched when a restore is cancelled', async () => {
+    const user = userEvent.setup();
+    const json = serializeBackup(
+      await exportBackup(createMemoryStorage([finishedMatch()])),
+    );
+    const storage = createMemoryStorage([liveMatch()]);
+    renderAnalyze(storage);
+    await screen.findByText('White 2 · Black 1');
+
+    const file = new File([json], 'backup.json', { type: 'application/json' });
+    await user.upload(screen.getByLabelText(/import backup/i), file);
+    await user.click(await screen.findByRole('button', { name: /cancel/i }));
+
+    expect(screen.getByText('White 2 · Black 1')).toBeInTheDocument();
+    expect((await storage.list()).map((m) => m.id)).toEqual(['stored-live']);
   });
 
   it('refuses a file that is not a backup, keeping the history', async () => {

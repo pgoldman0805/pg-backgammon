@@ -57,3 +57,98 @@
   font-size: 0.875rem;
   color: var(--ink-muted);
 }
+
+/* Restore confirmation (ticket 27): a backup is named and confirmed before it
+   touches the history. A modal so the choice is deliberate, not a stray click. */
+.backup-confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: color-mix(in srgb, var(--ink) 45%, transparent);
+}
+
+.backup-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: min(28rem, 100%);
+  padding: 1.25rem 1.35rem 1.1rem;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--control-radius) * 2);
+  box-shadow: 0 1.5rem 3rem color-mix(in srgb, var(--ink) 30%, transparent);
+}
+
+.backup-confirm:focus {
+  outline: none;
+}
+
+.backup-confirm-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+/* The line that names what is at stake — the one bold element here. */
+.backup-confirm-counts {
+  font-size: 1.05rem;
+  line-height: 1.4;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--accent);
+}
+
+.backup-confirm-choices {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+
+.backup-confirm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+/* Replace discards history: the rust the whole app reserves for cost. */
+.backup-button--danger {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.backup-button--danger:hover {
+  color: var(--bg);
+  background: var(--danger);
+  border-color: var(--danger);
+}
+
+.backup-button--quiet {
+  color: var(--ink-muted);
+  border-color: transparent;
+}
+
+.backup-button--quiet:hover {
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+.backup-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .backup-confirm {
+    animation: backup-confirm-in 160ms ease-out;
+  }
+
+  @keyframes backup-confirm-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem) scale(0.98);
+    }
+  }
+}

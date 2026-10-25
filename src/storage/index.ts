@@ -5,11 +5,15 @@
  */
 
 export {
+  type BackupSummary,
   exportBackup,
   type HistoryBackup,
+  type ImportBackupOptions,
+  type ImportMode,
   importBackup,
   parseBackup,
   serializeBackup,
+  summarizeBackup,
 } from './backup';
 export {
   type BlunderPuzzleStorage,
