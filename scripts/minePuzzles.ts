@@ -22,7 +22,7 @@ import {
   type SelfPlayMiningEngine,
 } from '../src/puzzles/selfPlayMining';
 import type { Puzzle, PuzzleTheme } from '../src/puzzles/types';
-import { PUZZLE_THEMES } from '../src/puzzles/types';
+import { MINEABLE_THEMES } from '../src/puzzles/types';
 
 /** How many puzzles each theme should ship with. */
 const TARGET_PER_THEME = 30;
@@ -95,7 +95,7 @@ export async function minePuzzles(): Promise<void> {
   const started = Date.now();
   let loggedGames = 0;
   const byTheme = new Map<PuzzleTheme, Puzzle[]>(
-    PUZZLE_THEMES.map((theme) => [theme, []]),
+    MINEABLE_THEMES.map((theme) => [theme, []]),
   );
 
   const result = await mineSelfPlayPuzzles({
@@ -137,7 +137,7 @@ export async function minePuzzles(): Promise<void> {
     onProgress(progress) {
       if (progress.games % 20 === 0 && progress.games !== loggedGames) {
         loggedGames = progress.games;
-        const counts = PUZZLE_THEMES.map(
+        const counts = MINEABLE_THEMES.map(
           (theme) => `${theme} ${byTheme.get(theme)?.length ?? 0}`,
         ).join(', ');
         log(
@@ -151,7 +151,7 @@ export async function minePuzzles(): Promise<void> {
   // Stable ids ordered by theme, then by discovery.
   const puzzles: Puzzle[] = [];
   let serial = 0;
-  for (const theme of PUZZLE_THEMES) {
+  for (const theme of MINEABLE_THEMES) {
     for (const puzzle of byTheme.get(theme) ?? []) {
       serial++;
       puzzles.push({
@@ -168,7 +168,7 @@ export async function minePuzzles(): Promise<void> {
 
   log('');
   log(`Mined ${puzzles.length} puzzles in ${result.stats.games} games:`);
-  for (const theme of PUZZLE_THEMES) {
+  for (const theme of MINEABLE_THEMES) {
     log(`  ${theme}: ${byTheme.get(theme)?.length ?? 0}`);
   }
   log(
@@ -177,7 +177,7 @@ export async function minePuzzles(): Promise<void> {
       `${result.stats.cubeEvaluated}, accepted ${result.stats.cubeAccepted}.`,
   );
   log(`Wrote ${target}`);
-  for (const theme of PUZZLE_THEMES) {
+  for (const theme of MINEABLE_THEMES) {
     const count = byTheme.get(theme)?.length ?? 0;
     if (count < MIN_PER_THEME) {
       log(

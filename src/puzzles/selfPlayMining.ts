@@ -42,7 +42,7 @@ import type {
   PuzzleSource,
   PuzzleTheme,
 } from './types';
-import { PUZZLE_THEMES } from './types';
+import { MINEABLE_THEMES } from './types';
 
 /**
  * The engine seam the miner drives. The node script adapts the synchronous
@@ -251,7 +251,7 @@ function wants(run: Run, theme: PuzzleTheme): boolean {
 function done(run: Run): boolean {
   const { target } = run.options;
   if (target.perTheme !== undefined) {
-    return PUZZLE_THEMES.every((theme) => !wants(run, theme));
+    return MINEABLE_THEMES.every((theme) => !wants(run, theme));
   }
   return run.puzzles.length >= target.keepers;
 }

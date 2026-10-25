@@ -22,7 +22,13 @@ import { canCommit, canUndo, forcedPlay, isDance } from '../play/selectors';
 import {
   AUTO_FORCED_PLAYS_KEY,
   AUTO_ROLL_RACES_KEY,
+  getStoredDifficulty,
+  getStoredLength,
   getStoredSwitch,
+  hasPlayedBefore,
+  NOVICE_SETUP,
+  RETURNING_FALLBACK,
+  rememberSetupChoice,
   TUTOR_DEFAULT_KEY,
 } from '../play/settings';
 import { createPlayStore, type PlayStore } from '../play/store';
@@ -140,6 +146,24 @@ export interface PlayProps {
   storage?: MatchStorage;
   /** Resume this stored match on arrival (Analyze's "Resume" route state). */
   resumeMatchId?: string;
+}
+
+/**
+ * The setup card's opening state (ticket 33). A first-time user starts on the
+ * novice defaults (Beginner, a quick 1-point game); once they have started a
+ * match or changed a picker, their own remembered choice wins. Mode always
+ * opens on vs-computer — the hot-seat button is one click away.
+ */
+function initialSetup(): PlaySetup {
+  if (!hasPlayedBefore()) {
+    return { mode: 'computer', ...NOVICE_SETUP };
+  }
+  const storedId = getStoredDifficulty();
+  const difficulty =
+    DIFFICULTIES.find((d) => d.id === storedId)?.id ??
+    RETURNING_FALLBACK.difficulty;
+  const length = getStoredLength() ?? RETURNING_FALLBACK.length;
+  return { mode: 'computer', difficulty, length };
 }
 
 /** Rebuild the setup pickers' state from a stored match's config. */
@@ -427,7 +451,7 @@ export function Play({
     () => engine.status,
   );
   const [setup, setSetup] = useState<PlaySetup>(
-    defaultSetup ?? { mode: 'computer', difficulty: 'casual', length: 7 },
+    () => defaultSetup ?? initialSetup(),
   );
   const [selected, setSelected] = useState<Point | 'bar' | null>(null);
   const [resignOpen, setResignOpen] = useState(false);
@@ -638,6 +662,9 @@ export function Play({
             : null;
 
   function start(mode: PlayMode): void {
+    // Starting a match counts as "has played before" (ticket 33): the next
+    // visit opens on this difficulty and length, not the novice defaults.
+    rememberSetupChoice(setup.difficulty, setup.length);
     setSetup((current) => ({ ...current, mode }));
     if (mode !== 'computer') {
       // Tutor mode is live analysis of the player's own game against the
@@ -693,18 +720,21 @@ export function Play({
     opponentRef.current?.retry();
   }
 
+  // Changing a picker also counts as "has played before" (ticket 33): the
+  // user has expressed a choice, so it is remembered and wins from now on.
+  const chooseDifficulty = (difficulty: Difficulty): void => {
+    rememberSetupChoice(difficulty, setup.length);
+    setSetup((current) => ({ ...current, difficulty }));
+  };
+  const chooseLength = (length: number): void => {
+    rememberSetupChoice(setup.difficulty, length);
+    setSetup((current) => ({ ...current, length }));
+  };
+
   const setupPickers = (
     <>
-      <DifficultyPicker
-        value={setup.difficulty}
-        onChange={(difficulty) =>
-          setSetup((current) => ({ ...current, difficulty }))
-        }
-      />
-      <LengthPicker
-        value={setup.length}
-        onChange={(length) => setSetup((current) => ({ ...current, length }))}
-      />
+      <DifficultyPicker value={setup.difficulty} onChange={chooseDifficulty} />
+      <LengthPicker value={setup.length} onChange={chooseLength} />
     </>
   );
 

@@ -11,7 +11,7 @@
 
 import { checkPuzzle } from '../src/engine/node/curatedValidation';
 import { loadGnubgSession } from '../src/engine/node/loadGnubg';
-import { CURATED_PUZZLES } from '../src/puzzles/curatedSet';
+import { BUNDLED_PUZZLES } from '../src/puzzles/bundledSet';
 import { PUZZLE_THEMES } from '../src/puzzles/types';
 
 export async function validatePuzzles(): Promise<void> {
@@ -21,7 +21,7 @@ export async function validatePuzzles(): Promise<void> {
 
   let checked = 0;
   let failed = 0;
-  for (const puzzle of CURATED_PUZZLES) {
+  for (const puzzle of BUNDLED_PUZZLES) {
     const problems = checkPuzzle(session, puzzle);
     checked++;
     if (problems.length > 0) {
@@ -33,17 +33,17 @@ export async function validatePuzzles(): Promise<void> {
     }
     if (checked % 25 === 0) {
       console.log(
-        `  ${checked}/${CURATED_PUZZLES.length} re-evaluated ` +
+        `  ${checked}/${BUNDLED_PUZZLES.length} re-evaluated ` +
           `(${Math.round((Date.now() - started) / 1000)}s)`,
       );
     }
   }
 
-  const plays = CURATED_PUZZLES.filter((p) => p.kind === 'play').length;
-  const cubes = CURATED_PUZZLES.length - plays;
+  const plays = BUNDLED_PUZZLES.filter((p) => p.kind === 'play').length;
+  const cubes = BUNDLED_PUZZLES.length - plays;
   const themeCounts = PUZZLE_THEMES.map(
     (theme) =>
-      `${theme} ${CURATED_PUZZLES.filter((p) => p.theme === theme).length}`,
+      `${theme} ${BUNDLED_PUZZLES.filter((p) => p.theme === theme).length}`,
   ).join(', ');
   console.log('');
   console.log(

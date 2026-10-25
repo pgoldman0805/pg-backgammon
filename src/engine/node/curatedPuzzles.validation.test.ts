@@ -10,42 +10,54 @@
  */
 
 import { beforeAll, describe, expect, it } from 'vitest';
-import { CURATED_PUZZLES } from '../../puzzles/curatedSet';
+import { BUNDLED_PUZZLES } from '../../puzzles/bundledSet';
 import { boardKey } from '../../puzzles/grade';
 import type { CubePuzzle, PlayPuzzle } from '../../puzzles/types';
-import { PUZZLE_THEMES } from '../../puzzles/types';
+import { MINEABLE_THEMES, PUZZLE_THEMES } from '../../puzzles/types';
 import { selectValidationSample } from '../../puzzles/validationSample';
 import { applyMovement, legalPlays } from '../../rules';
 import type { GnubgSession } from '../session';
 import { checkPuzzle, MARGIN_MIN } from './curatedValidation';
 import { loadGnubgSession } from './loadGnubg';
 
-/** WASM re-evaluation budget per `npm test` run: 6 per theme = 30 puzzles. */
+/** WASM re-evaluation budget per `npm test` run: 6 per theme. */
 const SAMPLE_PER_THEME = 6;
 const SAMPLE_SEED = 20261023;
+/** The hand-authored Basics theme (ticket 33) ships fewer than the mined. */
+const BASICS_MIN = 12;
 
-const playPuzzles = CURATED_PUZZLES.filter(
+// The whole bundled set is validated: the hand-authored Basics theme plus
+// the self-play-mined curated themes (ticket 33).
+const playPuzzles = BUNDLED_PUZZLES.filter(
   (p): p is PlayPuzzle => p.kind === 'play',
 );
-const cubePuzzles = CURATED_PUZZLES.filter(
+const cubePuzzles = BUNDLED_PUZZLES.filter(
   (p): p is CubePuzzle => p.kind === 'cube',
 );
 
-describe('curated set shape (stored data alone, full set)', () => {
-  it('ships at least 125 puzzles, at least 25 per theme', () => {
-    expect(CURATED_PUZZLES.length).toBeGreaterThanOrEqual(125);
-    for (const theme of PUZZLE_THEMES) {
+describe('bundled set shape (stored data alone, full set)', () => {
+  it('ships Basics (ticket 33) and at least 25 per mined theme', () => {
+    expect(BUNDLED_PUZZLES.length).toBeGreaterThanOrEqual(125);
+    expect(
+      BUNDLED_PUZZLES.filter((p) => p.theme === 'basics').length,
+      'theme basics',
+    ).toBeGreaterThanOrEqual(BASICS_MIN);
+    for (const theme of MINEABLE_THEMES) {
       expect(
-        CURATED_PUZZLES.filter((p) => p.theme === theme).length,
+        BUNDLED_PUZZLES.filter((p) => p.theme === theme).length,
         `theme ${theme}`,
       ).toBeGreaterThanOrEqual(25);
     }
   });
 
+  it('orders Basics first, before the advanced themes (ticket 33)', () => {
+    expect(PUZZLE_THEMES[0]).toBe('basics');
+  });
+
   it('has unique ids, white as hero, and curated as source', () => {
-    const ids = new Set(CURATED_PUZZLES.map((p) => p.id));
-    expect(ids.size).toBe(CURATED_PUZZLES.length);
-    for (const puzzle of CURATED_PUZZLES) {
+    const ids = new Set(BUNDLED_PUZZLES.map((p) => p.id));
+    expect(ids.size).toBe(BUNDLED_PUZZLES.length);
+    for (const puzzle of BUNDLED_PUZZLES) {
       expect(puzzle.hero).toBe('white');
       expect(puzzle.source).toBe('curated');
     }
@@ -84,7 +96,7 @@ describe('curated set shape (stored data alone, full set)', () => {
   });
 
   it('every puzzle has a clear best and a tempting alternative', () => {
-    for (const puzzle of CURATED_PUZZLES) {
+    for (const puzzle of BUNDLED_PUZZLES) {
       const losses =
         puzzle.kind === 'play'
           ? puzzle.answers.map((a) => a.equityLoss)
@@ -97,7 +109,7 @@ describe('curated set shape (stored data alone, full set)', () => {
 
 describe('stored answers match a fresh full-strength evaluation (sample)', () => {
   const sample = selectValidationSample(
-    CURATED_PUZZLES,
+    BUNDLED_PUZZLES,
     SAMPLE_PER_THEME,
     SAMPLE_SEED,
   );
