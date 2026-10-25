@@ -47,6 +47,13 @@
   overflow-wrap: break-word;
 }
 
+/* An author `display` would otherwise defeat the `hidden` attribute (author
+   styles beat the UA [hidden] rule), leaving the popover rendered and
+   intercepting pointer events on nearby controls. Keep it truly hidden. */
+.term-popover[hidden] {
+  display: none;
+}
+
 .term-popover-name {
   display: block;
   margin-bottom: 0.1rem;
