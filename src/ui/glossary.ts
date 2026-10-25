@@ -120,11 +120,18 @@ const ENTRIES = {
     long: 'EMG restates match equity on a steady scale, like a money game, so the cost of an error is comparable whether it happened at the start of a match or at double match point. It is how the analyzer keeps every mistake on the same yardstick.',
     category: 'analysis',
   },
+  pr: {
+    term: 'PR',
+    short:
+      'Performance rating: how far your play drifted from the engine, on the scale serious players use. Lower is better — under about 5 is world-class.',
+    long: 'PR (performance rating) scores a game or match by the equity you gave away per unforced decision, scaled the way the wider backgammon world reads it. Lower is better: roughly, under 5 is world-class, 5 to 8 expert, 8 to 13 advanced, 13 to 20 intermediate, and above that still finding your feet.',
+    category: 'analysis',
+  },
   'error-rate': {
     term: 'Error rate',
     short:
-      'Your average equity lost per decision across a game or match — the single number that grades your play. Lower is better.',
-    long: 'The error rate adds up all the equity you gave away and divides by the number of real decisions you faced (forced plays do not count). Shown here in thousandths, it is the headline quality score: the smaller it is, the closer you played to the engine.',
+      'Your average equity lost per decision across a game or match — the single number that grades your play. Shown here as PR. Lower is better.',
+    long: 'The error rate adds up all the equity you gave away and divides by the number of real decisions you faced (forced plays do not count). It is the headline quality score, shown here as PR: the smaller it is, the closer you played to the engine.',
     category: 'analysis',
   },
   error: {

@@ -11,9 +11,40 @@ export function playerName(player: Player): string {
   return player === 'white' ? 'White' : 'Black';
 }
 
-/** Error rate for display: thousandths of a point per decision. */
-export function rateText(errorRate: number): string {
-  return (errorRate * 1000).toFixed(1);
+/**
+ * XG-style PR (performance rating) from an EMG error rate: the equity lost per
+ * unforced decision scaled by 500, the convention serious players calibrate
+ * in. Stored analysis stays in EMG; this is display only. Lower is better.
+ */
+export function errorRatePr(errorRate: number): number {
+  return errorRate * 500;
+}
+
+/** PR for display, to one decimal. Lower is better. */
+export function prText(errorRate: number): string {
+  return errorRatePr(errorRate).toFixed(1);
+}
+
+/**
+ * The familiar skill band a PR falls in, so the number is interpretable to
+ * anyone from the wider backgammon world. Bands are the PR ranges players
+ * recognise; each boundary sits on the lower (better) side. Lower is better.
+ */
+export function skillBand(errorRate: number): string {
+  const pr = errorRatePr(errorRate);
+  if (pr < 5) {
+    return 'World-class';
+  }
+  if (pr < 8) {
+    return 'Expert';
+  }
+  if (pr < 13) {
+    return 'Advanced';
+  }
+  if (pr < 20) {
+    return 'Intermediate';
+  }
+  return 'Beginner';
 }
 
 /** A signed equity, minus sign included. */

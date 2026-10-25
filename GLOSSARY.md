@@ -65,8 +65,8 @@ _Avoid_: Mistake (colloquial)
 An error at or above the blunder threshold (equity loss ≥ 0.08). Blunders are what puzzle mining feeds on.
 
 **Error rate**:
-A per-game or per-match quality score: total equity lost per unforced decision (PR-style, lower is better).
-_Avoid_: PR (reserved for XG's trademarked-adjacent metric), rating
+A per-game or per-match quality score: total equity lost per unforced decision (lower is better). Stored in EMG; shown to players as **PR** (performance rating) — the equity lost per decision scaled ×500, the convention serious players calibrate in — and mapped to a skill band (world-class / expert / advanced / intermediate / beginner).
+_Avoid_: rating
 
 **Post-game review**:
 The analyzer's report on a finished game or match: every play and cube decision scored, classified, and browsable with alternatives.

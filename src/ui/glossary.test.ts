@@ -16,6 +16,7 @@ const REQUIRED_TOOLTIP_TERMS: GlossaryTermId[] = [
   'pips',
   'equity',
   'emg',
+  'pr',
   'error-rate',
   'crawford',
   'blunder',
