@@ -6,7 +6,7 @@
  * progress, and any single decision can be re-analyzed deeper on demand.
  */
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   type AnalysisProgress,
@@ -351,6 +351,14 @@ function AlternativesPanel({
 }) {
   return (
     <ol className="alternatives" aria-label="Engine alternatives">
+      {/* Column headers (ticket 42): the two right-hand number columns read as
+          absolute equity and loss-vs-best, labelled like the Puzzles reveal. */}
+      <li className="alternative-head">
+        <span className="alternative-head-rank" aria-hidden="true" />
+        <span className="alternative-head-move">Play</span>
+        <span className="alternative-head-equity">Equity</span>
+        <span className="alternative-head-loss">Loss</span>
+      </li>
       {play.alternatives.map((alternative, index) => {
         const isBest = index === 0;
         // The played play keeps its true rank even when it sits appended
@@ -403,6 +411,10 @@ function CubePanel({ decision }: { decision: AnalyzedCube }) {
   return (
     <div className="cube-panel">
       <ol className="alternatives" aria-label="Cube equities">
+        <li className="alternative-head alternative-head--static">
+          <span className="alternative-head-move">Action</span>
+          <span className="alternative-head-equity">Equity</span>
+        </li>
         {rows.map((row) => (
           <li
             key={row.action}
@@ -1205,6 +1217,187 @@ function PositionViewer({ analyzer }: { analyzer: MatchAnalyzer }) {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* Ledger controls (ticket 42)                                          */
+/* ------------------------------------------------------------------ */
+
+interface MenuAction {
+  readonly label: string;
+  readonly onSelect: () => void;
+}
+
+/**
+ * A per-row overflow menu (ticket 42): a quiet ⋯ trigger that holds a row's
+ * secondary actions, so the ledger leads with one primary action (Open or
+ * Resume) and stays scannable as history grows. Fully keyboard-operable —
+ * the trigger opens on click or ↓, arrows move between items, Escape closes
+ * and restores focus to the trigger, and a click outside dismisses it.
+ */
+function OverflowMenu({
+  label,
+  actions,
+}: {
+  label: string;
+  actions: readonly MenuAction[];
+}) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const itemRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  // Focus the first item when the menu opens.
+  useEffect(() => {
+    if (open) {
+      itemRefs.current[0]?.focus();
+    }
+  }, [open]);
+
+  // A press anywhere outside closes the menu.
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+    function onPointerDown(event: PointerEvent): void {
+      if (!rootRef.current?.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => document.removeEventListener('pointerdown', onPointerDown);
+  }, [open]);
+
+  function close(restoreFocus: boolean): void {
+    setOpen(false);
+    if (restoreFocus) {
+      triggerRef.current?.focus();
+    }
+  }
+
+  function onMenuKeyDown(event: React.KeyboardEvent): void {
+    const items = itemRefs.current.filter(
+      (item): item is HTMLButtonElement => item !== null,
+    );
+    const active = items.indexOf(document.activeElement as HTMLButtonElement);
+    switch (event.key) {
+      case 'Escape':
+        event.stopPropagation();
+        close(true);
+        break;
+      case 'ArrowDown':
+        event.preventDefault();
+        items[(active + 1) % items.length]?.focus();
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        items[(active - 1 + items.length) % items.length]?.focus();
+        break;
+      case 'Home':
+        event.preventDefault();
+        items[0]?.focus();
+        break;
+      case 'End':
+        event.preventDefault();
+        items[items.length - 1]?.focus();
+        break;
+    }
+  }
+
+  return (
+    <div className="row-menu" ref={rootRef}>
+      <button
+        type="button"
+        ref={triggerRef}
+        className="history-button history-button--menu"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-label={label}
+        onClick={() => setOpen((value) => !value)}
+        onKeyDown={(event) => {
+          if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+            event.preventDefault();
+            setOpen(true);
+          }
+        }}
+      >
+        <span aria-hidden="true">⋯</span>
+      </button>
+      {open && (
+        <div
+          className="row-menu-list"
+          role="menu"
+          aria-label={label}
+          onKeyDown={onMenuKeyDown}
+        >
+          {actions.map((action, index) => (
+            <button
+              key={action.label}
+              type="button"
+              role="menuitem"
+              ref={(element) => {
+                itemRefs.current[index] = element;
+              }}
+              className="row-menu-item"
+              onClick={() => {
+                action.onSelect();
+                close(false);
+              }}
+            >
+              {action.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+type LedgerSort = 'newest' | 'oldest' | 'difficulty';
+
+const SORT_LABELS: ReadonlyArray<{ id: LedgerSort; label: string }> = [
+  { id: 'newest', label: 'Newest first' },
+  { id: 'oldest', label: 'Oldest first' },
+  { id: 'difficulty', label: 'Difficulty' },
+];
+
+/** Weakest-first rank for the difficulty sort; unranked modes sort last. */
+const DIFFICULTY_RANK: Record<string, number> = Object.fromEntries(
+  Object.keys(DIFFICULTY_LABELS).map((id, index) => [id, index]),
+);
+
+function difficultyRank(stored: StoredMatch): number {
+  const rank = DIFFICULTY_RANK[String(stored.config.difficulty)];
+  return rank ?? Object.keys(DIFFICULTY_LABELS).length;
+}
+
+/** Everything a ledger row is searchable by: result, name, date, status. */
+function rowHaystack(stored: StoredMatch): string {
+  return `${resultLine(stored)} ${metaLine(stored)}`.toLowerCase();
+}
+
+/** Apply the current filter and sort to the loaded matches. */
+function arrangeMatches(
+  matches: readonly StoredMatch[],
+  query: string,
+  sort: LedgerSort,
+): readonly StoredMatch[] {
+  const needle = query.trim().toLowerCase();
+  const filtered = needle
+    ? matches.filter((row) => rowHaystack(row).includes(needle))
+    : matches;
+  const sorted = [...filtered];
+  switch (sort) {
+    case 'oldest':
+      sorted.sort((a, b) => a.updatedAt - b.updatedAt);
+      break;
+    case 'difficulty':
+      sorted.sort((a, b) => difficultyRank(a) - difficultyRank(b));
+      break;
+    default:
+      sorted.sort((a, b) => b.updatedAt - a.updatedAt);
+  }
+  return sorted;
+}
+
 export interface AnalyzeProps {
   /** Injectable for tests; defaults to the shared IndexedDB storage. */
   storage?: MatchStorage;
@@ -1223,7 +1416,15 @@ export function Analyze({
   const [openId, setOpenId] = useState<string | null>(null);
   const [confirmId, setConfirmId] = useState<string | null>(null);
   const [note, setNote] = useState<string | null>(null);
+  const [query, setQuery] = useState('');
+  const [sort, setSort] = useState<LedgerSort>('newest');
   const navigate = useNavigate();
+
+  /** The ledger as shown: filtered by the search box, in the chosen order. */
+  const shown = useMemo(
+    () => (matches ? arrangeMatches(matches, query, sort) : matches),
+    [matches, query, sort],
+  );
 
   const reload = useCallback(() => {
     storage
@@ -1330,81 +1531,116 @@ export function Analyze({
             </p>
           )}
           {matches != null && matches.length > 0 && (
-            <ul className="match-history">
-              {matches.map((stored) => (
-                <li key={stored.id} className="match-row">
-                  <div className="match-summary">
-                    <p className="match-result">
-                      {resultLine(stored)}
-                      {stored.status === 'in-progress' && (
-                        <span className="live-badge">In progress</span>
-                      )}
-                    </p>
-                    <p className="match-meta">{metaLine(stored)}</p>
-                  </div>
-                  <div className="match-actions">
-                    {confirmId === stored.id ? (
-                      <>
-                        <button
-                          type="button"
-                          className="history-button history-button--danger"
-                          onClick={() => remove(stored.id)}
-                        >
-                          Delete match
-                        </button>
-                        <button
-                          type="button"
-                          className="history-button"
-                          onClick={() => setConfirmId(null)}
-                        >
-                          Keep
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        {stored.status === 'finished' ? (
+            <>
+              <div className="ledger-toolbar">
+                <input
+                  type="search"
+                  className="ledger-search"
+                  aria-label="Filter matches"
+                  placeholder="Filter by result, opponent or date"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                />
+                <label className="ledger-sort">
+                  <span className="ledger-sort-label">Sort</span>
+                  <select
+                    aria-label="Sort matches"
+                    value={sort}
+                    onChange={(event) =>
+                      setSort(event.target.value as LedgerSort)
+                    }
+                  >
+                    {SORT_LABELS.map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+              {shown && shown.length === 0 ? (
+                <p className="ledger-empty">
+                  No matches match your filter. Clear it to see them all.
+                </p>
+              ) : (
+                <ul className="match-history">
+                  {shown?.map((stored) => (
+                    <li key={stored.id} className="match-row">
+                      <div className="match-summary">
+                        <p className="match-result">
+                          {resultLine(stored)}
+                          {stored.status === 'in-progress' && (
+                            <span className="live-badge">In progress</span>
+                          )}
+                        </p>
+                        <p className="match-meta">{metaLine(stored)}</p>
+                      </div>
+                      <div className="match-actions">
+                        {confirmId === stored.id ? (
                           <>
                             <button
                               type="button"
-                              className="history-button"
-                              onClick={() => setOpenId(stored.id)}
+                              className="history-button history-button--danger"
+                              onClick={() => remove(stored.id)}
                             >
-                              Open
+                              Delete match
                             </button>
                             <button
                               type="button"
-                              className="history-button history-button--quiet"
-                              onClick={() => exportMatchMat(stored)}
+                              className="history-button"
+                              onClick={() => setConfirmId(null)}
                             >
-                              Export .mat
+                              Keep
                             </button>
                           </>
                         ) : (
-                          <button
-                            type="button"
-                            className="history-button"
-                            onClick={() =>
-                              navigate('/', {
-                                state: { resumeMatchId: stored.id },
-                              })
-                            }
-                          >
-                            Resume
-                          </button>
+                          <>
+                            {stored.status === 'finished' ? (
+                              <button
+                                type="button"
+                                className="history-button history-button--primary"
+                                onClick={() => setOpenId(stored.id)}
+                              >
+                                Open
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                className="history-button history-button--primary"
+                                onClick={() =>
+                                  navigate('/', {
+                                    state: { resumeMatchId: stored.id },
+                                  })
+                                }
+                              >
+                                Resume
+                              </button>
+                            )}
+                            <OverflowMenu
+                              label={`More actions for ${matchName(stored)}`}
+                              actions={[
+                                ...(stored.status === 'finished'
+                                  ? [
+                                      {
+                                        label: 'Export .mat',
+                                        onSelect: () => exportMatchMat(stored),
+                                      },
+                                    ]
+                                  : []),
+                                {
+                                  label: 'Delete…',
+                                  onSelect: () => setConfirmId(stored.id),
+                                },
+                              ]}
+                            />
+                          </>
                         )}
-                        <button
-                          type="button"
-                          className="history-button history-button--quiet"
-                          onClick={() => setConfirmId(stored.id)}
-                        >
-                          Delete…
-                        </button>
-                      </>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
           )}
           <BackupControls storage={storage} onImported={onImported} />
           <PositionViewer analyzer={analyzer} />

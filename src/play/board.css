@@ -774,41 +774,8 @@
   text-wrap: balance;
 }
 
-.setting-switch {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.15rem 0.65rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--ink-muted);
-  font: inherit;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.setting-switch:hover {
-  border-color: var(--ink-muted);
-}
-
-.setting-switch[aria-checked="true"] {
-  border-color: var(--accent);
-  color: var(--ink);
-}
-
-.setting-switch-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--line);
-}
-
-.setting-switch[aria-checked="true"] .setting-switch-dot {
-  background: var(--accent);
-}
+/* The toggle itself is the shared Switch (ticket 42) — see src/ui/switch.css.
+   This area owns only its placement (.setting-switches) and the hint below. */
 
 /* The live-analysis strip between the HUD and the board. */
 .tutor-strip {
@@ -1042,10 +1009,6 @@
 }
 
 @media (max-width: 640px) {
-  .setting-switch {
-    min-height: 44px;
-  }
-
   .setup-settings-link {
     display: inline-flex;
     align-items: center;

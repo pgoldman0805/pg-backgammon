@@ -67,6 +67,7 @@ import {
 } from '../storage';
 import { playerName, signedEquityText } from '../ui/format';
 import { GlossaryTerm } from '../ui/GlossaryTerm';
+import { Switch } from '../ui/Switch';
 import '../play/board.css';
 
 const KIND_TEXT = {
@@ -508,11 +509,12 @@ function PlayDialog({
 }
 
 /**
- * One labeled on/off switch in the Play area's visual language: the Tutor
- * mode toggle, on the setup card and in the HUD during a match. (The
- * preference switches moved to Settings — ticket 25.) A one-line hint names
- * what the toggle turns on, so its purpose is plain rather than a bare label
- * (ticket 31); it is tied to the switch for assistive tech.
+ * One labeled on/off switch in the Play area: the Tutor mode toggle, on the
+ * setup card and in the HUD during a match. (The preference switches moved to
+ * Settings — ticket 25.) It wraps the shared Switch (ticket 42) with a
+ * one-line hint naming what the toggle turns on, so its purpose is plain
+ * rather than a bare label (ticket 31); the hint is tied to the switch for
+ * assistive tech.
  */
 function SettingSwitch({
   label,
@@ -528,17 +530,12 @@ function SettingSwitch({
   const hintId = useId();
   return (
     <span className="setting-switch-field">
-      <button
-        type="button"
-        role="switch"
-        aria-checked={on}
-        aria-describedby={hint ? hintId : undefined}
-        className="setting-switch"
-        onClick={() => onChange(!on)}
-      >
-        <span className="setting-switch-dot" aria-hidden="true" />
-        {label}
-      </button>
+      <Switch
+        label={label}
+        on={on}
+        onChange={onChange}
+        describedBy={hint ? hintId : undefined}
+      />
       {hint && (
         <span className="setting-switch-hint" id={hintId}>
           {hint}
