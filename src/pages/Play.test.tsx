@@ -554,6 +554,23 @@ describe('playing against the computer', () => {
     });
   });
 
+  it('offers a retry while the engine is still loading', async () => {
+    const engine = manualLoadEngine();
+    const user = userEvent.setup();
+    renderPlay({ dice: scriptedDice(6, 3, 5, 2) }, { engine });
+
+    // A stuck load must not strand the player with no escape.
+    expect(await screen.findByText('Engine loading…')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Retry' })).toBeInTheDocument();
+
+    // Retry re-attempts; a subsequent success clears the loading note.
+    await user.click(screen.getByRole('button', { name: 'Retry' }));
+    act(() => engine.finishLoading('ready'));
+    await waitFor(() => {
+      expect(screen.queryByText('Engine loading…')).not.toBeInTheDocument();
+    });
+  });
+
   it('surfaces an engine load failure with a working retry', async () => {
     const engine = manualLoadEngine();
     const user = userEvent.setup();
