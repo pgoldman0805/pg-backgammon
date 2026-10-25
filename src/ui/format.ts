@@ -29,3 +29,22 @@ export function signedEquityText(value: number, digits = 3): string {
 export function lossText(loss: number): string {
   return loss < 0.0005 ? '—' : `−${loss.toFixed(3)}`;
 }
+
+/**
+ * A byte count for people: plain bytes under a kilobyte, otherwise KB/MB/GB
+ * (base 1024) to one decimal. Used for the storage-usage figure in Settings
+ * (ticket 26).
+ */
+export function formatBytes(bytes: number): string {
+  if (bytes < 1024) {
+    return `${Math.round(bytes)} B`;
+  }
+  const units = ['KB', 'MB', 'GB', 'TB'];
+  let value = bytes / 1024;
+  let unit = 0;
+  while (value >= 1024 && unit < units.length - 1) {
+    value /= 1024;
+    unit += 1;
+  }
+  return `${value.toFixed(1)} ${units[unit]}`;
+}
