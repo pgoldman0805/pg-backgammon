@@ -64,6 +64,8 @@ import {
   type PuzzleProgressStorage,
 } from '../storage';
 import { lossText, playerName, signedEquityText } from '../ui/format';
+import { GlossaryTerm } from '../ui/GlossaryTerm';
+import { hasGlossaryEntry } from '../ui/glossary';
 import '../play/board.css';
 import './puzzles.css';
 
@@ -666,6 +668,10 @@ export function Puzzles({
       : `${playerName(opponent(current.hero))} doubles to ${current.match.cube.value * 2}. Take or pass?`;
   const servedFromRetry = drill.retryIds.has(current.id);
   const answered = outcome !== null;
+  // The theme label, carrying its glossary tooltip when the theme is a
+  // defined term (ticket 32); the guard keeps any future non-glossary theme
+  // rendering plainly rather than breaking the build.
+  const themeLabel = THEME_TEXT[current.theme].label;
 
   // The post-answer reveal: a panel beside the board at desktop width
   // (ticket 21), below it at the narrow breakpoint. The verdict and the
@@ -794,8 +800,12 @@ export function Puzzles({
             {servedFromRetry && <span className="retry-chip">Retry</span>}
           </p>
           <p className="puzzle-caption">
-            {THEME_TEXT[current.theme].label} · puzzle {drill.run.index + 1} of{' '}
-            {drill.run.queue.length}
+            {hasGlossaryEntry(current.theme) ? (
+              <GlossaryTerm id={current.theme}>{themeLabel}</GlossaryTerm>
+            ) : (
+              themeLabel
+            )}{' '}
+            · puzzle {drill.run.index + 1} of {drill.run.queue.length}
           </p>
         </div>
         <div className="puzzle-layout">

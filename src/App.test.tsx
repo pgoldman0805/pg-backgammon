@@ -56,6 +56,24 @@ describe('navigation shell', () => {
   });
 });
 
+describe('Learn area (ticket 32)', () => {
+  it('reaches the glossary from a single Learn nav entry', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const nav = screen.getByRole('navigation', { name: 'Areas' });
+    await user.click(within(nav).getByRole('link', { name: 'Learn' }));
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Learn' }),
+    ).toBeInTheDocument();
+    const glossary = screen.getByRole('region', { name: /glossary/i });
+    expect(
+      within(glossary).getByRole('heading', { name: 'Crawford game' }),
+    ).toBeInTheDocument();
+  });
+});
+
 describe('phone menu', () => {
   it('opens from the Menu button: all five areas plus the theme toggle', async () => {
     const user = userEvent.setup();

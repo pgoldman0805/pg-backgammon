@@ -53,6 +53,7 @@ import {
 } from '../storage';
 import { BackupControls } from '../ui/BackupControls';
 import { lossText, playerName, rateText, signedEquityText } from '../ui/format';
+import { GlossaryTerm } from '../ui/GlossaryTerm';
 import '../play/board.css';
 import './analyze.css';
 
@@ -140,10 +141,21 @@ function gameLine(completed: MatchGameRecord): string {
 /* Review formatting                                                    */
 /* ------------------------------------------------------------------ */
 
-function countsText(summary: PlayerSummary): string {
-  const part = (count: number, word: string) =>
-    `${count} ${word}${count === 1 ? '' : 's'}`;
-  return `${part(summary.blunders, 'blunder')} · ${part(summary.errors, 'error')} · ${summary.dubious} dubious`;
+/** The per-player tally, each classification word a defined term (ticket 32). */
+function Counts({ summary }: { summary: PlayerSummary }) {
+  const plural = (count: number, word: string) =>
+    `${word}${count === 1 ? '' : 's'}`;
+  return (
+    <>
+      {summary.blunders}{' '}
+      <GlossaryTerm id="blunder">
+        {plural(summary.blunders, 'blunder')}
+      </GlossaryTerm>{' '}
+      · {summary.errors}{' '}
+      <GlossaryTerm id="error">{plural(summary.errors, 'error')}</GlossaryTerm>{' '}
+      · {summary.dubious} <GlossaryTerm id="dubious">dubious</GlossaryTerm>
+    </>
+  );
 }
 
 const CLASSIFICATION_TEXT = {
@@ -596,13 +608,14 @@ function Review({
               {rateText(analysis[player].errorRate)}
             </span>
             <span className="summary-counts">
-              {countsText(analysis[player])}
+              <Counts summary={analysis[player]} />
             </span>
           </div>
         ))}
         <p className="summary-hint">
-          Error rate: equity lost per unforced decision, in thousandths — lower
-          is better.
+          <GlossaryTerm id="error-rate">Error rate</GlossaryTerm>:{' '}
+          <GlossaryTerm id="equity">equity</GlossaryTerm> lost per unforced
+          decision, in thousandths — lower is better.
         </p>
       </section>
 
@@ -708,7 +721,7 @@ function Review({
                   {decisionHeadline(decision)}
                 </h3>
                 <span className="review-chip review-chip--plies">
-                  {decision.plies}-ply
+                  <GlossaryTerm id="two-ply">{decision.plies}-ply</GlossaryTerm>
                 </span>
               </header>
               <p
