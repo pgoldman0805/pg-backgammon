@@ -276,26 +276,31 @@ function TravelingChecker({
 /**
  * The doubling cube, in the left quadrant's open channel (the dice occupy the
  * right): mid-channel when centered, shifted toward the owner's side when
- * owned. A never-turned cube shows its traditional 64 face.
+ * owned. A centered, never-turned cube is the stake at rest — it shows the
+ * real current stake (1) and reads as quiet, not the traditional "64" face
+ * that non-experts mistake for a bug in no-doubling or early states (#22).
  */
 function CubeGlyph({ cube }: { cube: BoardCube }) {
   const size = 64;
   const x = BOARD.frame + (BOARD.pointWidth * 6) / 2;
-  const y =
-    cube.owner === 'center'
-      ? BOARD.height / 2
-      : cube.owner === 'black'
-        ? BOARD.height / 2 - 48
-        : BOARD.height / 2 + 48;
+  const atRest = cube.owner === 'center';
+  const y = !atRest
+    ? cube.owner === 'black'
+      ? BOARD.height / 2 - 48
+      : BOARD.height / 2 + 48
+    : BOARD.height / 2;
   const label = cube.outOfPlay
     ? 'Doubling cube: out of play (Crawford game)'
-    : cube.owner === 'center'
+    : atRest
       ? `Doubling cube: centered at ${cube.value}`
       : `Doubling cube: ${playerName(cube.owner)} holds it at ${cube.value}`;
+  const quiet = atRest && !cube.outOfPlay;
   return (
     // biome-ignore lint/a11y/noInteractiveElementToNoninteractiveRole: an SVG <g> is not interactive; img is its true role
     <g
-      className={`cube ${cube.outOfPlay ? 'cube--out-of-play' : ''}`}
+      className={`cube ${cube.outOfPlay ? 'cube--out-of-play' : ''} ${
+        quiet ? 'cube--centered' : ''
+      }`}
       role="img"
       aria-label={label}
     >
@@ -308,7 +313,7 @@ function CubeGlyph({ cube }: { cube: BoardCube }) {
         className="cube-face"
       />
       <text x={x} y={y + 9} className="cube-value">
-        {cube.owner === 'center' && cube.value === 1 ? 64 : cube.value}
+        {cube.value}
       </text>
     </g>
   );

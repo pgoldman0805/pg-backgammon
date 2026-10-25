@@ -130,6 +130,10 @@
   --bs-pearl-rose: #f1e3dd;
   --bs-pearl-green: #e2e3d6;
   --bs-inlay: #a57b24;
+  /* The dark rim-light behind gold action affordances (ticket 41, #23): gold
+     on warm walnut is low-contrast, so a dark halo separates it from the
+     felt. */
+  --bs-gold-halo: rgba(26, 14, 3, 0.92);
 }
 
 :root[data-theme="dark"][data-board-style="bosphorus"],
@@ -154,6 +158,8 @@
   --bs-pearl-rose: #c8b8ac;
   --bs-pearl-green: #b7b8a4;
   --bs-inlay: #cfa95c;
+  /* A deeper halo on the lifted dark felt reads as a quiet outline. */
+  --bs-gold-halo: rgba(6, 3, 0, 0.85);
 }
 
 [data-board-style="bosphorus"] .board-frame {
@@ -183,6 +189,30 @@
 [data-board-style="bosphorus"] .checker--black .checker-inner {
   stroke: var(--bs-inlay);
   opacity: 0.7;
+}
+
+/* Gold action affordances on warm walnut (ticket 41, review finding #23): the
+   selection ring and the dashed two-move target nearly vanish on the warm
+   felt — gold on warm brown is low-contrast. A dark halo (--bs-gold-halo,
+   above) rim-lights every gold affordance so it separates crisply from the
+   felt, and the two-move wash is lifted to its full gold tint so its dashes
+   read. */
+[data-board-style="bosphorus"] .checker-ring,
+[data-board-style="bosphorus"] .dest-point,
+[data-board-style="bosphorus"] .dest-tray {
+  filter: drop-shadow(0 0 3px var(--bs-gold-halo));
+}
+
+/* The selection ring is the primary "you can act here" signal — give it a
+   touch more weight so it holds on the felt. */
+[data-board-style="bosphorus"] .checker-ring {
+  stroke-width: 5;
+}
+
+[data-board-style="bosphorus"] .dest-point--two,
+[data-board-style="bosphorus"] .dest-tray--two {
+  fill: var(--board-gold-soft);
+  filter: drop-shadow(0 0 3px var(--bs-gold-halo));
 }
 
 /* ------------------------------------------------------------------ */
