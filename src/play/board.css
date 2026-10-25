@@ -17,12 +17,18 @@
   --checker-black-rim: #d8d2c4;
   --board-gold: #c79114;
   --board-gold-soft: rgba(199, 145, 20, 0.22);
+  /* Ticket 39: the board's perimeter and bear-off tray edges. Light mode
+     needs no help — the cream felt and trays already stand off the paper
+     page — so both stay transparent here and the dark palettes below (and
+     the per-style dark blocks) light them up. */
+  --board-edge: transparent;
+  --board-tray-edge: transparent;
 }
 
 :root[data-theme="dark"] {
   --board-frame: #0e120f;
   --board-felt: #20241f;
-  --board-tray: #272c26;
+  --board-tray: #2b302a;
   --point-hot: #47835f;
   --point-cool: #4c473d;
   --point-number: #5d6b60;
@@ -32,6 +38,12 @@
   --checker-black-rim: #b9b3a4;
   --board-gold: #f0b429;
   --board-gold-soft: rgba(240, 180, 41, 0.24);
+  /* The dark frame sits a hair below the page, so without an edge the board
+     dissolves into it. A warm hairline rim-lights the whole perimeter; a
+     quieter one draws the tray wells so empty trays and borne-off checkers
+     read as held in a container. */
+  --board-edge: rgba(240, 236, 226, 0.26);
+  --board-tray-edge: rgba(240, 236, 226, 0.17);
 }
 
 /* The Play page needs the full shell width; other pages keep their measure.
@@ -195,6 +207,12 @@
 
 .board-frame {
   fill: var(--board-frame);
+  /* The outermost rect is full-bleed, so its stroke's outer half is clipped
+     by the SVG viewport and the inner half reads as a hairline hugging the
+     rounded perimeter — a crisp board edge in dark mode, a no-op (transparent)
+     in light. */
+  stroke: var(--board-edge);
+  stroke-width: 4;
 }
 
 .board-felt {
@@ -203,6 +221,8 @@
 
 .board-tray {
   fill: var(--board-tray);
+  stroke: var(--board-tray-edge);
+  stroke-width: 2.5;
 }
 
 .point--hot {
