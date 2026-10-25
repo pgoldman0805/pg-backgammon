@@ -14,6 +14,7 @@ import { Puzzles } from './pages/Puzzles';
 import { Settings } from './pages/Settings';
 import { useBlunderMining } from './puzzles';
 import { useTheme } from './theme';
+import { FirstRunPrimerPrompt } from './ui/FirstRunPrimerPrompt';
 import { SaveFailureBanner } from './ui/SaveFailureBanner';
 
 /** Play, with the match id Analyze's "Resume" put into the route state. */
@@ -164,6 +165,7 @@ function App() {
       </a>
       <ShellHeader />
       <SaveFailureBanner />
+      <FirstRunPrimerPrompt />
       <main className="shell-main" id="content">
         <Routes>
           <Route path="/" element={<PlayRoute />} />

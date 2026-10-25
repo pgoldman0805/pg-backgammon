@@ -345,6 +345,19 @@ test('visual audit: every area, both themes, desktop through phone', async ({
   await expect(
     page.getByRole('button', { name: 'Play as White' }),
   ).toBeVisible();
+
+  // Ticket 30: the first-run primer nudge greets a brand-new user above the
+  // setup card. Capture it in every size and theme, then dismiss it so the
+  // rest of the audit documents the ordinary returning-user state.
+  await expect(
+    page.getByRole('note', { name: /new to backgammon/i }),
+  ).toBeVisible();
+  await shoot(page, 'first-run-primer');
+  await page.getByRole('button', { name: 'Dismiss' }).click();
+  await expect(
+    page.getByRole('note', { name: /new to backgammon/i }),
+  ).toBeHidden();
+
   await shoot(page, 'play-setup');
 
   // --- The phone menu, open (ticket 24) -----------------------------------
@@ -624,11 +637,15 @@ test('visual audit: every area, both themes, desktop through phone', async ({
   ).toBeVisible();
   await shoot(page, 'settings');
 
-  // --- Learn: the glossary (ticket 32) ------------------------------------
+  // --- Learn: the how-to-play primer (ticket 30) and glossary (ticket 32) -
   await page.getByRole('link', { name: 'Learn' }).click();
   await expect(
     page.getByRole('heading', { level: 1, name: 'Learn' }),
   ).toBeVisible();
+  await expect(
+    page.getByRole('region', { name: /how to play/i }),
+  ).toBeVisible();
+  await shoot(page, 'learn-how-to-play');
   await expect(page.getByRole('region', { name: /glossary/i })).toBeVisible();
   await shoot(page, 'learn-glossary');
 
