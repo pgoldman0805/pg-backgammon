@@ -13,6 +13,14 @@
  */
 
 import { isRace, type MatchState, type Play, type Player } from '../rules';
+import {
+  type DecisionToken,
+  isTakeback,
+  matchForToken,
+  resolvePacing,
+  sameToken,
+  tokenFor,
+} from './controllerCore';
 import { forcedPlay } from './selectors';
 import type { PlayStore } from './store';
 
@@ -42,43 +50,9 @@ export interface Autoplay {
   dispose(): void;
 }
 
-/**
- * One decision moment, identified by object identity of the plays record (a
- * new array every commit, takeback and game) plus the phase and the count of
- * recorded decisions — the same notion the engine opponent uses, so the
- * controller acts at most once per moment.
- */
-interface DecisionToken {
-  readonly phase: MatchState['phase'];
-  readonly plays: MatchState['game']['record']['plays'];
-  readonly decisions: number;
-}
-
-function tokenFor(match: MatchState): DecisionToken {
-  return {
-    phase: match.phase,
-    plays: match.game.record.plays,
-    decisions: match.decisions.length,
-  };
-}
-
-function sameToken(a: DecisionToken | null, b: DecisionToken | null): boolean {
-  return (
-    a !== null &&
-    b !== null &&
-    a.phase === b.phase &&
-    a.plays === b.plays &&
-    a.decisions === b.decisions
-  );
-}
-
-const defaultPace = (ms: number) =>
-  new Promise<void>((resolve) => setTimeout(resolve, ms));
-
 export function createAutoplay(options: AutoplayOptions): Autoplay {
   const { store, players, settings } = options;
-  const stepMs = options.stepMs ?? 450;
-  const pace = options.pace ?? defaultPace;
+  const { stepMs, pace } = resolvePacing(options);
 
   let disposed = false;
   /** The decision moment already acted on (never act twice on one). */
@@ -94,11 +68,7 @@ export function createAutoplay(options: AutoplayOptions): Autoplay {
 
   /** The current match if the captured decision moment is still live. */
   function liveMatch(token: DecisionToken): MatchState | null {
-    if (disposed) {
-      return null;
-    }
-    const match = store.getState().match;
-    return match && sameToken(tokenFor(match), token) ? match : null;
+    return disposed ? null : matchForToken(store, token);
   }
 
   /**
@@ -185,12 +155,7 @@ export function createAutoplay(options: AutoplayOptions): Autoplay {
     const prev = lastMatch;
     lastMatch = match;
     // A takeback shortened the same game's record: pause on the restored turn.
-    if (
-      match &&
-      prev &&
-      match.game.record.initialBoard === prev.game.record.initialBoard &&
-      match.game.record.plays.length < prev.game.record.plays.length
-    ) {
+    if (match && isTakeback(prev, match)) {
       pausedToken = tokenFor(match);
     }
     maybeAct();
