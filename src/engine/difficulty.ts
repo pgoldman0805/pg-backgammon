@@ -1,8 +1,33 @@
 /**
  * The difficulty layer (ADR-0001): every opponent strength is the same
- * engine deliberately weakened — reduced lookahead plus Gaussian noise on
- * the evaluations, seeded by position so the same decision always gets the
- * same noise (reproducible games and tests).
+ * engine deliberately weakened — reduced lookahead plus seeded perturbation
+ * of the evaluations, seeded by position so the same decision always gets the
+ * same perturbation (reproducible games and tests).
+ *
+ * The weakening at lower levels is *human-textured*, not just random. Two
+ * terms combine over each candidate play's clean equity:
+ *
+ *   1. Random slips — symmetric, zero-mean Gaussian noise of s.d. `noise`.
+ *      These are the ordinary "didn't see it" errors; their spread widens
+ *      sharply toward Beginner so the bottom level is genuinely beatable and
+ *      clearly distinct from Intermediate rather than compressing into a
+ *      narrow upper band.
+ *
+ *   2. Human-error bias — a *directional* equity bonus of magnitude `bias`
+ *      added to plays that match recognizable beginner temptations, so a
+ *      weakened opponent systematically errs the way a weaker human does
+ *      rather than coin-flipping uniformly:
+ *        - over-hitting: a play that hits (gnubg marks the hit with "*");
+ *        - running a back checker: a play that breaks a back checker out of
+ *          the opponent's home board / deep anchor zone.
+ *      The two beginner mistakes the spec names that are *not* modeled here —
+ *      under-valuing gammon chances and timing/priming danger — need
+ *      per-play win/gammon distributions that this seam does not carry
+ *      uniformly (the fake engine has no gammon model), so they are left for
+ *      a later pass; see the ticket-36 comment.
+ *
+ * Expert (clean 0-ply) and World-class (clean 2-ply) carry zero of both, so
+ * they, and every analysis/Tutor call, stay exactly engine-correct.
  *
  * gnubg has a native `noise ... deterministic on` mode, but in the vendored
  * WASM build it produces saturated, implausible evaluations (verified
@@ -15,19 +40,59 @@ import type { CubeAnalysis, CubeDecisionOption, Difficulty } from './types';
 export interface DifficultySettings {
   /** Engine lookahead for this strength. */
   readonly plies: 0 | 2;
-  /** Standard deviation of the Gaussian equity noise (0 = clean). */
+  /** Standard deviation of the symmetric Gaussian equity noise (0 = clean). */
   readonly noise: number;
+  /**
+   * Magnitude (in EMG) of the directional human-error bias toward beginner
+   * temptations (over-hitting, running a back checker). 0 = no bias.
+   */
+  readonly bias: number;
 }
 
 export const DIFFICULTY_SETTINGS: Readonly<
   Record<Difficulty, DifficultySettings>
 > = {
-  beginner: { plies: 0, noise: 0.06 },
-  casual: { plies: 0, noise: 0.05 },
-  intermediate: { plies: 0, noise: 0.03 },
-  expert: { plies: 0, noise: 0 },
-  'world-class': { plies: 2, noise: 0 },
+  beginner: { plies: 0, noise: 0.12, bias: 0.12 },
+  casual: { plies: 0, noise: 0.07, bias: 0.06 },
+  intermediate: { plies: 0, noise: 0.035, bias: 0.02 },
+  expert: { plies: 0, noise: 0, bias: 0 },
+  'world-class': { plies: 2, noise: 0, bias: 0 },
 };
+
+/**
+ * Relative pull of each modeled temptation, multiplied by a level's `bias`.
+ * Hitting is the stronger reflex; running a back checker is a touch milder.
+ */
+const HIT_WEIGHT = 1;
+const RUN_WEIGHT = 0.6;
+
+/**
+ * Lowest origin point (hero-relative) that counts as "a back checker": points
+ * 20–24 are the opponent's home board and the deep anchor zone a beginner is
+ * too eager to run from.
+ */
+const BACK_CHECKER_POINT = 20;
+
+/**
+ * How strongly a play tempts a weaker human, as a multiple of `bias`, read
+ * straight from gnubg's hero-relative move notation (so it is side-agnostic):
+ * a hit is flagged with "*", and a back checker is any token that advances a
+ * checker off point 20–24. A play can be doubly tempting (a running hit).
+ */
+export function humanTemptation(moveText: string): number {
+  let weight = 0;
+  if (moveText.includes('*')) {
+    weight += HIT_WEIGHT;
+  }
+  for (const token of moveText.trim().split(/\s+/)) {
+    const origin = Number.parseInt(token.replace(/\*/g, ''), 10);
+    if (Number.isInteger(origin) && origin >= BACK_CHECKER_POINT) {
+      weight += RUN_WEIGHT;
+      break;
+    }
+  }
+  return weight;
+}
 
 /**
  * Display labels for the five difficulties (GLOSSARY "Difficulty"), in
@@ -76,15 +141,25 @@ export function seededGaussian(seed: string): number {
 }
 
 /**
- * Perturb each move's equity with position-seeded Gaussian noise of the
- * given standard deviation and re-sort best first. Zero noise returns the
- * input unchanged. The seed combines the position key with each move's
- * notation, so every candidate play gets independent but reproducible noise.
+ * Perturb each move's equity for a weakened difficulty and re-sort best first.
+ *
+ * Two position-seeded terms are added to every candidate's clean equity:
+ * symmetric Gaussian noise of s.d. `settings.noise` (random slips), and a
+ * directional `settings.bias × humanTemptation(move)` bonus that pulls the
+ * choice toward characteristic beginner mistakes. The seed combines the
+ * position key with each move's notation, so every candidate gets independent
+ * but reproducible noise. A level with zero noise and zero bias (Expert,
+ * World-class) returns the input unchanged.
  */
 export function applyDifficultyNoise<
   T extends { readonly moveText: string; readonly equity: number },
->(moves: readonly T[], noise: number, positionSeed: string): T[] {
-  if (noise === 0) {
+>(
+  moves: readonly T[],
+  settings: Pick<DifficultySettings, 'noise' | 'bias'>,
+  positionSeed: string,
+): T[] {
+  const { noise, bias } = settings;
+  if (noise === 0 && bias === 0) {
     return [...moves];
   }
   return moves
@@ -92,7 +167,8 @@ export function applyDifficultyNoise<
       ...move,
       equity:
         move.equity +
-        noise * seededGaussian(`${positionSeed}|${move.moveText}`),
+        noise * seededGaussian(`${positionSeed}|${move.moveText}`) +
+        bias * humanTemptation(move.moveText),
     }))
     .sort((a, b) => b.equity - a.equity);
 }
