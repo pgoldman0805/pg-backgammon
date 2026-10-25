@@ -7,6 +7,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { Analyze } from './pages/Analyze';
+import { Learn } from './pages/Learn';
 import { Play } from './pages/Play';
 import { Progress } from './pages/Progress';
 import { Puzzles } from './pages/Puzzles';
@@ -28,6 +29,8 @@ const areas = [
   { path: '/puzzles', label: 'Puzzles' },
   { path: '/progress', label: 'Progress' },
   { path: '/settings', label: 'Settings' },
+  // Ticket 32 adds the glossary here; ticket 30 folds how-to-play in beside it.
+  { path: '/learn', label: 'Learn' },
 ];
 
 /**
@@ -168,6 +171,7 @@ function App() {
           <Route path="/puzzles" element={<Puzzles />} />
           <Route path="/progress" element={<Progress />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/learn" element={<Learn />} />
         </Routes>
       </main>
     </BrowserRouter>

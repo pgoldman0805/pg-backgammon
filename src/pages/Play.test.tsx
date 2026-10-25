@@ -5,6 +5,7 @@ import {
   render,
   screen,
   waitFor,
+  within,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
@@ -30,6 +31,7 @@ import {
   manualLoadEngine,
   scriptedCubeEngine,
 } from '../test/engine';
+import { GLOSSARY } from '../ui/glossary';
 import { Play, type PlayProps } from './Play';
 
 // The autoplay settings (ticket 15) persist in localStorage; tests that set
@@ -71,6 +73,14 @@ describe('match setup', () => {
 
     expect(screen.getByLabelText('White pip count')).toHaveTextContent('167');
     expect(screen.getByLabelText('Black pip count')).toHaveTextContent('167');
+  });
+
+  it('explains the pip count inline with a glossary tooltip (ticket 32)', () => {
+    renderPlay({ dice: scriptedDice() });
+
+    const white = screen.getByLabelText('White pip count');
+    const term = within(white).getByRole('button', { name: '167' });
+    expect(term).toHaveAccessibleDescription(GLOSSARY.pips.short);
   });
 
   it('carries the portrait-phone rotate hint (CSS shows it only there)', () => {
@@ -227,7 +237,13 @@ describe('the standing on display', () => {
       dice: scriptedDice(),
     });
 
-    expect(screen.getByText('Crawford — no doubling')).toBeInTheDocument();
+    // The badge still reads "Crawford — no doubling"; the term now carries an
+    // inline glossary tooltip (ticket 32).
+    const crawford = screen.getByRole('button', { name: 'Crawford' });
+    expect(crawford).toHaveAccessibleDescription(GLOSSARY.crawford.short);
+    expect(crawford.closest('.crawford-badge')).toHaveTextContent(
+      /no doubling/,
+    );
     expect(
       screen.getByLabelText('Doubling cube: out of play (Crawford game)'),
     ).toBeInTheDocument();
@@ -508,7 +524,11 @@ describe('between games and at the match end', () => {
     ).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'Next game' }));
-    expect(screen.getByText('Crawford — no doubling')).toBeInTheDocument();
+    expect(
+      screen
+        .getByRole('button', { name: 'Crawford' })
+        .closest('.crawford-badge'),
+    ).toHaveTextContent(/no doubling/);
   });
 
   it('summarises the match at its end and starts a new one', async () => {

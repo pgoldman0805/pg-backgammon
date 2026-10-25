@@ -1,0 +1,61 @@
+/* GlossaryTerm (ticket 32): an inline, defined term and its paper popover.
+   The term wears a felt-green dotted underline — the app's "there's more to
+   know here" cue — and the popover reads like a small index card, its top
+   edge the one felt-green line that ties it to the accent system. */
+
+.term {
+  position: relative;
+  display: inline-flex;
+}
+
+.term-trigger {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: help;
+  text-decoration: underline dotted var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.term-trigger:hover {
+  text-decoration-style: solid;
+}
+
+.term-popover {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  z-index: 40;
+  display: block;
+  width: max-content;
+  max-width: min(17rem, calc(100vw - 2rem));
+  padding: 0.55rem 0.7rem;
+  font-size: 0.82rem;
+  font-weight: 400;
+  line-height: 1.45;
+  text-align: left;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--accent);
+  border-radius: var(--control-radius);
+  box-shadow: 0 6px 20px -8px rgb(0 0 0 / 35%);
+  overflow-wrap: break-word;
+}
+
+.term-popover-name {
+  display: block;
+  margin-bottom: 0.1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.term-popover-def {
+  display: block;
+  color: var(--ink-muted);
+}

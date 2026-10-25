@@ -623,4 +623,25 @@ test('visual audit: every area, both themes, desktop through phone', async ({
     page.getByRole('switch', { name: 'Auto-roll in races' }),
   ).toBeVisible();
   await shoot(page, 'settings');
+
+  // --- Learn: the glossary (ticket 32) ------------------------------------
+  await page.getByRole('link', { name: 'Learn' }).click();
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Learn' }),
+  ).toBeVisible();
+  await expect(page.getByRole('region', { name: /glossary/i })).toBeVisible();
+  await shoot(page, 'learn-glossary');
+
+  // One extra: an inline term tooltip opened on Play, desktop light only, so
+  // the audit documents the affordance itself (ticket 32).
+  await page.getByRole('link', { name: 'Play' }).click();
+  const pips = page
+    .getByRole('group', { name: 'White pip count' })
+    .getByRole('button');
+  await pips.hover();
+  await expect(page.getByRole('tooltip')).toBeVisible();
+  await page.screenshot({
+    path: path.join(AUDIT_DIR, 'term-tooltip-desktop-light.png'),
+    fullPage: true,
+  });
 });

@@ -105,7 +105,9 @@
   color: var(--ink-muted);
 }
 
-.chip-pips::after {
+/* The " pips" label rides inside the term trigger (ticket 32) so the whole
+   "167 pips" reads — and underlines — as one defined term. */
+.chip-pips .term-trigger::after {
   content: " pips";
   font-size: 0.8em;
 }
@@ -834,6 +836,12 @@
   font-size: 0.8rem;
   font-weight: 650;
   color: var(--ink-muted);
+}
+
+/* Inside a feedback chip the defined term follows the chip's own colour,
+   not the felt-green accent, so it reads on the filled blunder chip too. */
+.feedback-chip .term-trigger {
+  text-decoration-color: currentColor;
 }
 
 .feedback-chip--dubious {

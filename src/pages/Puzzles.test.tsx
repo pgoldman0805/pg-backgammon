@@ -26,6 +26,7 @@ import {
   createMemoryGeneratedPuzzleStorage,
   createMemoryPuzzleProgressStorage,
 } from '../storage';
+import { GLOSSARY } from '../ui/glossary';
 import { Puzzles } from './Puzzles';
 
 /** White bears off with 5-3: 5/off 3/off is best, 5/2 3/off a clear error. */
@@ -188,6 +189,20 @@ describe('play puzzles', () => {
     expect(
       screen.getByRole('button', { name: /next puzzle/i }),
     ).toBeInTheDocument();
+  });
+
+  it('explains the puzzle theme with an inline glossary tooltip (ticket 32)', async () => {
+    const user = userEvent.setup();
+    render(<Puzzles puzzles={basePuzzles} />);
+
+    const bearOff = (await screen.findByText('Bear-off')).closest('li');
+    await user.click(
+      within(bearOff as HTMLElement).getByRole('button', { name: /drill/i }),
+    );
+
+    const caption = screen.getByText(/puzzle 1 of/i);
+    const term = within(caption).getByRole('button', { name: 'Bear-off' });
+    expect(term).toHaveAccessibleDescription(GLOSSARY['bear-off'].short);
   });
 
   it('supports undo while attempting', async () => {

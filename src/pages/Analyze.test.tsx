@@ -28,6 +28,7 @@ import {
 } from '../storage';
 import { scriptedDice } from '../test/dice';
 import { cubeGameMatch, recordOf } from '../test/match';
+import { GLOSSARY } from '../ui/glossary';
 import { Analyze } from './Analyze';
 
 /** A finished 1-point match vs Expert: black resigns, white wins 1-0. */
@@ -406,6 +407,26 @@ describe('post-game review', () => {
 
     await user.click(screen.getByRole('button', { name: 'Previous decision' }));
     expect(detail).toHaveTextContent(/white played 8\/5 6\/5/i);
+  });
+
+  it('explains the review jargon with inline glossary tooltips (ticket 32)', async () => {
+    const user = userEvent.setup();
+    const stored = await analyzedReviewMatch();
+    renderAnalyze(createMemoryStorage([stored]), fakeAnalyzer());
+    await user.click(await screen.findByRole('button', { name: 'Open' }));
+
+    const summary = await screen.findByLabelText('Match error rates');
+    expect(
+      within(summary).getByRole('button', { name: 'Error rate' }),
+    ).toHaveAccessibleDescription(GLOSSARY['error-rate'].short);
+    expect(
+      within(summary).getByRole('button', { name: 'equity' }),
+    ).toHaveAccessibleDescription(GLOSSARY.equity.short);
+
+    const detail = await screen.findByLabelText('Decision detail');
+    expect(
+      within(detail).getByRole('button', { name: '2-ply' }),
+    ).toHaveAccessibleDescription(GLOSSARY['two-ply'].short);
   });
 
   it('analyzes a single decision deeper and persists the refinement', async () => {
