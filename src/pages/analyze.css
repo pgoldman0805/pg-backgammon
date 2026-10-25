@@ -12,12 +12,27 @@
 
 /* An open review spreads its two panes across the full shell width (the
    same rule the Play board uses — 1380px with trimmed padding since
-   ticket 21's board-prominence pass); the history ledger keeps its
-   reading measure. */
+   ticket 21's board-prominence pass). */
 .shell-main:has(.match-view) {
   max-width: 1380px;
   padding-top: 1.25rem;
   padding-bottom: 1.5rem;
+}
+
+/* The history ledger reclaims desktop width (ticket 40): wide enough to
+   unsquash the match rows and let the position viewer's board render near
+   its 840px intent, which the 68ch reading measure clipped to ~500px. The
+   review above already spans the board width; this rule governs only the
+   ledger view (no .match-view). Tablet and phone keep the narrow measure
+   (reset below), so only the desktop tier changes. */
+.shell-main:has(.analyze-area):not(:has(.match-view)) {
+  max-width: 58rem;
+}
+
+@media (max-width: 860px) {
+  .shell-main:has(.analyze-area):not(:has(.match-view)) {
+    max-width: 68ch;
+  }
 }
 
 .analyze-note {
