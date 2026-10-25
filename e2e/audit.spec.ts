@@ -337,7 +337,9 @@ async function seedHistory(page: Page): Promise<void> {
 test('visual audit: every area, both themes, desktop through phone', async ({
   page,
 }) => {
-  test.setTimeout(1_500_000);
+  // Raised to fit the Learn-area captures (how-to-play, ticket 30; glossary,
+  // ticket 32) added to the end of the walk.
+  test.setTimeout(2_100_000);
   mkdirSync(AUDIT_DIR, { recursive: true });
 
   // --- Play setup card (fresh app) ---------------------------------------
