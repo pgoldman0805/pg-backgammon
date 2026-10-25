@@ -11,7 +11,12 @@ export default defineConfig({
     // devOptions stays off, so `npm run dev` never registers a service worker
     // and the virtual register module is a no-op in dev.
     VitePWA({
-      registerType: 'autoUpdate',
+      // Ticket 47: `prompt`, not `autoUpdate`, so a new deploy never reloads
+      // the page unprompted. src/pwa.ts adopts the update on `onNeedRefresh`
+      // but defers the reload while a match is live. `clientsClaim` keeps the
+      // first-install worker controlling the page so the app is offline-ready
+      // immediately (the offline e2e asserts a controller on first load).
+      registerType: 'prompt',
       manifest: {
         name: 'pg-backgammon',
         short_name: 'Backgammon',
@@ -37,6 +42,11 @@ export default defineConfig({
       // The glob below already precaches every PNG; avoid duplicate entries.
       includeManifestIcons: false,
       workbox: {
+        // Take control of the page on first activation so it works offline
+        // immediately; the new worker still waits (prompt mode) on later
+        // deploys until src/pwa.ts adopts it.
+        clientsClaim: true,
+        skipWaiting: false,
         // Precache the whole app, engine payload included: gnubg.data and
         // gnubg.wasm live in public/engine and land in dist as .data/.wasm.
         globPatterns: ['**/*.{js,css,html,svg,png,wasm,data}'],

@@ -164,4 +164,51 @@ describe('.mat round-trip property', () => {
       expect(imported.record, `seed ${seed}`).toEqual(matRepresentable(native));
     }
   });
+
+  it('round-trips matches longer than 3 points', () => {
+    // The default generator only ever reaches 1-3 points; longer matches were
+    // untested (review P3). Force 5- and 7-point targets and round-trip them.
+    for (const length of [5, 7]) {
+      for (let seed = 1; seed <= 6; seed++) {
+        const native = recordOf(generateFinishedMatch(seed, length));
+
+        const imported = importMat(exportMat(native));
+
+        expect(imported.record, `length ${length}, seed ${seed}`).toEqual(
+          matRepresentable(native),
+        );
+      }
+    }
+  });
+});
+
+describe('.mat player names with colons (review P3)', () => {
+  it('round-trips names containing ":"', () => {
+    const native = recordOf(cubeGameMatch(2));
+    const players = { white: 'Dr: Jones', black: 'G:O:D' };
+
+    const imported = importMat(exportMat(native, players));
+
+    expect(imported.players).toEqual(players);
+    expect(imported.record).toEqual(native);
+  });
+
+  it('parses a hand-written score line whose names carry colons', () => {
+    const text = [
+      ' 2 point match',
+      '',
+      ' Game 1',
+      ' Dr: Jones : 0                 G:O:D : 0',
+      '  1) 31: 8/5 6/5                 Doubles => 2',
+      '  2)  Takes                      65: 24/18 18/13',
+      '  3) 62: 24/18 13/11             Wins 2 points',
+      '',
+      '',
+    ].join('\n');
+
+    const imported = importMat(text);
+
+    expect(imported.players).toEqual({ white: 'Dr: Jones', black: 'G:O:D' });
+    expect(imported.record).toEqual(recordOf(cubeGameMatch(2)));
+  });
 });

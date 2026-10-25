@@ -42,7 +42,11 @@ export function asPromise<T>(request: IDBRequest<T>): Promise<T> {
   });
 }
 
-function openDatabase(factory: IDBFactory, name: string): Promise<IDBDatabase> {
+function openDatabase(
+  factory: IDBFactory,
+  name: string,
+  onVersionChange: (db: IDBDatabase) => void,
+): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
     const request = factory.open(name, DB_VERSION);
     request.onupgradeneeded = () => {
@@ -62,7 +66,23 @@ function openDatabase(factory: IDBFactory, name: string): Promise<IDBDatabase> {
         db.createObjectStore(GENERATED_PUZZLES_STORE, { keyPath: 'id' });
       }
     };
-    request.onsuccess = () => resolve(request.result);
+    // Another tab is holding an older version open and did not close in time:
+    // settle the open as a failure so reads and writes surface an error
+    // instead of hanging forever behind a stuck upgrade.
+    request.onblocked = () =>
+      reject(
+        new Error(
+          'IndexedDB upgrade is blocked by another open tab; close the other ' +
+            'tabs and reload',
+        ),
+      );
+    request.onsuccess = () => {
+      const db = request.result;
+      // A later version bump in another tab must not hang waiting on us:
+      // close this connection the moment it would block the upgrade.
+      db.onversionchange = () => onVersionChange(db);
+      resolve(db);
+    };
     request.onerror = () =>
       reject(request.error ?? new Error('IndexedDB failed to open'));
   });
@@ -80,10 +100,21 @@ export function createDatabaseHandle(
   return function db(): Promise<IDBDatabase> {
     if (!database) {
       const factory = options.factory ?? indexedDB;
-      database = openDatabase(factory, name);
+      const opening = openDatabase(factory, name, (conn) => {
+        // A schema upgrade is waiting in another tab: close so it can proceed,
+        // and drop the cached handle so the next call reopens at the new
+        // version instead of transacting on a closed connection.
+        conn.close();
+        if (database === opening) {
+          database = null;
+        }
+      });
+      database = opening;
       // A failed open should not poison every later call.
-      database.catch(() => {
-        database = null;
+      opening.catch(() => {
+        if (database === opening) {
+          database = null;
+        }
       });
     }
     return database;

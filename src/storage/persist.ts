@@ -7,6 +7,11 @@
  */
 
 import type { MatchState } from '../rules';
+import {
+  clearLiveMatchMirror,
+  mirrorLiveMatch,
+  setLiveMatchActive,
+} from './liveMatch';
 import type { SaveHealthReporter } from './saveHealth';
 import { snapshotMatch } from './snapshot';
 import type { MatchConfig, MatchStorage, StoredMatch } from './types';
@@ -81,22 +86,39 @@ export function createMatchPersister(
   /** Saves are chained so writes land in order. */
   let queue: Promise<void> = Promise.resolve();
 
+  /** The stored row for the current store state, or null when there is
+   * nothing of ours to save. Pure: builds no side effects. */
+  function buildRow(): StoredMatch | null {
+    const current = identity;
+    const match = store.getState().match;
+    if (!current || !match || match === baseline) {
+      return null;
+    }
+    const snapshot = snapshotMatch({
+      id: current.id,
+      config: current.config,
+      match,
+      createdAt: current.createdAt,
+      updatedAt: now(),
+    });
+    return carried ? { ...carried, ...snapshot } : snapshot;
+  }
+
   function save(): Promise<void> {
     queue = queue.then(async () => {
-      const current = identity;
-      const match = store.getState().match;
-      if (!current || !match || match === baseline) {
+      const row = buildRow();
+      if (!row) {
         return;
       }
       dirty = false;
-      const snapshot = snapshotMatch({
-        id: current.id,
-        config: current.config,
-        match,
-        createdAt: current.createdAt,
-        updatedAt: now(),
-      });
-      const row: StoredMatch = carried ? { ...carried, ...snapshot } : snapshot;
+      // Keep the live-match flag (and the hide mirror) in step with the row we
+      // are about to write: a finished match is no longer "live".
+      if (row.status === 'in-progress') {
+        setLiveMatchActive(true);
+      } else {
+        setLiveMatchActive(false);
+        clearLiveMatchMirror();
+      }
       try {
         await storage.put(row);
         // The write landed: storage is healthy (clears a prior warning).
@@ -121,6 +143,9 @@ export function createMatchPersister(
       return;
     }
     dirty = true;
+    // Reflect that a match is live the moment it starts changing, so the PWA
+    // update gate can defer an unprompted reload while the player is mid-match.
+    setLiveMatchActive(match.phase !== 'match-over');
     if (timer !== null) {
       clearTimeout(timer);
     }
@@ -142,12 +167,25 @@ export function createMatchPersister(
     }
   }
 
+  /** Synchronously mirror the in-progress snapshot before the page goes away.
+   * The debounced IndexedDB save is async and may not finish before an unload
+   * (e.g. a service-worker reload), so this is what reconciliation recovers. */
+  function captureForHide(): void {
+    const row = buildRow();
+    if (row && row.status === 'in-progress') {
+      mirrorLiveMatch(row);
+      setLiveMatchActive(true);
+    }
+  }
+
   function onHide(): void {
+    captureForHide();
     void flush();
   }
 
   function onVisibility(): void {
     if (document.visibilityState === 'hidden') {
+      captureForHide();
       void flush();
     }
   }
@@ -192,6 +230,10 @@ export function createMatchPersister(
       }
       disposed = true;
       unsubscribe();
+      // Leaving the Play page ends the "live match" for update purposes; a
+      // waiting service-worker update may now apply. The hide mirror (if any)
+      // is left for reconciliation on the next load.
+      setLiveMatchActive(false);
       if (typeof window !== 'undefined') {
         window.removeEventListener('pagehide', onHide);
       }

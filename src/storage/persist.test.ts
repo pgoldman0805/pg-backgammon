@@ -1,6 +1,7 @@
 import { createPlayStore, type PlayStore } from '../play/store';
 import { replayMatch } from '../rules';
 import { scriptedDice } from '../test/dice';
+import { isLiveMatchInProgress, readLiveMatchMirror } from './liveMatch';
 import { createMemoryStorage } from './memory';
 import { createMatchPersister } from './persist';
 import type { MatchConfig, MatchStorage, StoredMatch } from './types';
@@ -229,6 +230,66 @@ describe('match persistence', () => {
     store.dispatch({ type: 'start', length: 3 });
 
     await expect(persister.flush()).resolves.toBeUndefined();
+  });
+
+  describe('live-match signal and synchronous hide mirror', () => {
+    beforeEach(() => {
+      localStorage.clear();
+    });
+
+    it('flags a match as in progress while it persists one', () => {
+      const { store, persister } = harness();
+      expect(isLiveMatchInProgress()).toBe(false);
+
+      persister.begin(config);
+      store.dispatch({ type: 'start', length: 3 });
+
+      expect(isLiveMatchInProgress()).toBe(true);
+      persister.dispose();
+    });
+
+    it('clears the in-progress flag on dispose', () => {
+      const { store, persister } = harness();
+      persister.begin(config);
+      store.dispatch({ type: 'start', length: 3 });
+
+      persister.dispose();
+
+      expect(isLiveMatchInProgress()).toBe(false);
+    });
+
+    it('mirrors the latest move synchronously on hide, before the debounced save lands', async () => {
+      const { storage, store, persister } = harness({ debounceMs: 10_000 });
+      persister.begin(config);
+      store.dispatch({ type: 'start', length: 3 });
+      playOpening(store);
+
+      // The debounced IndexedDB write has not run yet.
+      expect(await storage.list()).toEqual([]);
+
+      // Hiding the page captures the move synchronously, so a reload inside
+      // the quiet period cannot clip it.
+      window.dispatchEvent(new Event('pagehide'));
+
+      const mirror = readLiveMatchMirror();
+      expect(mirror?.id).toBe('id-1');
+      expect(mirror?.status).toBe('in-progress');
+      expect(mirror?.state?.game.record.plays).toHaveLength(1);
+      persister.dispose();
+    });
+
+    it('clears flag and mirror once the match finishes', async () => {
+      const { store, persister } = harness();
+      persister.begin({ ...config, length: 1 });
+      store.dispatch({ type: 'start', length: 1 });
+      window.dispatchEvent(new Event('pagehide'));
+      resignCurrentGame(store);
+      await persister.flush();
+
+      expect(isLiveMatchInProgress()).toBe(false);
+      expect(readLiveMatchMirror()).toBeNull();
+      persister.dispose();
+    });
   });
 
   it('reports a save failure, then recovery, through save health', async () => {

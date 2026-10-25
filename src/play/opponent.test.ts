@@ -502,6 +502,80 @@ describe('the engine answering resignations', () => {
     expect(store.getState().match?.score).toEqual({ white: 0, black: 2 });
     opponent.dispose();
   });
+
+  // Review P3: "resignation acceptance compares base points to cubeless
+  // equity, ignoring cube scaling — wrong when the cube > 1." Investigated and
+  // found NOT a defect: the engine's EMG equity is already normalized to the
+  // current cube value (GLOSSARY: "EMG (normalized money-equivalent)"), so an
+  // EMG of 1 is a single at the *current* cube — exactly what the base points
+  // (single=1, gammon=2, backgammon=3) already measure. The decision is
+  // therefore correct at any cube value, and multiplying the offer by the cube
+  // would double-count it and produce wrong take/drops when the cube is up.
+  // These guard that cube-invariance so a well-meaning "× cube" change fails.
+  function whiteResignedAtCube(
+    kind: 'single' | 'gammon',
+    cubeValue: number,
+  ): PlayStore {
+    const store = createPlayStore({
+      match: createMatch({
+        length: 7,
+        cube: { value: cubeValue, owner: 'black' },
+        game: createGame({
+          board: createBoard({
+            white: { points: { 24: 2, 13: 5, 8: 3, 6: 5 } },
+            black: { points: { 1: 2, 12: 5, 17: 3, 19: 5 } },
+          }),
+          player: 'white',
+          roll: [6, 3],
+        }),
+      }),
+      dice: scriptedDice(5, 2),
+    });
+    store.dispatch({ type: 'resign', kind });
+    expect(store.getState().match?.phase).toBe('resign-offered');
+    return store;
+  }
+
+  it('accepts a single under a 4-cube when EMG equity is below a single', async () => {
+    const store = whiteResignedAtCube('single', 4);
+    // Black's per-cube EMG equity +0.6 < one single: accept (the resignation
+    // already pays a full single at the live cube).
+    const engine = scriptedCubeEngine('No double, take', { equity: -0.6 });
+    const opponent = createEngineOpponent({
+      store,
+      engine,
+      player: 'black',
+      difficulty: 'expert',
+      ...opponentOptions(),
+    });
+
+    await vi.waitFor(() => {
+      expect(store.getState().match?.phase).toBe('game-over');
+    });
+    expect(store.getState().match?.score).toEqual({ white: 0, black: 4 });
+    opponent.dispose();
+  });
+
+  it('declines a single under a 4-cube when EMG equity exceeds a single', async () => {
+    const store = whiteResignedAtCube('single', 4);
+    // Black expects more than a single at the live cube (+1.4): play on. A
+    // "× cube" bug would see offered = 4 ≥ 1.4 and wrongly accept here.
+    const engine = scriptedCubeEngine('No double, take', { equity: -1.4 });
+    const opponent = createEngineOpponent({
+      store,
+      engine,
+      player: 'black',
+      difficulty: 'expert',
+      ...opponentOptions(),
+    });
+
+    await vi.waitFor(() => {
+      expect(store.getState().match?.phase).toBe('turn');
+    });
+    expect(store.getState().match?.pendingResignation).toBeNull();
+    expect(store.getState().match?.score).toEqual({ white: 0, black: 0 });
+    opponent.dispose();
+  });
 });
 
 describe('dance and forced turns', () => {

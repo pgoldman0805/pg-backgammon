@@ -297,12 +297,15 @@ function lineEntries(text: string, line: number, offset: number): RawEntry[] {
   return entries;
 }
 
-/** "name : score" pairs of a game's score line, or null if it is not one. */
+/** "name : score" pairs of a game's score line, or null if it is not one.
+ * The name runs lazily up to its " : score" so colons inside a name survive
+ * (e.g. "Dr: Jones : 0"); the score is a digit run at a field boundary, which
+ * keeps move lines ("65: 24/18", score digits mid-token) from matching. */
 function parseScoreLine(
   text: string,
 ): Array<{ name: string; score: number }> | null {
   const pairs: Array<{ name: string; score: number }> = [];
-  const pattern = /([^\s:][^:]*?)\s*:\s*(\d+)/g;
+  const pattern = /\s*(\S.*?)\s*:\s*(\d+)(?=\s|$)/g;
   for (
     let match = pattern.exec(text);
     match !== null;
