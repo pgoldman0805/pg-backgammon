@@ -116,3 +116,36 @@ export function checkPuzzle(session: GnubgSession, puzzle: Puzzle): string[] {
     ? checkPlayPuzzle(session, puzzle)
     : checkCubePuzzle(session, puzzle);
 }
+
+/**
+ * Agreement gate (ticket 35): re-rank a play puzzle at the deeper (3-ply,
+ * bounded — no rollouts) effort and confirm its 2-ply best is still the best.
+ * A stored answer whose top play flips at greater depth is a 2-ply artifact
+ * and must not ship. Returns a one-line discrepancy, or an empty list when the
+ * top play agrees at both depths. Cube puzzles have no "top play" and are not
+ * depth-gated here.
+ */
+export function checkPlayDepthAgreement(
+  session: GnubgSession,
+  puzzle: PlayPuzzle,
+): string[] {
+  const deep = session.rankPlays(toEnginePosition(puzzle), puzzle.roll, {
+    effort: 'deep',
+  });
+  if (deep.length === 0) {
+    return ['3-ply check returned no plays'];
+  }
+  const deepBestKey = boardKey(
+    deep[0].play.movements.reduce(
+      (b, m) => applyMovement(b, 'white', m),
+      puzzle.board,
+    ),
+  );
+  if (deepBestKey !== puzzle.answers[0].finalKey) {
+    return [
+      `top play flips at 3-ply: 2-ply ${puzzle.answers[0].moveText}, ` +
+        `3-ply ${deep[0].moveText}`,
+    ];
+  }
+  return [];
+}

@@ -60,6 +60,15 @@ export interface SelfPlayMiningEngine {
     position: EnginePosition,
     roll: DiceRoll,
   ): Promise<readonly RankedPlay[]>;
+  /**
+   * Deeper (3-ply, bounded — no rollouts) ranking used only as an agreement
+   * gate: a kept play puzzle's 2-ply best must still be best at 3-ply, so the
+   * stored answer cannot be a 2-ply artifact that flips at greater depth.
+   */
+  deepRankPlays(
+    position: EnginePosition,
+    roll: DiceRoll,
+  ): Promise<readonly RankedPlay[]>;
   /** Full cube analysis for the on-roll player. */
   cubeInfo(position: EnginePosition): Promise<CubeAnalysis>;
 }
@@ -125,6 +134,8 @@ export interface SelfPlayMiningStats {
   readonly games: number;
   readonly playScreened: number;
   readonly playConfirmed: number;
+  /** Play candidates dropped because their 2-ply best flipped at 3-ply. */
+  readonly playDeepRejected: number;
   readonly cubeEvaluated: number;
   readonly cubeAccepted: number;
 }
@@ -175,6 +186,17 @@ const other = (player: Player): Player =>
 /** Orient a position so the hero (the decision maker) is White. */
 function asWhite(board: BoardState, hero: Player): BoardState {
   return hero === 'white' ? board : mirrorBoard(board);
+}
+
+/** Content key of a ranked play's resulting board, in the given orientation. */
+function playFinalKey(
+  board: BoardState,
+  player: Player,
+  ranked: RankedPlay,
+): string {
+  return boardKey(
+    ranked.play.movements.reduce((b, m) => applyMovement(b, player, m), board),
+  );
 }
 
 /** Build a play puzzle from a full-strength ranking, mirrored to White. */
@@ -235,6 +257,7 @@ interface Run {
     games: number;
     playScreened: number;
     playConfirmed: number;
+    playDeepRejected: number;
     cubeEvaluated: number;
     cubeAccepted: number;
   };
@@ -339,6 +362,22 @@ async function considerPlay(
   }
   const margin = full[1].equityLoss;
   if (margin < quality.marginMin || margin > quality.marginMax) {
+    return;
+  }
+  // Agreement gate: the 2-ply best must still be best at a deeper (3-ply)
+  // check, so a kept puzzle's top play cannot flip at greater depth (2-ply is
+  // an evaluation, not a rollout).
+  const deep = await run.options.engine.deepRankPlays(
+    { board, onRoll: player },
+    roll,
+  );
+  if (deep.length === 0) {
+    return;
+  }
+  const topKey = playFinalKey(board, player, full[0]);
+  const deepTopKey = playFinalKey(board, player, deep[0]);
+  if (topKey !== deepTopKey) {
+    run.stats.playDeepRejected++;
     return;
   }
   if (!takeFromGame(run, quota, theme)) {
@@ -569,6 +608,7 @@ export async function mineSelfPlayPuzzles(
       games: 0,
       playScreened: 0,
       playConfirmed: 0,
+      playDeepRejected: 0,
       cubeEvaluated: 0,
       cubeAccepted: 0,
     },

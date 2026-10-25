@@ -617,6 +617,12 @@ function FeedbackNote({ feedback }: { feedback: TutorFeedback }) {
       {feedback.classification !== 'ok' && (
         <span> · Best: {feedback.bestMoveText}</span>
       )}
+      {/* The live eval is a 2-ply engine read, not a rollout — so a close call
+          can differ from the rollout answer. */}
+      <span className="tutor-note-depth">
+        {' · '}
+        <GlossaryTerm id="two-ply">2-ply</GlossaryTerm>
+      </span>
     </p>
   );
 }

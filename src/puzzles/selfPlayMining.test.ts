@@ -120,6 +120,45 @@ describe('mineSelfPlayPuzzles', () => {
     }
   });
 
+  it('drops play puzzles whose top play flips at the deeper (3-ply) check', async () => {
+    // The deep check ranks the 2-ply second-best first, so every 2-ply best
+    // play flips at depth: no play puzzle may survive the agreement gate.
+    const base = scriptedMiningEngine();
+    const flipTop = (ranked: Awaited<ReturnType<typeof base.rankPlays>>) =>
+      ranked.length < 2 ? ranked : [ranked[1], ranked[0], ...ranked.slice(2)];
+    const engine = {
+      ...base,
+      deepRankPlays: async (
+        position: Parameters<typeof base.rankPlays>[0],
+        roll: Parameters<typeof base.rankPlays>[1],
+      ) => flipTop(await base.rankPlays(position, roll)),
+    };
+
+    const result = await mineSelfPlayPuzzles({
+      ...baseOptions(),
+      engine,
+      source: 'curated',
+      target: { perTheme: 1 },
+      maxGames: 40,
+    });
+
+    expect(result.puzzles.filter((p) => p.kind === 'play')).toHaveLength(0);
+    // The play-depth gate leaves cube puzzles (no "top play") untouched.
+    expect(result.puzzles.some((p) => p.kind === 'cube')).toBe(true);
+    expect(result.stats.playDeepRejected).toBeGreaterThan(0);
+  });
+
+  it('keeps play puzzles when the deeper check agrees on the top play', async () => {
+    const result = await mineSelfPlayPuzzles({
+      ...baseOptions(),
+      source: 'curated',
+      target: { perTheme: 1 },
+      maxGames: 40,
+    });
+    // The scripted engine's deep ranking agrees, so play puzzles survive.
+    expect(result.puzzles.some((p) => p.kind === 'play')).toBe(true);
+  });
+
   it('fills per-theme targets in the curated mode without overshooting', async () => {
     const result = await mineSelfPlayPuzzles({
       ...baseOptions(),

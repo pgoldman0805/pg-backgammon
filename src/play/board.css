@@ -888,6 +888,12 @@
   color: var(--ink-muted);
 }
 
+/* The 2-ply-eval (not a rollout) label on live feedback: quiet, like a note. */
+.tutor-note-depth {
+  color: var(--ink-muted);
+  font-size: 0.85rem;
+}
+
 .feedback-chip {
   padding: 0.02rem 0.5rem;
   border: 1px solid var(--line);

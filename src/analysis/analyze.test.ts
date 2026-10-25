@@ -3,10 +3,12 @@ import type { Engine } from '../engine';
 import { createFakeEngine } from '../engine/fake';
 import {
   acceptResignation,
+  type CheckerMovement,
   commitMatchPlay,
   createBoard,
   createGame,
   createMatch,
+  initialBoard,
   type MatchState,
   matchMovement,
   nextGame,
@@ -16,9 +18,34 @@ import {
   startMatch,
 } from '../rules';
 import { scriptedDice } from '../test/dice';
+import { openingFeedbackEngine } from '../test/engine';
 import { cubeGameMatch as cubeGame } from '../test/match';
-import { analyzeGame, analyzeMatch } from './analyze';
+import { analyzeGame, analyzeMatch, analyzePlayMoment } from './analyze';
 import { isMatchAnalysis } from './types';
+import type { PlayMoment } from './walk';
+
+/** White's opening 6-3 played as 24/18 13/10 (the loss the fake controls). */
+const OPENING_MOVEMENTS: CheckerMovement[] = [
+  { from: 24, to: 18, die: 6, hit: false },
+  { from: 13, to: 10, die: 3, hit: false },
+];
+
+function openingMoment(playIndex: number): PlayMoment {
+  return {
+    kind: 'play',
+    playIndex,
+    player: 'white',
+    roll: [6, 3],
+    board: initialBoard(),
+    context: {
+      matchLength: 7,
+      score: { white: 0, black: 0 },
+      cube: { value: 1, owner: 'center' },
+    },
+    played: OPENING_MOVEMENTS,
+    legalPlayCount: 15,
+  };
+}
 
 const STANDING = { length: 7, score: { white: 0, black: 0 } } as const;
 
@@ -180,6 +207,37 @@ describe('analyzeGame', () => {
     expect(analysis.luck).toBeDefined();
     expect(Number.isFinite(analysis.luck?.white)).toBe(true);
     expect(Number.isFinite(analysis.luck?.black)).toBe(true);
+  });
+});
+
+describe('analyzePlayMoment opening suppression', () => {
+  it('does not flag an opening play as an error on a thin 2-ply margin', async () => {
+    // The chosen opening loses 0.05 — a normal "error", but 2-ply disagrees
+    // with rollout consensus on openings, so it is not corrected.
+    const analyzed = await analyzePlayMoment(
+      openingMoment(0),
+      openingFeedbackEngine(0.45, 0.5),
+    );
+    expect(analyzed.equityLoss).toBeCloseTo(0.05, 6);
+    expect(analyzed.classification).toBe('ok');
+  });
+
+  it('still classifies the same loss as an error past the opening plays', async () => {
+    const analyzed = await analyzePlayMoment(
+      openingMoment(2),
+      openingFeedbackEngine(0.45, 0.5),
+    );
+    expect(analyzed.equityLoss).toBeCloseTo(0.05, 6);
+    expect(analyzed.classification).toBe('error');
+  });
+
+  it('still flags a gross opening blunder beyond the noise margin', async () => {
+    const analyzed = await analyzePlayMoment(
+      openingMoment(0),
+      openingFeedbackEngine(0.3, 0.5),
+    );
+    expect(analyzed.equityLoss).toBeCloseTo(0.2, 6);
+    expect(analyzed.classification).toBe('blunder');
   });
 });
 

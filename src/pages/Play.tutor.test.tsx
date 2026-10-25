@@ -264,6 +264,18 @@ describe('post-play feedback', () => {
     expect(note).toHaveTextContent('−0.12');
     expect(note).toHaveTextContent(`Best: ${engine.lastRanked?.[0]?.moveText}`);
   });
+
+  it('labels the live feedback as a 2-ply eval (deeper on demand), not a rollout', async () => {
+    const engine = openingFeedbackEngine(0.38, 0.5);
+    renderPlay({ dice: scriptedDice(6, 3, 5, 2) }, { engine });
+    fireEvent.click(screen.getByRole('switch', { name: 'Tutor mode' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Play as White' }));
+
+    commitOpening();
+
+    const note = await screen.findByRole('note', { name: 'Play feedback' });
+    expect(note).toHaveTextContent('2-ply');
+  });
 });
 
 describe('takeback', () => {
