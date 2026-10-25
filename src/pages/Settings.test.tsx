@@ -157,6 +157,11 @@ describe('the Settings room', () => {
     const file = new File([json], 'backup.json', { type: 'application/json' });
     await user.upload(screen.getByLabelText(/import backup/i), file);
 
+    // Ticket 27: picking a file confirms before replacing anything.
+    await user.click(
+      await screen.findByRole('button', { name: /replace history/i }),
+    );
+
     expect(await screen.findByText(/backup imported/i)).toBeInTheDocument();
     expect((await storage.list()).map((row) => row.id)).toEqual([
       'settings-test-match',
