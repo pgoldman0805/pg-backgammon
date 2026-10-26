@@ -2,8 +2,9 @@
  * The autoplay controller removes decision-free friction from the human's
  * turns (spec stories 43-44): auto-roll on the user's pre-roll in a Race, and
  * auto-play of Forced plays (GLOSSARY), both behind persisted settings read
- * live so toggles apply immediately. Dances stay manual, and a turn restored
- * by takeback is never instantly re-played.
+ * live so toggles apply immediately. A dance can auto-pass behind its own
+ * setting (off, it stays manual), and a turn restored by takeback is never
+ * instantly re-played.
  */
 
 import { describe, expect, it, vi } from 'vitest';
@@ -46,7 +47,11 @@ function autoplayWith(
   });
 }
 
-const allOn: AutoplaySettings = { autoRollRaces: true, autoForcedPlays: true };
+const allOn: AutoplaySettings = {
+  autoRollRaces: true,
+  autoForcedPlays: true,
+  autoSkipDances: true,
+};
 
 /** A pure no-contact race: both armies fully home. */
 function raceGame(player: Player, roll: DiceRoll): GameState {
@@ -104,6 +109,7 @@ describe('auto-roll in races', () => {
     const autoplay = autoplayWith(store, {
       autoRollRaces: true,
       autoForcedPlays: false,
+      autoSkipDances: false,
     });
 
     const match = store.getState().match;
@@ -124,7 +130,11 @@ describe('auto-roll in races', () => {
 
   it('keeps the stop while the setting is off, and rolls on recheck once on', async () => {
     const store = whitePreRollRace();
-    const settings = { autoRollRaces: false, autoForcedPlays: false };
+    const settings = {
+      autoRollRaces: false,
+      autoForcedPlays: false,
+      autoSkipDances: false,
+    };
     const autoplay = autoplayWith(store, settings);
 
     await settle();
@@ -244,8 +254,9 @@ describe('auto-play of forced plays', () => {
     autoplay.dispose();
   });
 
-  it('leaves a dance for the manual Continue', async () => {
-    const store = createPlayStore({
+  /** White stuck on the bar against a full home board: 6-3 cannot enter. */
+  function whiteDanceOnBar(): PlayStore {
+    return createPlayStore({
       match: createMatch({
         length: 7,
         game: createGame({
@@ -261,7 +272,11 @@ describe('auto-play of forced plays', () => {
       }),
       dice: scriptedDice(),
     });
-    const autoplay = autoplayWith(store, allOn);
+  }
+
+  it('leaves a dance for the manual Continue while auto-skip is off', async () => {
+    const store = whiteDanceOnBar();
+    const autoplay = autoplayWith(store, { ...allOn, autoSkipDances: false });
 
     await settle();
     expect(store.getState().match?.phase).toBe('turn');
@@ -269,9 +284,41 @@ describe('auto-play of forced plays', () => {
     autoplay.dispose();
   });
 
+  it('auto-passes a dance after a beat while auto-skip is on', async () => {
+    const store = whiteDanceOnBar();
+    const autoplay = autoplayWith(store, allOn);
+
+    await vi.waitFor(() => {
+      // The empty play is recorded and the turn passes to black's pre-roll.
+      expect(store.getState().match?.game.record.plays).toHaveLength(1);
+    });
+    expect(store.getState().match?.phase).toBe('pre-roll');
+    expect(store.getState().match?.toRoll).toBe('black');
+    autoplay.dispose();
+  });
+
+  it('auto-passes a dance even when forced-play is off (its own setting)', async () => {
+    const store = whiteDanceOnBar();
+    const autoplay = autoplayWith(store, {
+      autoRollRaces: false,
+      autoForcedPlays: false,
+      autoSkipDances: true,
+    });
+
+    await vi.waitFor(() => {
+      expect(store.getState().match?.game.record.plays).toHaveLength(1);
+    });
+    expect(store.getState().match?.phase).toBe('pre-roll');
+    autoplay.dispose();
+  });
+
   it('does nothing while the setting is off, and plays on recheck once on', async () => {
     const store = whiteForcedTurn();
-    const settings = { autoRollRaces: false, autoForcedPlays: false };
+    const settings = {
+      autoRollRaces: false,
+      autoForcedPlays: false,
+      autoSkipDances: false,
+    };
     const autoplay = autoplayWith(store, settings);
 
     await settle();

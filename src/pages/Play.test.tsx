@@ -950,7 +950,10 @@ describe('dance and forced turns (hot-seat)', () => {
     return createGame({ board, player: 'white', roll: [6, 3] });
   }
 
-  it('resolves a dance with a single continue action', async () => {
+  it('resolves a dance with a single continue action (auto-skip off)', async () => {
+    // Auto-skip of a dance is on by default; the manual Continue is the path
+    // this test pins, so switch the setting off first.
+    localStorage.setItem('pg-backgammon.auto-skip-dances', 'off');
     const user = userEvent.setup();
     renderHotSeat({ match: matchWith(danceGame()), dice: scriptedDice(5, 2) });
 

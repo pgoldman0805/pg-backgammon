@@ -22,6 +22,7 @@ import { canCommit, canUndo, forcedPlay, isDance } from '../play/selectors';
 import {
   AUTO_FORCED_PLAYS_KEY,
   AUTO_ROLL_RACES_KEY,
+  AUTO_SKIP_DANCES_KEY,
   getStoredSwitch,
   rememberMatchStarted,
   rememberSetupChoice,
@@ -208,6 +209,7 @@ export function Play({
       settings: () => ({
         autoRollRaces: getStoredSwitch(AUTO_ROLL_RACES_KEY, true),
         autoForcedPlays: getStoredSwitch(AUTO_FORCED_PLAYS_KEY, true),
+        autoSkipDances: getStoredSwitch(AUTO_SKIP_DANCES_KEY, true),
       }),
       stepMs,
     });

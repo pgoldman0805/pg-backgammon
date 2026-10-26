@@ -16,6 +16,7 @@ import { BoardStylePicker } from '../play/BoardStylePicker';
 import {
   AUTO_FORCED_PLAYS_KEY,
   AUTO_ROLL_RACES_KEY,
+  AUTO_SKIP_DANCES_KEY,
   TUTOR_DEFAULT_KEY,
   useStoredSwitch,
 } from '../play/settings';
@@ -171,6 +172,10 @@ export function Settings({ storage: injectedStorage }: SettingsProps = {}) {
     AUTO_FORCED_PLAYS_KEY,
     true,
   );
+  const [autoSkipDances, setAutoSkipDances] = useStoredSwitch(
+    AUTO_SKIP_DANCES_KEY,
+    true,
+  );
   const [tutorDefault, setTutorDefault] = useStoredSwitch(
     TUTOR_DEFAULT_KEY,
     false,
@@ -210,6 +215,12 @@ export function Settings({ storage: injectedStorage }: SettingsProps = {}) {
           hint="Your only legal play plays itself, one visible movement at a time."
           on={autoForcedPlays}
           onChange={setAutoForcedPlays}
+        />
+        <SwitchRow
+          name="Auto-skip blocked turns"
+          hint="When a roll leaves you no legal move (stuck on the bar), your turn passes itself after a brief pause."
+          on={autoSkipDances}
+          onChange={setAutoSkipDances}
         />
         <SwitchRow
           name="Tutor mode for new matches"

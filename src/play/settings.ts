@@ -9,6 +9,14 @@ import type { Difficulty } from '../engine';
 export const AUTO_ROLL_RACES_KEY = 'pg-backgammon.auto-roll-races';
 export const AUTO_FORCED_PLAYS_KEY = 'pg-backgammon.auto-forced-plays';
 /**
+ * Auto-skip a dance (GLOSSARY) — a rolled turn with no legal play, as when
+ * you are stuck on the bar and cannot enter. On, the turn passes itself after
+ * a brief visible beat (like the computer's own dances) instead of waiting on
+ * the manual Continue. This reverses ticket 15's "dances stay manual" default
+ * at the user's request; off restores the manual Continue.
+ */
+export const AUTO_SKIP_DANCES_KEY = 'pg-backgammon.auto-skip-dances';
+/**
  * Tutor mode's default for new matches (ticket 20): Play's setup card
  * initializes its toggle from this; the in-game toggle still rules the live
  * match and never writes back.

@@ -4,9 +4,11 @@
  * side. At the user's pre-roll in a Race (GLOSSARY) it rolls instead of
  * stopping at Double/Roll, and a Forced play (GLOSSARY) is applied visibly —
  * paced movements, like the engine opponent's — and committed. Nothing else
- * is ever skipped: contact positions keep the stop, dances keep their manual
- * Continue, and incoming cube or resignation dialogs are untouched because
- * the controller only ever acts on the human's own pre-roll and turn.
+ * is ever skipped: contact positions keep the stop, and incoming cube or
+ * resignation dialogs are untouched, because the controller only ever acts on
+ * the human's own pre-roll and turn. A Dance (GLOSSARY: a rolled turn with no
+ * legal play, as when stuck on the bar) can also pass itself after a visible
+ * beat, like the computer's own dances, behind its own setting.
  *
  * Settings are read through a getter at decision time, so toggling a setting
  * mid-game applies immediately (callers signal the flip with `recheck`).
@@ -21,7 +23,7 @@ import {
   sameToken,
   tokenFor,
 } from './controllerCore';
-import { forcedPlay } from './selectors';
+import { forcedPlay, isDance } from './selectors';
 import type { PlayStore } from './store';
 
 export interface AutoplaySettings {
@@ -29,6 +31,8 @@ export interface AutoplaySettings {
   readonly autoRollRaces: boolean;
   /** Auto-play turns with exactly one legal play (GLOSSARY "Forced play"). */
   readonly autoForcedPlays: boolean;
+  /** Auto-pass a dance (GLOSSARY): a rolled turn with no legal play. */
+  readonly autoSkipDances: boolean;
 }
 
 export interface AutoplayOptions {
@@ -106,6 +110,25 @@ export function createAutoplay(options: AutoplayOptions): Autoplay {
     }
   }
 
+  /**
+   * Pass a dance: wait one beat so the roll and the blocked position register
+   * (the computer's own dances pause the same way), then commit the empty
+   * play. Bails if the position stops being that waiting dance (the user
+   * clicked Continue first, or switched the setting off).
+   */
+  async function actDance(token: DecisionToken): Promise<void> {
+    await pace(stepMs);
+    const match = liveMatch(token);
+    if (
+      match &&
+      settings().autoSkipDances &&
+      isDance(match.game) &&
+      match.game.turn?.movements.length === 0
+    ) {
+      store.dispatch({ type: 'commit' });
+    }
+  }
+
   function maybeAct(): void {
     if (disposed) {
       return;
@@ -133,16 +156,23 @@ export function createAutoplay(options: AutoplayOptions): Autoplay {
     }
     if (
       match.phase === 'turn' &&
-      current.autoForcedPlays &&
       match.game.turn &&
       players.includes(match.game.turn.player) &&
       match.game.turn.movements.length === 0
     ) {
-      // forcedPlay is null for a dance, so Continue always stays manual.
-      const play = forcedPlay(match.game);
-      if (play) {
+      // A dance (no legal play) and a forced play (exactly one) are mutually
+      // exclusive, each behind its own setting, so the order below is safe.
+      if (current.autoSkipDances && isDance(match.game)) {
         attempted = token;
-        void actForced(token, play);
+        void actDance(token);
+        return;
+      }
+      if (current.autoForcedPlays) {
+        const play = forcedPlay(match.game);
+        if (play) {
+          attempted = token;
+          void actForced(token, play);
+        }
       }
     }
   }

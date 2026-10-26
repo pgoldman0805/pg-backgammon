@@ -16,6 +16,7 @@ import { setBoardStyle } from '../play/boardStyles';
 import {
   AUTO_FORCED_PLAYS_KEY,
   AUTO_ROLL_RACES_KEY,
+  AUTO_SKIP_DANCES_KEY,
   TUTOR_DEFAULT_KEY,
 } from '../play/settings';
 import { acceptResignation, offerResignation, startMatch } from '../rules';
@@ -59,6 +60,9 @@ describe('the Settings room', () => {
       screen.getByRole('switch', { name: 'Auto-play forced plays' }),
     ).toBeInTheDocument();
     expect(
+      screen.getByRole('switch', { name: 'Auto-skip blocked turns' }),
+    ).toBeInTheDocument();
+    expect(
       screen.getByRole('switch', { name: 'Tutor mode for new matches' }),
     ).toBeInTheDocument();
     expect(screen.getByRole('radio', { name: 'Normal' })).toBeInTheDocument();
@@ -85,10 +89,14 @@ describe('the Settings room', () => {
       screen.getByRole('switch', { name: 'Auto-roll in races' }),
     );
     await user.click(
+      screen.getByRole('switch', { name: 'Auto-skip blocked turns' }),
+    );
+    await user.click(
       screen.getByRole('switch', { name: 'Tutor mode for new matches' }),
     );
 
     expect(localStorage.getItem(AUTO_ROLL_RACES_KEY)).toBe('off');
+    expect(localStorage.getItem(AUTO_SKIP_DANCES_KEY)).toBe('off');
     expect(localStorage.getItem(TUTOR_DEFAULT_KEY)).toBe('on');
     expect(localStorage.getItem(AUTO_FORCED_PLAYS_KEY)).toBeNull();
   });

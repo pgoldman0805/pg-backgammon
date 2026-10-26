@@ -16,7 +16,11 @@ import {
 } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { createFakeEngine } from '../engine/fake';
-import { AUTO_FORCED_PLAYS_KEY, AUTO_ROLL_RACES_KEY } from '../play/settings';
+import {
+  AUTO_FORCED_PLAYS_KEY,
+  AUTO_ROLL_RACES_KEY,
+  AUTO_SKIP_DANCES_KEY,
+} from '../play/settings';
 import { createPlayStore, type PlayStoreOptions } from '../play/store';
 import {
   createBoard,
@@ -236,8 +240,9 @@ describe('auto-play of forced plays', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Black to roll.');
   });
 
-  it('a dance still requires the manual Continue', async () => {
-    const match = createMatch({
+  /** White stuck on the bar against a full home board: 6-3 cannot enter. */
+  function danceMatch() {
+    return createMatch({
       length: 7,
       game: createGame({
         board: createBoard({
@@ -250,7 +255,11 @@ describe('auto-play of forced plays', () => {
         roll: [6, 3],
       }),
     });
-    renderPlay({ match, dice: scriptedDice(5, 2) }, hotseat);
+  }
+
+  it('leaves the dance to the manual Continue while auto-skip is off', async () => {
+    localStorage.setItem(AUTO_SKIP_DANCES_KEY, 'off');
+    renderPlay({ match: danceMatch(), dice: scriptedDice(5, 2) }, hotseat);
 
     await act(async () => {
       await new Promise((resolve) => setTimeout(resolve, 20));
@@ -259,5 +268,17 @@ describe('auto-play of forced plays', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
     expect(screen.getByRole('status')).toHaveTextContent('Black to roll.');
+  });
+
+  it('auto-skips the dance when the setting is on (the default)', async () => {
+    renderPlay({ match: danceMatch(), dice: scriptedDice(5, 2) }, hotseat);
+
+    // No click: the dance passes itself after its beat.
+    await waitFor(() => {
+      expect(screen.getByRole('status')).toHaveTextContent('Black to roll.');
+    });
+    expect(
+      screen.queryByRole('button', { name: 'Continue' }),
+    ).not.toBeInTheDocument();
   });
 });
