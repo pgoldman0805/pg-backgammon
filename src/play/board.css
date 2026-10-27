@@ -774,6 +774,66 @@
   text-wrap: balance;
 }
 
+/* The in-HUD auto-roll control: a compact three-way segmented radiogroup
+   (Off / In races / Always), styled like Settings' pills but tighter, so the
+   mode can be changed mid-match beside the Tutor toggle. */
+.autoroll-label {
+  color: var(--ink-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.autoroll-seg {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.autoroll-seg-option {
+  position: relative;
+  padding: 0.2rem 0.6rem;
+  color: var(--ink-muted);
+  font-weight: 600;
+  font-size: 0.78rem;
+  white-space: nowrap;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.autoroll-seg-option:hover {
+  border-color: var(--ink-muted);
+}
+
+.autoroll-seg-option input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.autoroll-seg-option:has(input:checked) {
+  color: var(--ink);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.autoroll-seg-option:has(input:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Phone touch sizing (ticket 24): grow the segments to a tappable height. */
+@media (max-width: 640px) {
+  .autoroll-seg-option {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+  }
+}
+
 /* The toggle itself is the shared Switch (ticket 42) — see src/ui/switch.css.
    This area owns only its placement (.setting-switches) and the hint below. */
 

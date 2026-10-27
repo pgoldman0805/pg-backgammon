@@ -43,7 +43,7 @@ describe('the setup card', () => {
       screen.getByRole('switch', { name: 'Tutor mode' }),
     ).toBeInTheDocument();
     expect(
-      screen.queryByRole('switch', { name: 'Auto-roll in races' }),
+      screen.queryByRole('radiogroup', { name: 'Auto-roll' }),
     ).not.toBeInTheDocument();
     expect(
       screen.queryByRole('switch', { name: 'Auto-play forced plays' }),
@@ -62,7 +62,7 @@ describe('the setup card', () => {
 });
 
 describe('the in-game HUD', () => {
-  it('carries the Tutor and auto-roll toggles vs the computer, nothing more', () => {
+  it('carries the Tutor toggle and the auto-roll control vs the computer, nothing more', () => {
     renderPlay({ dice: scriptedDice(6, 3) });
     fireEvent.click(screen.getByRole('button', { name: 'Play as White' }));
 
@@ -70,10 +70,10 @@ describe('the in-game HUD', () => {
       screen.getByRole('switch', { name: 'Tutor mode' }),
     ).toBeInTheDocument();
     // Auto-roll is reachable mid-match from the HUD (requested back in-game),
-    // the one preference switch to return; auto-play and board style stay in
-    // Settings alone.
+    // the one preference to return, as its three-way control; auto-play and
+    // board style stay in Settings alone.
     expect(
-      screen.getByRole('switch', { name: 'Auto-roll in races' }),
+      screen.getByRole('radiogroup', { name: 'Auto-roll' }),
     ).toBeInTheDocument();
     expect(
       screen.queryByRole('switch', { name: 'Auto-play forced plays' }),
@@ -94,7 +94,7 @@ describe('the in-game HUD', () => {
       screen.queryByRole('switch', { name: 'Tutor mode' }),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByRole('switch', { name: 'Auto-roll in races' }),
+      screen.queryByRole('radiogroup', { name: 'Auto-roll' }),
     ).not.toBeInTheDocument();
     expect(
       screen.queryByRole('button', { name: 'Board style' }),

@@ -15,6 +15,7 @@ import {
 import { setBoardStyle } from '../play/boardStyles';
 import {
   AUTO_FORCED_PLAYS_KEY,
+  AUTO_ROLL_KEY,
   AUTO_ROLL_RACES_KEY,
   AUTO_SKIP_DANCES_KEY,
   TUTOR_DEFAULT_KEY,
@@ -54,8 +55,9 @@ describe('the Settings room', () => {
     expect(screen.getByRole('radio', { name: 'Light' })).toBeInTheDocument();
     expect(screen.getByRole('radio', { name: 'Classic' })).toBeInTheDocument();
     expect(
-      screen.getByRole('switch', { name: 'Auto-roll in races' }),
+      screen.getByRole('radiogroup', { name: 'Auto-roll' }),
     ).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: 'Always' })).toBeInTheDocument();
     expect(
       screen.getByRole('switch', { name: 'Auto-play forced plays' }),
     ).toBeInTheDocument();
@@ -85,9 +87,7 @@ describe('the Settings room', () => {
     const user = userEvent.setup();
     renderSettings();
 
-    await user.click(
-      screen.getByRole('switch', { name: 'Auto-roll in races' }),
-    );
+    await user.click(screen.getByRole('radio', { name: 'Always' }));
     await user.click(
       screen.getByRole('switch', { name: 'Auto-skip blocked turns' }),
     );
@@ -95,10 +95,25 @@ describe('the Settings room', () => {
       screen.getByRole('switch', { name: 'Tutor mode for new matches' }),
     );
 
-    expect(localStorage.getItem(AUTO_ROLL_RACES_KEY)).toBe('off');
+    expect(localStorage.getItem(AUTO_ROLL_KEY)).toBe('always');
     expect(localStorage.getItem(AUTO_SKIP_DANCES_KEY)).toBe('off');
     expect(localStorage.getItem(TUTOR_DEFAULT_KEY)).toBe('on');
     expect(localStorage.getItem(AUTO_FORCED_PLAYS_KEY)).toBeNull();
+  });
+
+  it('starts the auto-roll control at the mode Play reads', () => {
+    localStorage.setItem(AUTO_ROLL_KEY, 'always');
+    renderSettings();
+
+    expect(screen.getByRole('radio', { name: 'Always' })).toBeChecked();
+    expect(screen.getByRole('radio', { name: 'In races' })).not.toBeChecked();
+  });
+
+  it('migrates the legacy auto-roll-in-races preference (on → in races)', () => {
+    localStorage.setItem(AUTO_ROLL_RACES_KEY, 'on');
+    renderSettings();
+
+    expect(screen.getByRole('radio', { name: 'In races' })).toBeChecked();
   });
 
   it('reads the stored switch state back on arrival', () => {
@@ -108,9 +123,8 @@ describe('the Settings room', () => {
     expect(
       screen.getByRole('switch', { name: 'Auto-play forced plays' }),
     ).toHaveAttribute('aria-checked', 'false');
-    expect(
-      screen.getByRole('switch', { name: 'Auto-roll in races' }),
-    ).toHaveAttribute('aria-checked', 'true');
+    // Auto-roll, unset, defaults to "in races".
+    expect(screen.getByRole('radio', { name: 'In races' })).toBeChecked();
   });
 
   it('selects and persists the checker animation speed', async () => {

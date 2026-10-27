@@ -6,6 +6,22 @@
 import { useState } from 'react';
 import type { Difficulty } from '../engine';
 
+/**
+ * When your pre-roll rolls itself instead of pausing (so you could double):
+ *  - `off`     never; every pre-roll with a cube decision stops.
+ *  - `races`   only once no contact remains (GLOSSARY "Race") — the default,
+ *              so you still get the cube in contact positions.
+ *  - `always`  on every pre-roll, even one where you could double.
+ * A pre-roll that carries no decision at all (you cannot double) always rolls
+ * itself regardless, so this only governs moments where a double is possible.
+ */
+export type AutoRollMode = 'off' | 'races' | 'always';
+export const AUTO_ROLL_KEY = 'pg-backgammon.auto-roll';
+export const DEFAULT_AUTO_ROLL: AutoRollMode = 'races';
+/**
+ * The pre-tri-state boolean key (was "auto-roll in races", on/off). Still read
+ * as a fallback so an existing preference migrates: on → races, off → off.
+ */
 export const AUTO_ROLL_RACES_KEY = 'pg-backgammon.auto-roll-races';
 export const AUTO_FORCED_PLAYS_KEY = 'pg-backgammon.auto-forced-plays';
 /**
@@ -152,6 +168,44 @@ export function getStoredSwitch(key: string, defaultOn: boolean): boolean {
     return stored === 'on';
   }
   return defaultOn;
+}
+
+/**
+ * The current auto-roll mode, migrating the legacy on/off boolean when the new
+ * key is unset (on → races, off → off) and falling back to the default when
+ * neither is set.
+ */
+export function getAutoRollMode(): AutoRollMode {
+  const stored = localStorage.getItem(AUTO_ROLL_KEY);
+  if (stored === 'off' || stored === 'races' || stored === 'always') {
+    return stored;
+  }
+  const legacy = localStorage.getItem(AUTO_ROLL_RACES_KEY);
+  if (legacy === 'on') {
+    return 'races';
+  }
+  if (legacy === 'off') {
+    return 'off';
+  }
+  return DEFAULT_AUTO_ROLL;
+}
+
+/** Persist the auto-roll mode under the current key. */
+export function setAutoRollMode(mode: AutoRollMode): void {
+  localStorage.setItem(AUTO_ROLL_KEY, mode);
+}
+
+/** The auto-roll mode as React state, read once per mount, written on change. */
+export function useAutoRollMode(): [
+  AutoRollMode,
+  (mode: AutoRollMode) => void,
+] {
+  const [mode, setMode] = useState(() => getAutoRollMode());
+  const update = (next: AutoRollMode) => {
+    setAutoRollMode(next);
+    setMode(next);
+  };
+  return [mode, update];
 }
 
 /** A boolean setting persisted under `key`; `defaultOn` applies when unset. */

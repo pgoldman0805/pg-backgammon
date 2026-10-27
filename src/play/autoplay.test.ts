@@ -21,6 +21,7 @@ import { scriptedDice } from '../test/dice';
 import { scriptedCubeEngine } from '../test/engine';
 import { type AutoplaySettings, createAutoplay } from './autoplay';
 import { createEngineOpponent } from './opponent';
+import type { AutoRollMode } from './settings';
 import { createPlayStore, type PlayStore } from './store';
 
 /** Pacing that yields the event loop but never waits. */
@@ -48,7 +49,7 @@ function autoplayWith(
 }
 
 const allOn: AutoplaySettings = {
-  autoRollRaces: true,
+  autoRoll: 'races',
   autoForcedPlays: true,
   autoSkipDances: true,
 };
@@ -107,7 +108,7 @@ describe('auto-roll in races', () => {
   it("rolls the user's dice at a race pre-roll instead of stopping", () => {
     const store = whitePreRollRace([3, 1]);
     const autoplay = autoplayWith(store, {
-      autoRollRaces: true,
+      autoRoll: 'races',
       autoForcedPlays: false,
       autoSkipDances: false,
     });
@@ -131,7 +132,7 @@ describe('auto-roll in races', () => {
   it('keeps the stop while the setting is off, and rolls on recheck once on', async () => {
     const store = whitePreRollRace();
     const settings = {
-      autoRollRaces: false,
+      autoRoll: 'off' as AutoRollMode,
       autoForcedPlays: false,
       autoSkipDances: false,
     };
@@ -140,10 +141,25 @@ describe('auto-roll in races', () => {
     await settle();
     expect(store.getState().match?.phase).toBe('pre-roll');
 
-    settings.autoRollRaces = true;
+    settings.autoRoll = 'races';
     autoplay.recheck();
     expect(store.getState().match?.phase).toBe('turn');
     autoplay.dispose();
+  });
+
+  it('rolls a contact pre-roll only when the mode is "always"', async () => {
+    // A double is possible here, so "races" keeps the stop; "always" rolls.
+    const racesStore = whitePreRollContact();
+    const races = autoplayWith(racesStore, allOn);
+    await settle();
+    expect(racesStore.getState().match?.phase).toBe('pre-roll');
+    races.dispose();
+
+    const alwaysStore = whitePreRollContact();
+    const always = autoplayWith(alwaysStore, { ...allOn, autoRoll: 'always' });
+    await settle();
+    expect(alwaysStore.getState().match?.phase).toBe('turn');
+    always.dispose();
   });
 
   it("never rolls for a side it does not act for (the opponent's pre-roll)", async () => {
@@ -300,7 +316,7 @@ describe('auto-play of forced plays', () => {
   it('auto-passes a dance even when forced-play is off (its own setting)', async () => {
     const store = whiteDanceOnBar();
     const autoplay = autoplayWith(store, {
-      autoRollRaces: false,
+      autoRoll: 'off',
       autoForcedPlays: false,
       autoSkipDances: true,
     });
@@ -315,7 +331,7 @@ describe('auto-play of forced plays', () => {
   it('does nothing while the setting is off, and plays on recheck once on', async () => {
     const store = whiteForcedTurn();
     const settings = {
-      autoRollRaces: false,
+      autoRoll: 'off' as AutoRollMode,
       autoForcedPlays: false,
       autoSkipDances: false,
     };

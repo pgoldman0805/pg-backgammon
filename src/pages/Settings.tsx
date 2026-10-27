@@ -15,9 +15,9 @@ import {
 import { BoardStylePicker } from '../play/BoardStylePicker';
 import {
   AUTO_FORCED_PLAYS_KEY,
-  AUTO_ROLL_RACES_KEY,
   AUTO_SKIP_DANCES_KEY,
   TUTOR_DEFAULT_KEY,
+  useAutoRollMode,
   useStoredSwitch,
 } from '../play/settings';
 import { getMatchStorage, type MatchStorage } from '../storage';
@@ -25,6 +25,7 @@ import { setTheme, type Theme, useTheme } from '../theme';
 import { BackupControls } from '../ui/BackupControls';
 import { StorageStatus } from '../ui/StorageStatus';
 import { Switch } from '../ui/Switch';
+import { AUTO_ROLL_HINT, AUTO_ROLL_OPTIONS } from './play/PlaySetup';
 import './settings.css';
 
 const THEMES: ReadonlyArray<{ id: Theme; label: string }> = [
@@ -164,10 +165,7 @@ export interface SettingsProps {
 export function Settings({ storage: injectedStorage }: SettingsProps = {}) {
   const [storage] = useState(() => injectedStorage ?? getMatchStorage());
   const [theme] = useTheme();
-  const [autoRollRaces, setAutoRollRaces] = useStoredSwitch(
-    AUTO_ROLL_RACES_KEY,
-    true,
-  );
+  const [autoRollMode, setAutoRollMode] = useAutoRollMode();
   const [autoForcedPlays, setAutoForcedPlays] = useStoredSwitch(
     AUTO_FORCED_PLAYS_KEY,
     true,
@@ -204,11 +202,12 @@ export function Settings({ storage: injectedStorage }: SettingsProps = {}) {
       </Section>
 
       <Section title="Play" blurb="How a match moves along.">
-        <SwitchRow
-          name="Auto-roll in races"
-          hint="Once no contact remains, your pre-roll rolls itself."
-          on={autoRollRaces}
-          onChange={setAutoRollRaces}
+        <PillsRow
+          name="Auto-roll"
+          hint={AUTO_ROLL_HINT}
+          options={AUTO_ROLL_OPTIONS}
+          value={autoRollMode}
+          onChange={setAutoRollMode}
         />
         <SwitchRow
           name="Auto-play forced plays"

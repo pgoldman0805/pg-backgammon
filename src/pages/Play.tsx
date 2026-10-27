@@ -21,13 +21,13 @@ import { createRaceAutopilot, type RaceAutopilot } from '../play/raceAutopilot';
 import { canCommit, canUndo, forcedPlay, isDance } from '../play/selectors';
 import {
   AUTO_FORCED_PLAYS_KEY,
-  AUTO_ROLL_RACES_KEY,
   AUTO_SKIP_DANCES_KEY,
+  getAutoRollMode,
   getStoredSwitch,
   rememberMatchStarted,
   rememberSetupChoice,
   tutorModeDefault,
-  useStoredSwitch,
+  useAutoRollMode,
 } from '../play/settings';
 import { createPlayStore, type PlayStore } from '../play/store';
 import { createTutor, type Tutor, type TutorState } from '../play/tutor';
@@ -129,18 +129,15 @@ export function Play({
   const tutorRef = useRef<Tutor | null>(null);
   const autopilotRef = useRef<RaceAutopilot | null>(null);
   const [autopilotOn, setAutopilotOn] = useState(false);
-  // The auto-roll-in-races switch is reachable mid-match from the HUD, not
-  // only from Settings — the same persisted key, so the two stay in sync. The
-  // autoplay controller reads the key live, so a flip applies from the next
-  // decision; recheck() also re-examines the current moment at once, so
-  // turning it on while sitting at a race pre-roll rolls right away.
+  // The auto-roll mode is reachable mid-match from the HUD, not only from
+  // Settings — the same persisted key, so the two stay in sync. The autoplay
+  // controller reads it live, so a change applies from the next decision;
+  // recheck() also re-examines the current moment at once, so switching to
+  // "always" (or "in races" while in a race) rolls the stop at hand right away.
   const autoplayRef = useRef<Autoplay | null>(null);
-  const [autoRollOn, setAutoRollRaces] = useStoredSwitch(
-    AUTO_ROLL_RACES_KEY,
-    true,
-  );
-  const handleAutoRollChange = (on: boolean) => {
-    setAutoRollRaces(on);
+  const [autoRollMode, setAutoRollMode] = useAutoRollMode();
+  const handleAutoRollChange = (mode: typeof autoRollMode) => {
+    setAutoRollMode(mode);
     autoplayRef.current?.recheck();
   };
   // The checker-animation speed paces the opponent's and autoplay's visible
@@ -222,7 +219,7 @@ export function Play({
       store,
       players: vsComputer ? ['white'] : ['white', 'black'],
       settings: () => ({
-        autoRollRaces: getStoredSwitch(AUTO_ROLL_RACES_KEY, true),
+        autoRoll: getAutoRollMode(),
         autoForcedPlays: getStoredSwitch(AUTO_FORCED_PLAYS_KEY, true),
         autoSkipDances: getStoredSwitch(AUTO_SKIP_DANCES_KEY, true),
       }),
@@ -710,7 +707,7 @@ export function Play({
         thinking={thinking}
         tutorOn={tutorOn}
         onTutorChange={setTutorOn}
-        autoRollOn={autoRollOn}
+        autoRollMode={autoRollMode}
         onAutoRollChange={handleAutoRollChange}
       />
 

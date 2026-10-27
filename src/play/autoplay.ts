@@ -1,11 +1,12 @@
 /**
  * The autoplay controller (spec stories 43-44): watches the same PlayStore
  * the human plays through and removes decision-free friction on the human's
- * side. At the user's pre-roll in a Race (GLOSSARY) it rolls instead of
- * stopping at Double/Roll, and a Forced play (GLOSSARY) is applied visibly —
- * paced movements, like the engine opponent's — and committed. Nothing else
- * is ever skipped: contact positions keep the stop, and incoming cube or
- * resignation dialogs are untouched, because the controller only ever acts on
+ * side. At the user's pre-roll it rolls instead of stopping at Double/Roll —
+ * per the auto-roll mode: in races, always, or never — and a Forced play
+ * (GLOSSARY) is applied visibly — paced movements, like the engine
+ * opponent's — and committed. Nothing else is ever skipped: a kept stop and
+ * incoming cube or resignation dialogs are untouched, because the controller
+ * only ever acts on
  * the human's own pre-roll and turn. A Dance (GLOSSARY: a rolled turn with no
  * legal play, as when stuck on the bar) can also pass itself after a visible
  * beat, like the computer's own dances, behind its own setting.
@@ -24,11 +25,16 @@ import {
   tokenFor,
 } from './controllerCore';
 import { forcedPlay, isDance } from './selectors';
+import type { AutoRollMode } from './settings';
 import type { PlayStore } from './store';
 
 export interface AutoplaySettings {
-  /** Auto-roll the user's pre-roll in races (GLOSSARY "Race"). */
-  readonly autoRollRaces: boolean;
+  /**
+   * When the user's pre-roll rolls itself: never (`off`), only in races
+   * (`races`), or on every pre-roll (`always`, even one where a double is
+   * possible). A pre-roll with no decision at all rolls itself regardless.
+   */
+  readonly autoRoll: AutoRollMode;
   /** Auto-play turns with exactly one legal play (GLOSSARY "Forced play"). */
   readonly autoForcedPlays: boolean;
   /** Auto-pass a dance (GLOSSARY): a rolled turn with no legal play. */
@@ -144,10 +150,10 @@ export function createAutoplay(options: AutoplayOptions): Autoplay {
     const current = settings();
     if (
       match.phase === 'pre-roll' &&
-      current.autoRollRaces &&
+      current.autoRoll !== 'off' &&
       match.toRoll !== null &&
       players.includes(match.toRoll) &&
-      isRace(match.game.board)
+      (current.autoRoll === 'always' || isRace(match.game.board))
     ) {
       attempted = token;
       // Synchronous, so the skipped Double/Roll stop never appears at all.

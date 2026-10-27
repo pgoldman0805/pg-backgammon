@@ -8,6 +8,7 @@
 
 import type { Difficulty } from '../../engine';
 import { CopyXgidButton } from '../../formats';
+import type { AutoRollMode } from '../../play/settings';
 import {
   type BoardState,
   type MatchState,
@@ -15,7 +16,7 @@ import {
   pipCount,
 } from '../../rules';
 import { GlossaryTerm } from '../../ui/GlossaryTerm';
-import { AUTO_ROLL_HINT, SettingSwitch, TUTOR_HINT } from './PlaySetup';
+import { AutoRollField, SettingSwitch, TUTOR_HINT } from './PlaySetup';
 import { difficultyLabel } from './playFormat';
 
 export function PlayHud({
@@ -30,7 +31,7 @@ export function PlayHud({
   thinking,
   tutorOn,
   onTutorChange,
-  autoRollOn,
+  autoRollMode,
   onAutoRollChange,
 }: {
   /** Whose decision the moment is, for the active-chip highlight. */
@@ -45,8 +46,8 @@ export function PlayHud({
   thinking: boolean;
   tutorOn: boolean;
   onTutorChange: (on: boolean) => void;
-  autoRollOn: boolean;
-  onAutoRollChange: (on: boolean) => void;
+  autoRollMode: AutoRollMode;
+  onAutoRollChange: (mode: AutoRollMode) => void;
 }) {
   return (
     <div className="play-hud">
@@ -110,12 +111,7 @@ export function PlayHud({
               on={tutorOn}
               onChange={onTutorChange}
             />
-            <SettingSwitch
-              label="Auto-roll in races"
-              hint={AUTO_ROLL_HINT}
-              on={autoRollOn}
-              onChange={onAutoRollChange}
-            />
+            <AutoRollField mode={autoRollMode} onChange={onAutoRollChange} />
           </div>
         )}
       </div>

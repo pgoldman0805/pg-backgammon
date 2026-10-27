@@ -668,7 +668,7 @@ test('visual audit: every area, both themes, desktop through phone', async ({
     page.getByRole('heading', { level: 1, name: 'Settings' }),
   ).toBeVisible();
   await expect(
-    page.getByRole('switch', { name: 'Auto-roll in races' }),
+    page.getByRole('radiogroup', { name: 'Auto-roll' }),
   ).toBeVisible();
   await shoot(page, 'settings');
 

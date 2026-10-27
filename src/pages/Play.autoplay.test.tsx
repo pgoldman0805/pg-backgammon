@@ -18,6 +18,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { createFakeEngine } from '../engine/fake';
 import {
   AUTO_FORCED_PLAYS_KEY,
+  AUTO_ROLL_KEY,
   AUTO_ROLL_RACES_KEY,
   AUTO_SKIP_DANCES_KEY,
 } from '../play/settings';
@@ -81,6 +82,31 @@ function whitePreRollRaceMatch() {
   store.dispatch({ type: 'commit' });
   const match = store.getState().match;
   expect(match?.phase).toBe('pre-roll');
+  return match ?? undefined;
+}
+
+/** A match paused at white's pre-roll in contact, where a double is possible. */
+function whitePreRollContactMatch() {
+  const store = createPlayStore({
+    match: createMatch({
+      length: 7,
+      game: createGame({
+        board: createBoard({
+          white: { points: { 24: 2, 13: 5, 8: 3, 6: 5 } },
+          black: { points: { 1: 2, 12: 5, 17: 3, 19: 5 } },
+        }),
+        player: 'black',
+        roll: [3, 1],
+      }),
+    }),
+    dice: scriptedDice(),
+  });
+  store.dispatch({ type: 'movement', from: 17, die: 3 });
+  store.dispatch({ type: 'movement', from: 19, die: 1 });
+  store.dispatch({ type: 'commit' });
+  const match = store.getState().match;
+  expect(match?.phase).toBe('pre-roll');
+  expect(match?.toRoll).toBe('white');
   return match ?? undefined;
 }
 
@@ -172,25 +198,24 @@ describe('auto-roll in races', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Black to play');
   });
 
-  it('offers an in-HUD auto-roll toggle vs the computer that applies at once', () => {
-    localStorage.setItem(AUTO_ROLL_RACES_KEY, 'off');
+  it('lets you auto-roll a contact pre-roll from the HUD by choosing Always', () => {
     // Default setup (no hotseat) is vs the computer, where the HUD carries the
-    // toggle. White sits at a race pre-roll with auto-roll off: the stop shows.
-    renderPlay({ match: whitePreRollRaceMatch(), dice: scriptedDice(3, 1) });
+    // control. White sits at a contact pre-roll where a double is possible, so
+    // the default "in races" keeps the Double/Roll stop.
+    renderPlay({ match: whitePreRollContactMatch(), dice: scriptedDice(6, 3) });
 
     expect(screen.getByRole('button', { name: 'Roll' })).toBeInTheDocument();
-    const toggle = screen.getByRole('switch', { name: 'Auto-roll in races' });
-    expect(toggle).toHaveAttribute('aria-checked', 'false');
+    expect(screen.getByRole('radio', { name: 'In races' })).toBeChecked();
 
-    // Flip it on from the HUD: the pre-roll at hand rolls itself right away
-    // (recheck), and the choice persists under the key Settings shares.
-    fireEvent.click(toggle);
-    expect(localStorage.getItem(AUTO_ROLL_RACES_KEY)).toBe('on');
+    // Choose Always from the HUD: the stop at hand rolls itself right away
+    // (recheck), and the mode persists under the key Settings shares.
+    fireEvent.click(screen.getByRole('radio', { name: 'Always' }));
+    expect(localStorage.getItem(AUTO_ROLL_KEY)).toBe('always');
     expect(
       screen.queryByRole('button', { name: 'Roll' }),
     ).not.toBeInTheDocument();
     expect(screen.getByRole('status')).toHaveTextContent(
-      'White to play 3 and 1.',
+      'White to play 6 and 3.',
     );
   });
 

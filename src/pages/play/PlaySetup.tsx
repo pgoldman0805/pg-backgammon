@@ -7,6 +7,7 @@
 
 import { useId } from 'react';
 import type { Difficulty, EngineStatus } from '../../engine';
+import type { AutoRollMode } from '../../play/settings';
 import { Switch } from '../../ui/Switch';
 import { DIFFICULTIES, type GameType, points } from './playFormat';
 
@@ -112,9 +113,60 @@ export const MONEY_HINT =
 export const TUTOR_HINT =
   'Coaching as you play: hints, feedback, and the eval bar.';
 
-/** What the in-HUD auto-roll toggle does; matches the Settings row's hint. */
+/** The three auto-roll modes, labelled for the pickers. */
+export const AUTO_ROLL_OPTIONS: ReadonlyArray<{
+  id: AutoRollMode;
+  label: string;
+}> = [
+  { id: 'off', label: 'Never' },
+  { id: 'races', label: 'In races' },
+  { id: 'always', label: 'Always' },
+];
+
+/** What the auto-roll control does, spelled out beside it. */
 export const AUTO_ROLL_HINT =
-  'Once no contact remains, your pre-roll rolls itself.';
+  'Roll your dice for you at the pre-roll: in races only, or always (even when you could double).';
+
+/**
+ * The in-HUD auto-roll control: a compact three-way segmented radiogroup
+ * (Off / In races / Always) beside the Tutor toggle, so the mode can be
+ * changed mid-match. Named by its visible "Auto-roll" label.
+ */
+export function AutoRollField({
+  mode,
+  onChange,
+}: {
+  mode: AutoRollMode;
+  onChange: (mode: AutoRollMode) => void;
+}) {
+  const group = useId();
+  const labelId = useId();
+  return (
+    <span className="setting-switch-field">
+      <span className="autoroll-label" id={labelId}>
+        Auto-roll
+      </span>
+      <span
+        className="autoroll-seg"
+        role="radiogroup"
+        aria-labelledby={labelId}
+      >
+        {AUTO_ROLL_OPTIONS.map((option) => (
+          <label key={option.id} className="autoroll-seg-option">
+            <input
+              type="radio"
+              name={group}
+              value={option.id}
+              checked={mode === option.id}
+              onChange={() => onChange(option.id)}
+            />
+            {option.label}
+          </label>
+        ))}
+      </span>
+    </span>
+  );
+}
 
 /**
  * One labeled on/off switch in the Play area: the Tutor mode toggle, on the
