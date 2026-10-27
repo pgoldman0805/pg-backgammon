@@ -1,9 +1,10 @@
 /**
  * Ticket 25 (spec story 58): the Play view keeps only gameplay affordances.
- * The Board style picker and the two autoplay switches live in Settings
- * alone — gone from both the setup card and the in-game HUD — while the
- * Tutor mode toggle stays (a gameplay mode, switchable mid-match). The setup
- * card points at Settings with one quiet link.
+ * The Board style picker and the auto-play-forced switch live in Settings
+ * alone, gone from both the setup card and the in-game HUD. The Tutor mode
+ * toggle stays (a gameplay mode, switchable mid-match), and auto-roll was
+ * later brought back into the in-game HUD (reachable mid-match) while staying
+ * off the setup card. The setup card points at Settings with one quiet link.
  */
 
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -61,16 +62,19 @@ describe('the setup card', () => {
 });
 
 describe('the in-game HUD', () => {
-  it('keeps the Tutor toggle and nothing else vs the computer', () => {
+  it('carries the Tutor and auto-roll toggles vs the computer, nothing more', () => {
     renderPlay({ dice: scriptedDice(6, 3) });
     fireEvent.click(screen.getByRole('button', { name: 'Play as White' }));
 
     expect(
       screen.getByRole('switch', { name: 'Tutor mode' }),
     ).toBeInTheDocument();
+    // Auto-roll is reachable mid-match from the HUD (requested back in-game),
+    // the one preference switch to return; auto-play and board style stay in
+    // Settings alone.
     expect(
-      screen.queryByRole('switch', { name: 'Auto-roll in races' }),
-    ).not.toBeInTheDocument();
+      screen.getByRole('switch', { name: 'Auto-roll in races' }),
+    ).toBeInTheDocument();
     expect(
       screen.queryByRole('switch', { name: 'Auto-play forced plays' }),
     ).not.toBeInTheDocument();

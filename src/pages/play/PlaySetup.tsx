@@ -112,6 +112,10 @@ export const MONEY_HINT =
 export const TUTOR_HINT =
   'Coaching as you play: hints, feedback, and the eval bar.';
 
+/** What the in-HUD auto-roll toggle does; matches the Settings row's hint. */
+export const AUTO_ROLL_HINT =
+  'Once no contact remains, your pre-roll rolls itself.';
+
 /**
  * One labeled on/off switch in the Play area: the Tutor mode toggle, on the
  * setup card and in the HUD during a match. (The preference switches moved to

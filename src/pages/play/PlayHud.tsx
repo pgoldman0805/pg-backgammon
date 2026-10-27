@@ -2,8 +2,8 @@
  * The Play HUD: the two player chips (swatch, pip count and match score) framing
  * a center column that carries the status line, the match caption (length or
  * money, Crawford, the copy-XGID button) and — against the computer — the
- * Tutor-mode switch. Purely presentational: it renders the match state the
- * page hands it and raises the one Tutor toggle back up.
+ * Tutor-mode and auto-roll switches. Purely presentational: it renders the
+ * match state the page hands it and raises the two toggles back up.
  */
 
 import type { Difficulty } from '../../engine';
@@ -15,7 +15,7 @@ import {
   pipCount,
 } from '../../rules';
 import { GlossaryTerm } from '../../ui/GlossaryTerm';
-import { SettingSwitch, TUTOR_HINT } from './PlaySetup';
+import { AUTO_ROLL_HINT, SettingSwitch, TUTOR_HINT } from './PlaySetup';
 import { difficultyLabel } from './playFormat';
 
 export function PlayHud({
@@ -30,6 +30,8 @@ export function PlayHud({
   thinking,
   tutorOn,
   onTutorChange,
+  autoRollOn,
+  onAutoRollChange,
 }: {
   /** Whose decision the moment is, for the active-chip highlight. */
   actor: Player | null;
@@ -43,6 +45,8 @@ export function PlayHud({
   thinking: boolean;
   tutorOn: boolean;
   onTutorChange: (on: boolean) => void;
+  autoRollOn: boolean;
+  onAutoRollChange: (on: boolean) => void;
 }) {
   return (
     <div className="play-hud">
@@ -105,6 +109,12 @@ export function PlayHud({
               hint={TUTOR_HINT}
               on={tutorOn}
               onChange={onTutorChange}
+            />
+            <SettingSwitch
+              label="Auto-roll in races"
+              hint={AUTO_ROLL_HINT}
+              on={autoRollOn}
+              onChange={onAutoRollChange}
             />
           </div>
         )}

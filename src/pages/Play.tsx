@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { useAutoAnalysis } from '../analysis';
 import type { Difficulty, Engine } from '../engine';
 import { stepMsFor, useAnimationSpeed } from '../play/animation';
-import { createAutoplay } from '../play/autoplay';
+import { type Autoplay, createAutoplay } from '../play/autoplay';
 import { Board } from '../play/Board';
 import { getPlayEngine } from '../play/engineInstance';
 import {
@@ -27,6 +27,7 @@ import {
   rememberMatchStarted,
   rememberSetupChoice,
   tutorModeDefault,
+  useStoredSwitch,
 } from '../play/settings';
 import { createPlayStore, type PlayStore } from '../play/store';
 import { createTutor, type Tutor, type TutorState } from '../play/tutor';
@@ -128,6 +129,20 @@ export function Play({
   const tutorRef = useRef<Tutor | null>(null);
   const autopilotRef = useRef<RaceAutopilot | null>(null);
   const [autopilotOn, setAutopilotOn] = useState(false);
+  // The auto-roll-in-races switch is reachable mid-match from the HUD, not
+  // only from Settings — the same persisted key, so the two stay in sync. The
+  // autoplay controller reads the key live, so a flip applies from the next
+  // decision; recheck() also re-examines the current moment at once, so
+  // turning it on while sitting at a race pre-roll rolls right away.
+  const autoplayRef = useRef<Autoplay | null>(null);
+  const [autoRollOn, setAutoRollRaces] = useStoredSwitch(
+    AUTO_ROLL_RACES_KEY,
+    true,
+  );
+  const handleAutoRollChange = (on: boolean) => {
+    setAutoRollRaces(on);
+    autoplayRef.current?.recheck();
+  };
   // The checker-animation speed paces the opponent's and autoplay's visible
   // steps too (ticket 20), so "fast" feels fast end to end. An injected
   // opponentStepMs (tests) always wins.
@@ -213,8 +228,10 @@ export function Play({
       }),
       stepMs,
     });
+    autoplayRef.current = autoplay;
     return () => {
       autoplay.dispose();
+      autoplayRef.current = null;
     };
   }, [store, vsComputer, stepMs]);
 
@@ -693,6 +710,8 @@ export function Play({
         thinking={thinking}
         tutorOn={tutorOn}
         onTutorChange={setTutorOn}
+        autoRollOn={autoRollOn}
+        onAutoRollChange={handleAutoRollChange}
       />
 
       {match && vsComputer && tutorOn && (

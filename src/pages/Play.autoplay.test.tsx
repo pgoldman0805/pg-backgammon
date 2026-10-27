@@ -172,6 +172,28 @@ describe('auto-roll in races', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Black to play');
   });
 
+  it('offers an in-HUD auto-roll toggle vs the computer that applies at once', () => {
+    localStorage.setItem(AUTO_ROLL_RACES_KEY, 'off');
+    // Default setup (no hotseat) is vs the computer, where the HUD carries the
+    // toggle. White sits at a race pre-roll with auto-roll off: the stop shows.
+    renderPlay({ match: whitePreRollRaceMatch(), dice: scriptedDice(3, 1) });
+
+    expect(screen.getByRole('button', { name: 'Roll' })).toBeInTheDocument();
+    const toggle = screen.getByRole('switch', { name: 'Auto-roll in races' });
+    expect(toggle).toHaveAttribute('aria-checked', 'false');
+
+    // Flip it on from the HUD: the pre-roll at hand rolls itself right away
+    // (recheck), and the choice persists under the key Settings shares.
+    fireEvent.click(toggle);
+    expect(localStorage.getItem(AUTO_ROLL_RACES_KEY)).toBe('on');
+    expect(
+      screen.queryByRole('button', { name: 'Roll' }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'White to play 3 and 1.',
+    );
+  });
+
   it('flipped off mid-match, the next race pre-roll stops again', () => {
     const { store } = renderPlay(
       { match: whitePreRollRaceMatch(), dice: scriptedDice(3, 1) },
