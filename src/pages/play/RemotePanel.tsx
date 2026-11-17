@@ -6,26 +6,39 @@
  * useRemoteRoom.
  */
 
+import { Link } from 'react-router-dom';
+import type { StoredMatch } from '../../storage';
 import type { RemoteRoomView } from './useRemoteRoom';
 
 export function RemotePanel({
   view,
   matchStarted,
+  localRow = null,
+  onDiscard,
 }: {
   view: RemoteRoomView;
   matchStarted: boolean;
+  /** This room's in-progress stored row, kept reviewable once the room ends. */
+  localRow?: StoredMatch | null;
+  onDiscard?: () => void;
 }) {
   if (matchStarted) {
     return null;
   }
   return (
     <div className="play-banner">
-      <div className="setup-card remote-panel">{panelBody(view)}</div>
+      <div className="setup-card remote-panel">
+        {panelBody(view, localRow, onDiscard)}
+      </div>
     </div>
   );
 }
 
-function panelBody(view: RemoteRoomView) {
+function panelBody(
+  view: RemoteRoomView,
+  localRow: StoredMatch | null,
+  onDiscard?: () => void,
+) {
   switch (view.kind) {
     case 'loading':
       return <p className="setup-title">Finding your game…</p>;
@@ -51,7 +64,25 @@ function panelBody(view: RemoteRoomView) {
     case 'full':
       return <p className="setup-title">This game already has two players.</p>;
     case 'ended':
-      return <p className="setup-title">This game has ended.</p>;
+      return (
+        <>
+          <p className="setup-title">This game has ended.</p>
+          {localRow && (
+            <div className="dialog-actions">
+              <Link className="play-button play-button--primary" to="/analyze">
+                Review in Analyze
+              </Link>
+              <button
+                type="button"
+                className="play-button play-button--quiet"
+                onClick={onDiscard}
+              >
+                Discard
+              </button>
+            </div>
+          )}
+        </>
+      );
     case 'seated':
       return (
         <>

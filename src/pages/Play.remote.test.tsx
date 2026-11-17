@@ -11,6 +11,7 @@ import {
   waitFor,
 } from '@testing-library/react';
 import { MemoryRouter, useLocation } from 'react-router-dom';
+import type { Engine } from '../engine';
 import { createFakeEngine } from '../engine/fake';
 import { BOARD } from '../play/geometry';
 import { canCommit, destinationsFrom, movableOrigins } from '../play/selectors';
@@ -24,8 +25,13 @@ import {
   type TransportFactory,
 } from '../remote/session';
 import { createLoopback, type Loopback } from '../remote/testing/loopback';
-import { canDouble, type DiceSource } from '../rules';
-import { createMemoryStorage } from '../storage';
+import { canDouble, type DiceSource, startMatch } from '../rules';
+import {
+  createMemoryStorage,
+  type MatchStorage,
+  type StoredMatch,
+  snapshotMatch,
+} from '../storage';
 import { scriptedDice } from '../test/dice';
 import { Play } from './Play';
 import { initialSetup } from './play/playFormat';
@@ -66,7 +72,12 @@ async function settle(loop: Loopback): Promise<void> {
  * first when the page is Black; a White page renders into the waiting room.
  * Every frame the page's own session sends is recorded in `sent`.
  */
-async function renderSeated(side: Side, dice: DiceSource, length = 3) {
+async function renderSeated(
+  side: Side,
+  dice: DiceSource,
+  length = 3,
+  engine: Engine = createFakeEngine(),
+) {
   const loop = createLoopback({ length }, dice);
   const sent: string[] = [];
   const transport: TransportFactory = (url) => {
@@ -91,7 +102,7 @@ async function renderSeated(side: Side, dice: DiceSource, length = 3) {
       <Play
         roomId={ROOM}
         remote={{ api: fakeApi(), transport, origin: 'http://test' }}
-        engine={createFakeEngine()}
+        engine={engine}
         storage={storage}
         opponentStepMs={0}
       />
@@ -199,8 +210,16 @@ describe('Play in remote mode', () => {
       await new Promise((resolve) => setTimeout(resolve, 50));
     });
     await settle(loop);
+    // The page builds its session internally, so its dispatch cannot be
+    // spied on directly. Two observable proofs stand in: no act frame left
+    // the page's socket (the transport tap), and the room's authoritative
+    // match is still in Black's pre-roll, so neither the page-side
+    // localSides gate nor the session's own guard let a roll through. The
+    // gate alone cannot be isolated from the session guard from here.
     expect(sent.filter((frame) => frame.includes('"act"'))).toEqual([]);
     expect(loop.host.room.match?.phase).toBe('pre-roll');
+    expect(loop.host.room.match?.toRoll).toBe('black');
+    expect(whiteHelper.getState().match?.phase).toBe('pre-roll');
   });
 
   it('Black sees the board from the black perspective', async () => {
@@ -343,5 +362,113 @@ describe('opening a room by URL', () => {
     expect(
       await screen.findByText('This game already has two players.'),
     ).toBeInTheDocument();
+  });
+});
+
+function remoteRow(roomId: string): StoredMatch {
+  return snapshotMatch({
+    id: `row-${roomId}`,
+    config: { mode: 'remote', length: 1, roomId, localSide: 'white' },
+    match: startMatch(1, scriptedDice(6, 3)),
+    createdAt: 1_000,
+    updatedAt: 2_000,
+  });
+}
+
+function renderPage(
+  storage: MatchStorage,
+  props: { roomId?: string; api?: RemoteApi } = {},
+) {
+  return render(
+    <MemoryRouter
+      initialEntries={props.roomId ? [`/play/${props.roomId}`] : ['/']}
+    >
+      <PathProbe />
+      <Play
+        roomId={props.roomId}
+        remote={{ api: props.api ?? fakeApi(), origin: 'http://test' }}
+        engine={createFakeEngine()}
+        storage={storage}
+      />
+    </MemoryRouter>,
+  );
+}
+
+describe('resuming and expiry', () => {
+  it('the resume prompt sends a remote row back to its room URL', async () => {
+    const storage = createMemoryStorage();
+    await storage.put(remoteRow('abc123'));
+    renderPage(storage);
+    expect(
+      await screen.findByText(
+        /An online match is waiting: 1-point match online/,
+      ),
+    ).toBeInTheDocument();
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Return to online match' }),
+    );
+    expect(screen.getByTestId('path')).toHaveTextContent('/play/abc123');
+    expect(screen.queryByRole('button', { name: 'Resume match' })).toBeNull();
+  });
+
+  it('an expired room offers Review and Discard', async () => {
+    const storage = createMemoryStorage();
+    await storage.put(remoteRow(ROOM));
+    renderPage(storage, { roomId: ROOM });
+    expect(await screen.findByText('This game has ended.')).toBeInTheDocument();
+    const review = await screen.findByRole('link', {
+      name: 'Review in Analyze',
+    });
+    expect(review).toHaveAttribute('href', '/analyze');
+    expect(screen.getByRole('button', { name: 'Discard' })).toBeVisible();
+  });
+
+  it('Discard deletes the local row', async () => {
+    const storage = createMemoryStorage();
+    await storage.put(remoteRow(ROOM));
+    renderPage(storage, { roomId: ROOM });
+    fireEvent.click(await screen.findByRole('button', { name: 'Discard' }));
+    await waitFor(async () => expect(await storage.list()).toHaveLength(0));
+    await waitFor(() =>
+      expect(screen.getByTestId('path')).toHaveTextContent(/^\/$/),
+    );
+  });
+
+  it('an expired room never writes status finished', async () => {
+    const storage = createMemoryStorage();
+    await storage.put(remoteRow(ROOM));
+    const put = vi.spyOn(storage, 'put');
+    renderPage(storage, { roomId: ROOM });
+    await screen.findByRole('link', { name: 'Review in Analyze' });
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 20));
+    });
+    expect(put).not.toHaveBeenCalled();
+    expect((await storage.list())[0].status).toBe('in-progress');
+  });
+});
+
+describe('remote chrome', () => {
+  it('the engine note does not render in remote mode', async () => {
+    // A failed engine would show its note on the opponent's turn.
+    const engine = { ...createFakeEngine(), status: 'error' as const };
+    const { loop } = await renderSeated('white', scriptedDice(3, 6), 3, engine);
+    const black = await startOpponent(loop, 'black');
+    expect(black.getState().match?.game.turn?.player).toBe('black');
+    expect(screen.queryByText('The engine failed to load.')).toBeNull();
+  });
+
+  it('the remote match-over card offers Back to Play', async () => {
+    const { loop } = await renderSeated('white', scriptedDice(6, 3), 1);
+    const black = await startOpponent(loop, 'black');
+    fireEvent.click(screen.getByRole('button', { name: 'Resign…' }));
+    fireEvent.click(screen.getByRole('button', { name: /^Single/ }));
+    await settle(loop);
+    black.dispatch({ type: 'accept-resign' });
+    await settle(loop);
+    expect(
+      await screen.findByRole('link', { name: 'Back to Play' }),
+    ).toHaveAttribute('href', '/');
+    expect(screen.queryByRole('button', { name: 'New match' })).toBeNull();
   });
 });

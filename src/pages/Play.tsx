@@ -568,21 +568,38 @@ export function Play({
   /** The newest in-progress match on offer to pick back up (reload safety). */
   const resumeCandidate = persistence.resumable[0] ?? null;
 
+  // A remote row resumes by returning to its room, never into a local board.
+  const remoteResume =
+    resumeCandidate?.config.mode === 'remote' && resumeCandidate.config.roomId
+      ? resumeCandidate.config.roomId
+      : null;
+
   const resumePrompt = resumeCandidate && (
     <div className="resume-note">
       <p className="resume-text">
-        A match is waiting: {storedMatchName(resumeCandidate)}, White{' '}
-        {resumeCandidate.score.white} · Black {resumeCandidate.score.black}.
+        {remoteResume ? 'An online match is waiting' : 'A match is waiting'}:{' '}
+        {storedMatchName(resumeCandidate)}, White {resumeCandidate.score.white}{' '}
+        · Black {resumeCandidate.score.black}.
       </p>
       <button
         type="button"
         className="play-button play-button--primary"
-        onClick={() => resume(resumeCandidate)}
+        onClick={() =>
+          remoteResume
+            ? navigate(`/play/${remoteResume}`)
+            : resume(resumeCandidate)
+        }
       >
-        Resume match
+        {remoteResume ? 'Return to online match' : 'Resume match'}
       </button>
     </div>
   );
+
+  /** The in-progress stored row for this room, reviewable after it expires. */
+  const roomRow = roomId
+    ? (persistence.resumable.find((row) => row.config.roomId === roomId) ??
+      null)
+    : null;
 
   const setupCard = (
     title: string,
@@ -682,11 +699,17 @@ export function Play({
         </ol>
         {setup.mode !== 'remote' && setupPickers}
         {setup.mode !== 'remote' && startButtons('New match', setup.mode)}
-        <EngineNote
-          status={engineStatus}
-          opponentError={opponentState.error}
-          onRetry={retryEngine}
-        />
+        {setup.mode === 'remote' ? (
+          <Link className="play-button play-button--quiet" to="/">
+            Back to Play
+          </Link>
+        ) : (
+          <EngineNote
+            status={engineStatus}
+            opponentError={opponentState.error}
+            onRetry={retryEngine}
+          />
+        )}
       </PlayDialog>
     );
   };
@@ -871,7 +894,16 @@ export function Play({
             perspective={localSide ?? 'white'}
           />
           {roomView && (
-            <RemotePanel view={roomView} matchStarted={match != null} />
+            <RemotePanel
+              view={roomView}
+              matchStarted={match != null}
+              localRow={roomRow}
+              onDiscard={() => {
+                if (roomRow) {
+                  void storage.delete(roomRow.id).then(() => navigate('/'));
+                }
+              }}
+            />
           )}
           {!match &&
             !roomView &&
@@ -971,7 +1003,8 @@ export function Play({
             {!humanTurn &&
               !humanPreRoll &&
               phase !== 'game-over' &&
-              phase !== 'match-over' && (
+              phase !== 'match-over' &&
+              setup.mode !== 'remote' && (
                 <div className="play-controls play-controls--note">
                   <EngineNote
                     status={engineStatus}
