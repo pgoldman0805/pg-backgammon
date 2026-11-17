@@ -581,6 +581,48 @@ describe('reconnection', () => {
     expect(net.sockets[0].sent).toHaveLength(before);
   });
 
+  describe('a close after busy', () => {
+    beforeEach(() => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    function busySession(pace: RemoteSessionOptions['pace']) {
+      const net = fakeNetwork();
+      const s = session(net.factory, pace);
+      net.sockets[0].open();
+      net.sockets[0].receive(snapshot());
+      net.sockets[0].receive({ type: 'rejected', seq: 1, reason: 'busy' });
+      expect(s.getConnection().error).toBe('busy');
+      return { net, s };
+    }
+
+    it('a terminal close keeps its error once the busy window ends', () => {
+      const { net, s } = busySession(recordingPace().pace);
+      net.sockets[0].drop(4003);
+      expect(s.getConnection()).toMatchObject({
+        status: 'closed',
+        error: 'expired',
+      });
+      vi.advanceTimersByTime(5000);
+      expect(s.getConnection()).toMatchObject({
+        status: 'closed',
+        error: 'expired',
+      });
+    });
+
+    it('a non-terminal close clears busy and shows reconnecting', () => {
+      const { net, s } = busySession(recordingPace(true).pace);
+      net.sockets[0].drop(1006);
+      expect(s.getConnection()).toMatchObject({
+        status: 'reconnecting',
+        error: null,
+      });
+    });
+  });
+
   it('a busy room shows the busy error, which clears after five seconds', async () => {
     vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
     try {

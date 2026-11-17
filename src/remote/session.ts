@@ -203,13 +203,21 @@ export function createRemoteSession(
       return;
     }
     setConnection({ error: 'busy' });
-    if (busyTimer) {
-      clearTimeout(busyTimer);
-    }
+    cancelBusyTimer();
     busyTimer = setTimeout(() => {
       busyTimer = null;
-      setConnection({ error: null });
+      // Only the busy notice expires; never a terminal error set since.
+      if (connection.error === 'busy') {
+        setConnection({ error: null });
+      }
     }, BUSY_VISIBLE_MS);
+  }
+
+  function cancelBusyTimer(): void {
+    if (busyTimer) {
+      clearTimeout(busyTimer);
+      busyTimer = null;
+    }
   }
 
   function onMessage(data: string): void {
@@ -274,6 +282,8 @@ export function createRemoteSession(
       }
       transport = null;
       socketOpen = false;
+      // A close supersedes any busy notice: the connection state speaks now.
+      cancelBusyTimer();
       const error = errorForClose(code);
       if (error) {
         setConnection({ status: 'closed', error });
@@ -285,7 +295,7 @@ export function createRemoteSession(
 
   /** Wait out the next backoff step, then try again. */
   function scheduleReconnect(): void {
-    setConnection({ status: 'reconnecting' });
+    setConnection({ status: 'reconnecting', error: null });
     const ms = backoffMs[Math.min(attempt, backoffMs.length - 1)];
     attempt += 1;
     const token = ++waitToken;
@@ -353,9 +363,7 @@ export function createRemoteSession(
       disposed = true;
       waitToken += 1;
       waiting = false;
-      if (busyTimer) {
-        clearTimeout(busyTimer);
-      }
+      cancelBusyTimer();
       if (listening) {
         window.removeEventListener('online', onOnline);
         document.removeEventListener('visibilitychange', onVisibilityChange);
