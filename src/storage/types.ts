@@ -21,7 +21,7 @@ export type MatchStatus = 'in-progress' | 'finished';
  */
 export interface MatchConfig {
   readonly length: number;
-  readonly mode: 'computer' | 'hotseat' | 'imported';
+  readonly mode: 'computer' | 'hotseat' | 'remote' | 'imported';
   readonly difficulty?: Difficulty;
   readonly [extra: string]: unknown;
 }

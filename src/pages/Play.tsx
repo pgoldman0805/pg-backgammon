@@ -1,6 +1,7 @@
 import {
   useEffect,
   useId,
+  useMemo,
   useRef,
   useState,
   useSyncExternalStore,
@@ -68,6 +69,7 @@ import {
   initialSetup,
   KIND_POINTS,
   KIND_TEXT,
+  localSidesFor,
   type PlayMode,
   type PlaySetup,
   points,
@@ -209,6 +211,14 @@ export function Play({
   const phase = match?.phase ?? null;
   const turn = game?.turn ?? null;
   const vsComputer = setup.mode === 'computer';
+  // Which sides this screen's human controls. Task 8 supplies localSide from
+  // the room seat (add it to the memo's deps then); until then a remote setup
+  // controls no side.
+  const localSide: Player | null = null;
+  const localSides = useMemo(
+    () => localSidesFor(setup.mode, localSide),
+    [setup.mode],
+  );
 
   // The autoplay controller (spec stories 43-44) acts for every human side —
   // just White vs the computer, both in hot-seat. Its two settings live in
@@ -217,7 +227,7 @@ export function Play({
   useEffect(() => {
     const autoplay = createAutoplay({
       store,
-      players: vsComputer ? ['white'] : ['white', 'black'],
+      players: localSides,
       settings: () => ({
         autoRoll: getAutoRollMode(),
         autoForcedPlays: getStoredSwitch(AUTO_FORCED_PLAYS_KEY, true),
@@ -230,7 +240,7 @@ export function Play({
       autoplay.dispose();
       autoplayRef.current = null;
     };
-  }, [store, vsComputer, stepMs]);
+  }, [store, localSides, stepMs]);
 
   // The race autopilot (spec story 59) lives alongside a vs-computer match
   // only — in hot-seat its button never appears and no controller runs.
@@ -274,13 +284,13 @@ export function Play({
     if (match?.phase !== 'pre-roll') {
       return;
     }
-    if (vsComputer && match.toRoll !== 'white') {
+    if (!match.toRoll || !localSides.includes(match.toRoll)) {
       return;
     }
     if (!canDouble(match)) {
       store.dispatch({ type: 'roll' });
     }
-  }, [match, vsComputer, store]);
+  }, [match, localSides, store]);
 
   // A declined resignation leaves a short note on the status line, cleared by
   // the next visible progress.
@@ -320,7 +330,7 @@ export function Play({
   const forced =
     game && turn && turn.movements.length === 0 ? forcedPlay(game) : null;
   const humanSide = (player: Player | null | undefined) =>
-    player != null && (!vsComputer || player === 'white');
+    player != null && localSides.includes(player);
   const humanTurn = phase === 'turn' && humanSide(turn?.player);
   const humanPreRoll = phase === 'pre-roll' && humanSide(match?.toRoll);
   // A takeback can land while the engine thinks: the moment the decision is

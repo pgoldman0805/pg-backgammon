@@ -87,7 +87,25 @@ export function currentXgid(match: MatchState | null): string | null {
   return null;
 }
 
-export type PlayMode = 'computer' | 'hotseat';
+export type PlayMode = 'computer' | 'hotseat' | 'remote';
+
+/**
+ * The sides the human at this screen controls: White against the computer,
+ * both in hot-seat, and in a remote room only the seat they took (none until
+ * the seat is known).
+ */
+export function localSidesFor(
+  mode: PlayMode,
+  localSide: Player | null,
+): readonly Player[] {
+  if (mode === 'hotseat') {
+    return ['white', 'black'];
+  }
+  if (mode === 'remote') {
+    return localSide ? [localSide] : [];
+  }
+  return ['white'];
+}
 
 /**
  * Match play to a point target, or a money session (GLOSSARY "Money play"):
@@ -127,7 +145,10 @@ export function initialSetup(): PlaySetup {
 export function setupFromConfig(config: MatchConfig): PlaySetup {
   const difficulty = DIFFICULTIES.find((d) => d.id === config.difficulty)?.id;
   return {
-    mode: config.mode === 'hotseat' ? 'hotseat' : 'computer',
+    mode:
+      config.mode === 'hotseat' || config.mode === 'remote'
+        ? config.mode
+        : 'computer',
     difficulty: difficulty ?? 'casual',
     length:
       typeof config.length === 'number' && config.length > 0
