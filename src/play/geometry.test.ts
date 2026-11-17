@@ -1,10 +1,14 @@
+import fc from 'fast-check';
 import {
   BOARD,
   barCheckerCenter,
   checkerCenter,
   clientToBoard,
+  isTopRow,
+  type Perspective,
   pointAnchorX,
   targetAt,
+  traySlabY,
 } from './geometry';
 
 describe('board layout', () => {
@@ -82,5 +86,61 @@ describe('board layout', () => {
     const { x, y } = clientToBoard(rect, BOARD.width, BOARD.height / 2);
     expect(x).toBeCloseTo(BOARD.width / 2);
     expect(y).toBeCloseTo(BOARD.height / 2);
+  });
+});
+
+/**
+ * Board perspective (remote play): under 'black' the layout is the white
+ * layout rotated 180 degrees, so the Black player sees their own home board
+ * bottom right.
+ */
+describe('board perspective', () => {
+  const perspectives: readonly Perspective[] = ['white', 'black'];
+
+  it('black perspective places point p where white places 25 - p', () => {
+    fc.assert(
+      fc.property(fc.integer({ min: 1, max: 24 }), (p) => {
+        expect(pointAnchorX(p, 'black')).toBe(pointAnchorX(25 - p, 'white'));
+        expect(isTopRow(p, 'black')).toBe(isTopRow(25 - p, 'white'));
+      }),
+    );
+  });
+
+  it('targetAt inverts checkerCenter under both perspectives', () => {
+    fc.assert(
+      fc.property(
+        fc.integer({ min: 1, max: 24 }),
+        fc.constantFrom(...perspectives),
+        (p, perspective) => {
+          const { x, y } = checkerCenter(p, 0, 1, perspective);
+          expect(targetAt(x, y, perspective)).toBe(p);
+        },
+      ),
+    );
+  });
+
+  it('swaps bar halves and trays for black', () => {
+    fc.assert(
+      fc.property(
+        fc.constantFrom(...perspectives),
+        fc.integer({ min: 0, max: 14 }),
+        (player, i) => {
+          const other = player === 'white' ? 'black' : 'white';
+          expect(barCheckerCenter(player, i, 'black')).toEqual(
+            barCheckerCenter(other, i, 'white'),
+          );
+          expect(traySlabY(player, i, 'black')).toBe(
+            traySlabY(other, i, 'white'),
+          );
+        },
+      ),
+    );
+  });
+
+  it('defaults to the white perspective', () => {
+    for (let p = 1; p <= 24; p++) {
+      expect(pointAnchorX(p)).toBe(pointAnchorX(p, 'white'));
+      expect(checkerCenter(p, 2, 4)).toEqual(checkerCenter(p, 2, 4, 'white'));
+    }
   });
 });

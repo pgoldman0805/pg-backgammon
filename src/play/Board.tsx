@@ -31,8 +31,10 @@ import {
   checkerCenter,
   clientToBoard,
   isTopRow,
+  type Perspective,
   pointAnchorX,
   targetAt,
+  trayOnTop,
   traySlabY,
 } from './geometry';
 import {
@@ -62,6 +64,11 @@ export interface BoardProps {
    * engine's turn in a vs-computer game. Defaults to true.
    */
   readonly interactive?: boolean;
+  /**
+   * Whose home board is drawn bottom right: 'black' rotates the board 180
+   * degrees for the Black player in a remote match. Defaults to 'white'.
+   */
+  readonly perspective?: Perspective;
 }
 
 const PIP_OFFSETS: Record<Die, ReadonlyArray<readonly [number, number]>> = {
@@ -98,10 +105,10 @@ const PIP_OFFSETS: Record<Die, ReadonlyArray<readonly [number, number]>> = {
   ],
 };
 
-function pointPath(point: Point): string {
-  const x = pointAnchorX(point);
+function pointPath(point: Point, perspective: Perspective): string {
+  const x = pointAnchorX(point, perspective);
   const w = BOARD.pointWidth;
-  if (isTopRow(point)) {
+  if (isTopRow(point, perspective)) {
     const y = BOARD.frame;
     return `M ${x} ${y} L ${x + w} ${y} L ${x + w / 2} ${y + BOARD.pointHeight} Z`;
   }
@@ -207,20 +214,21 @@ function placeCenter(
   board: BoardState,
   player: Player,
   place: CheckerPlace,
+  perspective: Perspective,
 ): { x: number; y: number } {
   const count = Math.max(1, checkersAt(board, player, place));
   if (place === 'bar') {
-    return barCheckerCenter(player, count - 1);
+    return barCheckerCenter(player, count - 1, perspective);
   }
   if (place === 'off') {
     const trayInnerX = BOARD.trayX;
     const trayInnerW = BOARD.width - BOARD.trayX - BOARD.frame;
     return {
       x: trayInnerX + trayInnerW / 2,
-      y: traySlabY(player, count - 1) + 9,
+      y: traySlabY(player, count - 1, perspective) + 9,
     };
   }
-  return checkerCenter(place, count - 1, count);
+  return checkerCenter(place, count - 1, count, perspective);
 }
 
 /**
@@ -280,12 +288,18 @@ function TravelingChecker({
  * real current stake (1) and reads as quiet, not the traditional "64" face
  * that non-experts mistake for a bug in no-doubling or early states (#22).
  */
-function CubeGlyph({ cube }: { cube: BoardCube }) {
+function CubeGlyph({
+  cube,
+  perspective,
+}: {
+  cube: BoardCube;
+  perspective: Perspective;
+}) {
   const size = 64;
   const x = BOARD.frame + (BOARD.pointWidth * 6) / 2;
   const atRest = cube.owner === 'center';
   const y = !atRest
-    ? cube.owner === 'black'
+    ? trayOnTop(cube.owner, perspective)
       ? BOARD.height / 2 - 48
       : BOARD.height / 2 + 48
     : BOARD.height / 2;
@@ -342,6 +356,7 @@ export function Board({
   onMove,
   cube,
   interactive = true,
+  perspective = 'white',
 }: BoardProps) {
   const board = game?.board ?? initialBoard();
   const turn = game?.turn ?? null;
@@ -387,12 +402,12 @@ export function Board({
       ...moves.map((move) => ({
         key: travelKey.current++,
         player: move.player,
-        from: placeCenter(previous, move.player, move.from),
-        to: placeCenter(board, move.player, move.to),
+        from: placeCenter(previous, move.player, move.from, perspective),
+        to: placeCenter(board, move.player, move.to, perspective),
         dest: move.to,
       })),
     ]);
-  }, [board, duration]);
+  }, [board, duration, perspective]);
 
   function retireTravel(key: number): void {
     setTravels((current) => current.filter((travel) => travel.key !== key));
@@ -472,7 +487,7 @@ export function Board({
     if (command?.kind === 'drop') {
       // A real drag happened: swallow the click the browser fires next.
       suppressClick.current = true;
-      const target = targetAt(command.x, command.y);
+      const target = targetAt(command.x, command.y, perspective);
       const movement =
         game && target !== null && target !== 'bar'
           ? destinationsFrom(game, command.from).find((m) => m.to === target)
@@ -573,7 +588,7 @@ export function Board({
           className="board-felt"
         />
       ))}
-      {/* Bear-off trays: black above, white below */}
+      {/* Bear-off trays: black above, white below (swapped for black) */}
       <rect
         x={trayInnerX}
         y={BOARD.frame}
@@ -595,7 +610,7 @@ export function Board({
       {Array.from({ length: 24 }, (_, i) => i + 1).map((p) => (
         <path
           key={p}
-          d={pointPath(p)}
+          d={pointPath(p, perspective)}
           className={p % 2 === 0 ? 'point point--cool' : 'point point--hot'}
         />
       ))}
@@ -604,8 +619,12 @@ export function Board({
       {Array.from({ length: 24 }, (_, i) => i + 1).map((p) => (
         <text
           key={p}
-          x={pointAnchorX(p) + BOARD.pointWidth / 2}
-          y={isTopRow(p) ? BOARD.frame - 5 : BOARD.height - BOARD.frame + 19}
+          x={pointAnchorX(p, perspective) + BOARD.pointWidth / 2}
+          y={
+            isTopRow(p, perspective)
+              ? BOARD.frame - 5
+              : BOARD.height - BOARD.frame + 19
+          }
           className="point-number"
         >
           {p}
@@ -613,7 +632,7 @@ export function Board({
       ))}
 
       {/* The doubling cube */}
-      {cube && <CubeGlyph cube={cube} />}
+      {cube && <CubeGlyph cube={cube} perspective={perspective} />}
 
       {/* Dice */}
       {rollDice.map((die, i) => (
@@ -636,7 +655,7 @@ export function Board({
             // biome-ignore lint/suspicious/noArrayIndexKey: borne-off slabs are identical positional slots
             key={`${player}-${i}`}
             x={trayInnerX + 12}
-            y={traySlabY(player, i)}
+            y={traySlabY(player, i, perspective)}
             width={trayInnerW - 24}
             height={18}
             rx={5}
@@ -662,7 +681,7 @@ export function Board({
             // biome-ignore lint/suspicious/noArrayIndexKey: checkers in a stack are identical positional slots
             key={index}
             player={player}
-            {...checkerCenter(p, index, n)}
+            {...checkerCenter(p, index, n, perspective)}
             lifted={liftedFrom === p && index === n - 1}
             ringed={highlightOrigin === p && index === n - 1}
             arriving={index >= n - hiddenTop}
@@ -701,7 +720,7 @@ export function Board({
             // biome-ignore lint/suspicious/noArrayIndexKey: checkers in a stack are identical positional slots
             key={index}
             player={player}
-            {...barCheckerCenter(player, index)}
+            {...barCheckerCenter(player, index, perspective)}
             lifted={liftedFrom === 'bar' && index === n - 1}
             ringed={movable && highlightOrigin === 'bar' && index === n - 1}
             arriving={index >= n - hiddenTop}
@@ -738,7 +757,9 @@ export function Board({
           };
           if (movement.to === 'off') {
             const player = turn?.player ?? 'white';
-            const y = player === 'black' ? BOARD.frame : BOARD.height / 2 + 8;
+            const y = trayOnTop(player, perspective)
+              ? BOARD.frame
+              : BOARD.height / 2 + 8;
             return (
               // biome-ignore lint/a11y/useSemanticElements: native buttons cannot exist inside SVG
               <g
@@ -762,7 +783,7 @@ export function Board({
             );
           }
           const to = movement.to;
-          const top = isTopRow(to);
+          const top = isTopRow(to, perspective);
           return (
             // biome-ignore lint/a11y/useSemanticElements: native buttons cannot exist inside SVG
             <g
@@ -774,9 +795,9 @@ export function Board({
               onClick={commit}
               onKeyDown={keyDown}
             >
-              <path d={pointPath(to)} className="dest-point" />
+              <path d={pointPath(to, perspective)} className="dest-point" />
               <rect
-                x={pointAnchorX(to)}
+                x={pointAnchorX(to, perspective)}
                 y={top ? 0 : BOARD.height / 2}
                 width={BOARD.pointWidth}
                 height={BOARD.height / 2}
@@ -805,7 +826,9 @@ export function Board({
           };
           if (destination.to === 'off') {
             const player = turn?.player ?? 'white';
-            const y = player === 'black' ? BOARD.frame : BOARD.height / 2 + 8;
+            const y = trayOnTop(player, perspective)
+              ? BOARD.frame
+              : BOARD.height / 2 + 8;
             return (
               // biome-ignore lint/a11y/useSemanticElements: native buttons cannot exist inside SVG
               <g
@@ -829,7 +852,7 @@ export function Board({
             );
           }
           const to = destination.to;
-          const top = isTopRow(to);
+          const top = isTopRow(to, perspective);
           return (
             // biome-ignore lint/a11y/useSemanticElements: native buttons cannot exist inside SVG
             <g
@@ -841,9 +864,12 @@ export function Board({
               onClick={commit}
               onKeyDown={keyDown}
             >
-              <path d={pointPath(to)} className="dest-point dest-point--two" />
+              <path
+                d={pointPath(to, perspective)}
+                className="dest-point dest-point--two"
+              />
               <rect
-                x={pointAnchorX(to)}
+                x={pointAnchorX(to, perspective)}
                 y={top ? 0 : BOARD.height / 2}
                 width={BOARD.pointWidth}
                 height={BOARD.height / 2}
