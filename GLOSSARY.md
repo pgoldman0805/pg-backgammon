@@ -1,6 +1,6 @@
 # pg-backgammon
 
-A personal, browser-only backgammon training platform: play against the computer at multiple difficulties, review games with an analyzer, and drill practice puzzles. Solo play and two-player remote matches; no accounts; all personal data local (ADR-0004).
+A personal, browser-first backgammon training platform: play against the computer at multiple difficulties, review games with an analyzer, and drill practice puzzles. Solo play and two-player remote matches; no accounts; all personal data local (ADR-0004).
 
 ## Language
 

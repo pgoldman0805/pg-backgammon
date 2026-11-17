@@ -83,8 +83,8 @@ export interface BlunderMiningDeps {
 }
 
 /**
- * Mine every new blunder puzzle out of one analyzed, finished vs-computer
- * match. Pure given its inputs; returns only puzzles not already covered by
+ * Mine every new blunder puzzle out of one analyzed, finished match with a
+ * known user side (see userSide). Pure given its inputs; returns only puzzles not already covered by
  * `existing` (by origin or by content).
  */
 export async function mineBlunderPuzzles(

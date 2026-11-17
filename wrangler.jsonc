@@ -3,6 +3,10 @@
   "name": "pg-backgammon",
   "main": "worker/index.ts",
   "compatibility_date": "2026-10-01",
+  // The Cloudflare Vite plugin writes .wrangler/deploy/config.json, which
+  // redirects `wrangler deploy` to the built dist/pg_backgammon/wrangler.json.
+  // Never run `wrangler deploy -c wrangler.jsonc` directly: this raw config's
+  // ./dist would publish the Worker bundle itself as static assets.
   "assets": {
     "directory": "./dist",
     "not_found_handling": "single-page-application",
