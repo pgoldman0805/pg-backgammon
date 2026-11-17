@@ -57,7 +57,10 @@ export default defineConfig({
         navigateFallback: 'index.html',
       },
     }),
-    cloudflare(),
+    // The Worker environment (wrangler.jsonc `main`) is incompatible with the
+    // jsdom suite's resolve settings; the Worker has its own pool-based suite
+    // (vitest.worker.config.ts), so leave the plugin out under vitest.
+    ...(process.env.VITEST ? [] : [cloudflare()]),
   ],
   test: {
     globals: true,

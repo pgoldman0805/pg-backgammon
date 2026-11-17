@@ -25,7 +25,7 @@ const REJECTION_LIMIT = Math.floor(2 ** 32 / 6) * 6;
 
 /**
  * A fair, non-deterministic dice source backed by the platform CSPRNG
- * (`globalThis.crypto`, available in browsers and Workers). Same rejection
+ * (the global `crypto`, available in browsers and Workers). Same rejection
  * sampling as {@link createSeededDice}, so every face is equally likely.
  */
 export function createCryptoDice(): DiceSource {
@@ -34,7 +34,7 @@ export function createCryptoDice(): DiceSource {
     rollDie(): Die {
       let value: number;
       do {
-        globalThis.crypto.getRandomValues(buffer);
+        crypto.getRandomValues(buffer);
         value = buffer[0];
       } while (value >= REJECTION_LIMIT);
       return ((value % 6) + 1) as Die;
