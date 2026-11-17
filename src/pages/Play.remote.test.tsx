@@ -300,6 +300,18 @@ describe('Play in remote mode', () => {
     });
   });
 
+  it('offers Abandon game only once the opponent has disconnected', async () => {
+    const { loop } = await renderSeated('white', scriptedDice(6, 3));
+    const black = await startOpponent(loop, 'black');
+    expect(screen.queryByRole('button', { name: 'Abandon game' })).toBeNull();
+    black.dispose();
+    await settle(loop);
+    fireEvent.click(
+      await screen.findByRole('button', { name: 'Abandon game' }),
+    );
+    expect(readSeat(ROOM)).toBeNull();
+  });
+
   it('the HUD shows Opponent disconnected when the other socket closes', async () => {
     const { loop } = await renderSeated('white', scriptedDice(6, 3));
     const black = await startOpponent(loop, 'black');

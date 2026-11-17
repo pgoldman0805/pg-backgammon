@@ -33,7 +33,7 @@ import {
 import { createPlayStore, type PlayStore } from '../play/store';
 import { createTutor, type Tutor, type TutorState } from '../play/tutor';
 import { createRemoteApi } from '../remote/api';
-import { writeSeat } from '../remote/seats';
+import { clearSeat, writeSeat } from '../remote/seats';
 import {
   canDouble,
   canTakeback,
@@ -404,6 +404,19 @@ export function Play({
   const humanPreRoll = phase === 'pre-roll' && humanSide(match?.toRoll);
   // A remote room whose socket is down takes no actions: the controls stay
   // in place but disabled until a snapshot proves the session current.
+  const opponentGone =
+    seated != null &&
+    seated.connection.status === 'open' &&
+    !seated.connection.error &&
+    seated.connection.roomStatus === 'playing' &&
+    !seated.connection.opponentPresent;
+  /** Give up on a room whose opponent left: drop the seat, back to setup. */
+  function abandonGame(): void {
+    if (roomId) {
+      clearSeat(roomId);
+    }
+    navigate('/');
+  }
   const remoteBlocked = seated != null && seated.connection.status !== 'open';
   // A takeback can land while the engine thinks: the moment the decision is
   // the human's again, the stale in-flight think is no longer worth showing.
@@ -876,6 +889,7 @@ export function Play({
         onAutoRollChange={handleAutoRollChange}
         connection={seated?.connection ?? null}
         privateLink={seated?.privateLink ?? null}
+        onAbandon={opponentGone ? abandonGame : null}
       />
 
       {match && vsComputer && tutorOn && (

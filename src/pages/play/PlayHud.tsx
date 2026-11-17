@@ -37,6 +37,7 @@ export function PlayHud({
   onAutoRollChange,
   connection,
   privateLink = null,
+  onAbandon = null,
 }: {
   /** Whose decision the moment is, for the active-chip highlight. */
   actor: Player | null;
@@ -56,6 +57,8 @@ export function PlayHud({
   connection?: ConnectionState | null;
   /** A remote seat's private link, offered during play; absent otherwise. */
   privateLink?: string | null;
+  /** Leave a remote game whose opponent has dropped; absent otherwise. */
+  onAbandon?: (() => void) | null;
 }) {
   const remoteLine = connection ? connectionText(connection) : null;
   return (
@@ -88,6 +91,15 @@ export function PlayHud({
           <p className="remote-line" role="status">
             {remoteLine}
           </p>
+        )}
+        {onAbandon && (
+          <button
+            type="button"
+            className="play-button play-button--quiet"
+            onClick={onAbandon}
+          >
+            Abandon game
+          </button>
         )}
         {match && (
           <p className="match-caption">
