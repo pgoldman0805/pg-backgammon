@@ -6,6 +6,10 @@
  * through the shared reducer with the room's dice, or a whole `snapshot`), so
  * both browsers stay identical. Any sequence gap or reducer disagreement asks
  * the room for a fresh snapshot.
+ *
+ * A dropped socket reconnects with backoff (skipped when the page comes back
+ * online or into view) until a snapshot proves the session current again;
+ * the room's terminal close codes end the session instead.
  */
 
 import { decisionOwner } from '../play/reduce';
@@ -18,6 +22,7 @@ import {
 import {
   CLOSE_BAD_TOKEN,
   CLOSE_EXPIRED,
+  CLOSE_FULL,
   CLOSE_VERSION,
   type ClientMessage,
   PROTOCOL_VERSION,
@@ -42,7 +47,7 @@ export interface ConnectionState {
   readonly roomStatus: RoomStatus | null;
   readonly opponentPresent: boolean;
   readonly seq: number;
-  readonly error: 'bad-token' | 'version' | 'expired' | 'busy' | null;
+  readonly error: 'bad-token' | 'version' | 'expired' | 'full' | 'busy' | null;
 }
 
 export interface RemoteSessionOptions {
@@ -65,6 +70,11 @@ export interface RemoteSession extends PlayStore {
 }
 
 const BUSY_VISIBLE_MS = 5000;
+const DEFAULT_BACKOFF_MS = [1000, 2000, 4000, 8000, 16000, 30000];
+
+function wait(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 export function socketUrl(
   baseUrl: string,
@@ -96,6 +106,8 @@ function errorForClose(code: number): ConnectionState['error'] {
       return 'version';
     case CLOSE_EXPIRED:
       return 'expired';
+    case CLOSE_FULL:
+      return 'full';
     default:
       return null;
   }
@@ -116,6 +128,16 @@ export function createRemoteSession(
   };
   let busyTimer: ReturnType<typeof setTimeout> | null = null;
   let disposed = false;
+  /** The current socket; null between a close and the next attempt. */
+  let transport: Transport | null = null;
+  let socketOpen = false;
+  /** Reconnect attempts since the last snapshot, indexing the backoff. */
+  let attempt = 0;
+  /** Bumped per scheduled wait, so a cancelled wait never connects. */
+  let waitToken = 0;
+  let waiting = false;
+  /** One resync in flight per gap; the next snapshot clears it. */
+  let resyncPending = false;
 
   function setConnection(patch: Partial<ConnectionState>): void {
     connection = { ...connection, ...patch };
@@ -126,15 +148,26 @@ export function createRemoteSession(
 
   const baseUrl = options.baseUrl ?? globalThis.location?.origin ?? '';
   const factory = options.transport ?? webSocketTransport;
-  const transport = factory(
-    socketUrl(baseUrl, options.roomId, options.seatToken),
-  );
+  const url = socketUrl(baseUrl, options.roomId, options.seatToken);
+  const pace = options.pace ?? wait;
+  const backoffMs =
+    options.backoffMs && options.backoffMs.length > 0
+      ? options.backoffMs
+      : DEFAULT_BACKOFF_MS;
 
+  /** Send a frame, or drop it when the socket is not open. */
   function send(message: ClientMessage): void {
+    if (!transport || !socketOpen) {
+      return;
+    }
     transport.send(JSON.stringify(message));
   }
 
   function resync(): void {
+    if (resyncPending) {
+      return;
+    }
+    resyncPending = true;
     send({ type: 'resync' });
   }
 
@@ -192,12 +225,17 @@ export function createRemoteSession(
     switch (message.type) {
       case 'snapshot':
         queue.clear();
+        resyncPending = false;
+        attempt = 0;
+        // The match first, so a connection listener never sees the new seq
+        // alongside the old match.
+        inner.replace(message.match);
         setConnection({
+          status: 'open',
           seq: message.seq,
           roomStatus: message.status,
           opponentPresent: opponentPresent(message.presence),
         });
-        inner.replace(message.match);
         break;
       case 'applied':
         onApplied(message);
@@ -211,21 +249,82 @@ export function createRemoteSession(
     }
   }
 
-  transport.onOpen(() => {
-    setConnection({ status: 'open' });
-    send({ type: 'hello', version: PROTOCOL_VERSION });
-  });
-  transport.onMessage(onMessage);
-  transport.onClose((code) => {
-    if (disposed) {
+  /** Open a socket; `hello` on open, and the room answers with a snapshot. */
+  function connect(): void {
+    const t = factory(url);
+    transport = t;
+    socketOpen = false;
+    resyncPending = false;
+    const current = () => !disposed && transport === t;
+    t.onOpen(() => {
+      if (!current()) {
+        return;
+      }
+      socketOpen = true;
+      send({ type: 'hello', version: PROTOCOL_VERSION });
+    });
+    t.onMessage((data) => {
+      if (current()) {
+        onMessage(data);
+      }
+    });
+    t.onClose((code) => {
+      if (!current()) {
+        return;
+      }
+      transport = null;
+      socketOpen = false;
+      const error = errorForClose(code);
+      if (error) {
+        setConnection({ status: 'closed', error });
+        return;
+      }
+      scheduleReconnect();
+    });
+  }
+
+  /** Wait out the next backoff step, then try again. */
+  function scheduleReconnect(): void {
+    setConnection({ status: 'reconnecting' });
+    const ms = backoffMs[Math.min(attempt, backoffMs.length - 1)];
+    attempt += 1;
+    const token = ++waitToken;
+    waiting = true;
+    void pace(ms).then(() => {
+      if (disposed || token !== waitToken) {
+        return;
+      }
+      waiting = false;
+      connect();
+    });
+  }
+
+  function reconnectNow(): void {
+    if (disposed || !waiting) {
       return;
     }
-    // Reconnection with backoff arrives in Task 12; for now a close is final.
-    setConnection({
-      status: 'closed',
-      error: errorForClose(code) ?? connection.error,
-    });
-  });
+    waitToken += 1;
+    waiting = false;
+    connect();
+  }
+
+  function onOnline(): void {
+    reconnectNow();
+  }
+
+  function onVisibilityChange(): void {
+    if (document.visibilityState === 'visible') {
+      reconnectNow();
+    }
+  }
+
+  const listening = typeof window !== 'undefined';
+  if (listening) {
+    window.addEventListener('online', onOnline);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+  }
+
+  connect();
 
   return {
     side: options.side,
@@ -249,15 +348,21 @@ export function createRemoteSession(
         connectionListeners.delete(listener);
       };
     },
-    reconnectNow() {
-      // No-op until reconnection lands (Task 12).
-    },
+    reconnectNow,
     dispose() {
       disposed = true;
+      waitToken += 1;
+      waiting = false;
       if (busyTimer) {
         clearTimeout(busyTimer);
       }
-      transport.close();
+      if (listening) {
+        window.removeEventListener('online', onOnline);
+        document.removeEventListener('visibilitychange', onVisibilityChange);
+      }
+      transport?.close();
+      transport = null;
+      socketOpen = false;
     },
   };
 }

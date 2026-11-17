@@ -80,12 +80,24 @@ async function renderSeated(
 ) {
   const loop = createLoopback({ length }, dice);
   const sent: string[] = [];
+  /** Drops the page's latest socket as the network would, with `code`. */
+  let drop: (code: number) => void = () => {};
   const transport: TransportFactory = (url) => {
     const t = loop.transport()(url);
     const send = t.send.bind(t);
     t.send = (data) => {
       sent.push(data);
       send(data);
+    };
+    const onClose = t.onClose.bind(t);
+    let closed: (code: number) => void = () => {};
+    t.onClose = (cb) => {
+      closed = cb;
+      onClose(cb);
+    };
+    drop = (code) => {
+      t.close();
+      closed(code);
     };
     return t;
   };
@@ -109,7 +121,13 @@ async function renderSeated(
     </MemoryRouter>,
   );
   await settle(loop);
-  return { loop, sent, storage, view };
+  return {
+    loop,
+    sent,
+    storage,
+    view,
+    drop: (code: number) => act(() => drop(code)),
+  };
 }
 
 /** Seat Black (when the page is White) and connect the bare opponent. */
@@ -274,6 +292,89 @@ describe('Play in remote mode', () => {
     expect(
       await screen.findByText('Opponent disconnected'),
     ).toBeInTheDocument();
+  });
+});
+
+describe('connection states', () => {
+  it('shows Reconnecting… and disables the board while the socket is down', async () => {
+    const { loop, drop } = await renderSeated('white', scriptedDice(6, 3));
+    await startOpponent(loop, 'black');
+    expect(originButtons().length).toBeGreaterThan(0);
+    expect(screen.queryByText('Reconnecting…')).toBeNull();
+
+    drop(1006);
+    expect(screen.getByText('Reconnecting…')).toBeInTheDocument();
+    expect(originButtons()).toHaveLength(0);
+
+    // Back online: the session reconnects at once and the board comes back.
+    act(() => {
+      window.dispatchEvent(new Event('online'));
+    });
+    await settle(loop);
+    expect(screen.queryByText('Reconnecting…')).toBeNull();
+    expect(originButtons().length).toBeGreaterThan(0);
+  });
+
+  it('action buttons are disabled while the socket is down', async () => {
+    const { loop, drop } = await renderSeated('white', scriptedDice(6, 3));
+    await startOpponent(loop, 'black');
+    const undo = screen.getByRole('button', { name: 'Undo' });
+    const resign = screen.getByRole('button', { name: 'Resign…' });
+    expect(resign).toBeEnabled();
+    fireEvent.click(originButtons()[0]);
+    fireEvent.click(
+      screen.getAllByRole('button', { name: /^Move to point \d+$/ })[0],
+    );
+    await settle(loop);
+    expect(undo).toBeEnabled();
+
+    drop(1006);
+    for (const name of ['Undo', 'Commit play', 'Resign…']) {
+      expect(screen.getByRole('button', { name })).toBeDisabled();
+    }
+    // Still shown, only disabled.
+    expect(screen.getByRole('button', { name: 'Undo' })).toBeVisible();
+  });
+
+  it('a terminal close shows its message instead of Reconnecting…', async () => {
+    const { loop, drop } = await renderSeated('white', scriptedDice(6, 3));
+    await startOpponent(loop, 'black');
+    drop(4003);
+    expect(screen.getByText('This game has ended')).toBeInTheDocument();
+    expect(screen.queryByText('Reconnecting…')).toBeNull();
+    expect(originButtons()).toHaveLength(0);
+  });
+
+  it('a network error offers Try again instead of ending the game', async () => {
+    const waiting = {
+      roomId: 'netroom',
+      config: { length: 3 },
+      status: 'waiting' as const,
+      seats: { white: true, black: false },
+    };
+    const getRoom = vi
+      .fn<RemoteApi['getRoom']>()
+      .mockRejectedValueOnce(new TypeError('Failed to fetch'))
+      .mockResolvedValue(waiting);
+    render(
+      <MemoryRouter>
+        <Play
+          roomId="netroom"
+          remote={{ api: { ...fakeApi(), getRoom }, origin: 'http://test' }}
+          engine={createFakeEngine()}
+          storage={createMemoryStorage()}
+        />
+      </MemoryRouter>,
+    );
+    expect(
+      await screen.findByText("Couldn't reach the game service."),
+    ).toBeInTheDocument();
+    expect(screen.queryByText('This game has ended.')).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: 'Try again' }));
+    expect(
+      await screen.findByRole('button', { name: 'Join as Black' }),
+    ).toBeInTheDocument();
+    expect(getRoom).toHaveBeenCalledTimes(2);
   });
 });
 

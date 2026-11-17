@@ -1,6 +1,7 @@
 /**
  * What the Play page shows for a remote room before the board takes over:
- * finding the room, the offer to join as Black, a full or ended room, and —
+ * finding the room, the offer to join as Black, a full or ended room, an
+ * unreachable game service with a way to try again, and —
  * seated with no match yet — the invite link to send the opponent plus this
  * device's private link. Presentational: the room lifecycle lives in
  * useRemoteRoom.
@@ -63,6 +64,19 @@ function panelBody(
       );
     case 'full':
       return <p className="setup-title">This game already has two players.</p>;
+    case 'error':
+      return (
+        <>
+          <p className="setup-title">Couldn't reach the game service.</p>
+          <button
+            type="button"
+            className="play-button play-button--primary"
+            onClick={view.retry}
+          >
+            Try again
+          </button>
+        </>
+      );
     case 'ended':
       return (
         <>

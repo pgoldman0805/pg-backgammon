@@ -155,8 +155,19 @@ export function PlayHud({
   );
 }
 
+const ERROR_TEXT: Record<NonNullable<ConnectionState['error']>, string> = {
+  busy: 'The game service is busy, try again shortly',
+  expired: 'This game has ended',
+  'bad-token': 'This device no longer holds a seat in this game',
+  version: 'Please reload to get the latest version',
+  full: 'This game already has two players',
+};
+
 /** The presence line for a remote room, or null when all is well. */
 function connectionText(connection: ConnectionState): string | null {
+  if (connection.error) {
+    return ERROR_TEXT[connection.error];
+  }
   if (connection.roomStatus === null) {
     return null;
   }

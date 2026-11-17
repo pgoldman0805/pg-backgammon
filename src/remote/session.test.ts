@@ -6,13 +6,16 @@
 
 import { decisionOwner } from '../play/reduce';
 import { canCommit, destinationsFrom, movableOrigins } from '../play/selectors';
-import { createSeededDice, type DiceSource } from '../rules';
+import { createSeededDice, type DiceSource, startMatch } from '../rules';
 import { scriptedDice } from '../test/dice';
+import type { ServerMessage } from './protocol';
 import { createQueueDice, QueueDiceUnderflow } from './queueDice';
 import {
   createRemoteSession,
   type RemoteSession,
+  type RemoteSessionOptions,
   socketUrl,
+  type Transport,
   type TransportFactory,
 } from './session';
 import { createLoopback, type Loopback } from './testing/loopback';
@@ -302,5 +305,313 @@ describe('remote session', () => {
       status: 'closed',
       error: 'bad-token',
     });
+  });
+});
+
+/** One recorded connection of the fake network: the test drives its events. */
+interface FakeSocket {
+  readonly sent: string[];
+  closed: boolean;
+  open(): void;
+  receive(message: ServerMessage): void;
+  drop(code: number): void;
+}
+
+/** A transport factory that records every connection it opens. */
+function fakeNetwork(): { sockets: FakeSocket[]; factory: TransportFactory } {
+  const sockets: FakeSocket[] = [];
+  const factory: TransportFactory = () => {
+    let onOpen = () => {};
+    let onMessage = (_data: string) => {};
+    let onClose = (_code: number) => {};
+    const socket: FakeSocket = {
+      sent: [],
+      closed: false,
+      open: () => onOpen(),
+      receive: (message) => onMessage(JSON.stringify(message)),
+      drop: (code) => onClose(code),
+    };
+    sockets.push(socket);
+    const transport: Transport = {
+      send: (data) => {
+        socket.sent.push(data);
+      },
+      close: () => {
+        socket.closed = true;
+      },
+      onOpen: (cb) => {
+        onOpen = cb;
+      },
+      onMessage: (cb) => {
+        onMessage = cb;
+      },
+      onClose: (cb) => {
+        onClose = cb;
+      },
+    };
+    return transport;
+  };
+  return { sockets, factory };
+}
+
+/** A pace that records each requested wait; `hold` keeps every wait pending. */
+function recordingPace(hold = false) {
+  const waits: number[] = [];
+  const pace = (ms: number) => {
+    waits.push(ms);
+    return hold ? new Promise<void>(() => {}) : Promise.resolve();
+  };
+  return { waits, pace };
+}
+
+function snapshot(seq = 1): ServerMessage {
+  return {
+    type: 'snapshot',
+    seq,
+    match: startMatch(3, scriptedDice(6, 3)),
+    status: 'playing',
+    presence: { white: true, black: true },
+  };
+}
+
+async function settleMicrotasks(): Promise<void> {
+  for (let i = 0; i < 10; i += 1) {
+    await Promise.resolve();
+  }
+}
+
+describe('reconnection', () => {
+  const sessions: RemoteSession[] = [];
+
+  function session(
+    factory: TransportFactory,
+    pace: RemoteSessionOptions['pace'],
+  ): RemoteSession {
+    const s = createRemoteSession({
+      roomId: 'r',
+      seatToken: 't',
+      side: 'white',
+      transport: factory,
+      pace,
+    });
+    sessions.push(s);
+    return s;
+  }
+
+  afterEach(() => {
+    for (const s of sessions.splice(0)) {
+      s.dispose();
+    }
+  });
+
+  it('reconnects with the configured backoff after an unexpected close', async () => {
+    const net = fakeNetwork();
+    const { waits, pace } = recordingPace();
+    const s = session(net.factory, pace);
+    net.sockets[0].open();
+    net.sockets[0].receive(snapshot());
+    expect(s.getConnection().status).toBe('open');
+
+    net.sockets[0].drop(1006);
+    expect(s.getConnection().status).toBe('reconnecting');
+    await settleMicrotasks();
+    expect(net.sockets).toHaveLength(2);
+    net.sockets[1].drop(1006); // fails before opening
+    await settleMicrotasks();
+    expect(net.sockets).toHaveLength(3);
+    expect(waits).toEqual([1000, 2000]);
+    expect(s.getConnection().status).toBe('reconnecting');
+
+    net.sockets[2].open();
+    expect(net.sockets[2].sent.map((d) => JSON.parse(d).type)).toEqual([
+      'hello',
+    ]);
+    net.sockets[2].receive(snapshot(4));
+    expect(s.getConnection()).toMatchObject({
+      status: 'open',
+      seq: 4,
+      error: null,
+    });
+  });
+
+  it('resets the backoff after a snapshot', async () => {
+    const net = fakeNetwork();
+    const { waits, pace } = recordingPace();
+    session(net.factory, pace);
+    net.sockets[0].open();
+    net.sockets[0].receive(snapshot());
+    net.sockets[0].drop(1006);
+    await settleMicrotasks();
+    net.sockets[1].drop(1006);
+    await settleMicrotasks();
+    net.sockets[2].open();
+    net.sockets[2].receive(snapshot());
+    net.sockets[2].drop(1006);
+    await settleMicrotasks();
+    expect(waits).toEqual([1000, 2000, 1000]);
+    expect(net.sockets).toHaveLength(4);
+  });
+
+  it('does not retry after 4001, 4002 or 4003 and sets the matching error', async () => {
+    const cases = [
+      [4001, 'bad-token'],
+      [4002, 'version'],
+      [4003, 'expired'],
+      [4004, 'full'],
+    ] as const;
+    for (const [code, error] of cases) {
+      const net = fakeNetwork();
+      const { waits, pace } = recordingPace();
+      const s = session(net.factory, pace);
+      net.sockets[0].open();
+      net.sockets[0].receive(snapshot());
+      net.sockets[0].drop(code);
+      await settleMicrotasks();
+      expect(s.getConnection()).toMatchObject({ status: 'closed', error });
+      s.reconnectNow();
+      await settleMicrotasks();
+      expect(net.sockets).toHaveLength(1);
+      expect(waits).toEqual([]);
+    }
+  });
+
+  it('reconnects immediately on visibilitychange', async () => {
+    const net = fakeNetwork();
+    const { waits, pace } = recordingPace(true);
+    const s = session(net.factory, pace);
+    net.sockets[0].open();
+    net.sockets[0].receive(snapshot());
+    net.sockets[0].drop(1006);
+    await settleMicrotasks();
+    expect(waits).toEqual([1000]);
+    expect(net.sockets).toHaveLength(1); // still waiting out the backoff
+
+    document.dispatchEvent(new Event('visibilitychange'));
+    expect(net.sockets).toHaveLength(2);
+    net.sockets[1].open();
+    net.sockets[1].receive(snapshot());
+    expect(s.getConnection().status).toBe('open');
+
+    // While open, another visibility change opens nothing new.
+    document.dispatchEvent(new Event('visibilitychange'));
+    expect(net.sockets).toHaveLength(2);
+  });
+
+  it('reconnects on the online event', async () => {
+    const net = fakeNetwork();
+    const { pace } = recordingPace(true);
+    session(net.factory, pace);
+    net.sockets[0].open();
+    net.sockets[0].receive(snapshot());
+    net.sockets[0].drop(1006);
+    await settleMicrotasks();
+    expect(net.sockets).toHaveLength(1);
+    window.dispatchEvent(new Event('online'));
+    expect(net.sockets).toHaveLength(2);
+  });
+
+  it('dispose stops reconnecting', async () => {
+    const net = fakeNetwork();
+    const { pace } = recordingPace();
+    const s = session(net.factory, pace);
+    net.sockets[0].open();
+    net.sockets[0].receive(snapshot());
+    net.sockets[0].drop(1006);
+    s.dispose();
+    await settleMicrotasks();
+    window.dispatchEvent(new Event('online'));
+    document.dispatchEvent(new Event('visibilitychange'));
+    await settleMicrotasks();
+    expect(net.sockets).toHaveLength(1);
+
+    const net2 = fakeNetwork();
+    const open = session(net2.factory, pace);
+    net2.sockets[0].open();
+    open.dispose();
+    expect(net2.sockets[0].closed).toBe(true);
+    net2.sockets[0].drop(1006);
+    await settleMicrotasks();
+    expect(net2.sockets).toHaveLength(1);
+  });
+
+  it('applies the snapshot match before announcing its seq', () => {
+    const net = fakeNetwork();
+    const s = session(net.factory, recordingPace().pace);
+    const seen: (string | undefined)[] = [];
+    s.subscribeConnection(() => {
+      seen.push(s.getState().match?.phase);
+    });
+    net.sockets[0].open();
+    net.sockets[0].receive(snapshot());
+    expect(seen.length).toBeGreaterThan(0);
+    expect(seen).not.toContain(undefined);
+  });
+
+  it('sends one resync per gap until the next snapshot', () => {
+    const net = fakeNetwork();
+    session(net.factory, recordingPace().pace);
+    const socket = net.sockets[0];
+    socket.open();
+    socket.receive(snapshot(1));
+    const gap: ServerMessage = {
+      type: 'applied',
+      seq: 5,
+      side: 'white',
+      action: { type: 'commit' },
+      dice: [],
+    };
+    socket.receive(gap);
+    socket.receive({ ...gap, seq: 6 });
+    const resyncs = () =>
+      socket.sent.filter((d) => JSON.parse(d).type === 'resync');
+    expect(resyncs()).toHaveLength(1);
+    socket.receive(snapshot(6));
+    socket.receive({ ...gap, seq: 9 });
+    expect(resyncs()).toHaveLength(2);
+  });
+
+  it('drops a dispatch while the socket is down instead of throwing', () => {
+    const net = fakeNetwork();
+    const s = session(net.factory, recordingPace(true).pace);
+    net.sockets[0].open();
+    net.sockets[0].receive(snapshot());
+    net.sockets[0].drop(1006);
+    const before = net.sockets[0].sent.length;
+    expect(() => s.dispatch({ type: 'commit' })).not.toThrow();
+    expect(net.sockets[0].sent).toHaveLength(before);
+  });
+
+  it('a busy room shows the busy error, which clears after five seconds', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    try {
+      let failSaves = false;
+      const lb = createLoopback({ length: 3 }, scriptedDice(6, 3), {
+        save: () =>
+          failSaves ? Promise.reject(new Error('busy')) : Promise.resolve(),
+      });
+      const white = connect(lb, 'white');
+      await lb.flush();
+      await lb.join();
+      const black = connect(lb, 'black');
+      await lb.flush();
+      sessions.push(white, black);
+      failSaves = true;
+      const match = white.getState().match;
+      if (!match) {
+        throw new Error('no match');
+      }
+      const from = movableOrigins(match.game)[0];
+      const movement = destinationsFrom(match.game, from)[0];
+      white.dispatch({ type: 'movement', from, die: movement.die });
+      await lb.flush();
+      expect(white.getConnection().error).toBe('busy');
+      vi.advanceTimersByTime(4999);
+      expect(white.getConnection().error).toBe('busy');
+      vi.advanceTimersByTime(1);
+      expect(white.getConnection().error).toBeNull();
+      expect(white.getState().match).toEqual(match);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

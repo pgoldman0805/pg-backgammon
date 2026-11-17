@@ -391,6 +391,9 @@ export function Play({
     player != null && localSides.includes(player);
   const humanTurn = phase === 'turn' && humanSide(turn?.player);
   const humanPreRoll = phase === 'pre-roll' && humanSide(match?.toRoll);
+  // A remote room whose socket is down takes no actions: the controls stay
+  // in place but disabled until a snapshot proves the session current.
+  const remoteBlocked = seated != null && seated.connection.status !== 'open';
   // A takeback can land while the engine thinks: the moment the decision is
   // the human's again, the stale in-flight think is no longer worth showing.
   const thinking =
@@ -663,6 +666,7 @@ export function Play({
         <button
           type="button"
           className="play-button play-button--primary"
+          disabled={remoteBlocked}
           onClick={() => store.dispatch({ type: 'next-game' })}
         >
           Next game
@@ -733,6 +737,7 @@ export function Play({
           <button
             type="button"
             className="play-button play-button--primary"
+            disabled={remoteBlocked}
             onClick={() => store.dispatch({ type: 'take' })}
           >
             Take
@@ -740,6 +745,7 @@ export function Play({
           <button
             type="button"
             className="play-button"
+            disabled={remoteBlocked}
             onClick={() => store.dispatch({ type: 'pass' })}
           >
             Pass
@@ -772,6 +778,7 @@ export function Play({
         <button
           type="button"
           className="play-button play-button--primary"
+          disabled={remoteBlocked}
           onClick={() => store.dispatch({ type: 'accept-resign' })}
         >
           Accept
@@ -779,6 +786,7 @@ export function Play({
         <button
           type="button"
           className="play-button"
+          disabled={remoteBlocked}
           onClick={() => store.dispatch({ type: 'decline-resign' })}
         >
           Decline
@@ -791,6 +799,7 @@ export function Play({
     <button
       type="button"
       className="play-button play-button--quiet"
+      disabled={remoteBlocked}
       onClick={() => setResignOpen(true)}
     >
       Resign…
@@ -805,6 +814,7 @@ export function Play({
           key={kind}
           type="button"
           className="play-button"
+          disabled={remoteBlocked}
           onClick={() => store.dispatch({ type: 'resign', kind })}
         >
           {RESIGN_LABEL[kind]}
@@ -888,9 +898,7 @@ export function Play({
               store.dispatch({ type: 'movement', from, die })
             }
             cube={match ? { ...match.cube, outOfPlay: match.crawford } : null}
-            interactive={
-              humanTurn && (!seated || seated.connection.status === 'open')
-            }
+            interactive={humanTurn && !remoteBlocked}
             perspective={localSide ?? 'white'}
           />
           {roomView && (
@@ -930,7 +938,7 @@ export function Play({
                 <button
                   type="button"
                   className="play-button"
-                  disabled={!canUndo(game)}
+                  disabled={remoteBlocked || !canUndo(game)}
                   onClick={() => store.dispatch({ type: 'undo' })}
                 >
                   Undo
@@ -939,6 +947,7 @@ export function Play({
                   <button
                     type="button"
                     className="play-button play-button--primary"
+                    disabled={remoteBlocked}
                     onClick={() => store.dispatch({ type: 'commit' })}
                   >
                     Continue
@@ -949,6 +958,7 @@ export function Play({
                       <button
                         type="button"
                         className="play-button play-button--primary"
+                        disabled={remoteBlocked}
                         onClick={() => store.dispatch({ type: 'forced' })}
                       >
                         Play forced play
@@ -957,7 +967,7 @@ export function Play({
                     <button
                       type="button"
                       className={`play-button ${forced ? '' : 'play-button--primary'}`}
-                      disabled={!canCommit(game)}
+                      disabled={remoteBlocked || !canCommit(game)}
                       onClick={() => store.dispatch({ type: 'commit' })}
                     >
                       Commit play
@@ -986,6 +996,7 @@ export function Play({
                 <button
                   type="button"
                   className="play-button"
+                  disabled={remoteBlocked}
                   onClick={() => store.dispatch({ type: 'double' })}
                 >
                   Double to {match.cube.value * 2}
@@ -993,6 +1004,7 @@ export function Play({
                 <button
                   type="button"
                   className="play-button play-button--primary"
+                  disabled={remoteBlocked}
                   onClick={() => store.dispatch({ type: 'roll' })}
                 >
                   Roll

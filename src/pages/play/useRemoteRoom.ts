@@ -41,6 +41,8 @@ export type RemoteRoomView =
   | { kind: 'full' }
   /** The room does not exist (404) or has expired. */
   | { kind: 'ended' }
+  /** The game service could not be reached; `retry` repeats the lookup. */
+  | { kind: 'error'; retry: () => void }
   | {
       kind: 'seated';
       session: RemoteSession;
@@ -63,6 +65,7 @@ type Phase =
   | { kind: 'join'; summary: RoomSummary }
   | { kind: 'full' }
   | { kind: 'ended' }
+  | { kind: 'error' }
   | { kind: 'seated'; session: RemoteSession; seat: StoredSeat };
 
 const noSubscribe = () => () => {};
@@ -86,6 +89,8 @@ export function useRemoteRoom(
   depsRef.current = deps;
   const [phase, setPhase] = useState<Phase | null>(null);
   const [joining, setJoining] = useState(false);
+  /** Bumped by `retry` to repeat a lookup that failed on the network. */
+  const [lookups, setLookups] = useState(0);
   /** The live session, owned here: disposed on unmount or a room change. */
   const sessionRef = useRef<RemoteSession | null>(null);
   /** Bumped per room, so a late reply for a previous room is dropped. */
@@ -102,6 +107,7 @@ export function useRemoteRoom(
     setPhase({ kind: 'seated', session, seat });
   }, []);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: `lookups` is the deliberate retry trigger after a network failure
   useEffect(() => {
     const current = ++generation.current;
     if (!roomId) {
@@ -121,8 +127,9 @@ export function useRemoteRoom(
           }
         },
         () => {
+          // A network failure, not a missing room: offer to try again.
           if (generation.current === current) {
-            setPhase({ kind: 'ended' });
+            setPhase({ kind: 'error' });
           }
         },
       );
@@ -132,7 +139,9 @@ export function useRemoteRoom(
       sessionRef.current?.dispose();
       sessionRef.current = null;
     };
-  }, [roomId, connect]);
+  }, [roomId, connect, lookups]);
+
+  const retry = useCallback(() => setLookups((n) => n + 1), []);
 
   const join = useCallback(async () => {
     if (!roomId) {
@@ -155,7 +164,10 @@ export function useRemoteRoom(
         connect(roomId, seat);
       }
     } catch {
-      // A failed join leaves the button there to try again.
+      // A network failure, not a missing room: offer to try again.
+      if (generation.current === current) {
+        setPhase({ kind: 'error' });
+      }
     } finally {
       setJoining(false);
     }
@@ -173,6 +185,8 @@ export function useRemoteRoom(
   switch (phase.kind) {
     case 'join':
       return { kind: 'join', summary: phase.summary, join, joining };
+    case 'error':
+      return { kind: 'error', retry };
     case 'seated':
       return {
         kind: 'seated',
