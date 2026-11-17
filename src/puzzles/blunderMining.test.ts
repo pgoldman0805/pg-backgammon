@@ -410,6 +410,43 @@ describe('what gets mined at all', () => {
     ).toHaveLength(0);
   });
 
+  it("mines the local side's blunders as Black-hero puzzles for a remote Black player", async () => {
+    const blackPlay = game.game.plays[1];
+    expect(blackPlay.player).toBe('black');
+    const blackBlunder: AnalyzedPlay = {
+      kind: 'play',
+      player: 'black',
+      playIndex: 1,
+      roll: [6, 5],
+      moveText: 'blunder',
+      rank: 1,
+      totalPlays: 1,
+      alternatives: [alternative('blunder', 0, 0.3, true, blackPlay.movements)],
+      equityLoss: 0.3,
+      classification: 'blunder',
+      plies: 2,
+    };
+    const remote = minedMatch([blackBlunder, completePlayBlunder], {
+      config: { length: 2, mode: 'remote', localSide: 'black' },
+    });
+
+    const puzzles = await mineBlunderPuzzles(remote, {
+      existing: [],
+      rankPlays: stub().rankPlays,
+    });
+
+    // Only Black's decision is mined; White's is the opponent's.
+    expect(puzzles).toHaveLength(1);
+    const puzzle = puzzles[0] as PlayPuzzle;
+    expect(puzzle.hero).toBe('black');
+    expect(puzzle.board).toEqual(boardBefore(1));
+    const final = blackPlay.movements.reduce(
+      (b, movement) => applyMovement(b, 'black', movement),
+      boardBefore(1),
+    );
+    expect(puzzle.answers[0].finalKey).toBe(boardKey(final));
+  });
+
   it('skips hot-seat matches entirely', async () => {
     const hotseat = minedMatch([completePlayBlunder], {
       config: { length: 2, mode: 'hotseat', difficulty: 'casual' },

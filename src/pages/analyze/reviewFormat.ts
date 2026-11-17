@@ -51,6 +51,9 @@ export function matchName(stored: StoredMatch): string {
   if (stored.config.mode === 'hotseat') {
     return `${length} hot-seat match`;
   }
+  if (stored.config.mode === 'remote') {
+    return `${length} match online`;
+  }
   const difficulty =
     DIFFICULTY_LABEL[String(stored.config.difficulty)] ?? 'the computer';
   return `${length} match vs ${difficulty}`;

@@ -5,8 +5,9 @@
  * puzzles ship with, so the existing player grades them offline.
  *
  * Scope rules, documented here once:
- * - Only vs-computer matches are mined (the human always plays White there;
- *   hot-seat games have no single "the player's blunder" to drill).
+ * - Only matches with a single user side are mined (`userSide(config)`: White
+ *   vs the computer, the local seat in a remote match; hot-seat and imported
+ *   games have no single "the player's blunder" to drill).
  * - Tutor-assisted games are excluded: the player had live engine help, so
  *   drilling those positions would double-dip.
  * - Positions are rebuilt via the analyzer's walkGame — analysis rows store
@@ -45,6 +46,7 @@ import {
   type Player,
 } from '../rules';
 import type { StoredMatch } from '../storage/types';
+import { userSide } from '../storage/userSide';
 import { puzzleContentKey } from './contentKey';
 import { boardKey } from './grade';
 import { classifyPlayTheme, cubeChoicesFromEquities } from './mining';
@@ -56,9 +58,6 @@ import type {
   PuzzleOrigin,
   PuzzleTheme,
 } from './types';
-
-/** The human always plays White in a vs-computer match (src/pages/Play.tsx). */
-const HUMAN: Player = 'white';
 
 /** Deterministic id, so re-mining the same blunder upserts, never duplicates. */
 export function blunderPuzzleId(origin: PuzzleOrigin): string {
@@ -92,7 +91,8 @@ export async function mineBlunderPuzzles(
   match: StoredMatch,
   deps: BlunderMiningDeps,
 ): Promise<readonly Puzzle[]> {
-  if (match.status !== 'finished' || match.config.mode !== 'computer') {
+  const hero = userSide(match.config);
+  if (match.status !== 'finished' || !hero) {
     return [];
   }
   const analysis = match.analysis;
@@ -120,7 +120,7 @@ export async function mineBlunderPuzzles(
     ) {
       const decision = decisions[decisionIndex];
       if (
-        decision.player !== HUMAN ||
+        decision.player !== hero ||
         decision.equityLoss < CLASSIFICATION_THRESHOLDS.blunder
       ) {
         continue;
@@ -136,8 +136,8 @@ export async function mineBlunderPuzzles(
       moments ??= walkGame(gameRecord, standings[gameIndex]);
       const puzzle =
         decision.kind === 'play'
-          ? await buildPlayPuzzle(decision, origin, moments, deps)
-          : buildCubePuzzle(decision, origin, moments);
+          ? await buildPlayPuzzle(decision, origin, moments, hero, deps)
+          : buildCubePuzzle(decision, origin, moments, hero);
       const content = puzzleContentKey(puzzle);
       if (seenContent.has(content)) {
         continue;
@@ -166,6 +166,7 @@ function toPuzzleContext(context: MatchContext): PuzzleMatchContext {
 }
 
 function toAnswer(
+  hero: Player,
   board: BoardState,
   rank: number,
   moveText: string,
@@ -174,7 +175,7 @@ function toAnswer(
   equityLoss: number,
 ): PlayAnswer {
   const final = movements.reduce(
-    (b, movement) => applyMovement(b, HUMAN, movement),
+    (b, movement) => applyMovement(b, hero, movement),
     board,
   );
   return {
@@ -191,6 +192,7 @@ async function buildPlayPuzzle(
   decision: AnalyzedPlay,
   origin: PuzzleOrigin,
   moments: readonly DecisionMoment[],
+  hero: Player,
   deps: BlunderMiningDeps,
 ): Promise<PlayPuzzle> {
   const moment = momentForDecision(moments, decision);
@@ -205,6 +207,7 @@ async function buildPlayPuzzle(
     decision.alternatives.length === decision.totalPlays
       ? decision.alternatives.map((alt, index) =>
           toAnswer(
+            hero,
             moment.board,
             index + 1,
             alt.moveText,
@@ -213,7 +216,13 @@ async function buildPlayPuzzle(
             alt.equityLoss,
           ),
         )
-      : await completedAnswers(moment.board, moment.context, decision, deps);
+      : await completedAnswers(
+          hero,
+          moment.board,
+          moment.context,
+          decision,
+          deps,
+        );
   return {
     id: blunderPuzzleId(origin),
     kind: 'play',
@@ -221,7 +230,7 @@ async function buildPlayPuzzle(
     source: 'blunder',
     origin,
     board: moment.board,
-    hero: HUMAN,
+    hero,
     match: toPuzzleContext(moment.context),
     roll: decision.roll,
     answers,
@@ -230,17 +239,19 @@ async function buildPlayPuzzle(
 
 /** One full-strength ranking fills in the rows the analysis did not keep. */
 async function completedAnswers(
+  hero: Player,
   board: BoardState,
   context: MatchContext,
   decision: AnalyzedPlay,
   deps: BlunderMiningDeps,
 ): Promise<readonly PlayAnswer[]> {
   const ranked = await deps.rankPlays(
-    { board, onRoll: HUMAN, match: context },
+    { board, onRoll: hero, match: context },
     decision.roll,
   );
   return ranked.map((entry, index) =>
     toAnswer(
+      hero,
       board,
       index + 1,
       entry.moveText,
@@ -261,6 +272,7 @@ function buildCubePuzzle(
   decision: AnalyzedCube,
   origin: PuzzleOrigin,
   moments: readonly DecisionMoment[],
+  hero: Player,
 ): Puzzle {
   const moment = momentForDecision(moments, decision);
   if (!moment || moment.kind === 'play') {
@@ -279,7 +291,7 @@ function buildCubePuzzle(
     source: 'blunder',
     origin,
     board: moment.board,
-    hero: HUMAN,
+    hero,
     match: toPuzzleContext(moment.context),
     decision: kind,
     choices: cubeChoicesFromEquities(

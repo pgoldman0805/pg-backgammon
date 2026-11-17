@@ -164,6 +164,50 @@ describe('buildProgress', () => {
     expect(totals.recentErrorRate).toBeCloseTo(0.0075, 10);
   });
 
+  it('counts a remote match for the local side', () => {
+    // White and Black carry distinct summaries; the local seat is Black.
+    const base = row({ id: 'remote', games: [gameRecord(false)] });
+    const stored = {
+      ...base,
+      config: {
+        length: 5,
+        mode: 'remote' as const,
+        localSide: 'black' as const,
+      },
+      analysis: matchAnalysis([
+        {
+          decisions: [],
+          white: summary(30, 0.9, 5, 5, 5),
+          black: summary(20, 0.2, 1, 2, 3),
+        },
+      ]),
+    };
+
+    const { points } = buildProgress([stored]);
+
+    expect(points).toHaveLength(1);
+    expect(points[0].difficulty).toBe('online');
+    expect(points[0].length).toBe(5);
+    expect(points[0].decisions).toBe(20);
+    expect(points[0].equityLost).toBeCloseTo(0.2, 10);
+    expect(points[0].errorRate).toBeCloseTo(0.01, 10);
+    expect(points[0].blunders).toBe(1);
+    expect(points[0].errors).toBe(2);
+    expect(points[0].dubious).toBe(3);
+  });
+
+  it('still excludes hot-seat', () => {
+    const analyzed = matchAnalysis([gameAnalysis(summary(10, 0.1, 1))]);
+    const hotseat = row({
+      id: 'hotseat',
+      games: [gameRecord(false)],
+      analysis: analyzed,
+      mode: 'hotseat',
+    });
+
+    expect(buildProgress([hotseat]).points).toHaveLength(0);
+  });
+
   it('reports empty totals for an empty history', () => {
     const { points, totals } = buildProgress([]);
 

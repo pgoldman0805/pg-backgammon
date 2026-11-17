@@ -6,12 +6,12 @@
  * Which matches contribute (GLOSSARY "Tutor mode", "Error rate"):
  * - Finished and analyzed only. In-progress rows and rows without a readable
  *   `MatchAnalysis` are skipped (they will contribute once analyzed).
- * - Vs-computer only (`config.mode === 'computer'`), where the user always
- *   plays White. Hot-seat matches have no single "user" side and are
+ * - Only matches with a single user side (`userSide(config)`): vs-computer
+ *   (the user is White) and remote (the user is the seat this device held,
+ *   `config.localSide`). Hot-seat matches have no single "user" side and are
  *   excluded. Imported matches (ticket 10) are included exactly when their
- *   config says `mode: 'computer'` — the one marker that identifies the
- *   user's side today; any other mode is excluded until a richer marker
- *   exists.
+ *   config says `mode: 'computer'`; any other mode is excluded until a
+ *   richer marker exists. The numbers are read from that side's summaries.
  * - Within a match, only games not flagged tutor-assisted count (an absent
  *   flag on pre-ticket-09 rows is falsy). The per-match numbers are
  *   recomputed from the per-game analyses of the counted games — never read
@@ -22,9 +22,9 @@
  */
 
 import { isMatchAnalysis, type PlayerSummary } from '../analysis';
-import type { StoredMatch } from '../storage';
+import { type StoredMatch, userSide } from '../storage';
 
-/** One plotted match: White's recomputed quality over its counted games. */
+/** One plotted match: the user's side's recomputed quality over its counted games. */
 export interface ProgressPoint {
   readonly matchId: string;
   /** Epoch ms the match finished (its last persisted write). */
@@ -67,7 +67,8 @@ export interface ProgressData {
 }
 
 function pointOf(stored: StoredMatch): ProgressPoint | null {
-  if (stored.status !== 'finished' || stored.config.mode !== 'computer') {
+  const side = userSide(stored.config);
+  if (stored.status !== 'finished' || !side) {
     return null;
   }
   const analysis = stored.analysis;
@@ -92,12 +93,12 @@ function pointOf(stored: StoredMatch): ProgressPoint | null {
       gamesExcluded += 1;
       return;
     }
-    const white: PlayerSummary = analyzed.white;
-    decisions += white.decisions;
-    equityLost += white.equityLost;
-    blunders += white.blunders;
-    errors += white.errors;
-    dubious += white.dubious;
+    const mine: PlayerSummary = analyzed[side];
+    decisions += mine.decisions;
+    equityLost += mine.equityLost;
+    blunders += mine.blunders;
+    errors += mine.errors;
+    dubious += mine.dubious;
     gamesCounted += 1;
   });
 
@@ -109,7 +110,10 @@ function pointOf(stored: StoredMatch): ProgressPoint | null {
     matchId: stored.id,
     when: stored.updatedAt,
     length: stored.config.length,
-    difficulty: String(stored.config.difficulty),
+    difficulty:
+      stored.config.mode === 'remote'
+        ? 'online'
+        : String(stored.config.difficulty),
     decisions,
     equityLost,
     errorRate: equityLost / decisions,

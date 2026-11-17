@@ -28,6 +28,9 @@ const DIFFICULTY_LABEL: Record<string, string> = DIFFICULTY_LABELS;
 
 /** "7-point vs Expert" — the tooltip's and table's match name. */
 function matchLabel(point: ProgressPoint): string {
+  if (point.difficulty === 'online') {
+    return `${point.length}-point online`;
+  }
   const difficulty = DIFFICULTY_LABEL[point.difficulty] ?? 'the computer';
   return `${point.length}-point vs ${difficulty}`;
 }

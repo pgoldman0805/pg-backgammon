@@ -77,3 +77,4 @@ export {
   type MatchPersistence,
   useMatchPersistence,
 } from './useMatchPersistence';
+export { userSide } from './userSide';
