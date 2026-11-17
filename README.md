@@ -3,7 +3,7 @@
 A personal, browser-only backgammon training platform: play full matches
 against the computer at five difficulties, review every finished game with an
 analyzer that scores each play and cube decision, and drill practice puzzles.
-Single player, no accounts, no backend — all data stays local in your browser.
+Play the computer solo, or a friend in a remote match via an invite link. No accounts; all your data stays local in your browser, and the only server is a relay that holds a live match room until it expires (ADR-0004).
 
 ## Getting started
 

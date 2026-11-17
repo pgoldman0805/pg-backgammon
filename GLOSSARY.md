@@ -1,6 +1,6 @@
 # pg-backgammon
 
-A personal, browser-only backgammon training platform: play against the computer at multiple difficulties, review games with an analyzer, and drill practice puzzles. Single player, no accounts, all data local.
+A personal, browser-only backgammon training platform: play against the computer at multiple difficulties, review games with an analyzer, and drill practice puzzles. Solo play and two-player remote matches; no accounts; all personal data local (ADR-0004).
 
 ## Language
 
@@ -55,6 +55,23 @@ Reverting checker movements within the current turn, before the play is committe
 
 **Takeback**:
 Reverting a committed play after seeing its consequences. Available only in Tutor mode, so games played without it stay valid for progress stats.
+
+**Remote match**:
+A match between two people on two devices, relayed through a room. Mode `remote`, beside `computer` and `hotseat`. Match play only (no money play).
+_Avoid_: Multiplayer
+
+**Room**:
+The server-side home of one remote match: its configuration, two seats, the live match state and the dice. Identified by an unguessable id that is the whole of the invite link. Rooms expire.
+_Avoid_: Online game, lobby
+
+**Seat**:
+One of the two sides of a room (White or Black), held by whoever claimed it. Proof of holding a seat is a seat token the device keeps privately.
+
+**Invite link**:
+The URL `/play/<roomId>`. Anyone opening it while a seat is free takes that seat.
+
+**Private link**:
+The invite link plus `#seat=<token>`: a player's own bookmark for moving their seat to another device. Never shared.
 
 ### Analysis
 

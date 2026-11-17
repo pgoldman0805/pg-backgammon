@@ -1,6 +1,6 @@
 # pg-backgammon
 
-A personal, browser-only backgammon training platform: play vs computer at five difficulties, post-game and live (Tutor mode) analysis, and practice puzzles. TypeScript + React + Vite SPA, no backend, IndexedDB persistence, GPL-3.0. See `GLOSSARY.md` for domain vocabulary and `docs/adr/` for load-bearing decisions.
+A personal, browser-first backgammon training platform with one relay-only backend for remote play (ADR-0004): play vs computer at five difficulties or a remote match with a friend, post-game and live (Tutor mode) analysis, and practice puzzles. TypeScript + React + Vite SPA, a Cloudflare Durable Object room relay for remote play only; no accounts, IndexedDB persistence, GPL-3.0. See `GLOSSARY.md` for domain vocabulary and `docs/adr/` for load-bearing decisions.
 
 ## Agent skills
 

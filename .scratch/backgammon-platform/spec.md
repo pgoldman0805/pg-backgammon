@@ -8,7 +8,7 @@ I want to get better at backgammon, but I have no good way to practice seriously
 
 ## Solution
 
-A single-player browser app (TypeScript + React + Vite SPA, no backend, GPL-3.0) with three connected areas:
+A browser app (TypeScript + React + Vite SPA, GPL-3.0; a relay-only backend for remote play only, ADR-0004) with three connected areas:
 
 1. **Play**: full matches of standard backgammon (match play 1–25 points, doubling cube, Crawford) against gnubg compiled to WebAssembly, at five difficulties (Beginner → World-class) produced by deliberately weakening one world-class engine. A clean, modern-minimal 2D board with drag-and-drop, click-to-move, legal-play highlighting, and within-turn undo. Optional Tutor mode (hint, post-play feedback, eval bar, takebacks) at full engine strength.
 2. **Analyze**: every finished game auto-analyzed at 2-ply. Post-game review shows every play and cube decision scored for equity loss (EMG), classified (blunder/error/dubious/ok), alternatives viewable on the board, and a per-game/per-match error rate. Individual positions can be re-analyzed deeper on demand. A progress view plots error rate over time. Matches import/export as .mat; positions copy/paste as XGID.
@@ -83,10 +83,15 @@ All game history, analysis, and puzzle progress persist in IndexedDB. Desktop-fi
 57. As a phone user, I want the app usable at phone viewports: navigation collapses into a hamburger menu, touch targets are finger-sized, safe-area insets are respected in the installed app, every area is readable and overflow-free in portrait, and board play works in landscape (portrait shows the board smaller with a gentle rotate hint). (Added 2026-10-23.)
 58. As a player, I want the game view decluttered: preference controls (Board style, auto-roll, auto-play switches) live only in Settings, while the game view keeps only gameplay affordances (Tutor mode toggle stays in-game, since it's switchable mid-match by design). (Added 2026-10-23.)
 59. As a player, I want a race-autopilot button during a Race: when pressed, the engine plays my remaining turns at full strength (paced and visible) until the game ends, pausing for any cube decision aimed at me; pressing again stops it. (Added 2026-10-23. Note: autopiloted plays are recorded as mine and score near-zero error — races slightly flatter the error rate; accepted, documented.)
+60. As a player, I want to create a remote match and get an invite link, so that I can send it to a friend without either of us making an account.
+61. As a friend, I want to join a match by opening the invite link, so that I can play with nothing to install or sign up for.
+62. As a remote player, I want each action shown live on both boards, with dice rolled by the server, so that the match feels like sitting at one board and neither of us can predict or tamper with the dice.
+63. As a remote player, I want to close the tab or lose signal and resume by reopening the link, so that a dropped connection does not lose the match.
+64. As a remote player, I want to review the finished remote match in Analyze and have it count toward Progress for the side I played, so that playing a friend feeds the same training loop as playing the computer.
 
 ### Platform
 
-38. As the owner, I want all data local (IndexedDB), with no accounts and no backend, so that the app is private and runs anywhere a browser does.
+38. As the owner, I want all data local (IndexedDB), with no accounts and no backend for personal data (remote play uses only an expiring relay room, ADR-0004), so that the app is private and runs anywhere a browser does.
 39. As a user, I want a navigation shell with Play, Analyze, Puzzles, and Progress areas, so that the three pillars are one coherent app.
 40. As a user, I want light and dark themes with a high-contrast, modern-minimal board, so that positions read at a glance.
 41. As a desktop/tablet user, I want the layout responsive down to tablet width, so that I can play on either device.
@@ -117,7 +122,7 @@ All game history, analysis, and puzzle progress persist in IndexedDB. Desktop-fi
 ## Out of Scope (v1)
 
 - Money play, Jacoby rule, beavers; variants (Nackgammon, Hypergammon, Acey-deucey)
-- Human vs human (hot-seat is incidental at most, not a feature), online play, accounts, backend
+- Accounts (remote play and its relay-only backend added 2026-11-17, ADR-0004; hot-seat remains incidental)
 - Rollout analysis (deeper on-demand analysis is bounded-ply only)
 - Spaced repetition scheduling for puzzles (retry queue only)
 - Phone layout, PWA/offline install, sounds, clocks/time controls, localization (English only)
