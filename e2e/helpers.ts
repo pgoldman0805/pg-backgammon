@@ -139,3 +139,42 @@ export async function playUntilMatchOver(
   }
   throw new Error(`The match did not finish within ${timeoutMs} ms.`);
 }
+
+/**
+ * Play a remote match from both seats until "wins the match" shows on both
+ * pages. Each round gives each page one action if it has one (the same
+ * first-legal-option choices as `act`; doubles are taken, nothing ever
+ * doubles or resigns). Auto-roll and auto forced plays make controls appear
+ * and vanish on their own, so a missed click is harmless — the loop just
+ * comes round again. Capped by rounds as well as time.
+ */
+export async function playRemoteUntilMatchOver(
+  white: Page,
+  black: Page,
+  timeoutMs = 300_000,
+  maxRounds = 5_000,
+): Promise<void> {
+  const deadline = Date.now() + timeoutMs;
+  const pages = [white, black];
+  const isOver = (page: Page) =>
+    visible(page.getByText(/wins the match/).first());
+  for (let round = 0; round < maxRounds && Date.now() < deadline; round++) {
+    const over = await Promise.all(pages.map(isOver));
+    if (over.every(Boolean)) {
+      return;
+    }
+    let acted = false;
+    for (const [index, page] of pages.entries()) {
+      if (!over[index] && (await act(page))) {
+        acted = true;
+      }
+    }
+    if (!acted) {
+      // Neither side can act: a move is in flight or animating.
+      await white.waitForTimeout(50);
+    }
+  }
+  throw new Error(
+    `The remote match did not finish within ${timeoutMs} ms / ${maxRounds} rounds.`,
+  );
+}

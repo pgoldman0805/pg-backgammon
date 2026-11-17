@@ -35,6 +35,9 @@ export default defineConfig({
     { name: 'audit', testMatch: /audit\.spec\.ts/ },
     // Ticket 23: installability + offline capability against the preview build.
     { name: 'pwa', testMatch: /pwa\.spec\.ts/ },
+    // Remote play: two browser contexts over a room link; vite preview runs
+    // the Worker and Durable Object through the Cloudflare plugin.
+    { name: 'remote', testMatch: /remote\.spec\.ts/ },
   ],
   webServer: {
     command: 'npm run build && npx vite preview --port 4173 --strictPort',
