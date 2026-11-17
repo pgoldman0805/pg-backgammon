@@ -193,3 +193,38 @@ describe('useRemoteRoom', () => {
     });
   });
 });
+
+/** A transport whose socket the room closes with `code` before any frame. */
+function closingTransport(code: number): TransportFactory {
+  return () => {
+    let onClose: (code: number) => void = () => undefined;
+    queueMicrotask(() => onClose(code));
+    return {
+      send: () => undefined,
+      close: () => undefined,
+      onOpen: () => undefined,
+      onMessage: () => undefined,
+      onClose: (cb) => {
+        onClose = cb;
+      },
+    };
+  };
+}
+
+describe('a stored seat whose room is gone', () => {
+  it.each([
+    [4003, 'ended'],
+    [4001, 'ended'],
+    [4004, 'full'],
+  ] as const)('close %i before any snapshot shows %s', async (code, kind) => {
+    writeSeat(ROOM, { side: 'white', token: 'ab'.repeat(16) });
+    const deps: RemoteDeps = {
+      api: fakeApi(),
+      transport: closingTransport(code),
+      origin: 'http://test',
+    };
+    const { result } = renderHook(() => useRemoteRoom(ROOM, deps));
+    expect(result.current?.kind).toBe('seated');
+    await waitFor(() => expect(result.current?.kind).toBe(kind));
+  });
+});

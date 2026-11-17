@@ -148,10 +148,10 @@ describe('the room Worker and Durable Object', () => {
       404,
     );
     expect((await join(unknown)).status).toBe(404);
-    const ws = await SELF.fetch(`${ORIGIN}/api/rooms/${unknown}/ws?seat=x`, {
-      headers: { Upgrade: 'websocket' },
-    });
-    expect(ws.status).toBe(404);
+    // A socket to a missing room ends cleanly with the expired code, so a
+    // device still holding a seat stops instead of retrying forever.
+    const ws = await connect(unknown, 'x');
+    expect(await ws.closed).toBe(CLOSE_EXPIRED);
     // Probing must not create a record.
     expect((await SELF.fetch(`${ORIGIN}/api/rooms/${unknown}`)).status).toBe(
       404,
@@ -260,5 +260,14 @@ describe('the room Worker and Durable Object', () => {
       state.storage.get('room'),
     );
     expect(stored).toBeUndefined();
+
+    // The seat holder returning after the delete is told the room expired,
+    // and the probe writes nothing back.
+    const returning = await connect(roomId, seatToken);
+    expect(await returning.closed).toBe(CLOSE_EXPIRED);
+    const after = await runInDurableObject(stub, async (_instance, state) => [
+      ...(await state.storage.list()).keys(),
+    ]);
+    expect(after).toEqual([]);
   });
 });

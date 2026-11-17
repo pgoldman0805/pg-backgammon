@@ -4,7 +4,8 @@
  * One object per room id holds the room record under the storage key 'room'.
  * All room logic lives in the host (src/remote/roomHost.ts); this class only
  * loads and persists the record, adapts hibernatable WebSockets to sinks, and
- * schedules the expiry alarm. An unknown or expired room answers 404 and
+ * schedules the expiry alarm. An unknown or expired room answers 404 (a
+ * WebSocket upgrade is accepted and closed with CLOSE_EXPIRED instead) and
  * never gains a record.
  */
 
@@ -194,14 +195,19 @@ export class RoomObject extends DurableObject<Env> {
     if (request.headers.get('Upgrade')?.toLowerCase() !== 'websocket') {
       return new Response('Expected Upgrade: websocket', { status: 426 });
     }
-    if (!host) {
-      return json({ error: 'not-found' }, 404);
+    const [client, server] = Object.values(new WebSocketPair());
+    if (!host || isExpired(host.room, Date.now())) {
+      // A device still holding a seat must hear a terminal close, not a
+      // plain 404 (which a browser sees as 1006 and retries forever).
+      // Nothing is written: probing never creates a record.
+      this.ctx.acceptWebSocket(server, []);
+      server.close(CLOSE_EXPIRED);
+      return new Response(null, { status: 101, webSocket: client });
     }
     const token = url.searchParams.get('seat') ?? '';
     const side = seatForToken(host.room, token);
-    const [client, server] = Object.values(new WebSocketPair());
     this.ctx.acceptWebSocket(server, side ? [side] : []);
-    // The host closes the socket itself for a bad token or an expired room.
+    // The host closes the socket itself for a bad token.
     const sink = sinkFor(server);
     if (host.attach(token, sink)) {
       this.sinks.set(server, sink);

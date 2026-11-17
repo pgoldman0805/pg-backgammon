@@ -39,7 +39,8 @@ export type RemoteRoomView =
       joining: boolean;
     }
   | { kind: 'full' }
-  /** The room does not exist (404) or has expired. */
+  /** The room does not exist (404) or has expired, or a stored seat's room
+   * closed it terminally before any match arrived. */
   | { kind: 'ended' }
   /** The game service could not be reached; `retry` repeats the lookup. */
   | { kind: 'error'; retry: () => void }
@@ -79,6 +80,16 @@ function phaseForSummary(summary: RoomSummary | null): Phase {
     return { kind: 'join', summary };
   }
   return { kind: 'full' };
+}
+
+/** The panel for a terminal close that leaves a seat with no room to play. */
+function goneView(
+  error: ConnectionState['error'],
+): { kind: 'ended' } | { kind: 'full' } | null {
+  if (error === 'expired' || error === 'bad-token') {
+    return { kind: 'ended' };
+  }
+  return error === 'full' ? { kind: 'full' } : null;
 }
 
 export function useRemoteRoom(
@@ -187,15 +198,24 @@ export function useRemoteRoom(
       return { kind: 'join', summary: phase.summary, join, joining };
     case 'error':
       return { kind: 'error', retry };
-    case 'seated':
+    case 'seated': {
+      const live = connection ?? phase.session.getConnection();
+      // A seat whose room is gone (expired, deleted, or the seat no longer
+      // valid) before any match arrived has nothing to show: end like a
+      // lookup would rather than wait on a dead invite link.
+      const gone = goneView(live.error);
+      if (gone && !phase.session.getState().match) {
+        return gone;
+      }
       return {
         kind: 'seated',
         session: phase.session,
         side: phase.seat.side,
-        connection: connection ?? phase.session.getConnection(),
+        connection: live,
         inviteLink: inviteLink(deps.origin, roomId),
         privateLink: privateLink(deps.origin, roomId, phase.seat),
       };
+    }
     default:
       return phase;
   }

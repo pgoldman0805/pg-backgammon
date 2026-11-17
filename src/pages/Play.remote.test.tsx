@@ -476,9 +476,30 @@ function remoteRow(roomId: string): StoredMatch {
   });
 }
 
+/** A transport whose socket the room closes with `code` before any frame. */
+function closingTransport(code: number): TransportFactory {
+  return () => {
+    let onClose: (code: number) => void = () => undefined;
+    queueMicrotask(() => onClose(code));
+    return {
+      send: () => undefined,
+      close: () => undefined,
+      onOpen: () => undefined,
+      onMessage: () => undefined,
+      onClose: (cb) => {
+        onClose = cb;
+      },
+    };
+  };
+}
+
 function renderPage(
   storage: MatchStorage,
-  props: { roomId?: string; api?: RemoteApi } = {},
+  props: {
+    roomId?: string;
+    api?: RemoteApi;
+    transport?: TransportFactory;
+  } = {},
 ) {
   return render(
     <MemoryRouter
@@ -487,7 +508,11 @@ function renderPage(
       <PathProbe />
       <Play
         roomId={props.roomId}
-        remote={{ api: props.api ?? fakeApi(), origin: 'http://test' }}
+        remote={{
+          api: props.api ?? fakeApi(),
+          transport: props.transport,
+          origin: 'http://test',
+        }}
         engine={createFakeEngine()}
         storage={storage}
       />
@@ -510,6 +535,26 @@ describe('resuming and expiry', () => {
     );
     expect(screen.getByTestId('path')).toHaveTextContent('/play/abc123');
     expect(screen.queryByRole('button', { name: 'Resume match' })).toBeNull();
+  });
+
+  it('a returning seat whose room expired offers Review and Discard', async () => {
+    const storage = createMemoryStorage();
+    await storage.put(remoteRow(ROOM));
+    writeSeat(ROOM, { side: 'white', token: 'ab'.repeat(16) });
+    const api = fakeApi();
+    renderPage(storage, {
+      roomId: ROOM,
+      api,
+      transport: closingTransport(4003),
+    });
+    expect(await screen.findByText('This game has ended.')).toBeInTheDocument();
+    expect(screen.queryByText('Reconnecting…')).toBeNull();
+    expect(screen.queryByRole('textbox', { name: 'Invite link' })).toBeNull();
+    expect(
+      await screen.findByRole('link', { name: 'Review in Analyze' }),
+    ).toHaveAttribute('href', '/analyze');
+    expect(screen.getByRole('button', { name: 'Discard' })).toBeVisible();
+    expect(api.getRoom).not.toHaveBeenCalled();
   });
 
   it('an expired room offers Review and Discard', async () => {
