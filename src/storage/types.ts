@@ -23,6 +23,10 @@ export interface MatchConfig {
   readonly length: number;
   readonly mode: 'computer' | 'hotseat' | 'remote' | 'imported';
   readonly difficulty?: Difficulty;
+  /** Remote play: the room this match is played in. */
+  readonly roomId?: string;
+  /** Remote play: the seat this device holds in that room. */
+  readonly localSide?: Player;
   readonly [extra: string]: unknown;
 }
 

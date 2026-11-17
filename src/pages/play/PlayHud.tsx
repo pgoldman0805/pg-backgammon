@@ -9,6 +9,7 @@
 import type { Difficulty } from '../../engine';
 import { CopyXgidButton } from '../../formats';
 import type { AutoRollMode } from '../../play/settings';
+import type { ConnectionState } from '../../remote/session';
 import {
   type BoardState,
   type MatchState,
@@ -33,6 +34,7 @@ export function PlayHud({
   onTutorChange,
   autoRollMode,
   onAutoRollChange,
+  connection,
 }: {
   /** Whose decision the moment is, for the active-chip highlight. */
   actor: Player | null;
@@ -48,7 +50,10 @@ export function PlayHud({
   onTutorChange: (on: boolean) => void;
   autoRollMode: AutoRollMode;
   onAutoRollChange: (mode: AutoRollMode) => void;
+  /** A remote room's connection, for the presence line; absent otherwise. */
+  connection?: ConnectionState | null;
 }) {
+  const remoteLine = connection ? connectionText(connection) : null;
   return (
     <div className="play-hud">
       <div
@@ -75,6 +80,11 @@ export function PlayHud({
         <p className="play-status" role="status">
           {declineNote ? `${status} ${declineNote}` : status}
         </p>
+        {remoteLine && (
+          <p className="remote-line" role="status">
+            {remoteLine}
+          </p>
+        )}
         {match && (
           <p className="match-caption">
             {match.money ? (
@@ -143,4 +153,21 @@ export function PlayHud({
       </div>
     </div>
   );
+}
+
+/** The presence line for a remote room, or null when all is well. */
+function connectionText(connection: ConnectionState): string | null {
+  if (connection.roomStatus === null) {
+    return null;
+  }
+  if (connection.status !== 'open') {
+    return 'Reconnecting…';
+  }
+  if (connection.roomStatus === 'waiting') {
+    return 'Waiting for your opponent to join';
+  }
+  if (connection.roomStatus === 'playing' && !connection.opponentPresent) {
+    return 'Opponent disconnected';
+  }
+  return null;
 }

@@ -32,6 +32,7 @@ import {
 } from '../play/settings';
 import { createPlayStore, type PlayStore } from '../play/store';
 import { createTutor, type Tutor, type TutorState } from '../play/tutor';
+import { createRemoteApi } from '../remote/api';
 import {
   canDouble,
   canTakeback,
@@ -78,7 +79,9 @@ import {
   statusText,
   storedMatchName,
 } from './play/playFormat';
+import { RemotePanel } from './play/RemotePanel';
 import { EvalBar, FeedbackNote } from './play/tutorSurfaces';
+import { type RemoteDeps, useRemoteRoom } from './play/useRemoteRoom';
 import '../play/board.css';
 
 export interface PlayProps {
@@ -94,6 +97,11 @@ export interface PlayProps {
   storage?: MatchStorage;
   /** Resume this stored match on arrival (Analyze's "Resume" route state). */
   resumeMatchId?: string;
+  /** A remote room to play in (`/play/:roomId`); the page then plays through
+   * the room's session instead of a local store. */
+  roomId?: string;
+  /** Injectable for tests; defaults to the real room API at this origin. */
+  remote?: RemoteDeps;
 }
 
 export function Play({
@@ -103,6 +111,8 @@ export function Play({
   opponentStepMs,
   storage: injectedStorage,
   resumeMatchId,
+  roomId,
+  remote: injectedRemote,
 }: PlayProps = {}) {
   const [store, setStore] = useState(() => injectedStore ?? createPlayStore());
   const [engine] = useState(() => injectedEngine ?? getPlayEngine());
@@ -112,8 +122,10 @@ export function Play({
     engine.onStatusChange,
     () => engine.status,
   );
-  const [setup, setSetup] = useState<PlaySetup>(
-    () => defaultSetup ?? initialSetup(),
+  const [setup, setSetup] = useState<PlaySetup>(() =>
+    roomId
+      ? { ...initialSetup(), mode: 'remote' }
+      : (defaultSetup ?? initialSetup()),
   );
   const [selected, setSelected] = useState<Point | 'bar' | null>(null);
   const [resignOpen, setResignOpen] = useState(false);
@@ -155,6 +167,20 @@ export function Play({
   // Ticket 08: finished games analyze themselves in the background.
   useAutoAnalysis(store, storage);
   const autoResumed = useRef(false);
+  const [remote] = useState<RemoteDeps>(
+    () => injectedRemote ?? { api: createRemoteApi(), origin: location.origin },
+  );
+  const roomView = useRemoteRoom(roomId, remote);
+  const seated = roomView?.kind === 'seated' ? roomView : null;
+  const remoteSession = seated?.session ?? null;
+  const rememberedRoom = useRef<string | null>(null);
+
+  // Seated in a room: the room's session is this page's store from now on.
+  useEffect(() => {
+    if (remoteSession) {
+      setStore(remoteSession);
+    }
+  }, [remoteSession]);
 
   // Start the lazy engine load on first visit; the shell stays usable and
   // failures surface through the observable status.
@@ -211,14 +237,42 @@ export function Play({
   const phase = match?.phase ?? null;
   const turn = game?.turn ?? null;
   const vsComputer = setup.mode === 'computer';
-  // Which sides this screen's human controls. Task 8 supplies localSide from
-  // the room seat (add it to the memo's deps then); until then a remote setup
-  // controls no side.
-  const localSide: Player | null = null;
+  // Which sides this screen's human controls: in a remote room, the seat.
+  const localSide: Player | null = seated?.side ?? null;
   const localSides = useMemo(
     () => localSidesFor(setup.mode, localSide),
-    [setup.mode],
+    [setup.mode, localSide],
   );
+
+  // A remote match is persisted once per room: continue this room's stored
+  // row if there is one, else begin a new one carrying the room and seat.
+  useEffect(() => {
+    if (
+      !roomId ||
+      !seated ||
+      store !== seated.session ||
+      !match ||
+      !persistence.ready ||
+      rememberedRoom.current === roomId
+    ) {
+      return;
+    }
+    rememberedRoom.current = roomId;
+    const stored = persistence.resumable.find(
+      (row) => row.config.roomId === roomId,
+    );
+    if (stored) {
+      persistence.adopt(stored);
+    } else {
+      persistence.begin({
+        mode: 'remote',
+        length: match.length,
+        roomId,
+        localSide: seated.side,
+      });
+    }
+    setSetup((current) => ({ ...current, length: match.length }));
+  }, [roomId, seated, store, match, persistence]);
 
   // The autoplay controller (spec stories 43-44) acts for every human side —
   // just White vs the computer, both in hot-seat. Its two settings live in
@@ -576,8 +630,8 @@ export function Play({
             </li>
           ))}
         </ol>
-        {setupPickers}
-        {startButtons('New match', setup.mode)}
+        {setup.mode !== 'remote' && setupPickers}
+        {setup.mode !== 'remote' && startButtons('New match', setup.mode)}
         <EngineNote
           status={engineStatus}
           opponentError={opponentState.error}
@@ -694,7 +748,7 @@ export function Play({
     </div>
   );
 
-  const status = statusText(match ?? null, thinking, vsComputer);
+  const status = statusText(match ?? null, thinking, setup.mode);
   const xgid = currentXgid(match ?? null);
 
   return (
@@ -719,6 +773,7 @@ export function Play({
         onTutorChange={setTutorOn}
         autoRollMode={autoRollMode}
         onAutoRollChange={handleAutoRollChange}
+        connection={seated?.connection ?? null}
       />
 
       {match && vsComputer && tutorOn && (
@@ -760,9 +815,16 @@ export function Play({
               store.dispatch({ type: 'movement', from, die })
             }
             cube={match ? { ...match.cube, outOfPlay: match.crawford } : null}
-            interactive={humanTurn}
+            interactive={
+              humanTurn && (!seated || seated.connection.status === 'open')
+            }
+            perspective={localSide ?? 'white'}
           />
+          {roomView && (
+            <RemotePanel view={roomView} matchStarted={match != null} />
+          )}
           {!match &&
+            !roomView &&
             setupCard('Play against the computer', 'Play as White', 'computer')}
           {match && phase === 'game-over' && gameOverCard(match)}
           {match && phase === 'match-over' && matchOverCard(match)}

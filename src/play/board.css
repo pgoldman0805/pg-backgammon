@@ -1007,6 +1007,55 @@
   color: var(--ink-muted);
 }
 
+/* Remote play: the room panel (join, invite) and the HUD presence line. */
+.remote-panel {
+  width: 100%;
+}
+
+.remote-note {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+  text-align: center;
+}
+
+.invite-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.invite-link {
+  flex: 1 1 14rem;
+  min-width: 0;
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--control-radius);
+}
+
+.private-link {
+  width: 100%;
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+}
+
+.private-link-url {
+  display: block;
+  margin-top: 0.4rem;
+  overflow-wrap: anywhere;
+}
+
+.remote-line {
+  margin: 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+}
+
 /* The HUD's Copy XGID affordance (ticket 10): quiet and compact. */
 .copy-xgid {
   margin-left: 0.6rem;

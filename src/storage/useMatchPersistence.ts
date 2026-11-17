@@ -21,6 +21,8 @@ import type { MatchConfig, MatchStorage, StoredMatch } from './types';
 export interface MatchPersistence {
   /** Valid in-progress matches found in storage, newest first. */
   readonly resumable: readonly StoredMatch[];
+  /** True once the initial storage listing has resolved (or failed). */
+  readonly ready: boolean;
   /** Persist the match about to start under a fresh id. */
   begin(config: MatchConfig): void;
   /** Continue persisting a stored match (resume) under its own id. */
@@ -32,6 +34,7 @@ export function useMatchPersistence(
   storage: MatchStorage,
 ): MatchPersistence {
   const [resumable, setResumable] = useState<readonly StoredMatch[]>([]);
+  const [ready, setReady] = useState(false);
   const identityRef = useRef<PersistedIdentity | null>(null);
   const persisterRef = useRef<MatchPersister | null>(null);
 
@@ -72,6 +75,11 @@ export function useMatchPersistence(
       })
       .catch(() => {
         // Missing or broken storage means no resume offer, nothing more.
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setReady(true);
+        }
       });
     return () => {
       cancelled = true;
@@ -91,5 +99,5 @@ export function useMatchPersistence(
     persisterRef.current?.adopt(stored);
   }, []);
 
-  return { resumable, begin, adopt };
+  return { resumable, ready, begin, adopt };
 }

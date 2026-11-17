@@ -194,7 +194,7 @@ export function gameEndText(result: MatchGameResult): string {
 export function statusText(
   match: MatchState | null,
   thinking: boolean,
-  vsComputer: boolean,
+  mode: PlayMode,
 ): string {
   if (!match) {
     return '';
@@ -203,7 +203,9 @@ export function statusText(
     return 'Black is thinking…';
   }
   const considering = (responder: Player) =>
-    vsComputer && responder === 'black' ? ' Black is considering…' : '';
+    mode === 'computer' && responder === 'black'
+      ? ' Black is considering…'
+      : '';
   switch (match.phase) {
     case 'match-over': {
       const winner = match.winner ?? 'white';

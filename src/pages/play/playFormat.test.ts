@@ -3,7 +3,14 @@
  * controls per play mode, and the setup rebuilt from a stored match config.
  */
 
-import { localSidesFor, setupFromConfig } from './playFormat';
+import {
+  commitMatchPlay,
+  matchMovement,
+  offerDouble,
+  startMatch,
+} from '../../rules';
+import { scriptedDice } from '../../test/dice';
+import { localSidesFor, setupFromConfig, statusText } from './playFormat';
 
 describe('localSidesFor', () => {
   it.each([
@@ -27,5 +34,24 @@ describe('setupFromConfig', () => {
     expect(setupFromConfig({ mode: 'imported', length: 7 }).mode).toBe(
       'computer',
     );
+  });
+});
+
+describe('statusText', () => {
+  /** Black opens 3-1, then White doubles: Black is the one to respond. */
+  function whiteDoubles() {
+    let match = startMatch(7, scriptedDice(1, 3));
+    match = matchMovement(match, 17, 3);
+    match = matchMovement(match, 19, 1);
+    return offerDouble(commitMatchPlay(match));
+  }
+
+  it('says Black is considering only against the computer', () => {
+    const match = whiteDoubles();
+    expect(statusText(match, false, 'computer')).toBe(
+      'White doubles to 2. Black is considering…',
+    );
+    expect(statusText(match, false, 'hotseat')).toBe('White doubles to 2.');
+    expect(statusText(match, false, 'remote')).toBe('White doubles to 2.');
   });
 });
