@@ -70,6 +70,75 @@ export type PlayAction =
   /** Record that Tutor mode is enabled during the game in progress. */
   | { type: 'tutor-assisted' };
 
+const BARE_ACTIONS: ReadonlySet<string> = new Set([
+  'undo',
+  'commit',
+  'forced',
+  'roll',
+  'double',
+  'take',
+  'pass',
+  'accept-resign',
+  'decline-resign',
+  'next-game',
+  'tutor-assisted',
+]);
+
+function isIntegerIn(value: unknown, min: number, max: number): boolean {
+  return (
+    typeof value === 'number' &&
+    Number.isInteger(value) &&
+    value >= min &&
+    value <= max
+  );
+}
+
+function isDie(value: unknown): boolean {
+  return isIntegerIn(value, 1, 6);
+}
+
+function isOrigin(value: unknown): boolean {
+  return value === 'bar' || isIntegerIn(value, 1, 24);
+}
+
+/**
+ * Whether untrusted input (a remote client's frame) has the shape of some
+ * PlayAction. Shape only: legality is still the reducer's call. Extra
+ * properties are ignored.
+ */
+export function isPlayAction(value: unknown): value is PlayAction {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  const action = value as Record<string, unknown>;
+  const { type } = action;
+  if (typeof type !== 'string') {
+    return false;
+  }
+  if (BARE_ACTIONS.has(type)) {
+    return true;
+  }
+  switch (type) {
+    case 'movement':
+      return isOrigin(action.from) && isDie(action.die);
+    case 'resign':
+      return (
+        action.kind === 'single' ||
+        action.kind === 'gammon' ||
+        action.kind === 'backgammon'
+      );
+    case 'start':
+      return (
+        (action.length === undefined || typeof action.length === 'number') &&
+        (action.money === undefined || typeof action.money === 'boolean')
+      );
+    case 'takeback':
+      return action.player === 'white' || action.player === 'black';
+    default:
+      return false;
+  }
+}
+
 /** Whose decision the current phase is (turn or pre-roll), if anyone's. */
 export function currentActor(match: MatchState): Player | null {
   if (match.phase === 'turn') {

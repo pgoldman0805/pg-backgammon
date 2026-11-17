@@ -5,7 +5,12 @@
 
 import type { MatchState } from '../rules';
 import { scriptedDice } from '../test/dice';
-import { decisionOwner, type PlayAction, reduceMatch } from './reduce';
+import {
+  decisionOwner,
+  isPlayAction,
+  type PlayAction,
+  reduceMatch,
+} from './reduce';
 
 function apply(
   match: MatchState | null,
@@ -90,5 +95,60 @@ describe('decisionOwner', () => {
     const match = apply(resigned, { type: 'accept-resign' });
     expect(match.phase).toBe('match-over');
     expect(decisionOwner(match)).toBeNull();
+  });
+});
+
+describe('isPlayAction', () => {
+  it.each([
+    { type: 'movement', from: 13, die: 5 },
+    { type: 'movement', from: 1, die: 1 },
+    { type: 'movement', from: 24, die: 6 },
+    { type: 'movement', from: 'bar', die: 3 },
+    { type: 'movement', from: 13, die: 5, extra: 'ignored' },
+    { type: 'undo' },
+    { type: 'commit' },
+    { type: 'forced' },
+    { type: 'roll' },
+    { type: 'double' },
+    { type: 'take' },
+    { type: 'pass' },
+    { type: 'resign', kind: 'single' },
+    { type: 'resign', kind: 'gammon' },
+    { type: 'resign', kind: 'backgammon' },
+    { type: 'accept-resign' },
+    { type: 'decline-resign' },
+    { type: 'next-game' },
+    { type: 'tutor-assisted' },
+    { type: 'start', length: 5 },
+    { type: 'start', money: true },
+    { type: 'takeback', player: 'white' },
+  ])('accepts %o', (value) => {
+    expect(isPlayAction(value)).toBe(true);
+  });
+
+  it.each([
+    null,
+    'roll',
+    42,
+    [],
+    {},
+    { type: 7 },
+    { type: 'bogus' },
+    { type: 'resign' },
+    { type: 'resign', kind: 'x' },
+    { type: 'movement', from: 13 },
+    { type: 'movement', from: 13, die: 0 },
+    { type: 'movement', from: 13, die: 7 },
+    { type: 'movement', from: 13, die: 2.5 },
+    { type: 'movement', from: 13, die: '5' },
+    { type: 'movement', from: 0, die: 5 },
+    { type: 'movement', from: 25, die: 5 },
+    { type: 'movement', from: 1.5, die: 5 },
+    { type: 'movement', from: 'off', die: 5 },
+    { type: 'start', length: 'x' },
+    { type: 'start', money: 'yes' },
+    { type: 'takeback', player: 'red' },
+  ])('rejects %o', (value) => {
+    expect(isPlayAction(value)).toBe(false);
   });
 });

@@ -492,9 +492,94 @@ describe('reconnection', () => {
     net.sockets[1].receive(snapshot());
     expect(s.getConnection().status).toBe('open');
 
-    // While open, another visibility change opens nothing new.
+    // While open, a visibility change only probes the live socket.
     document.dispatchEvent(new Event('visibilitychange'));
     expect(net.sockets).toHaveLength(2);
+    expect(JSON.parse(net.sockets[1].sent.at(-1) ?? '{}')).toEqual({
+      type: 'resync',
+    });
+  });
+
+  describe('liveness probe', () => {
+    /** A pace whose waits the test resolves by hand. */
+    function controlledPace() {
+      const waits: { ms: number; resolve: () => void }[] = [];
+      const pace = (ms: number) =>
+        new Promise<void>((resolve) => {
+          waits.push({ ms, resolve });
+        });
+      return { waits, pace };
+    }
+
+    function openSession() {
+      const net = fakeNetwork();
+      const control = controlledPace();
+      const s = session(net.factory, control.pace);
+      net.sockets[0].open();
+      net.sockets[0].receive(snapshot());
+      net.sockets[0].sent.length = 0;
+      return { net, s, ...control };
+    }
+
+    const types = (socket: FakeSocket) =>
+      socket.sent.map((d) => JSON.parse(d).type);
+
+    it.each([
+      [
+        'visibilitychange',
+        () => document.dispatchEvent(new Event('visibilitychange')),
+      ],
+      ['online', () => window.dispatchEvent(new Event('online'))],
+    ])('%s while open sends a resync probe', (_name, fire) => {
+      const { net, waits } = openSession();
+      fire();
+      expect(types(net.sockets[0])).toEqual(['resync']);
+      expect(waits.map((w) => w.ms)).toEqual([5000]);
+      expect(net.sockets).toHaveLength(1);
+    });
+
+    it('no snapshot within 5 s replaces the socket at once', async () => {
+      const { net, s, waits } = openSession();
+      document.dispatchEvent(new Event('visibilitychange'));
+      waits[0].resolve();
+      await settleMicrotasks();
+      expect(net.sockets[0].closed).toBe(true);
+      expect(net.sockets).toHaveLength(2);
+      expect(waits.map((w) => w.ms)).toEqual([5000]); // no backoff wait
+      net.sockets[1].open();
+      expect(types(net.sockets[1])).toEqual(['hello']);
+      net.sockets[1].receive(snapshot(2));
+      expect(s.getConnection()).toMatchObject({ status: 'open', seq: 2 });
+      // The dead socket's late close changes nothing.
+      net.sockets[0].drop(1006);
+      await settleMicrotasks();
+      expect(net.sockets).toHaveLength(2);
+      expect(s.getConnection().status).toBe('open');
+    });
+
+    it('a snapshot in time keeps the socket', async () => {
+      const { net, waits } = openSession();
+      document.dispatchEvent(new Event('visibilitychange'));
+      net.sockets[0].receive(snapshot(1));
+      waits[0].resolve();
+      await settleMicrotasks();
+      expect(net.sockets).toHaveLength(1);
+      expect(net.sockets[0].closed).toBe(false);
+    });
+
+    it('reconnectNow during a stuck connect opens a fresh socket', async () => {
+      const { net, waits, s } = openSession();
+      net.sockets[0].drop(1006);
+      await settleMicrotasks();
+      waits[0].resolve(); // the 1 s backoff
+      await settleMicrotasks();
+      expect(net.sockets).toHaveLength(2); // stuck connecting, never opens
+      s.reconnectNow();
+      expect(net.sockets[1].closed).toBe(true);
+      expect(net.sockets).toHaveLength(3);
+      net.sockets[2].open();
+      expect(types(net.sockets[2])).toEqual(['hello']);
+    });
   });
 
   it('reconnects on the online event', async () => {

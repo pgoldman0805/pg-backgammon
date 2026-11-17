@@ -7,7 +7,12 @@ import { decisionOwner } from '../play/reduce';
 import { destinationsFrom, movableOrigins } from '../play/selectors';
 import type { MatchState } from '../rules';
 import { scriptedDice } from '../test/dice';
-import { CLOSE_BAD_TOKEN, type ServerMessage } from './protocol';
+import {
+  CLOSE_BAD_TOKEN,
+  CLOSE_VERSION,
+  PROTOCOL_VERSION,
+  type ServerMessage,
+} from './protocol';
 import { createRoom, type RoomState } from './roomCore';
 import { createRoomHost, type Sink } from './roomHost';
 
@@ -143,6 +148,56 @@ describe('room host', () => {
       await host.message(white.sink, raw);
     }
     expect(white.received).toEqual([]);
+    expect(host.room).toBe(before);
+  });
+
+  it('closes a hello with another protocol version with CLOSE_VERSION', async () => {
+    const host = makeHost();
+    const white = fakeSink();
+    host.attach('w-tok', white.sink);
+    white.received.length = 0;
+    await host.message(
+      white.sink,
+      JSON.stringify({ type: 'hello', version: PROTOCOL_VERSION + 1 }),
+    );
+    expect(white.closed).toEqual([CLOSE_VERSION]);
+    expect(white.received).toEqual([]);
+    expect(host.presence()).toEqual({ white: false, black: false });
+
+    const current = fakeSink();
+    host.attach('w-tok', current.sink);
+    current.received.length = 0;
+    await host.message(
+      current.sink,
+      JSON.stringify({ type: 'hello', version: PROTOCOL_VERSION }),
+    );
+    expect(current.closed).toEqual([]);
+    expect(current.received.map((m) => m.type)).toEqual(['snapshot']);
+  });
+
+  it('ignores act frames whose action is malformed', async () => {
+    const host = makeHost();
+    const white = fakeSink();
+    const black = fakeSink();
+    host.attach('w-tok', white.sink);
+    await host.join('b-tok');
+    host.attach('b-tok', black.sink);
+    white.received.length = 0;
+    black.received.length = 0;
+    const before = host.room;
+    const owner = before.match && decisionOwner(before.match);
+    const actor = owner === 'white' ? white : black;
+    for (const action of [
+      { type: 'resign', kind: 'x' },
+      { type: 'resign' },
+      { type: 'movement', from: 13, die: 9 },
+      { type: 'movement', from: 'nowhere', die: 3 },
+      { type: 'teleport' },
+    ]) {
+      await host.message(actor.sink, JSON.stringify({ type: 'act', action }));
+    }
+    expect(white.received).toEqual([]);
+    expect(black.received).toEqual([]);
     expect(host.room).toBe(before);
   });
 

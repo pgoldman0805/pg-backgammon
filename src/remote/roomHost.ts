@@ -7,13 +7,15 @@
  * one at a time so a slow save cannot interleave with the next action.
  */
 
-import type { PlayAction } from '../play/reduce';
+import { isPlayAction } from '../play/reduce';
 import type { DiceSource } from '../rules';
 import {
   CLOSE_BAD_TOKEN,
   CLOSE_EXPIRED,
+  CLOSE_VERSION,
   type ClientMessage,
   type JoinRoomResponse,
+  PROTOCOL_VERSION,
   type Presence,
   type ServerMessage,
   type Side,
@@ -54,7 +56,11 @@ export interface RoomHost {
 
 const CLIENT_TYPES: readonly string[] = ['hello', 'act', 'resync'];
 
-/** Parse and shape-check an inbound frame; null for anything unusable. */
+/**
+ * Parse and shape-check an inbound frame, including every action's payload,
+ * so a modified client cannot feed the core a malformed action; null for
+ * anything unusable.
+ */
 function parseClientMessage(raw: string): ClientMessage | null {
   let value: unknown;
   try {
@@ -71,14 +77,7 @@ function parseClientMessage(raw: string): ClientMessage | null {
   }
   if (type === 'act') {
     const { action } = value as { action?: unknown };
-    if (
-      typeof action !== 'object' ||
-      action === null ||
-      typeof (action as { type?: unknown }).type !== 'string'
-    ) {
-      return null;
-    }
-    return { type: 'act', action: action as PlayAction };
+    return isPlayAction(action) ? { type: 'act', action } : null;
   }
   return value as ClientMessage;
 }
@@ -103,6 +102,12 @@ export function createRoomHost(options: RoomHostOptions): RoomHost {
     }
   }
 
+  function detach(sink: Sink): void {
+    if (sinks.delete(sink)) {
+      sendTo(null, { type: 'presence', presence: presence() });
+    }
+  }
+
   function route(effects: readonly RoomEffect[]): void {
     for (const effect of effects) {
       sendTo(effect.type === 'send' ? effect.to : null, effect.message);
@@ -120,6 +125,12 @@ export function createRoomHost(options: RoomHostOptions): RoomHost {
     const side = sinks.get(sink);
     const message = parseClientMessage(raw);
     if (!side || !message) {
+      return;
+    }
+    if (message.type === 'hello' && message.version !== PROTOCOL_VERSION) {
+      // An out-of-date client: tell it to reload, and never play its frames.
+      detach(sink);
+      sink.close(CLOSE_VERSION);
       return;
     }
     const step = handleMessage(
@@ -165,11 +176,7 @@ export function createRoomHost(options: RoomHostOptions): RoomHost {
       sendTo(null, { type: 'presence', presence: presence() });
       return side;
     },
-    detach(sink) {
-      if (sinks.delete(sink)) {
-        sendTo(null, { type: 'presence', presence: presence() });
-      }
-    },
+    detach,
     message: (sink, raw) => serialize(() => process(sink, raw)),
     join(blackToken) {
       return serialize(async () => {

@@ -9,7 +9,10 @@
  *
  * A dropped socket reconnects with backoff (skipped when the page comes back
  * online or into view) until a snapshot proves the session current again;
- * the room's terminal close codes end the session instead.
+ * the room's terminal close codes end the session instead. A socket that
+ * looks open when the page comes back online or into view is probed with one
+ * `resync`; no snapshot within PROBE_MS means it died silently, so it is
+ * replaced at once. There is no periodic heartbeat.
  */
 
 import { decisionOwner } from '../play/reduce';
@@ -70,6 +73,8 @@ export interface RemoteSession extends PlayStore {
 }
 
 const BUSY_VISIBLE_MS = 5000;
+/** How long a liveness probe waits for its snapshot before giving up. */
+const PROBE_MS = 5000;
 const DEFAULT_BACKOFF_MS = [1000, 2000, 4000, 8000, 16000, 30000];
 
 function wait(ms: number): Promise<void> {
@@ -138,6 +143,8 @@ export function createRemoteSession(
   let waiting = false;
   /** One resync in flight per gap; the next snapshot clears it. */
   let resyncPending = false;
+  /** Bumped per liveness probe and by every snapshot, cancelling the probe. */
+  let probeToken = 0;
 
   function setConnection(patch: Partial<ConnectionState>): void {
     connection = { ...connection, ...patch };
@@ -234,6 +241,7 @@ export function createRemoteSession(
       case 'snapshot':
         queue.clear();
         resyncPending = false;
+        probeToken += 1;
         attempt = 0;
         // The match first, so a connection listener never sees the new seq
         // alongside the old match.
@@ -309,22 +317,74 @@ export function createRemoteSession(
     });
   }
 
-  function reconnectNow(): void {
-    if (disposed || !waiting) {
-      return;
-    }
-    waitToken += 1;
-    waiting = false;
+  /** Drop the current socket (if any) and open a fresh one now. */
+  function replaceSocket(): void {
+    const stale = transport;
+    transport = null;
+    socketOpen = false;
+    stale?.close();
+    setConnection({ status: 'reconnecting', error: null });
     connect();
   }
 
+  /**
+   * Skip the backoff wait, or replace a connect still in flight (a socket
+   * stuck connecting never closes on its own).
+   */
+  function reconnectNow(): void {
+    if (disposed) {
+      return;
+    }
+    if (waiting) {
+      waitToken += 1;
+      waiting = false;
+      connect();
+      return;
+    }
+    if (transport && connection.status !== 'open') {
+      replaceSocket();
+    }
+  }
+
+  /**
+   * One `resync` as a liveness probe of a socket that looks open; with no
+   * snapshot inside PROBE_MS the socket died silently and is replaced at
+   * once, without a backoff wait.
+   */
+  function probe(): void {
+    const t = transport;
+    if (!t || !socketOpen) {
+      return;
+    }
+    const token = ++probeToken;
+    send({ type: 'resync' });
+    void pace(PROBE_MS).then(() => {
+      if (disposed || token !== probeToken || transport !== t) {
+        return;
+      }
+      replaceSocket();
+    });
+  }
+
+  /** Back online or into view: probe an open socket, else reconnect now. */
+  function wake(): void {
+    if (disposed) {
+      return;
+    }
+    if (connection.status === 'open') {
+      probe();
+    } else {
+      reconnectNow();
+    }
+  }
+
   function onOnline(): void {
-    reconnectNow();
+    wake();
   }
 
   function onVisibilityChange(): void {
     if (document.visibilityState === 'visible') {
-      reconnectNow();
+      wake();
     }
   }
 
@@ -362,6 +422,7 @@ export function createRemoteSession(
     dispose() {
       disposed = true;
       waitToken += 1;
+      probeToken += 1;
       waiting = false;
       cancelBusyTimer();
       if (listening) {
