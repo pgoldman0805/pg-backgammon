@@ -9,72 +9,15 @@
  * starts their turn.
  */
 
-import {
-  acceptResignation,
-  commitMatchPlay,
-  createSeededDice,
-  type DiceSource,
-  type Die,
-  declineResignation,
-  type GameEndKind,
-  type MatchState,
-  markTutorAssisted,
-  matchMovement,
-  nextGame,
-  offerDouble,
-  offerResignation,
-  type Player,
-  type Point,
-  passDouble,
-  rollTurn,
-  startMatch,
-  startMoneyGame,
-  takebackPlay,
-  takeDouble,
-  undoMatchMovement,
-} from '../rules';
-import { forcedPlay } from './selectors';
+import { createSeededDice, type DiceSource, type MatchState } from '../rules';
+import { type PlayAction, reduceMatch } from './reduce';
+
+export type { PlayAction };
 
 export interface PlayState {
   /** The current match, or null before the first start. */
   readonly match: MatchState | null;
 }
-
-export type PlayAction =
-  /**
-   * Start a fresh match or money session (also abandons any in progress).
-   * `money` starts an unlimited money session (GLOSSARY "Money play"); `length`
-   * is ignored then.
-   */
-  | { type: 'start'; length?: number; money?: boolean }
-  /** Move one checker by one die within the current turn. */
-  | { type: 'movement'; from: Point | 'bar'; die: Die }
-  /** Undo the most recent movement of the current turn. */
-  | { type: 'undo' }
-  /** Commit the current turn's movements as the Play, ending the turn. */
-  | { type: 'commit' }
-  /** Apply and commit the single legal play of a forced turn. */
-  | { type: 'forced' }
-  /** Roll the dice from the pre-roll phase, starting the turn. */
-  | { type: 'roll' }
-  /** Offer a double (the player to roll, before rolling). */
-  | { type: 'double' }
-  /** Take the offered double. */
-  | { type: 'take' }
-  /** Pass the offered double, conceding the game. */
-  | { type: 'pass' }
-  /** The current actor offers to resign the game at this kind. */
-  | { type: 'resign'; kind: GameEndKind }
-  /** Accept the pending resignation. */
-  | { type: 'accept-resign' }
-  /** Decline the pending resignation; play resumes. */
-  | { type: 'decline-resign' }
-  /** Continue the match with its next game. */
-  | { type: 'next-game' }
-  /** Take back the player's last committed play (Tutor mode only, UI-gated). */
-  | { type: 'takeback'; player: Player }
-  /** Record that Tutor mode is enabled during the game in progress. */
-  | { type: 'tutor-assisted' };
 
 export interface PlayStore {
   getState(): PlayState;
@@ -101,18 +44,10 @@ function randomDiceSeed(): number {
   return (Math.random() * 2 ** 32) >>> 0;
 }
 
-/** Whose decision the current phase is (turn or pre-roll), if anyone's. */
-function currentActor(match: MatchState): Player | null {
-  if (match.phase === 'turn') {
-    return match.game.turn?.player ?? null;
-  }
-  if (match.phase === 'pre-roll') {
-    return match.toRoll;
-  }
-  return null;
-}
-
-export function createPlayStore(options: PlayStoreOptions = {}): PlayStore {
+/** A play store whose match can be swapped wholesale (remote-play sync). */
+export function createReplaceablePlayStore(
+  options: PlayStoreOptions = {},
+): PlayStore & { replace(match: MatchState | null): void } {
   const dice = options.dice ?? createSeededDice(randomDiceSeed());
   let state: PlayState = { match: options.match ?? null };
   const listeners = new Set<() => void>();
@@ -124,81 +59,16 @@ export function createPlayStore(options: PlayStoreOptions = {}): PlayStore {
     }
   }
 
-  /**
-   * Compute the next state, or null when the action is illegal here. The
-   * rules engine is the sole legality authority: engine functions throw on
-   * illegal actions, and the store turns that into "ignored".
-   */
-  function reduce(action: PlayAction): PlayState | null {
-    try {
-      if (action.type === 'start') {
-        return {
-          match: action.money
-            ? startMoneyGame(dice)
-            : startMatch(action.length ?? 7, dice),
-        };
-      }
-      const match = state.match;
-      if (!match) {
-        return null;
-      }
-      switch (action.type) {
-        case 'movement':
-          return { match: matchMovement(match, action.from, action.die) };
-        case 'undo':
-          return { match: undoMatchMovement(match) };
-        case 'commit':
-          return { match: commitMatchPlay(match) };
-        case 'forced': {
-          const play = forcedPlay(match.phase === 'turn' ? match.game : null);
-          if (!play || match.game.turn?.movements.length) {
-            return null;
-          }
-          const moved = play.movements.reduce(
-            (m, movement) => matchMovement(m, movement.from, movement.die),
-            match,
-          );
-          return { match: commitMatchPlay(moved) };
-        }
-        case 'roll':
-          return { match: rollTurn(match, dice) };
-        case 'double':
-          return { match: offerDouble(match) };
-        case 'take':
-          return { match: takeDouble(match) };
-        case 'pass':
-          return { match: passDouble(match) };
-        case 'resign': {
-          const actor = currentActor(match);
-          return actor
-            ? { match: offerResignation(match, actor, action.kind) }
-            : null;
-        }
-        case 'accept-resign':
-          return { match: acceptResignation(match) };
-        case 'decline-resign':
-          return { match: declineResignation(match) };
-        case 'next-game':
-          return { match: nextGame(match, dice) };
-        case 'takeback':
-          return { match: takebackPlay(match, action.player) };
-        case 'tutor-assisted':
-          return { match: markTutorAssisted(match) };
-        default:
-          return null;
-      }
-    } catch {
-      return null;
-    }
-  }
-
   return {
     getState: () => state,
     dispatch(action) {
-      const next = reduce(action);
-      if (next) {
-        setState(next);
+      const match = reduceMatch(state.match, action, dice);
+      if (match) {
+        setState({ match });
       }
+    },
+    replace(match) {
+      setState({ match });
     },
     subscribe(listener) {
       listeners.add(listener);
@@ -207,4 +77,9 @@ export function createPlayStore(options: PlayStoreOptions = {}): PlayStore {
       };
     },
   };
+}
+
+export function createPlayStore(options: PlayStoreOptions = {}): PlayStore {
+  const { replace: _replace, ...store } = createReplaceablePlayStore(options);
+  return store;
 }
