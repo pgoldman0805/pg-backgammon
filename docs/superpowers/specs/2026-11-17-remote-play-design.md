@@ -44,6 +44,51 @@ Success looks like: create a game, share a link, both play a full match on phone
 - Hosting is already a Cloudflare Worker serving static assets (`wrangler.jsonc`), built with the Cloudflare Vite plugin. The server side of this design lives in that same Worker.
 - Cost: SQLite-backed Durable Objects are available on the Workers Free plan (checked against the Cloudflare pricing page, 2026-11-17): 100,000 requests per day, where each WebSocket message counts as a request, and 13,000 GB-seconds per day of active duration. With WebSocket hibernation a room costs duration only while handling a message. A handful of friends playing is far inside these limits; exceeding them makes further operations fail for the day rather than bill. The key-value backend is not available on Free, so the migration must declare `new_sqlite_classes`.
 
+## Cost analysis: staying on the Workers Free plan
+
+Figures below are from the Cloudflare pricing and limits pages as of 2026-11-17. Free plan limits are daily, reset at 00:00 UTC, and when exceeded the operation fails rather than bills. Nothing in this design can produce a charge unless the account is upgraded.
+
+### What the Free plan allows
+
+| Resource | Free plan limit | Counts toward it |
+| --- | --- | --- |
+| Worker requests | 100,000 / day | `/api/*` HTTP calls and WebSocket upgrades. Static asset requests are free and unlimited. |
+| Durable Object requests | 100,000 / day | HTTP calls to the object, WebSocket upgrades, alarm runs, and incoming WebSocket messages at 20:1 (20 messages = 1 request). Outgoing messages and protocol pings are free. |
+| Durable Object duration | 13,000 GB-s / day | Wall-clock time the object is active and not eligible to hibernate, at 128 MB per object. |
+| SQLite rows written | 100,000 / day | Every `put`, `delete` and `setAlarm`. |
+| SQLite rows read | 5,000,000 / day | Every `get`. |
+| SQLite stored data | 5 GB total | Live room records. |
+| Worker CPU | 10 ms per invocation | The reducer runs well under 1 ms; the engine never loads server side. |
+
+### What one match costs
+
+Assumptions: a 7-point match of about 8 games, 50 turns per game, and about 4.3 inbound messages per turn (roll, two or three movements, commit), plus occasional undo, cube and resignation traffic. Call it 1,800 inbound messages per match.
+
+| Resource | Per match | Matches per day before the limit binds |
+| --- | --- | --- |
+| Worker requests | about 15 (create, join, summary, a dozen WebSocket upgrades across reconnects) | about 6,500 |
+| Durable Object requests | 1,800 / 20 + 15, about 105 | about 950 |
+| Durable Object duration | 1,800 handlers at roughly 5 ms each, about 9 s active, about 1.2 GB-s | about 10,000 |
+| SQLite rows written | one `put` per accepted action, about 1,800 | about 55 |
+| SQLite rows read | one `get` per wake from hibernation, well under 100 | effectively unlimited |
+| Stored data | one room record, 20 to 50 KB, deleted at expiry | about 100,000 live rooms |
+
+The binding constraint is rows written: roughly 55 full 7-point matches per day across all players. A personal deployment with a handful of friends plays a few matches a day at most, which is under 10 percent of that limit. Everything else has two or more orders of magnitude of headroom.
+
+### Design rules that keep it there
+
+- Use the WebSocket Hibernation API (`ctx.acceptWebSocket`) so an idle room is not billed duration between moves. Serve keepalive pings through `setWebSocketAutoResponse`, which costs nothing.
+- One storage write per accepted action: the whole room record in one `put`. Never write on `hello`, `resync`, presence changes or rejected actions.
+- Keep the room record in memory after the first `get` and reread only on wake from hibernation.
+- Set the expiry alarm on room creation, on match end, and from the alarm handler itself (rescheduling when the room is still active). Never per action, since each `setAlarm` is a row written.
+- `deleteAll` at expiry so stored data stays bounded by live rooms.
+- No heartbeat messages from the client beyond protocol pings. Presence comes from socket open and close events.
+- If a storage write fails (including the daily limit), the room does not broadcast the action and tells the sender `busy`; the client shows "The game service is busy, try again shortly" and the match state stays consistent on both sides.
+
+### Watching usage
+
+The Cloudflare dashboard's Durable Objects page shows requests, duration and SQLite rows per day. If the owner ever wants a hard guarantee beyond "Free fails rather than bills", staying on the Free plan is that guarantee; a Durable Objects spending limit only applies to the Paid plan.
+
 ## Approaches considered
 
 ### Transport
