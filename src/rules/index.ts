@@ -15,7 +15,7 @@ export {
   pipCount,
   undoMovement,
 } from './board';
-export { createSeededDice, type DiceSource } from './dice';
+export { createCryptoDice, createSeededDice, type DiceSource } from './dice';
 export {
   applyTurnMovement,
   type CreateGameOptions,

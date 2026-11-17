@@ -24,6 +24,25 @@ function mulberry32(seed: number): () => number {
 const REJECTION_LIMIT = Math.floor(2 ** 32 / 6) * 6;
 
 /**
+ * A fair, non-deterministic dice source backed by the platform CSPRNG
+ * (`globalThis.crypto`, available in browsers and Workers). Same rejection
+ * sampling as {@link createSeededDice}, so every face is equally likely.
+ */
+export function createCryptoDice(): DiceSource {
+  const buffer = new Uint32Array(1);
+  return {
+    rollDie(): Die {
+      let value: number;
+      do {
+        globalThis.crypto.getRandomValues(buffer);
+        value = buffer[0];
+      } while (value >= REJECTION_LIMIT);
+      return ((value % 6) + 1) as Die;
+    },
+  };
+}
+
+/**
  * A fair, deterministic dice source: the same seed always yields the same
  * roll sequence. Uses rejection sampling for exact uniformity.
  */
