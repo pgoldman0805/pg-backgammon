@@ -54,27 +54,40 @@ function finishedRemoteRows(page: Page): Promise<number> {
         const open = indexedDB.open('pg-backgammon');
         open.onsuccess = () => {
           const db = open.result;
-          const all = db
-            .transaction('matches', 'readonly')
-            .objectStore('matches')
-            .getAll();
-          all.onsuccess = () => {
-            db.close();
-            const rows = all.result as Array<{
-              status: string;
-              config: { mode?: string };
-            }>;
-            resolve(
-              rows.filter(
-                (row) =>
-                  row.status === 'finished' && row.config.mode === 'remote',
-              ).length,
-            );
-          };
-          all.onerror = () => {
+          // Any throw (a missing store, an unexpected row shape) resolves 0
+          // so the poll fails fast instead of hanging on a promise that
+          // never settles.
+          try {
+            const all = db
+              .transaction('matches', 'readonly')
+              .objectStore('matches')
+              .getAll();
+            all.onsuccess = () => {
+              db.close();
+              try {
+                const rows = all.result as Array<{
+                  status?: string;
+                  config?: { mode?: string };
+                }>;
+                resolve(
+                  rows.filter(
+                    (row) =>
+                      row.status === 'finished' &&
+                      row.config?.mode === 'remote',
+                  ).length,
+                );
+              } catch {
+                resolve(0);
+              }
+            };
+            all.onerror = () => {
+              db.close();
+              resolve(0);
+            };
+          } catch {
             db.close();
             resolve(0);
-          };
+          }
         };
         open.onerror = () => resolve(0);
       }),
@@ -93,8 +106,17 @@ test('two browsers play a 1-point match over a room link', async ({
   await expect(white.getByText(WAITING)).toBeHidden();
 
   await playRemoteUntilMatchOver(white, black);
-  await expect(white.getByText(/wins the match/).first()).toBeVisible();
-  await expect(black.getByText(/wins the match/).first()).toBeVisible();
+  // Both boards agree on the result: the match-over title (winner and final
+  // score) reads identically on each seat, and a 1-point match ends 1-0 or
+  // better for the winner.
+  const overTitle = (page: Page) =>
+    page.locator('.setup-title', { hasText: /wins the match/ });
+  await expect(overTitle(white)).toBeVisible();
+  await expect(overTitle(black)).toBeVisible();
+  const whiteResult = ((await overTitle(white).textContent()) ?? '').trim();
+  const blackResult = ((await overTitle(black).textContent()) ?? '').trim();
+  expect(whiteResult).toMatch(/^(White|Black) wins the match [1-9]\d*–0$/);
+  expect(blackResult).toBe(whiteResult);
 
   // Both Analyze ledgers list the finished online match.
   for (const page of [white, black]) {
