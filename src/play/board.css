@@ -1272,3 +1272,18 @@
 .play-side .play-controls--autopilot {
   margin-top: 0.75rem;
 }
+
+/* "Play a friend online": the setup card's headline call to action. */
+.play-button--online {
+  align-self: stretch;
+  padding: 0.85rem 1.5rem;
+  font-size: 1.1rem;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+
+.play-button--online:hover:not(:disabled) {
+  filter: brightness(1.1);
+  border-color: var(--accent);
+}

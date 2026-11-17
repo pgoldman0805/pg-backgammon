@@ -531,25 +531,11 @@ export function Play({
       primaryMode === 'computer' ? 'hotseat' : 'computer';
     return (
       <>
-        <button
-          type="button"
-          className="play-button play-button--primary"
-          onClick={() => start(primaryMode)}
-        >
-          {primaryLabel}
-        </button>
-        <button
-          type="button"
-          className="play-button play-button--quiet"
-          onClick={() => start(otherMode)}
-        >
-          {otherMode === 'computer' ? 'Play vs computer' : 'Hot-seat match'}
-        </button>
         {online && (
           <>
             <button
               type="button"
-              className="play-button play-button--quiet"
+              className="play-button play-button--online"
               disabled={creating || setup.gameType === 'money'}
               onClick={() => {
                 void createOnlineGame();
@@ -564,6 +550,20 @@ export function Play({
             )}
           </>
         )}
+        <button
+          type="button"
+          className="play-button play-button--primary"
+          onClick={() => start(primaryMode)}
+        >
+          {primaryLabel}
+        </button>
+        <button
+          type="button"
+          className="play-button play-button--quiet"
+          onClick={() => start(otherMode)}
+        >
+          {otherMode === 'computer' ? 'Play vs computer' : 'Hot-seat match'}
+        </button>
       </>
     );
   };
