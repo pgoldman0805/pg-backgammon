@@ -2,7 +2,8 @@
  * The Play HUD: the two player chips (swatch, pip count and match score) framing
  * a center column that carries the status line, the match caption (length or
  * money, Crawford, the copy-XGID button) and — against the computer — the
- * Tutor-mode and auto-roll switches. Purely presentational: it renders the
+ * Tutor-mode and auto-roll switches; in a remote room, this device's private
+ * link under a disclosure. Purely presentational: it renders the
  * match state the page hands it and raises the two toggles back up.
  */
 
@@ -35,6 +36,7 @@ export function PlayHud({
   autoRollMode,
   onAutoRollChange,
   connection,
+  privateLink = null,
 }: {
   /** Whose decision the moment is, for the active-chip highlight. */
   actor: Player | null;
@@ -52,6 +54,8 @@ export function PlayHud({
   onAutoRollChange: (mode: AutoRollMode) => void;
   /** A remote room's connection, for the presence line; absent otherwise. */
   connection?: ConnectionState | null;
+  /** A remote seat's private link, offered during play; absent otherwise. */
+  privateLink?: string | null;
 }) {
   const remoteLine = connection ? connectionText(connection) : null;
   return (
@@ -123,6 +127,21 @@ export function PlayHud({
             />
             <AutoRollField mode={autoRollMode} onChange={onAutoRollChange} />
           </div>
+        )}
+        {match && privateLink && (
+          <details className="remote-private-link">
+            <summary>Your private link</summary>
+            <p className="remote-note">
+              Opens this game as you on another device. Do not share it.
+            </p>
+            <input
+              className="invite-link"
+              readOnly
+              aria-label="Private link"
+              value={privateLink}
+              onFocus={(event) => event.currentTarget.select()}
+            />
+          </details>
         )}
       </div>
       <div

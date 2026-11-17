@@ -240,6 +240,23 @@ describe('Play in remote mode', () => {
     expect(whiteHelper.getState().match?.phase).toBe('pre-roll');
   });
 
+  it('Black finds a private link in the HUD during play', async () => {
+    const { loop } = await renderSeated('black', scriptedDice(6, 3));
+    await startOpponent(loop, 'white');
+    expect(screen.getByText('White to play 6 and 3.')).toBeInTheDocument();
+    expect(screen.getByText('Your private link')).toBeInTheDocument();
+    const link = screen.getByRole('textbox', { name: 'Private link' });
+    expect((link as HTMLInputElement).value).toBe(
+      `http://test/play/${ROOM}#seat=${loop.blackToken}&side=black`,
+    );
+    expect(link).toHaveAttribute('readonly');
+    expect(
+      screen.getByText(
+        'Opens this game as you on another device. Do not share it.',
+      ),
+    ).toBeInTheDocument();
+  });
+
   it('Black sees the board from the black perspective', async () => {
     const { loop, view } = await renderSeated('black', scriptedDice(6, 3));
     await startOpponent(loop, 'white');
@@ -521,6 +538,25 @@ function renderPage(
 }
 
 describe('resuming and expiry', () => {
+  it('a resumeMatchId naming a remote row goes to its room', async () => {
+    const storage = createMemoryStorage();
+    await storage.put(remoteRow('abc123'));
+    render(
+      <MemoryRouter>
+        <PathProbe />
+        <Play
+          resumeMatchId="row-abc123"
+          remote={{ api: fakeApi(), origin: 'http://test' }}
+          engine={createFakeEngine()}
+          storage={storage}
+        />
+      </MemoryRouter>,
+    );
+    await waitFor(() =>
+      expect(screen.getByTestId('path')).toHaveTextContent('/play/abc123'),
+    );
+  });
+
   it('the resume prompt sends a remote row back to its room URL', async () => {
     const storage = createMemoryStorage();
     await storage.put(remoteRow('abc123'));
@@ -591,6 +627,71 @@ describe('resuming and expiry', () => {
     });
     expect(put).not.toHaveBeenCalled();
     expect((await storage.list())[0].status).toBe('in-progress');
+  });
+});
+
+describe('reopening a finished room', () => {
+  it('keeps exactly one finished row', async () => {
+    const loop = createLoopback({ length: 1 }, scriptedDice(6, 3));
+    await loop.join();
+    const white = bareSession(loop, 'white');
+    const black = bareSession(loop, 'black');
+    await settle(loop);
+    white.dispatch({ type: 'resign', kind: 'single' });
+    await settle(loop);
+    black.dispatch({ type: 'accept-resign' });
+    await settle(loop);
+    const final = white.getState().match;
+    expect(final?.phase).toBe('match-over');
+    expect(loop.host.room.status).toBe('finished');
+    white.dispose();
+    black.dispose();
+    await settle(loop);
+
+    if (!final) {
+      throw new Error('no match');
+    }
+    const storage = createMemoryStorage();
+    await storage.put(
+      snapshotMatch({
+        id: 'finished-row',
+        config: { mode: 'remote', length: 1, roomId: ROOM, localSide: 'white' },
+        match: final,
+        createdAt: 1_000,
+        updatedAt: 2_000,
+      }),
+    );
+    expect((await storage.list())[0].status).toBe('finished');
+    writeSeat(ROOM, { side: 'white', token: loop.whiteToken });
+    render(
+      <MemoryRouter>
+        <Play
+          roomId={ROOM}
+          remote={{
+            api: fakeApi(),
+            transport: loop.transport(),
+            origin: 'http://test',
+          }}
+          engine={createFakeEngine()}
+          storage={storage}
+          opponentStepMs={0}
+        />
+      </MemoryRouter>,
+    );
+    await settle(loop);
+    expect(
+      await screen.findByRole('link', { name: 'Back to Play' }),
+    ).toBeInTheDocument();
+    // A second White socket makes the room send the page a fresh snapshot,
+    // which a begun persister would save as a new row.
+    const again = bareSession(loop, 'white');
+    await settle(loop);
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 600));
+    });
+    again.dispose();
+    const rows = await storage.list();
+    expect(rows.map((row) => row.id)).toEqual(['finished-row']);
   });
 });
 

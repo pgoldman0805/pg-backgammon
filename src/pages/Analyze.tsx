@@ -252,9 +252,14 @@ export function Analyze({
                                 type="button"
                                 className="history-button history-button--primary"
                                 onClick={() =>
-                                  navigate('/', {
-                                    state: { resumeMatchId: stored.id },
-                                  })
+                                  // A remote match resumes in its room; a
+                                  // local board cannot play it.
+                                  stored.config.mode === 'remote' &&
+                                  typeof stored.config.roomId === 'string'
+                                    ? navigate(`/play/${stored.config.roomId}`)
+                                    : navigate('/', {
+                                        state: { resumeMatchId: stored.id },
+                                      })
                                 }
                               >
                                 Resume

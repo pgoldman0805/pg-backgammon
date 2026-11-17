@@ -75,6 +75,11 @@ function PlayProbe() {
   return <p>Play probe: {JSON.stringify(location.state)}</p>;
 }
 
+function RoomProbe() {
+  const location = useLocation();
+  return <p>Room probe: {location.pathname}</p>;
+}
+
 function renderAnalyze(storage: MatchStorage, analyzer?: MatchAnalyzer) {
   render(
     <MemoryRouter initialEntries={['/analyze']}>
@@ -84,6 +89,7 @@ function renderAnalyze(storage: MatchStorage, analyzer?: MatchAnalyzer) {
           element={<Analyze storage={storage} analyzer={analyzer} />}
         />
         <Route path="/" element={<PlayProbe />} />
+        <Route path="/play/:roomId" element={<RoomProbe />} />
       </Routes>
     </MemoryRouter>,
   );
@@ -169,6 +175,26 @@ describe('resuming from history', () => {
     await user.click(await screen.findByRole('button', { name: 'Resume' }));
 
     expect(screen.getByText(/Play probe/)).toHaveTextContent('stored-live');
+  });
+
+  it('returns a remote match to its room instead of a local board', async () => {
+    const user = userEvent.setup();
+    const live = liveMatch();
+    const remote: StoredMatch = {
+      ...live,
+      id: 'stored-remote',
+      config: {
+        length: 5,
+        mode: 'remote',
+        roomId: 'room42',
+        localSide: 'black',
+      },
+    };
+    renderAnalyze(createMemoryStorage([remote]));
+
+    await user.click(await screen.findByRole('button', { name: 'Resume' }));
+
+    expect(screen.getByText(/Room probe/)).toHaveTextContent('/play/room42');
   });
 });
 

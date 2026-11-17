@@ -1043,6 +1043,17 @@
   color: var(--ink-muted);
 }
 
+.remote-private-link {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  text-align: center;
+}
+
+.remote-private-link .invite-link {
+  width: 100%;
+  margin-top: 0.4rem;
+}
+
 .private-link-url {
   display: block;
   margin-top: 0.4rem;

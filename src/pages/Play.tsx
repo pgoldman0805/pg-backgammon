@@ -47,6 +47,7 @@ import {
 } from '../rules';
 import {
   getMatchStorage,
+  isStoredMatch,
   type MatchStorage,
   type StoredMatch,
   useMatchPersistence,
@@ -249,7 +250,9 @@ export function Play({
   );
 
   // A remote match is persisted once per room: continue this room's stored
-  // row if there is one, else begin a new one carrying the room and seat.
+  // row if there is one, else begin a new one carrying the room and seat. A
+  // finished row (any valid row, not only in-progress ones) is final: the
+  // room is only being revisited, so nothing is persisted at all.
   useEffect(() => {
     if (
       !roomId ||
@@ -262,21 +265,29 @@ export function Play({
       return;
     }
     rememberedRoom.current = roomId;
-    const stored = persistence.resumable.find(
-      (row) => row.config.roomId === roomId,
-    );
-    if (stored) {
-      persistence.adopt(stored);
-    } else {
-      persistence.begin({
-        mode: 'remote',
-        length: match.length,
-        roomId,
-        localSide: seated.side,
+    const { length } = match;
+    const localSide = seated.side;
+    void storage
+      .list()
+      .then((rows) =>
+        rows.find((row) => isStoredMatch(row) && row.config.roomId === roomId),
+      )
+      .catch(() => undefined)
+      .then((stored) => {
+        if (
+          rememberedRoom.current !== roomId ||
+          stored?.status === 'finished'
+        ) {
+          return;
+        }
+        if (stored) {
+          persistence.adopt(stored);
+        } else {
+          persistence.begin({ mode: 'remote', length, roomId, localSide });
+        }
       });
-    }
     setSetup((current) => ({ ...current, length: match.length }));
-  }, [roomId, seated, store, match, persistence]);
+  }, [roomId, seated, store, match, persistence, storage]);
 
   // The autoplay controller (spec stories 43-44) acts for every human side —
   // just White vs the computer, both in hot-seat. Its two settings live in
@@ -457,6 +468,13 @@ export function Play({
 
   /** Pick a stored in-progress match back up exactly where it stood. */
   function resume(stored: StoredMatch): void {
+    // A remote row resumes in its room; a local board cannot play it.
+    if (stored.config.mode === 'remote') {
+      if (typeof stored.config.roomId === 'string') {
+        navigate(`/play/${stored.config.roomId}`);
+      }
+      return;
+    }
     if (!stored.state) {
       return;
     }
@@ -857,6 +875,7 @@ export function Play({
         autoRollMode={autoRollMode}
         onAutoRollChange={handleAutoRollChange}
         connection={seated?.connection ?? null}
+        privateLink={seated?.privateLink ?? null}
       />
 
       {match && vsComputer && tutorOn && (
