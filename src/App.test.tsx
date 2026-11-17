@@ -57,6 +57,24 @@ describe('navigation shell', () => {
   });
 });
 
+describe('remote game route', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('routes /play/:roomId to the Play area', async () => {
+    // A 404 from the room API is deterministic: the panel settles on "ended".
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => Promise.resolve(new Response(null, { status: 404 }))),
+    );
+    window.history.replaceState(null, '', '/play/abc123');
+    render(<App />);
+
+    expect(await screen.findByText('This game has ended.')).toBeInTheDocument();
+  });
+});
+
 describe('Learn area (ticket 32)', () => {
   it('reaches the glossary from a single Learn nav entry', async () => {
     const user = userEvent.setup();

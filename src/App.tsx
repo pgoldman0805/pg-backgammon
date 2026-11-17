@@ -5,6 +5,7 @@ import {
   Route,
   Routes,
   useLocation,
+  useParams,
 } from 'react-router-dom';
 // Play is the landing route ('/'): it ships in the entry chunk so the first
 // screen paints without a second round-trip.
@@ -43,7 +44,16 @@ const Settings = lazy(() =>
 function PlayRoute() {
   const location = useLocation();
   const state = location.state as { resumeMatchId?: string } | null;
-  return <Play resumeMatchId={state?.resumeMatchId} />;
+  const { roomId } = useParams<{ roomId: string }>();
+  // The key remounts the page when the room changes, so no stale session
+  // store or remote setup survives from the previous room.
+  return (
+    <Play
+      key={roomId ?? 'local'}
+      roomId={roomId}
+      resumeMatchId={state?.resumeMatchId}
+    />
+  );
 }
 
 const areas = [
@@ -206,6 +216,7 @@ function App() {
         <Suspense fallback={<RouteFallback />}>
           <Routes>
             <Route path="/" element={<PlayRoute />} />
+            <Route path="/play/:roomId" element={<PlayRoute />} />
             <Route path="/analyze" element={<Analyze />} />
             <Route path="/puzzles" element={<Puzzles />} />
             <Route path="/progress" element={<Progress />} />

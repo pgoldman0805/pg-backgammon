@@ -9,8 +9,14 @@ import {
   offerDouble,
   startMatch,
 } from '../../rules';
+import type { StoredMatch } from '../../storage';
 import { scriptedDice } from '../../test/dice';
-import { localSidesFor, setupFromConfig, statusText } from './playFormat';
+import {
+  localSidesFor,
+  setupFromConfig,
+  statusText,
+  storedMatchName,
+} from './playFormat';
 
 describe('localSidesFor', () => {
   it.each([
@@ -34,6 +40,13 @@ describe('setupFromConfig', () => {
     expect(setupFromConfig({ mode: 'imported', length: 7 }).mode).toBe(
       'computer',
     );
+  });
+});
+
+describe('storedMatchName', () => {
+  it('names a remote match as played online', () => {
+    const stored = { config: { mode: 'remote', length: 7 } } as StoredMatch;
+    expect(storedMatchName(stored)).toBe('7-point match online');
   });
 });
 

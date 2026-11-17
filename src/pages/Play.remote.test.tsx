@@ -10,14 +10,14 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useLocation } from 'react-router-dom';
 import { createFakeEngine } from '../engine/fake';
 import { BOARD } from '../play/geometry';
 import { canCommit, destinationsFrom, movableOrigins } from '../play/selectors';
 import { AUTO_FORCED_PLAYS_KEY, AUTO_ROLL_KEY } from '../play/settings';
 import type { RemoteApi } from '../remote/api';
 import type { Side } from '../remote/protocol';
-import { writeSeat } from '../remote/seats';
+import { readSeat, writeSeat } from '../remote/seats';
 import {
   createRemoteSession,
   type RemoteSession,
@@ -28,6 +28,7 @@ import { canDouble, type DiceSource } from '../rules';
 import { createMemoryStorage } from '../storage';
 import { scriptedDice } from '../test/dice';
 import { Play } from './Play';
+import { initialSetup } from './play/playFormat';
 
 const ROOM = 'loop';
 const pace = () => Promise.resolve();
@@ -253,6 +254,94 @@ describe('Play in remote mode', () => {
     await settle(loop);
     expect(
       await screen.findByText('Opponent disconnected'),
+    ).toBeInTheDocument();
+  });
+});
+
+function PathProbe() {
+  return <p data-testid="path">{useLocation().pathname}</p>;
+}
+
+describe('creating a room from the setup card', () => {
+  function renderSetup(api: RemoteApi, gameType: 'match' | 'money' = 'match') {
+    return render(
+      <MemoryRouter>
+        <PathProbe />
+        <Play
+          defaultSetup={{ ...initialSetup(), gameType, length: 5 }}
+          remote={{ api, origin: 'http://test' }}
+          engine={createFakeEngine()}
+          storage={createMemoryStorage()}
+        />
+      </MemoryRouter>,
+    );
+  }
+
+  const ONLINE = { name: 'Play a friend online' };
+
+  it('Play a friend online creates a room, stores the White seat and navigates', async () => {
+    const token = 'a'.repeat(32);
+    const api = {
+      ...fakeApi(),
+      createRoom: vi.fn(() =>
+        Promise.resolve({
+          roomId: 'abc123',
+          side: 'white' as const,
+          seatToken: token,
+        }),
+      ),
+    };
+    renderSetup(api);
+    fireEvent.click(screen.getByRole('button', ONLINE));
+    await waitFor(() =>
+      expect(screen.getByTestId('path')).toHaveTextContent('/play/abc123'),
+    );
+    expect(api.createRoom).toHaveBeenCalledWith(5);
+    expect(readSeat('abc123')).toEqual({ side: 'white', token });
+  });
+
+  it('the online button is disabled for a money session', () => {
+    renderSetup(fakeApi(), 'money');
+    expect(screen.getByRole('button', ONLINE)).toBeDisabled();
+    expect(screen.getByText('Online play is match play only.')).toBeVisible();
+  });
+
+  it('a failed create shows the retry note and stays on the setup card', async () => {
+    renderSetup(fakeApi());
+    fireEvent.click(screen.getByRole('button', ONLINE));
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      "Couldn't create the game. Check your connection and try again.",
+    );
+    expect(screen.getByTestId('path')).toHaveTextContent('/');
+    expect(screen.getByRole('button', ONLINE)).toBeEnabled();
+  });
+});
+
+describe('opening a room by URL', () => {
+  it('a full room shows "already has two players"', async () => {
+    const api: RemoteApi = {
+      ...fakeApi(),
+      getRoom: vi.fn(() =>
+        Promise.resolve({
+          roomId: 'fullroom',
+          config: { length: 3 },
+          status: 'playing' as const,
+          seats: { white: true, black: true },
+        }),
+      ),
+    };
+    render(
+      <MemoryRouter>
+        <Play
+          roomId="fullroom"
+          remote={{ api, origin: 'http://test' }}
+          engine={createFakeEngine()}
+          storage={createMemoryStorage()}
+        />
+      </MemoryRouter>,
+    );
+    expect(
+      await screen.findByText('This game already has two players.'),
     ).toBeInTheDocument();
   });
 });

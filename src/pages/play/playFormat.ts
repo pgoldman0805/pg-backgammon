@@ -161,6 +161,9 @@ export function setupFromConfig(config: MatchConfig): PlaySetup {
 /** One line describing a stored match, e.g. "5-point match vs Casual". */
 export function storedMatchName(stored: StoredMatch): string {
   const { config } = stored;
+  if (config.mode === 'remote') {
+    return `${config.length}-point match online`;
+  }
   const opponentName =
     config.mode === 'hotseat'
       ? 'hot-seat'

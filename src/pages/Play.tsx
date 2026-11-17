@@ -6,7 +6,7 @@ import {
   useState,
   useSyncExternalStore,
 } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAutoAnalysis } from '../analysis';
 import type { Difficulty, Engine } from '../engine';
 import { stepMsFor, useAnimationSpeed } from '../play/animation';
@@ -33,6 +33,7 @@ import {
 import { createPlayStore, type PlayStore } from '../play/store';
 import { createTutor, type Tutor, type TutorState } from '../play/tutor';
 import { createRemoteApi } from '../remote/api';
+import { writeSeat } from '../remote/seats';
 import {
   canDouble,
   canTakeback,
@@ -170,6 +171,9 @@ export function Play({
   const [remote] = useState<RemoteDeps>(
     () => injectedRemote ?? { api: createRemoteApi(), origin: location.origin },
   );
+  const navigate = useNavigate();
+  const [creating, setCreating] = useState(false);
+  const [createError, setCreateError] = useState(false);
   const roomView = useRemoteRoom(roomId, remote);
   const seated = roomView?.kind === 'seated' ? roomView : null;
   const remoteSession = seated?.session ?? null;
@@ -403,6 +407,24 @@ export function Play({
             ? opponent(match.pendingResignation.by)
             : null;
 
+  /** "Play a friend online": make a room, keep the White seat, open its URL. */
+  async function createOnlineGame(): Promise<void> {
+    rememberSetupChoice(setup.difficulty, setup.length);
+    rememberMatchStarted();
+    setCreateError(false);
+    setCreating(true);
+    try {
+      const { roomId: newRoom, seatToken } = await remote.api.createRoom(
+        setup.length,
+      );
+      writeSeat(newRoom, { side: 'white', token: seatToken });
+      navigate(`/play/${newRoom}`);
+    } catch {
+      setCreateError(true);
+      setCreating(false);
+    }
+  }
+
   function start(mode: PlayMode): void {
     // Starting a match counts as "has played before" (ticket 33): the next
     // visit opens on this difficulty and length, not the novice defaults.
@@ -497,7 +519,11 @@ export function Play({
     </>
   );
 
-  const startButtons = (primaryLabel: string, primaryMode: PlayMode) => {
+  const startButtons = (
+    primaryLabel: string,
+    primaryMode: PlayMode,
+    online = false,
+  ) => {
     const otherMode: PlayMode =
       primaryMode === 'computer' ? 'hotseat' : 'computer';
     return (
@@ -516,6 +542,25 @@ export function Play({
         >
           {otherMode === 'computer' ? 'Play vs computer' : 'Hot-seat match'}
         </button>
+        {online && (
+          <>
+            <button
+              type="button"
+              className="play-button play-button--quiet"
+              disabled={creating || setup.gameType === 'money'}
+              onClick={() => {
+                void createOnlineGame();
+              }}
+            >
+              Play a friend online
+            </button>
+            {setup.gameType === 'money' && (
+              <p className="setting-switch-hint">
+                Online play is match play only.
+              </p>
+            )}
+          </>
+        )}
       </>
     );
   };
@@ -557,7 +602,12 @@ export function Play({
             onChange={setTutorOn}
           />
         </div>
-        {startButtons(primaryLabel, primaryMode)}
+        {startButtons(primaryLabel, primaryMode, true)}
+        {createError && (
+          <p className="dialog-note" role="alert">
+            Couldn't create the game. Check your connection and try again.
+          </p>
+        )}
         {/* The preference controls live in Settings (ticket 25); one quiet
             pointer keeps them discoverable from here. */}
         <Link className="setup-settings-link" to="/settings">
