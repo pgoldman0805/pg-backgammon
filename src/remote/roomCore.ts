@@ -47,6 +47,8 @@ export interface RoomState {
   readonly deadline?: number | null;
   /** The side that ran out of time, once the room has finished that way. */
   readonly forfeitBy?: Side | null;
+  /** The side that cancelled the game, once it has been cancelled. */
+  readonly cancelledBy?: Side | null;
 }
 
 export type RoomEffect =
@@ -84,6 +86,7 @@ export function createRoom(
     finishedAt: null,
     deadline: null,
     forfeitBy: null,
+    cancelledBy: null,
   };
 }
 
@@ -155,6 +158,36 @@ function snapshot(
     names: namesOf(room),
     msLeft: msLeft(room, now),
     forfeitBy: room.forfeitBy ?? null,
+    cancelledBy: room.cancelledBy ?? null,
+  };
+}
+
+/**
+ * End the room at a seat's request, whether the opponent has joined or not.
+ * Both seats get a snapshot saying who cancelled. Null when the room has
+ * already finished (nothing to cancel).
+ */
+export function cancelRoom(
+  room: RoomState,
+  by: Side,
+  now: number,
+  presence: Presence,
+): RoomStep | null {
+  if (room.status === 'finished') {
+    return null;
+  }
+  const next: RoomState = {
+    ...room,
+    status: 'finished',
+    finishedAt: now,
+    deadline: null,
+    cancelledBy: by,
+    seq: room.seq + 1,
+  };
+  return {
+    room: next,
+    effects: [{ type: 'broadcast', message: snapshot(next, presence, now) }],
+    changed: true,
   };
 }
 
@@ -204,6 +237,10 @@ export function joinRoom(
   now: number,
 ): RoomStep | { readonly error: 'full' | 'expired' } {
   if (isExpired(room, now)) {
+    return { error: 'expired' };
+  }
+  // A finished (cancelled or forfeited) room is gone to anyone not yet in it.
+  if (room.status === 'finished') {
     return { error: 'expired' };
   }
   if (room.seats.length >= 2) {
@@ -374,7 +411,20 @@ export function summarize(room: RoomState): RoomSummary {
       black: room.seats.some((seat) => seat.side === 'black'),
     },
     names: namesOf(room),
+    toMove: toMoveOf(room),
+    forfeitBy: room.forfeitBy ?? null,
+    cancelledBy: room.cancelledBy ?? null,
   };
+}
+
+function toMoveOf(room: RoomState): Side | 'either' | null {
+  if (room.status !== 'playing' || !room.match) {
+    return null;
+  }
+  const owner = decisionOwner(room.match);
+  return owner === 'white' || owner === 'black' || owner === 'either'
+    ? owner
+    : null;
 }
 
 /** Epoch ms at which the room is gone. */

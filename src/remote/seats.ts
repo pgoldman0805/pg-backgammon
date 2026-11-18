@@ -21,6 +21,27 @@ function isSide(value: unknown): value is Side {
   return value === 'white' || value === 'black';
 }
 
+/** Every seat this device holds, one per room, for the "my games" list. */
+export function listSeats(): { roomId: string; seat: StoredSeat }[] {
+  const found: { roomId: string; seat: StoredSeat }[] = [];
+  try {
+    for (let i = 0; i < localStorage.length; i += 1) {
+      const key = localStorage.key(i);
+      if (!key?.startsWith(SEAT_KEY_PREFIX)) {
+        continue;
+      }
+      const roomId = key.slice(SEAT_KEY_PREFIX.length);
+      const seat = readSeat(roomId);
+      if (seat) {
+        found.push({ roomId, seat });
+      }
+    }
+  } catch {
+    return [];
+  }
+  return found;
+}
+
 export function readSeat(roomId: string): StoredSeat | null {
   let raw: string | null;
   try {

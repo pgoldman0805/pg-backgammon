@@ -21,6 +21,7 @@ import {
   type Side,
 } from './protocol';
 import {
+  cancelRoom,
   expireTurn,
   handleMessage,
   isExpired,
@@ -59,6 +60,11 @@ export interface RoomHost {
    * leaving the room as it was so a later tick retries.
    */
   tick(): Promise<void>;
+  /**
+   * End the room at the request of the seat holding `token`. Rejects when
+   * the save fails, leaving the room as it was.
+   */
+  cancel(token: string): Promise<'cancelled' | 'bad-token' | 'finished'>;
 }
 
 const CLIENT_TYPES: readonly string[] = ['hello', 'act', 'resync'];
@@ -198,6 +204,22 @@ export function createRoomHost(options: RoomHostOptions): RoomHost {
       });
     },
     presence,
+    cancel(token) {
+      return serialize(async () => {
+        const side = seatForToken(room, token);
+        if (!side) {
+          return 'bad-token' as const;
+        }
+        const step = cancelRoom(room, side, options.now(), presence());
+        if (!step) {
+          return 'finished' as const;
+        }
+        await options.save(step.room);
+        room = step.room;
+        route(step.effects);
+        return 'cancelled' as const;
+      });
+    },
     tick() {
       return serialize(async () => {
         const step = expireTurn(room, options.now(), presence());

@@ -92,3 +92,27 @@ describe('joinRoom', () => {
     );
   });
 });
+
+describe('cancelRoom', () => {
+  it('posts the seat token and maps 200, 403, 404 and failures', async () => {
+    const ok = fake(200, {});
+    await expect(
+      createRemoteApi(ok.fetchFn).cancelRoom('r1', 'tok'),
+    ).resolves.toBe('cancelled');
+    expect(ok.calls[0].url).toBe('/api/rooms/r1/cancel');
+    expect(ok.calls[0].init?.method).toBe('POST');
+    expect(ok.calls[0].init?.body).toBe(JSON.stringify({ seatToken: 'tok' }));
+    await expect(
+      createRemoteApi(fake(403, {}).fetchFn).cancelRoom('r1', 'bad'),
+    ).resolves.toBe('forbidden');
+    await expect(
+      createRemoteApi(fake(404, {}).fetchFn).cancelRoom('r1', 'tok'),
+    ).resolves.toBe('gone');
+    await expect(
+      createRemoteApi(fake(409, {}).fetchFn).cancelRoom('r1', 'tok'),
+    ).resolves.toBe('gone');
+    await expect(
+      createRemoteApi(fake(503, {}).fetchFn).cancelRoom('r1', 'tok'),
+    ).rejects.toThrow('cancel-failed:503');
+  });
+});

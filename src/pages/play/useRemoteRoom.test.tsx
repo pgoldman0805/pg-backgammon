@@ -30,6 +30,7 @@ function fakeApi(overrides: Partial<RemoteApi> = {}): RemoteApi {
     createRoom: vi.fn(() => Promise.reject(new Error('unused'))),
     getRoom: vi.fn(() => Promise.resolve(summary())),
     joinRoom: vi.fn(() => Promise.resolve(null)),
+    cancelRoom: vi.fn(() => Promise.resolve('cancelled' as const)),
     ...overrides,
   };
 }

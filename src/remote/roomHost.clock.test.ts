@@ -134,3 +134,50 @@ describe('room host clock', () => {
     expect(host.room.seats[0].name).toBe('x'.repeat(20));
   });
 });
+
+describe('room host cancel', () => {
+  it('cancels by seat token and tells both seats', async () => {
+    const clock = { now: 1000 };
+    const host = makeHost(0, clock);
+    const white = fakeSink();
+    const black = fakeSink();
+    host.attach('w-tok', white.sink);
+    await host.join('b-tok');
+    host.attach('b-tok', black.sink);
+    await expect(host.cancel('b-tok')).resolves.toBe('cancelled');
+    expect(host.room).toMatchObject({
+      status: 'finished',
+      cancelledBy: 'black',
+    });
+    for (const side of [white, black]) {
+      expect(side.received.at(-1)).toMatchObject({
+        type: 'snapshot',
+        cancelledBy: 'black',
+      });
+    }
+  });
+
+  it('refuses an unknown token and leaves the room alone', async () => {
+    const host = makeHost(0, { now: 1000 });
+    await host.join('b-tok');
+    await expect(host.cancel('nope')).resolves.toBe('bad-token');
+    expect(host.room.status).toBe('playing');
+  });
+
+  it('reports a room that already finished, and a failed save', async () => {
+    const clock = { now: 1000 };
+    let failing = false;
+    const host = makeHost(0, clock, async () => {
+      if (failing) {
+        throw new Error('storage down');
+      }
+    });
+    await host.join('b-tok');
+    failing = true;
+    await expect(host.cancel('w-tok')).rejects.toThrow('storage down');
+    expect(host.room.status).toBe('playing');
+    failing = false;
+    await host.cancel('w-tok');
+    await expect(host.cancel('b-tok')).resolves.toBe('finished');
+  });
+});

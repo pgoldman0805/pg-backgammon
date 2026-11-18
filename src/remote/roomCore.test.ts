@@ -297,6 +297,7 @@ describe('handleMessage hello and resync', () => {
             names: { white: null, black: null },
             msLeft: null,
             forfeitBy: null,
+            cancelledBy: null,
           },
         },
       ]);

@@ -13,6 +13,14 @@ export interface RemoteApi {
   getRoom(roomId: string): Promise<RoomSummary | null>;
   /** `'full'` when both seats are taken, null when the room does not exist. */
   joinRoom(roomId: string): Promise<JoinRoomResponse | 'full' | null>;
+  /**
+   * End a game from this seat. `'gone'` when the room no longer exists or
+   * already finished, `'forbidden'` when the token holds no seat.
+   */
+  cancelRoom(
+    roomId: string,
+    seatToken: string,
+  ): Promise<'cancelled' | 'gone' | 'forbidden'>;
 }
 
 export function createRemoteApi(
@@ -59,6 +67,23 @@ export function createRemoteApi(
         throw new Error(`join-failed:${res.status}`);
       }
       return (await res.json()) as JoinRoomResponse;
+    },
+    async cancelRoom(roomId, seatToken) {
+      const res = await fetchFn(url(`/${roomId}/cancel`), {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ seatToken }),
+      });
+      if (res.status === 200) {
+        return 'cancelled';
+      }
+      if (res.status === 403) {
+        return 'forbidden';
+      }
+      if (res.status === 404 || res.status === 409) {
+        return 'gone';
+      }
+      throw new Error(`cancel-failed:${res.status}`);
     },
   };
 }

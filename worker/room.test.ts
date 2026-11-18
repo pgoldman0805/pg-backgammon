@@ -102,6 +102,9 @@ describe('the room Worker and Durable Object', () => {
       status: 'waiting',
       seats: { white: true, black: false },
       names: { white: null, black: null },
+      toMove: null,
+      forfeitBy: null,
+      cancelledBy: null,
     });
   });
 
@@ -350,5 +353,61 @@ describe('move clock and names in the Durable Object', () => {
     ).json();
     expect(summary.names).toEqual({ white: 'Alice', black: null });
     white.ws.close(1000);
+  });
+});
+
+describe('cancelling a room', () => {
+  function cancel(roomId: string, seatToken: unknown): Promise<Response> {
+    return SELF.fetch(`${ORIGIN}/api/rooms/${roomId}/cancel`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ seatToken }),
+    });
+  }
+
+  it('ends the room for both seats and blocks later joins', async () => {
+    const { roomId, seatToken } = await createRoom(1);
+    const white = await connect(roomId, seatToken);
+    const joined: JoinRoomResponse = await (await join(roomId)).json();
+    const black = await connect(roomId, joined.seatToken);
+
+    expect((await cancel(roomId, joined.seatToken)).status).toBe(200);
+    for (const client of [white, black]) {
+      await client.next(
+        (m) => m.type === 'snapshot' && m.cancelledBy === 'black',
+      );
+    }
+    const summary: RoomSummary = await (
+      await SELF.fetch(`${ORIGIN}/api/rooms/${roomId}`)
+    ).json();
+    expect(summary).toMatchObject({
+      status: 'finished',
+      cancelledBy: 'black',
+      toMove: null,
+    });
+    white.ws.close(1000);
+    black.ws.close(1000);
+  });
+
+  it('cancels an invite nobody joined, which then cannot be joined', async () => {
+    const { roomId, seatToken } = await createRoom(1);
+    expect((await cancel(roomId, seatToken)).status).toBe(200);
+    expect((await join(roomId)).status).toBe(404);
+  });
+
+  it('refuses a token that holds no seat, and a second cancel', async () => {
+    const { roomId, seatToken } = await createRoom(1);
+    for (const token of ['f'.repeat(32), '', null, 5]) {
+      expect((await cancel(roomId, token)).status).toBe(403);
+    }
+    expect((await cancel(roomId, seatToken)).status).toBe(200);
+    expect((await cancel(roomId, seatToken)).status).toBe(409);
+  });
+
+  it('answers 404 for a room that does not exist, and 405 for GET', async () => {
+    expect((await cancel('a'.repeat(20), 'x')).status).toBe(404);
+    const { roomId } = await createRoom(1);
+    const get = await SELF.fetch(`${ORIGIN}/api/rooms/${roomId}/cancel`);
+    expect(get.status).toBe(405);
   });
 });

@@ -16,7 +16,7 @@ export interface Env {
 }
 
 const MAX_LENGTH = 25;
-const ROOM_PATH = /^\/api\/rooms\/([a-z2-7]{20})(\/join|\/ws)?$/;
+const ROOM_PATH = /^\/api\/rooms\/([a-z2-7]{20})(\/join|\/cancel|\/ws)?$/;
 
 function json(body: unknown, status: number): Response {
   return Response.json(body, { status });
@@ -69,7 +69,7 @@ export default {
       return json({ error: 'not-found' }, 404);
     }
     const [, roomId, action] = route;
-    const method = action === '/join' ? 'POST' : 'GET';
+    const method = action === '/join' || action === '/cancel' ? 'POST' : 'GET';
     if (request.method !== method) {
       return json({ error: 'method-not-allowed' }, 405);
     }

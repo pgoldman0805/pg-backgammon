@@ -58,6 +58,8 @@ export interface ConnectionState {
   readonly turnEndsAt: number | null;
   /** The side that ran out of time and forfeited, if any. */
   readonly forfeitBy: Side | null;
+  /** The side that cancelled the game, if it was cancelled. */
+  readonly cancelledBy: Side | null;
 }
 
 export interface RemoteSessionOptions {
@@ -142,6 +144,7 @@ export function createRemoteSession(
     names: { white: null, black: null },
     turnEndsAt: null,
     forfeitBy: null,
+    cancelledBy: null,
   };
   let busyTimer: ReturnType<typeof setTimeout> | null = null;
   let disposed = false;
@@ -272,6 +275,7 @@ export function createRemoteSession(
           names: message.names ?? connection.names,
           turnEndsAt: endsAt(message.msLeft),
           forfeitBy: message.forfeitBy ?? null,
+          cancelledBy: message.cancelledBy ?? null,
         });
         break;
       case 'applied':

@@ -89,6 +89,9 @@ export class RoomObject extends DurableObject<Env> {
     if (url.pathname.endsWith('/join')) {
       return this.join(host);
     }
+    if (url.pathname.endsWith('/cancel')) {
+      return this.cancel(host, request);
+    }
     return json(summarize(host.room));
   }
 
@@ -174,6 +177,31 @@ export class RoomObject extends DurableObject<Env> {
       }
     }
     return this.host;
+  }
+
+  /** End the room at a seat's request; the body carries the seat token. */
+  private async cancel(host: RoomHost, request: Request): Promise<Response> {
+    let token: unknown;
+    try {
+      token = ((await request.json()) as { seatToken?: unknown }).seatToken;
+    } catch {
+      token = undefined;
+    }
+    if (typeof token !== 'string') {
+      return json({ error: 'forbidden' }, 403);
+    }
+    try {
+      const result = await host.cancel(token);
+      await this.ctx.storage.setAlarm(wakeAt(host.room));
+      if (result === 'bad-token') {
+        return json({ error: 'forbidden' }, 403);
+      }
+      return result === 'finished'
+        ? json({ error: 'finished' }, 409)
+        : json({ ok: true });
+    } catch {
+      return json({ error: 'busy' }, 503);
+    }
   }
 
   private async join(host: RoomHost): Promise<Response> {

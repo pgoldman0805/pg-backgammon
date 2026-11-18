@@ -1339,3 +1339,83 @@
 .turn-clock--urgent {
   color: var(--accent);
 }
+
+/* Whose turn it is in a remote game. */
+.turn-indicator {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--ink-muted);
+}
+
+.turn-indicator--yours {
+  color: var(--accent);
+}
+
+/* The setup card's list of this device's online games. */
+.online-games {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.online-games-title {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.online-games-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.online-game {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.online-game-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.online-game-match {
+  font-weight: 600;
+}
+
+.online-game-status {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+.online-game-status--yours {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.online-game-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.online-game-confirm {
+  font-size: 0.85rem;
+}

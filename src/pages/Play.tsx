@@ -60,6 +60,7 @@ import {
 } from '../storage';
 import { playerName } from '../ui/format';
 import { MoveTimerField, NameField } from './play/OnlineFields';
+import { OnlineGames } from './play/OnlineGames';
 import { PlayDialog } from './play/PlayDialog';
 import { PlayHud } from './play/PlayHud';
 import {
@@ -91,6 +92,7 @@ import {
 import { RemotePanel } from './play/RemotePanel';
 import { EvalBar, FeedbackNote } from './play/tutorSurfaces';
 import { type RemoteDeps, useRemoteRoom } from './play/useRemoteRoom';
+import { useTurnTitle } from './play/useTurnTitle';
 import '../play/board.css';
 
 export interface PlayProps {
@@ -441,6 +443,11 @@ export function Play({
           : phase === 'resign-offered' && match?.pendingResignation
             ? opponent(match.pendingResignation.by)
             : null;
+  useTurnTitle(
+    seated != null &&
+      seated.connection.roomStatus === 'playing' &&
+      actor === seated.side,
+  );
 
   /** "Play a friend online": make a room, keep the White seat, open its URL. */
   async function createOnlineGame(): Promise<void> {
@@ -668,6 +675,7 @@ export function Play({
       <div className="setup-card">
         <p className="setup-title">{title}</p>
         {resumePrompt}
+        <OnlineGames api={remote.api} />
         {setupPickers}
         <div className="setting-switches">
           <SettingSwitch
@@ -914,7 +922,11 @@ export function Play({
         connection={seated?.connection ?? null}
         privateLink={seated?.privateLink ?? null}
         onAbandon={
-          opponentGone || seated?.connection.forfeitBy ? abandonGame : null
+          opponentGone ||
+          seated?.connection.forfeitBy ||
+          seated?.connection.cancelledBy
+            ? abandonGame
+            : null
         }
         localSide={seated?.side ?? null}
       />

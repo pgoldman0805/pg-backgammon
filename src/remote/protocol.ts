@@ -64,6 +64,8 @@ export type ServerMessage =
       msLeft?: number | null;
       /** The side that ran out of time and forfeited, if any. */
       forfeitBy?: Side | null;
+      /** The side that cancelled the game, if it was cancelled. */
+      cancelledBy?: Side | null;
     }
   | {
       type: 'applied';
@@ -83,6 +85,10 @@ export interface RoomSummary {
   readonly status: RoomStatus;
   readonly seats: Presence;
   readonly names?: PlayerNames;
+  /** Whose decision it is while playing; 'either' between games, else null. */
+  readonly toMove?: Side | 'either' | null;
+  readonly forfeitBy?: Side | null;
+  readonly cancelledBy?: Side | null;
 }
 
 export interface CreateRoomResponse {

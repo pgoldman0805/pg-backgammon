@@ -76,6 +76,15 @@ export function PlayHud({
     actor === localSide
       ? connection.turnEndsAt
       : null;
+  const turnLine =
+    connection &&
+    connection.roomStatus === 'playing' &&
+    localSide !== null &&
+    (actor === 'white' || actor === 'black')
+      ? actor === localSide
+        ? 'Your turn'
+        : `Waiting for ${nameOf(actor)}`
+      : null;
   return (
     <div className="play-hud">
       <div
@@ -107,6 +116,13 @@ export function PlayHud({
             {remoteLine}
           </p>
         )}
+        {turnLine && (
+          <p
+            className={`turn-indicator${actor === localSide ? ' turn-indicator--yours' : ''}`}
+          >
+            {turnLine}
+          </p>
+        )}
         {clockEndsAt !== null && <TurnClock endsAt={clockEndsAt} />}
         {onAbandon && (
           <button
@@ -114,7 +130,9 @@ export function PlayHud({
             className="play-button play-button--quiet"
             onClick={onAbandon}
           >
-            {connection?.forfeitBy ? 'Leave game' : 'Abandon game'}
+            {connection?.forfeitBy || connection?.cancelledBy
+              ? 'Leave game'
+              : 'Abandon game'}
           </button>
         )}
         {match && (
@@ -215,6 +233,13 @@ function connectionText(
   connection: ConnectionState,
   localSide: Side | null,
 ): string | null {
+  if (connection.cancelledBy) {
+    if (connection.cancelledBy === localSide) {
+      return 'You cancelled the game.';
+    }
+    const who = connection.names[connection.cancelledBy] ?? 'Your opponent';
+    return `${who} cancelled the game.`;
+  }
   if (connection.forfeitBy) {
     if (connection.forfeitBy === localSide) {
       return 'You ran out of time.';
