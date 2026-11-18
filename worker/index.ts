@@ -5,6 +5,7 @@
  * assets binding before this runs for every path outside /api/*.
  */
 
+import { MOVE_SECONDS_PRESETS, type RoomConfig } from '../src/remote/protocol';
 import { newRoomId } from './ids';
 import type { RoomObject } from './room';
 
@@ -28,7 +29,10 @@ async function createRoom(request: Request, env: Env): Promise<Response> {
   } catch {
     return json({ error: 'bad-request' }, 400);
   }
-  const length = (body as { length?: unknown } | null)?.length;
+  const { length, moveSeconds } = (body ?? {}) as {
+    length?: unknown;
+    moveSeconds?: unknown;
+  };
   if (
     typeof length !== 'number' ||
     !Number.isInteger(length) ||
@@ -37,9 +41,18 @@ async function createRoom(request: Request, env: Env): Promise<Response> {
   ) {
     return json({ error: 'bad-request' }, 400);
   }
+  // Absent means no clock (an older client); present must be a known preset.
+  if (
+    moveSeconds !== undefined &&
+    !(MOVE_SECONDS_PRESETS as readonly unknown[]).includes(moveSeconds)
+  ) {
+    return json({ error: 'bad-request' }, 400);
+  }
+  const config: RoomConfig =
+    typeof moveSeconds === 'number' ? { length, moveSeconds } : { length };
   const roomId = newRoomId();
   const stub = env.ROOMS.get(env.ROOMS.idFromName(roomId));
-  const created = await stub.create(roomId, { length });
+  const created = await stub.create(roomId, config);
   return json(created, 201);
 }
 

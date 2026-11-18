@@ -21,6 +21,7 @@ import {
   type Side,
 } from './protocol';
 import {
+  expireTurn,
   handleMessage,
   isExpired,
   joinRoom,
@@ -52,6 +53,12 @@ export interface RoomHost {
     blackToken: string,
   ): Promise<JoinRoomResponse | { error: 'full' | 'expired' }>;
   presence(): Presence;
+  /**
+   * Settle a turn whose clock has run out (the Durable Object alarm calls
+   * this); a no-op when none has. Rejects when the forfeit cannot be saved,
+   * leaving the room as it was so a later tick retries.
+   */
+  tick(): Promise<void>;
 }
 
 const CLIENT_TYPES: readonly string[] = ['hello', 'act', 'resync'];
@@ -191,5 +198,16 @@ export function createRoomHost(options: RoomHostOptions): RoomHost {
       });
     },
     presence,
+    tick() {
+      return serialize(async () => {
+        const step = expireTurn(room, options.now(), presence());
+        if (!step) {
+          return;
+        }
+        await options.save(step.room);
+        room = step.room;
+        route(step.effects);
+      });
+    },
   };
 }

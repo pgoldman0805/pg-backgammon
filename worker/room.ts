@@ -18,11 +18,11 @@ import {
 } from '../src/remote/protocol';
 import {
   createRoom,
-  expiryAt,
   isExpired,
   type RoomState,
   seatForToken,
   summarize,
+  wakeAt,
 } from '../src/remote/roomCore';
 import {
   createRoomHost,
@@ -72,7 +72,7 @@ export class RoomObject extends DurableObject<Env> {
     const seatToken = newSeatToken();
     const room = createRoom(roomId, config, seatToken, Date.now());
     await this.ctx.storage.put(ROOM_KEY, room);
-    await this.ctx.storage.setAlarm(expiryAt(room));
+    await this.ctx.storage.setAlarm(wakeAt(room));
     this.host = this.makeHost(room);
     return { roomId, side: 'white', seatToken };
   }
@@ -103,11 +103,8 @@ export class RoomObject extends DurableObject<Env> {
     }
     const raw =
       typeof message === 'string' ? message : new TextDecoder().decode(message);
-    const before = host.room.status;
     await host.message(sink, raw);
-    if (before !== 'finished' && host.room.status === 'finished') {
-      await this.ctx.storage.setAlarm(expiryAt(host.room));
-    }
+    await this.ctx.storage.setAlarm(wakeAt(host.room));
   }
 
   async webSocketClose(ws: WebSocket): Promise<void> {
@@ -124,7 +121,10 @@ export class RoomObject extends DurableObject<Env> {
       return;
     }
     if (!isExpired(host.room, Date.now())) {
-      await this.ctx.storage.setAlarm(expiryAt(host.room));
+      // A turn clock may have run out: settle it, then wait for the next
+      // thing (the next turn's deadline or the room's expiry).
+      await host.tick();
+      await this.ctx.storage.setAlarm(wakeAt(host.room));
       return;
     }
     for (const ws of this.ctx.getWebSockets()) {
@@ -188,6 +188,7 @@ export class RoomObject extends DurableObject<Env> {
         ? json({ error: 'full' }, 409)
         : json({ error: 'not-found' }, 404);
     }
+    await this.ctx.storage.setAlarm(wakeAt(host.room));
     return json(result);
   }
 

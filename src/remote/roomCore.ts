@@ -9,9 +9,11 @@
 
 import { decisionOwner, reduceMatch } from '../play/reduce';
 import type { DiceSource, Die, MatchState } from '../rules';
+import { sanitizeName } from './names';
 import {
   type ClientMessage,
   FINISHED_TTL_MS,
+  type PlayerNames,
   type Presence,
   ROOM_TTL_MS,
   type RoomConfig,
@@ -19,11 +21,14 @@ import {
   type RoomSummary,
   type ServerMessage,
   type Side,
+  WAITING_TTL_MS,
 } from './protocol';
 
 export interface Seat {
   readonly side: Side;
   readonly token: string;
+  /** Cosmetic display name, set from the seat's hello. */
+  readonly name?: string;
 }
 
 export interface RoomState {
@@ -37,6 +42,11 @@ export interface RoomState {
   readonly lastActivity: number;
   /** Epoch ms the match ended, or null while it is still going. */
   readonly finishedAt: number | null;
+  /** Epoch ms the mover must act by; null when there is no running clock.
+   * Absent on records stored before the clock existed (same as null). */
+  readonly deadline?: number | null;
+  /** The side that ran out of time, once the room has finished that way. */
+  readonly forfeitBy?: Side | null;
 }
 
 export type RoomEffect =
@@ -72,6 +82,8 @@ export function createRoom(
     status: 'waiting',
     lastActivity: now,
     finishedAt: null,
+    deadline: null,
+    forfeitBy: null,
   };
 }
 
@@ -97,13 +109,90 @@ export function seatForToken(room: RoomState, token: string): Side | null {
   return room.seats.find((seat) => seat.token === token)?.side ?? null;
 }
 
-function snapshot(room: RoomState, presence: Presence): ServerMessage {
+export function namesOf(room: RoomState): PlayerNames {
+  const nameFor = (side: Side) =>
+    room.seats.find((seat) => seat.side === side)?.name ?? null;
+  return { white: nameFor('white'), black: nameFor('black') };
+}
+
+/** Ms left on the mover's clock at `now`, or null when no clock runs. */
+export function msLeft(room: RoomState, now: number): number | null {
+  const deadline = room.deadline ?? null;
+  return deadline === null ? null : Math.max(0, deadline - now);
+}
+
+/**
+ * The deadline after the decision moved from `before` to the match's owner: a fresh
+ * allowance whenever a different player takes the decision (or none was
+ * running), none once nobody is on the move.
+ */
+function deadlineFor(
+  room: RoomState,
+  match: MatchState | null,
+  before: ReturnType<typeof decisionOwner> | undefined,
+  now: number,
+): number | null {
+  const seconds = room.config.moveSeconds ?? 0;
+  const after = match ? decisionOwner(match) : null;
+  if (seconds <= 0 || (after !== 'white' && after !== 'black')) {
+    return null;
+  }
+  const running = room.deadline ?? null;
+  return before === after && running !== null ? running : now + seconds * 1000;
+}
+
+function snapshot(
+  room: RoomState,
+  presence: Presence,
+  now: number,
+): ServerMessage {
   return {
     type: 'snapshot',
     seq: room.seq,
     match: room.match,
     status: room.status,
     presence,
+    names: namesOf(room),
+    msLeft: msLeft(room, now),
+    forfeitBy: room.forfeitBy ?? null,
+  };
+}
+
+/**
+ * Forfeit the player on the move when their clock has run out: the room
+ * finishes, the clock stops, and both seats get a snapshot. Null when no
+ * clock is running or it has not yet run out.
+ */
+export function expireTurn(
+  room: RoomState,
+  now: number,
+  presence: Presence,
+): RoomStep | null {
+  const deadline = room.deadline ?? null;
+  if (
+    room.status !== 'playing' ||
+    !room.match ||
+    deadline === null ||
+    now < deadline
+  ) {
+    return null;
+  }
+  const owner = decisionOwner(room.match);
+  if (owner !== 'white' && owner !== 'black') {
+    return null;
+  }
+  const next: RoomState = {
+    ...room,
+    status: 'finished',
+    finishedAt: now,
+    deadline: null,
+    forfeitBy: owner,
+    seq: room.seq + 1,
+  };
+  return {
+    room: next,
+    effects: [{ type: 'broadcast', message: snapshot(next, presence, now) }],
+    changed: true,
   };
 }
 
@@ -133,12 +222,16 @@ export function joinRoom(
     status: 'playing',
     lastActivity: now,
   };
+  const started: RoomState = {
+    ...next,
+    deadline: deadlineFor(next, match, undefined, now),
+  };
   return {
-    room: next,
+    room: started,
     effects: [
       {
         type: 'broadcast',
-        message: snapshot(next, { white: true, black: true }),
+        message: snapshot(started, { white: true, black: true }, now),
       },
     ],
     changed: true,
@@ -171,13 +264,49 @@ export function handleMessage(
   now: number,
   presence: Presence,
 ): RoomStep {
+  // The server's clock is the authority: a late frame of any kind settles
+  // the lapsed turn before it is looked at.
+  const lapsed = expireTurn(room, now, presence);
+  if (lapsed) {
+    return lapsed;
+  }
   switch (message.type) {
-    case 'hello':
+    case 'hello': {
+      const name = sanitizeName(message.name);
+      const current = room.seats.find((seat) => seat.side === from)?.name;
+      if (!name || name === current) {
+        return {
+          room,
+          effects: [
+            { type: 'send', to: from, message: snapshot(room, presence, now) },
+          ],
+          changed: false,
+        };
+      }
+      const named: RoomState = {
+        ...room,
+        seats: room.seats.map((seat) =>
+          seat.side === from ? { ...seat, name } : seat,
+        ),
+      };
+      return {
+        room: named,
+        effects: [
+          { type: 'send', to: from, message: snapshot(named, presence, now) },
+          {
+            type: 'send',
+            to: from === 'white' ? 'black' : 'white',
+            message: { type: 'names', names: namesOf(named) },
+          },
+        ],
+        changed: true,
+      };
+    }
     case 'resync':
       return {
         room,
         effects: [
-          { type: 'send', to: from, message: snapshot(room, presence) },
+          { type: 'send', to: from, message: snapshot(room, presence, now) },
         ],
         changed: false,
       };
@@ -204,13 +333,17 @@ export function handleMessage(
     return reject(room, from, 'illegal');
   }
   const over = match.phase === 'match-over';
-  const next: RoomState = {
+  const moved: RoomState = {
     ...room,
     match,
     seq: room.seq + 1,
     lastActivity: now,
     status: over ? 'finished' : room.status,
     finishedAt: over ? now : room.finishedAt,
+  };
+  const next: RoomState = {
+    ...moved,
+    deadline: over ? null : deadlineFor(moved, match, owner, now),
   };
   return {
     room: next,
@@ -223,6 +356,7 @@ export function handleMessage(
           side: from,
           action,
           dice: recorder.drawn,
+          msLeft: msLeft(next, now),
         },
       },
     ],
@@ -239,16 +373,31 @@ export function summarize(room: RoomState): RoomSummary {
       white: room.seats.some((seat) => seat.side === 'white'),
       black: room.seats.some((seat) => seat.side === 'black'),
     },
+    names: namesOf(room),
   };
 }
 
 /** Epoch ms at which the room is gone. */
 export function expiryAt(room: RoomState): number {
-  return room.status === 'finished' && room.finishedAt !== null
-    ? room.finishedAt + FINISHED_TTL_MS
-    : room.lastActivity + ROOM_TTL_MS;
+  if (room.status === 'finished' && room.finishedAt !== null) {
+    return room.finishedAt + FINISHED_TTL_MS;
+  }
+  // An invite nobody has taken lapses sooner than a game in progress.
+  return (
+    room.lastActivity +
+    (room.status === 'waiting' ? WAITING_TTL_MS : ROOM_TTL_MS)
+  );
 }
 
 export function isExpired(room: RoomState, now: number): boolean {
   return now >= expiryAt(room);
+}
+
+/** Epoch ms of the next thing the room must do on its own: a turn clock
+ * running out, or the room expiring, whichever comes first. */
+export function wakeAt(room: RoomState): number {
+  const deadline = room.deadline ?? null;
+  return deadline === null
+    ? expiryAt(room)
+    : Math.min(deadline, expiryAt(room));
 }

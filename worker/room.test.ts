@@ -21,11 +21,14 @@ import type { RoomState } from '../src/remote/roomCore';
 
 const ORIGIN = 'https://example.com';
 
-async function createRoom(length = 1): Promise<CreateRoomResponse> {
+async function createRoom(
+  length = 1,
+  extra: Record<string, unknown> = {},
+): Promise<CreateRoomResponse> {
   const response = await SELF.fetch(`${ORIGIN}/api/rooms`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ length }),
+    body: JSON.stringify({ length, ...extra }),
   });
   expect(response.status).toBe(201);
   return response.json();
@@ -98,6 +101,7 @@ describe('the room Worker and Durable Object', () => {
       config: { length: 3 },
       status: 'waiting',
       seats: { white: true, black: false },
+      names: { white: null, black: null },
     });
   });
 
@@ -219,6 +223,7 @@ describe('the room Worker and Durable Object', () => {
       side: owner,
       action,
       dice: [],
+      msLeft: null,
     });
     white.ws.close(1000);
     black.ws.close(1000);
@@ -269,5 +274,81 @@ describe('the room Worker and Durable Object', () => {
       ...(await state.storage.list()).keys(),
     ]);
     expect(after).toEqual([]);
+  });
+});
+
+describe('move clock and names in the Durable Object', () => {
+  it('stores a valid moveSeconds and rejects others with 400', async () => {
+    const created = await createRoom(3, { moveSeconds: 30 });
+    const summary: RoomSummary = await (
+      await SELF.fetch(`${ORIGIN}/api/rooms/${created.roomId}`)
+    ).json();
+    expect(summary.config).toEqual({ length: 3, moveSeconds: 30 });
+
+    for (const moveSeconds of [7, -15, 30.5, '30', null, 100000]) {
+      const response = await SELF.fetch(`${ORIGIN}/api/rooms`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ length: 3, moveSeconds }),
+      });
+      expect(response.status).toBe(400);
+    }
+  });
+
+  it('arms the alarm for the turn deadline once Black joins', async () => {
+    const { roomId } = await createRoom(1, { moveSeconds: 15 });
+    const stub = env.ROOMS.get(env.ROOMS.idFromName(roomId));
+    await join(roomId);
+    const { alarm, deadline } = await runInDurableObject(
+      stub,
+      async (_instance, state) => ({
+        alarm: await state.storage.getAlarm(),
+        deadline: (await state.storage.get<RoomState>('room'))?.deadline,
+      }),
+    );
+    expect(deadline).toBeGreaterThan(Date.now());
+    expect(alarm).toBe(deadline);
+  });
+
+  it('forfeits the mover when the alarm fires past the deadline', async () => {
+    const { roomId, seatToken } = await createRoom(1, { moveSeconds: 15 });
+    const white = await connect(roomId, seatToken);
+    const joined: JoinRoomResponse = await (await join(roomId)).json();
+    const stub = env.ROOMS.get(env.ROOMS.idFromName(roomId));
+    // The opening roll is random: whoever is on move is the one who forfeits.
+    const mover = await runInDurableObject(stub, async (_instance, state) => {
+      const room = await state.storage.get<RoomState>('room');
+      await state.storage.put('room', { ...room, deadline: Date.now() - 1 });
+      return room?.match ? decisionOwner(room.match) : null;
+    });
+    await evictDurableObject(stub);
+
+    expect(await runDurableObjectAlarm(stub)).toBe(true);
+    const stored = await runInDurableObject(stub, (_instance, state) =>
+      state.storage.get<RoomState>('room'),
+    );
+    expect(stored).toMatchObject({ status: 'finished', forfeitBy: mover });
+    const summary: RoomSummary = await (
+      await SELF.fetch(`${ORIGIN}/api/rooms/${roomId}`)
+    ).json();
+    expect(summary.status).toBe('finished');
+    expect(joined.side).toBe('black');
+    white.ws.close(1000);
+  });
+
+  it('keeps names across hibernation and shows the host in the summary', async () => {
+    const { roomId, seatToken } = await createRoom(1);
+    const white = await connect(roomId, seatToken);
+    white.send({ type: 'hello', version: PROTOCOL_VERSION, name: 'Alice' });
+    await white.next(
+      (m) => m.type === 'snapshot' && m.names?.white === 'Alice',
+    );
+    const stub = env.ROOMS.get(env.ROOMS.idFromName(roomId));
+    await evictDurableObject(stub);
+    const summary: RoomSummary = await (
+      await SELF.fetch(`${ORIGIN}/api/rooms/${roomId}`)
+    ).json();
+    expect(summary.names).toEqual({ white: 'Alice', black: null });
+    white.ws.close(1000);
   });
 });

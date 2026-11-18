@@ -135,6 +135,7 @@ describe('handleMessage act', () => {
           side: 'white',
           action: { type: 'movement', from: 24, die: 6 },
           dice: [],
+          msLeft: null,
         },
       },
     ]);
@@ -293,6 +294,9 @@ describe('handleMessage hello and resync', () => {
             match: room.match,
             status: 'playing',
             presence: both,
+            names: { white: null, black: null },
+            msLeft: null,
+            forfeitBy: null,
           },
         },
       ]);

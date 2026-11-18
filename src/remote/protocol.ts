@@ -16,6 +16,20 @@ export type Side = Player;
 
 export interface RoomConfig {
   readonly length: number;
+  /** Seconds a player has for each of their turns; absent or 0 means no clock. */
+  readonly moveSeconds?: number;
+}
+
+/** The per-turn clock choices offered at creation, in seconds (0 = off). */
+export const MOVE_SECONDS_PRESETS = [0, 15, 30, 60, 120] as const;
+export const DEFAULT_MOVE_SECONDS = 30;
+
+export const MAX_NAME_LENGTH = 20;
+
+/** Display names by side; null until that player has set one. */
+export interface PlayerNames {
+  readonly white: string | null;
+  readonly black: string | null;
 }
 
 export type RoomStatus = 'waiting' | 'playing' | 'finished' | 'expired';
@@ -33,7 +47,7 @@ export type RejectReason =
   | 'busy';
 
 export type ClientMessage =
-  | { type: 'hello'; version: number }
+  | { type: 'hello'; version: number; name?: string }
   | { type: 'act'; action: PlayAction }
   | { type: 'resync' };
 
@@ -44,6 +58,12 @@ export type ServerMessage =
       match: MatchState | null;
       status: RoomStatus;
       presence: Presence;
+      /** Newer fields are optional so an older cached client keeps working. */
+      names?: PlayerNames;
+      /** Ms left on the mover's turn clock, null when there is no running clock. */
+      msLeft?: number | null;
+      /** The side that ran out of time and forfeited, if any. */
+      forfeitBy?: Side | null;
     }
   | {
       type: 'applied';
@@ -51,15 +71,18 @@ export type ServerMessage =
       side: Side;
       action: PlayAction;
       dice: readonly Die[];
+      msLeft?: number | null;
     }
   | { type: 'rejected'; seq: number; reason: RejectReason }
-  | { type: 'presence'; presence: Presence };
+  | { type: 'presence'; presence: Presence }
+  | { type: 'names'; names: PlayerNames };
 
 export interface RoomSummary {
   readonly roomId: string;
   readonly config: RoomConfig;
   readonly status: RoomStatus;
   readonly seats: Presence;
+  readonly names?: PlayerNames;
 }
 
 export interface CreateRoomResponse {
@@ -79,4 +102,6 @@ export const CLOSE_EXPIRED = 4003;
 export const CLOSE_FULL = 4004;
 
 export const ROOM_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+/** An invite nobody has accepted lapses sooner than a game in progress. */
+export const WAITING_TTL_MS = 24 * 60 * 60 * 1000;
 export const FINISHED_TTL_MS = 24 * 60 * 60 * 1000;
