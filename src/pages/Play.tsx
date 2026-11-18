@@ -902,7 +902,7 @@ export function Play({
       <h1>Play</h1>
       {/* Ticket 24: portrait phones see a one-line nudge toward the play
           orientation; CSS keeps it off every other viewport. */}
-      <p className="rotate-hint">
+      <p className={`rotate-hint${roomId ? ' rotate-hint--remote' : ''}`}>
         Turn your phone sideways for a bigger board.
       </p>
       <PlayHud

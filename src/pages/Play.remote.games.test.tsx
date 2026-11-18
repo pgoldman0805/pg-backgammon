@@ -104,6 +104,13 @@ describe('turn indicators', () => {
     expect(screen.getByText('Waiting for Alice')).toBeVisible();
   });
 
+  it('groups the turn text and countdown in one row for phones', async () => {
+    await renderSeated('white');
+    expect(
+      document.querySelector('.play-hud--remote .turn-row .turn-indicator'),
+    ).not.toBeNull();
+  });
+
   it('restores the tab title when the game is left', async () => {
     const { view } = await renderSeated('white');
     expect(document.title).toContain('Your turn');

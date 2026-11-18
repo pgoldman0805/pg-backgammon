@@ -86,7 +86,7 @@ export function PlayHud({
         : `Waiting for ${nameOf(actor)}`
       : null;
   return (
-    <div className="play-hud">
+    <div className={`play-hud${connection ? ' play-hud--remote' : ''}`}>
       <div
         className={`player-chip ${actor === 'white' ? 'player-chip--active' : ''}`}
       >
@@ -116,14 +116,18 @@ export function PlayHud({
             {remoteLine}
           </p>
         )}
-        {turnLine && (
-          <p
-            className={`turn-indicator${actor === localSide ? ' turn-indicator--yours' : ''}`}
-          >
-            {turnLine}
-          </p>
+        {(turnLine || clockEndsAt !== null) && (
+          <div className="turn-row">
+            {turnLine && (
+              <p
+                className={`turn-indicator${actor === localSide ? ' turn-indicator--yours' : ''}`}
+              >
+                {turnLine}
+              </p>
+            )}
+            {clockEndsAt !== null && <TurnClock endsAt={clockEndsAt} />}
+          </div>
         )}
-        {clockEndsAt !== null && <TurnClock endsAt={clockEndsAt} />}
         {onAbandon && (
           <button
             type="button"
