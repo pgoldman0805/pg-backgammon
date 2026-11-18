@@ -29,13 +29,24 @@ export function createLoopback(
     save?: (room: RoomState) => Promise<void>;
     /** The room's clock; defaults to a fixed instant. */
     now?: () => number;
+    /**
+     * Rewrites the freshly created room before the host starts, to begin
+     * from a prepared position (given both seat tokens).
+     */
+    prepare?: (
+      room: RoomState,
+      tokens: { white: string; black: string },
+    ) => RoomState;
   } = {},
 ): Loopback {
   const whiteToken = 'white-token';
   const blackToken = 'black-token';
   const now = options.now ?? (() => 1_000_000);
   const host = createRoomHost({
-    room: createRoom('loop', config, whiteToken, now()),
+    room: (options.prepare ?? ((room) => room))(
+      createRoom('loop', config, whiteToken, now()),
+      { white: whiteToken, black: blackToken },
+    ),
     dice,
     now,
     save: options.save ?? (() => Promise.resolve()),

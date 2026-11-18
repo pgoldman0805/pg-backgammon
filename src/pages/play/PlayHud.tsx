@@ -167,14 +167,16 @@ export function PlayHud({
             )}
           </p>
         )}
-        {match && vsComputer && (
+        {match && (vsComputer || connection) && (
           <div className="setting-switches">
-            <SettingSwitch
-              label="Tutor mode"
-              hint={TUTOR_HINT}
-              on={tutorOn}
-              onChange={onTutorChange}
-            />
+            {vsComputer && (
+              <SettingSwitch
+                label="Tutor mode"
+                hint={TUTOR_HINT}
+                on={tutorOn}
+                onChange={onTutorChange}
+              />
+            )}
             <AutoRollField mode={autoRollMode} onChange={onAutoRollChange} />
           </div>
         )}

@@ -321,17 +321,22 @@ export function Play({
     };
   }, [store, localSides, stepMs]);
 
-  // The race autopilot (spec story 59) lives alongside a vs-computer match
-  // only — in hot-seat its button never appears and no controller runs.
+  // The race autopilot (spec story 59) plays the local seat of a vs-computer
+  // or remote match — in hot-seat its button never appears and no controller
+  // runs. In a remote room its moves travel through the session like a
+  // click would, and it only ever acts on this seat's own turns.
+  const autopilotPlayer: Player | null = vsComputer
+    ? 'white'
+    : (seated?.side ?? null);
   useEffect(() => {
-    if (!vsComputer) {
+    if (!autopilotPlayer) {
       setAutopilotOn(false);
       return;
     }
     const autopilot = createRaceAutopilot({
       store,
       engine,
-      player: 'white',
+      player: autopilotPlayer,
       stepMs,
     });
     autopilotRef.current = autopilot;
@@ -345,7 +350,7 @@ export function Play({
       autopilotRef.current = null;
       setAutopilotOn(false);
     };
-  }, [store, engine, vsComputer, stepMs]);
+  }, [store, engine, autopilotPlayer, stepMs]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: selection is per-position; any turn change (movement, undo, commit) invalidates it
   useEffect(() => {
@@ -400,7 +405,7 @@ export function Play({
   // game still live. Everywhere else — contact, hot-seat, a settled game —
   // the button stays out of the controls.
   const autopilotAvailable =
-    vsComputer &&
+    (vsComputer || seated != null) &&
     match != null &&
     phase !== 'game-over' &&
     phase !== 'match-over' &&
@@ -428,6 +433,14 @@ export function Play({
     navigate('/');
   }
   const remoteBlocked = seated != null && seated.connection.status !== 'open';
+  // A dropped connection hands the wheel back: an action sent into a dead
+  // socket would be lost, and the autopilot would wait on it forever.
+  useEffect(() => {
+    if (remoteBlocked) {
+      autopilotRef.current?.stop();
+    }
+  }, [remoteBlocked]);
+
   // A takeback can land while the engine thinks: the moment the decision is
   // the human's again, the stale in-flight think is no longer worth showing.
   const thinking =
@@ -1103,6 +1116,7 @@ export function Play({
                   type="button"
                   className="play-button autopilot-button"
                   aria-pressed={autopilotOn}
+                  disabled={remoteBlocked}
                   onClick={() => {
                     const autopilot = autopilotRef.current;
                     if (!autopilot) {
