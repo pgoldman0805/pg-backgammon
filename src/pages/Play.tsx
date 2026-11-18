@@ -62,7 +62,7 @@ import { playerName } from '../ui/format';
 import { MoveTimerField, NameField } from './play/OnlineFields';
 import { OnlineGames } from './play/OnlineGames';
 import { PlayDialog } from './play/PlayDialog';
-import { PlayHud } from './play/PlayHud';
+import { PlayHud, roomEndText } from './play/PlayHud';
 import {
   DifficultyPicker,
   EngineNote,
@@ -89,6 +89,7 @@ import {
   statusText,
   storedMatchName,
 } from './play/playFormat';
+import { RemoteExtras } from './play/RemoteExtras';
 import { RemotePanel } from './play/RemotePanel';
 import { EvalBar, FeedbackNote } from './play/tutorSurfaces';
 import { type RemoteDeps, useRemoteRoom } from './play/useRemoteRoom';
@@ -415,8 +416,15 @@ export function Play({
     game && turn && turn.movements.length === 0 ? forcedPlay(game) : null;
   const humanSide = (player: Player | null | undefined) =>
     player != null && localSides.includes(player);
-  const humanTurn = phase === 'turn' && humanSide(turn?.player);
-  const humanPreRoll = phase === 'pre-roll' && humanSide(match?.toRoll);
+  // A room that ended by a forfeit or a cancel is over whatever the board
+  // says: no turn is anyone's, and the end card takes the screen.
+  const remoteEndText = seated
+    ? roomEndText(seated.connection, seated.side)
+    : null;
+  const humanTurn =
+    phase === 'turn' && humanSide(turn?.player) && remoteEndText === null;
+  const humanPreRoll =
+    phase === 'pre-roll' && humanSide(match?.toRoll) && remoteEndText === null;
   // A remote room whose socket is down takes no actions: the controls stay
   // in place but disabled until a snapshot proves the session current.
   const opponentGone =
@@ -567,9 +575,8 @@ export function Play({
     setSetup((current) => ({ ...current, gameType }));
   };
 
-  const setupPickers = (
+  const sharedPickers = (
     <>
-      <DifficultyPicker value={setup.difficulty} onChange={chooseDifficulty} />
       <GameTypePicker
         value={setup.gameType ?? 'match'}
         onChange={chooseGameType}
@@ -581,50 +588,18 @@ export function Play({
       )}
     </>
   );
+  const setupPickers = (
+    <>
+      <DifficultyPicker value={setup.difficulty} onChange={chooseDifficulty} />
+      {sharedPickers}
+    </>
+  );
 
-  const startButtons = (
-    primaryLabel: string,
-    primaryMode: PlayMode,
-    online = false,
-  ) => {
+  const startButtons = (primaryLabel: string, primaryMode: PlayMode) => {
     const otherMode: PlayMode =
       primaryMode === 'computer' ? 'hotseat' : 'computer';
     return (
       <>
-        {online && (
-          <>
-            <button
-              type="button"
-              className="play-button play-button--online"
-              disabled={creating || setup.gameType === 'money'}
-              onClick={() => {
-                void createOnlineGame();
-              }}
-            >
-              Play a friend online
-            </button>
-            {setup.gameType !== 'money' && (
-              <div className="online-options">
-                <NameField
-                  initial={readPlayerName()}
-                  onChange={writePlayerName}
-                />
-                <MoveTimerField
-                  value={moveSeconds}
-                  onChange={(seconds) => {
-                    setMoveSeconds(seconds);
-                    writeMoveSeconds(seconds);
-                  }}
-                />
-              </div>
-            )}
-            {setup.gameType === 'money' && (
-              <p className="setting-switch-hint">
-                Online play is match play only.
-              </p>
-            )}
-          </>
-        )}
         <button
           type="button"
           className="play-button play-button--primary"
@@ -642,6 +617,47 @@ export function Play({
       </>
     );
   };
+
+  /**
+   * The online game, set apart from the local ones: what you are asked
+   * (name, clock), then the one big action. The match length above it is
+   * shared with the local buttons, so the block reads as "this match, but
+   * against a friend".
+   */
+  const onlineBlock = (
+    <section className="online-block" aria-label="Play a friend online">
+      {setup.gameType !== 'money' && (
+        <div className="online-options">
+          <NameField initial={readPlayerName()} onChange={writePlayerName} />
+          <MoveTimerField
+            value={moveSeconds}
+            onChange={(seconds) => {
+              setMoveSeconds(seconds);
+              writeMoveSeconds(seconds);
+            }}
+          />
+        </div>
+      )}
+      <button
+        type="button"
+        className="play-button play-button--online"
+        disabled={creating || setup.gameType === 'money'}
+        onClick={() => {
+          void createOnlineGame();
+        }}
+      >
+        Play a friend online
+      </button>
+      {setup.gameType === 'money' && (
+        <p className="setting-switch-hint">Online play is match play only.</p>
+      )}
+      {createError && (
+        <p className="dialog-note" role="alert">
+          Couldn't create the game. Check your connection and try again.
+        </p>
+      )}
+    </section>
+  );
 
   /** The newest in-progress match on offer to pick back up (reload safety). */
   const resumeCandidate = persistence.resumable[0] ?? null;
@@ -686,10 +702,16 @@ export function Play({
   ) => (
     <div className="play-banner">
       <div className="setup-card">
-        <p className="setup-title">{title}</p>
-        {resumePrompt}
         <OnlineGames api={remote.api} />
-        {setupPickers}
+        {resumePrompt}
+        <p className="setup-title">Play backgammon</p>
+        {sharedPickers}
+        {onlineBlock}
+        <p className="setup-or">{title}</p>
+        <DifficultyPicker
+          value={setup.difficulty}
+          onChange={chooseDifficulty}
+        />
         <div className="setting-switches">
           <SettingSwitch
             label="Tutor mode"
@@ -698,12 +720,7 @@ export function Play({
             onChange={setTutorOn}
           />
         </div>
-        {startButtons(primaryLabel, primaryMode, true)}
-        {createError && (
-          <p className="dialog-note" role="alert">
-            Couldn't create the game. Check your connection and try again.
-          </p>
-        )}
+        {startButtons(primaryLabel, primaryMode)}
         {/* The preference controls live in Settings (ticket 25); one quiet
             pointer keeps them discoverable from here. */}
         <Link className="setup-settings-link" to="/settings">
@@ -933,14 +950,7 @@ export function Play({
         autoRollMode={autoRollMode}
         onAutoRollChange={handleAutoRollChange}
         connection={seated?.connection ?? null}
-        privateLink={seated?.privateLink ?? null}
-        onAbandon={
-          opponentGone ||
-          seated?.connection.forfeitBy ||
-          seated?.connection.cancelledBy
-            ? abandonGame
-            : null
-        }
+        onAbandon={opponentGone && remoteEndText === null ? abandonGame : null}
         localSide={seated?.side ?? null}
       />
 
@@ -1000,7 +1010,21 @@ export function Play({
           )}
           {!match &&
             !roomView &&
-            setupCard('Play against the computer', 'Play as White', 'computer')}
+            setupCard('Or play on this device', 'Play as White', 'computer')}
+          {match && remoteEndText !== null && (
+            <div className="play-banner">
+              <div className="setup-card">
+                <p className="setup-title">{remoteEndText}</p>
+                <button
+                  type="button"
+                  className="play-button play-button--primary"
+                  onClick={abandonGame}
+                >
+                  Leave game
+                </button>
+              </div>
+            </div>
+          )}
           {match && phase === 'game-over' && gameOverCard(match)}
           {match && phase === 'match-over' && matchOverCard(match)}
           {match &&
@@ -1135,6 +1159,13 @@ export function Play({
                   Finish race
                 </button>
               </div>
+            )}
+            {seated && remoteEndText === null && (
+              <RemoteExtras
+                autoRollMode={autoRollMode}
+                onAutoRollChange={handleAutoRollChange}
+                privateLink={seated.privateLink}
+              />
             )}
           </div>
         )}

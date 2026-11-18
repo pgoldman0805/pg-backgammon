@@ -1458,16 +1458,72 @@
 }
 
 @media (max-width: 640px) and (orientation: portrait) {
-  .play-side {
+  /* Only the turn buttons are pinned; the quiet extras scroll normally. */
+  .play-side
+    .play-controls:not(.play-controls--autopilot):not(.play-controls--note) {
     position: sticky;
     bottom: 0;
     z-index: 5;
+    margin-top: 0;
     padding: 0.5rem 0 calc(0.5rem + var(--safe-bottom));
     background: var(--bg);
     border-top: 1px solid var(--line);
   }
 
-  .play-side .play-controls {
-    margin-top: 0;
+  /* A card (setup, invite, join, end of game) is the thing to read or tap:
+     it comes before the board instead of under it, so nothing important
+     starts below the fold. */
+  .play-board {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .play-board > .play-banner {
+    order: -1;
+    margin: 0 0 0.75rem;
+  }
+}
+
+/* The setup card: the shared match choice, then the online game as its own
+   panel, then local play under a quiet "or". */
+.online-block {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.9rem;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+}
+
+.setup-or {
+  margin: 0.4rem 0 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+/* Whose move it is is the headline of the HUD. */
+.turn-indicator {
+  font-size: 1.15rem;
+}
+
+.remote-extras {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+}
+
+/* Phones: before a game starts the HUD would only show two empty pip counts
+   above the setup card. The invite and join panels keep it (their status
+   line says what is being waited for). */
+@media (max-width: 640px) and (orientation: portrait) {
+  .play-area:has(.setup-card:not(.remote-panel)) .play-hud {
+    display: none;
   }
 }

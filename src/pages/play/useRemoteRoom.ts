@@ -74,7 +74,12 @@ const noSubscribe = () => () => {};
 const noConnection = () => null;
 
 function phaseForSummary(summary: RoomSummary | null): Phase {
-  if (!summary || summary.status === 'expired') {
+  // A cancelled or finished room is over for anyone not already seated.
+  if (
+    !summary ||
+    summary.status === 'expired' ||
+    summary.status === 'finished'
+  ) {
     return { kind: 'ended' };
   }
   if (summary.status === 'waiting' && !summary.seats.black) {

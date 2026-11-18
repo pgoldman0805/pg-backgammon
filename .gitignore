@@ -23,3 +23,4 @@ playwright-report/
 !.dev.vars.example
 .env*
 !.env.example
+.scratch/remote-ui/

@@ -38,7 +38,6 @@ export function PlayHud({
   autoRollMode,
   onAutoRollChange,
   connection,
-  privateLink = null,
   onAbandon = null,
   localSide = null,
 }: {
@@ -58,14 +57,12 @@ export function PlayHud({
   onAutoRollChange: (mode: AutoRollMode) => void;
   /** A remote room's connection, for the presence line; absent otherwise. */
   connection?: ConnectionState | null;
-  /** A remote seat's private link, offered during play; absent otherwise. */
-  privateLink?: string | null;
   /** Leave a remote game whose opponent has dropped; absent otherwise. */
   onAbandon?: (() => void) | null;
   /** Which side this device plays in a remote room; absent otherwise. */
   localSide?: Side | null;
 }) {
-  const remoteLine = connection ? connectionText(connection, localSide) : null;
+  const remoteLine = connection ? connectionText(connection) : null;
   const nameOf = (side: Side) =>
     connection?.names[side] ?? (side === 'white' ? 'White' : 'Black');
   // The countdown is the mover's alone: you see yours, never the opponent's.
@@ -108,14 +105,6 @@ export function PlayHud({
         )}
       </div>
       <div className="play-center">
-        <p className="play-status" role="status">
-          {declineNote ? `${status} ${declineNote}` : status}
-        </p>
-        {remoteLine && (
-          <p className="remote-line" role="status">
-            {remoteLine}
-          </p>
-        )}
         {(turnLine || clockEndsAt !== null) && (
           <div className="turn-row">
             {turnLine && (
@@ -128,15 +117,21 @@ export function PlayHud({
             {clockEndsAt !== null && <TurnClock endsAt={clockEndsAt} />}
           </div>
         )}
+        <p className="play-status" role="status">
+          {declineNote ? `${status} ${declineNote}` : status}
+        </p>
+        {remoteLine && (
+          <p className="remote-line" role="status">
+            {remoteLine}
+          </p>
+        )}
         {onAbandon && (
           <button
             type="button"
             className="play-button play-button--quiet"
             onClick={onAbandon}
           >
-            {connection?.forfeitBy || connection?.cancelledBy
-              ? 'Leave game'
-              : 'Abandon game'}
+            Abandon game
           </button>
         )}
         {match && (
@@ -167,33 +162,16 @@ export function PlayHud({
             )}
           </p>
         )}
-        {match && (vsComputer || connection) && (
+        {match && vsComputer && (
           <div className="setting-switches">
-            {vsComputer && (
-              <SettingSwitch
-                label="Tutor mode"
-                hint={TUTOR_HINT}
-                on={tutorOn}
-                onChange={onTutorChange}
-              />
-            )}
+            <SettingSwitch
+              label="Tutor mode"
+              hint={TUTOR_HINT}
+              on={tutorOn}
+              onChange={onTutorChange}
+            />
             <AutoRollField mode={autoRollMode} onChange={onAutoRollChange} />
           </div>
-        )}
-        {match && privateLink && (
-          <details className="remote-private-link">
-            <summary>Your private link</summary>
-            <p className="remote-note">
-              Opens this game as you on another device. Do not share it.
-            </p>
-            <input
-              className="invite-link"
-              readOnly
-              aria-label="Private link"
-              value={privateLink}
-              onFocus={(event) => event.currentTarget.select()}
-            />
-          </details>
         )}
       </div>
       <div
@@ -235,7 +213,30 @@ const ERROR_TEXT: Record<NonNullable<ConnectionState['error']>, string> = {
 };
 
 /** The presence line for a remote room, or null when all is well. */
-function connectionText(
+function connectionText(connection: ConnectionState): string | null {
+  if (connection.cancelledBy || connection.forfeitBy) {
+    return null;
+  }
+  if (connection.error) {
+    return ERROR_TEXT[connection.error];
+  }
+  if (connection.roomStatus === null) {
+    return null;
+  }
+  if (connection.status !== 'open') {
+    return 'Reconnecting…';
+  }
+  if (connection.roomStatus === 'waiting') {
+    return 'Waiting for your opponent to join';
+  }
+  if (connection.roomStatus === 'playing' && !connection.opponentPresent) {
+    return 'Opponent disconnected';
+  }
+  return null;
+}
+
+/** What happened when a remote room ended other than by playing out. */
+export function roomEndText(
   connection: ConnectionState,
   localSide: Side | null,
 ): string | null {
@@ -252,21 +253,6 @@ function connectionText(
     }
     const loser = connection.names[connection.forfeitBy] ?? 'Your opponent';
     return `${loser} ran out of time. You win.`;
-  }
-  if (connection.error) {
-    return ERROR_TEXT[connection.error];
-  }
-  if (connection.roomStatus === null) {
-    return null;
-  }
-  if (connection.status !== 'open') {
-    return 'Reconnecting…';
-  }
-  if (connection.roomStatus === 'waiting') {
-    return 'Waiting for your opponent to join';
-  }
-  if (connection.roomStatus === 'playing' && !connection.opponentPresent) {
-    return 'Opponent disconnected';
   }
   return null;
 }

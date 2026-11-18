@@ -169,6 +169,31 @@ describe('useRemoteRoom', () => {
     await waitFor(() => expect(expired.result.current?.kind).toBe('ended'));
   });
 
+  it('a cancelled or finished room shows ended, not full', async () => {
+    for (const patch of [
+      { cancelledBy: 'white' as const },
+      { forfeitBy: 'black' as const },
+      {},
+    ]) {
+      const view = renderHook(() =>
+        useRemoteRoom(ROOM, {
+          api: fakeApi({
+            getRoom: () =>
+              Promise.resolve(
+                summary({
+                  status: 'finished',
+                  seats: { white: true, black: true },
+                  ...patch,
+                }),
+              ),
+          }),
+          origin: 'http://test',
+        }),
+      );
+      await waitFor(() => expect(view.result.current?.kind).toBe('ended'));
+    }
+  });
+
   it('adopts a seat from the URL fragment', async () => {
     const token = 'ab'.repeat(16);
     window.history.replaceState(

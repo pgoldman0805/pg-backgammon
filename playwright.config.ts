@@ -38,6 +38,9 @@ export default defineConfig({
     // Remote play: two browser contexts over a room link; vite preview runs
     // the Worker and Durable Object through the Cloudflare plugin.
     { name: 'remote', testMatch: /remote\.spec\.ts/ },
+    // Two-browser edge-case journeys at desktop and phone width; also writes
+    // review screenshots under .scratch/remote-ui/.
+    { name: 'journeys', testMatch: /remote-journeys\.spec\.ts/ },
   ],
   webServer: {
     command: 'npm run build && npx vite preview --port 4173 --strictPort',

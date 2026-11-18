@@ -24,6 +24,7 @@
     "e2e:audit": "playwright test --project=audit",
     "e2e:pwa": "playwright test --project=pwa",
     "e2e:remote": "playwright test --project=remote",
+    "e2e:journeys": "playwright test --project=journeys",
     "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {

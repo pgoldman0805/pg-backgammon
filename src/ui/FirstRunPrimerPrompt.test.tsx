@@ -47,6 +47,11 @@ describe('the first-run primer nudge', () => {
     expect(screen.queryByRole('note')).not.toBeInTheDocument();
   });
 
+  it('does not push the board down in a shared game link', () => {
+    renderAt('/play/abcdefghijklmnopqrst');
+    expect(screen.queryByRole('note')).not.toBeInTheDocument();
+  });
+
   it('retires for good once dismissed', async () => {
     const user = userEvent.setup();
     renderAt('/');

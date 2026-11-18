@@ -27,7 +27,13 @@ export function FirstRunPrimerPrompt() {
   }, [location.pathname]);
 
   // No point nudging toward the primer while standing on it.
-  if (seen || location.pathname === '/learn') {
+  // Nor in a shared game link: a friend arriving to play should see the
+  // board, not a banner that pushes it off the first screen.
+  if (
+    seen ||
+    location.pathname === '/learn' ||
+    location.pathname.startsWith('/play/')
+  ) {
     return null;
   }
 
