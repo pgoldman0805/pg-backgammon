@@ -10,6 +10,7 @@
 import type { Difficulty } from '../../engine';
 import { CopyXgidButton } from '../../formats';
 import type { AutoRollMode } from '../../play/settings';
+import type { Side } from '../../remote/protocol';
 import type { ConnectionState } from '../../remote/session';
 import {
   type BoardState,
@@ -20,6 +21,7 @@ import {
 import { GlossaryTerm } from '../../ui/GlossaryTerm';
 import { AutoRollField, SettingSwitch, TUTOR_HINT } from './PlaySetup';
 import { difficultyLabel } from './playFormat';
+import { TurnClock } from './TurnClock';
 
 export function PlayHud({
   actor,
@@ -38,6 +40,7 @@ export function PlayHud({
   connection,
   privateLink = null,
   onAbandon = null,
+  localSide = null,
 }: {
   /** Whose decision the moment is, for the active-chip highlight. */
   actor: Player | null;
@@ -59,15 +62,27 @@ export function PlayHud({
   privateLink?: string | null;
   /** Leave a remote game whose opponent has dropped; absent otherwise. */
   onAbandon?: (() => void) | null;
+  /** Which side this device plays in a remote room; absent otherwise. */
+  localSide?: Side | null;
 }) {
-  const remoteLine = connection ? connectionText(connection) : null;
+  const remoteLine = connection ? connectionText(connection, localSide) : null;
+  const nameOf = (side: Side) =>
+    connection?.names[side] ?? (side === 'white' ? 'White' : 'Black');
+  // The countdown is the mover's alone: you see yours, never the opponent's.
+  const clockEndsAt =
+    connection &&
+    connection.roomStatus === 'playing' &&
+    localSide !== null &&
+    actor === localSide
+      ? connection.turnEndsAt
+      : null;
   return (
     <div className="play-hud">
       <div
         className={`player-chip ${actor === 'white' ? 'player-chip--active' : ''}`}
       >
         <span className="chip-swatch chip-swatch--white" aria-hidden="true" />
-        <span className="chip-name">White</span>
+        <span className="chip-name">{nameOf('white')}</span>
         {/* biome-ignore lint/a11y/useSemanticElements: a labelled inline stat; fieldset/section would be wrong semantics */}
         <span className="chip-pips" role="group" aria-label="White pip count">
           <GlossaryTerm id="pips">{pipCount(board, 'white')}</GlossaryTerm>
@@ -92,13 +107,14 @@ export function PlayHud({
             {remoteLine}
           </p>
         )}
+        {clockEndsAt !== null && <TurnClock endsAt={clockEndsAt} />}
         {onAbandon && (
           <button
             type="button"
             className="play-button play-button--quiet"
             onClick={onAbandon}
           >
-            Abandon game
+            {connection?.forfeitBy ? 'Leave game' : 'Abandon game'}
           </button>
         )}
         {match && (
@@ -160,7 +176,7 @@ export function PlayHud({
         className={`player-chip player-chip--mirror ${actor === 'black' ? 'player-chip--active' : ''}`}
       >
         <span className="chip-swatch chip-swatch--black" aria-hidden="true" />
-        <span className="chip-name">Black</span>
+        <span className="chip-name">{nameOf('black')}</span>
         {vsComputer && (
           <span className="chip-tag">
             {difficultyLabel(difficulty)}
@@ -195,7 +211,17 @@ const ERROR_TEXT: Record<NonNullable<ConnectionState['error']>, string> = {
 };
 
 /** The presence line for a remote room, or null when all is well. */
-function connectionText(connection: ConnectionState): string | null {
+function connectionText(
+  connection: ConnectionState,
+  localSide: Side | null,
+): string | null {
+  if (connection.forfeitBy) {
+    if (connection.forfeitBy === localSide) {
+      return 'You ran out of time.';
+    }
+    const loser = connection.names[connection.forfeitBy] ?? 'Your opponent';
+    return `${loser} ran out of time. You win.`;
+  }
   if (connection.error) {
     return ERROR_TEXT[connection.error];
   }

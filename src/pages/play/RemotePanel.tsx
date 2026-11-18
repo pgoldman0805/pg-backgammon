@@ -8,7 +8,9 @@
  */
 
 import { Link } from 'react-router-dom';
+import { readPlayerName, writePlayerName } from '../../remote/playerPrefs';
 import type { StoredMatch } from '../../storage';
+import { clockPhrase, NameField } from './OnlineFields';
 import type { RemoteRoomView } from './useRemoteRoom';
 
 export function RemotePanel({
@@ -47,9 +49,16 @@ function panelBody(
       return (
         <>
           <p className="setup-title">Join a remote game</p>
+          {view.summary.names?.white && (
+            <p className="remote-note">
+              {view.summary.names.white} invited you.
+            </p>
+          )}
           <p className="remote-note">
-            {view.summary.config.length}-point match
+            {view.summary.config.length}-point match,{' '}
+            {clockPhrase(view.summary.config.moveSeconds)}
           </p>
+          <NameField initial={readPlayerName()} onChange={writePlayerName} />
           <button
             type="button"
             className="play-button play-button--primary"

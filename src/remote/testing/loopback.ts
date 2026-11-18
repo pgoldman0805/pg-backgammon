@@ -25,11 +25,15 @@ export interface Loopback {
 export function createLoopback(
   config: RoomConfig,
   dice: DiceSource,
-  options: { save?: (room: RoomState) => Promise<void> } = {},
+  options: {
+    save?: (room: RoomState) => Promise<void>;
+    /** The room's clock; defaults to a fixed instant. */
+    now?: () => number;
+  } = {},
 ): Loopback {
   const whiteToken = 'white-token';
   const blackToken = 'black-token';
-  const now = () => 1_000_000;
+  const now = options.now ?? (() => 1_000_000);
   const host = createRoomHost({
     room: createRoom('loop', config, whiteToken, now()),
     dice,

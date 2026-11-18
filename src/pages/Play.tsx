@@ -33,6 +33,12 @@ import {
 import { createPlayStore, type PlayStore } from '../play/store';
 import { createTutor, type Tutor, type TutorState } from '../play/tutor';
 import { createRemoteApi } from '../remote/api';
+import {
+  readMoveSeconds,
+  readPlayerName,
+  writeMoveSeconds,
+  writePlayerName,
+} from '../remote/playerPrefs';
 import { clearSeat, writeSeat } from '../remote/seats';
 import {
   canDouble,
@@ -53,6 +59,7 @@ import {
   useMatchPersistence,
 } from '../storage';
 import { playerName } from '../ui/format';
+import { MoveTimerField, NameField } from './play/OnlineFields';
 import { PlayDialog } from './play/PlayDialog';
 import { PlayHud } from './play/PlayHud';
 import {
@@ -174,6 +181,7 @@ export function Play({
   );
   const navigate = useNavigate();
   const [creating, setCreating] = useState(false);
+  const [moveSeconds, setMoveSeconds] = useState(readMoveSeconds);
   const [createError, setCreateError] = useState(false);
   const roomView = useRemoteRoom(roomId, remote);
   const seated = roomView?.kind === 'seated' ? roomView : null;
@@ -443,6 +451,7 @@ export function Play({
     try {
       const { roomId: newRoom, seatToken } = await remote.api.createRoom(
         setup.length,
+        moveSeconds,
       );
       writeSeat(newRoom, { side: 'white', token: seatToken });
       navigate(`/play/${newRoom}`);
@@ -574,6 +583,21 @@ export function Play({
             >
               Play a friend online
             </button>
+            {setup.gameType !== 'money' && (
+              <div className="online-options">
+                <NameField
+                  initial={readPlayerName()}
+                  onChange={writePlayerName}
+                />
+                <MoveTimerField
+                  value={moveSeconds}
+                  onChange={(seconds) => {
+                    setMoveSeconds(seconds);
+                    writeMoveSeconds(seconds);
+                  }}
+                />
+              </div>
+            )}
             {setup.gameType === 'money' && (
               <p className="setting-switch-hint">
                 Online play is match play only.
@@ -889,7 +913,10 @@ export function Play({
         onAutoRollChange={handleAutoRollChange}
         connection={seated?.connection ?? null}
         privateLink={seated?.privateLink ?? null}
-        onAbandon={opponentGone ? abandonGame : null}
+        onAbandon={
+          opponentGone || seated?.connection.forfeitBy ? abandonGame : null
+        }
+        localSide={seated?.side ?? null}
       />
 
       {match && vsComputer && tutorOn && (

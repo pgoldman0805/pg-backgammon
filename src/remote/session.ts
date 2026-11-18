@@ -28,6 +28,7 @@ import {
   CLOSE_FULL,
   CLOSE_VERSION,
   type ClientMessage,
+  type PlayerNames,
   PROTOCOL_VERSION,
   type Presence,
   type RoomStatus,
@@ -51,6 +52,12 @@ export interface ConnectionState {
   readonly opponentPresent: boolean;
   readonly seq: number;
   readonly error: 'bad-token' | 'version' | 'expired' | 'full' | 'busy' | null;
+  /** Display names by side, as the room knows them. */
+  readonly names: PlayerNames;
+  /** Local epoch ms when the mover's turn clock runs out; null with no clock. */
+  readonly turnEndsAt: number | null;
+  /** The side that ran out of time and forfeited, if any. */
+  readonly forfeitBy: Side | null;
 }
 
 export interface RemoteSessionOptions {
@@ -61,6 +68,8 @@ export interface RemoteSessionOptions {
   readonly baseUrl?: string;
   readonly pace?: (ms: number) => Promise<void>;
   readonly backoffMs?: readonly number[];
+  /** This player's display name, announced to the room on every connect. */
+  readonly name?: string;
 }
 
 export interface RemoteSession extends PlayStore {
@@ -130,6 +139,9 @@ export function createRemoteSession(
     opponentPresent: false,
     seq: 0,
     error: null,
+    names: { white: null, black: null },
+    turnEndsAt: null,
+    forfeitBy: null,
   };
   let busyTimer: ReturnType<typeof setTimeout> | null = null;
   let disposed = false;
@@ -178,6 +190,11 @@ export function createRemoteSession(
     send({ type: 'resync' });
   }
 
+  /** Turn a ms-remaining figure from the room into a local deadline. */
+  function endsAt(msLeft: number | null | undefined): number | null {
+    return typeof msLeft === 'number' ? Date.now() + msLeft : null;
+  }
+
   function opponentPresent(presence: Presence): boolean {
     return options.side === 'white' ? presence.black : presence.white;
   }
@@ -201,6 +218,7 @@ export function createRemoteSession(
         inner.getState().match?.phase === 'match-over'
           ? 'finished'
           : connection.roomStatus,
+      turnEndsAt: endsAt(message.msLeft),
     });
   }
 
@@ -251,6 +269,9 @@ export function createRemoteSession(
           seq: message.seq,
           roomStatus: message.status,
           opponentPresent: opponentPresent(message.presence),
+          names: message.names ?? connection.names,
+          turnEndsAt: endsAt(message.msLeft),
+          forfeitBy: message.forfeitBy ?? null,
         });
         break;
       case 'applied':
@@ -261,6 +282,9 @@ export function createRemoteSession(
         break;
       case 'presence':
         setConnection({ opponentPresent: opponentPresent(message.presence) });
+        break;
+      case 'names':
+        setConnection({ names: message.names });
         break;
     }
   }
@@ -277,7 +301,7 @@ export function createRemoteSession(
         return;
       }
       socketOpen = true;
-      send({ type: 'hello', version: PROTOCOL_VERSION });
+      send({ type: 'hello', version: PROTOCOL_VERSION, name: options.name });
     });
     t.onMessage((data) => {
       if (current()) {

@@ -445,7 +445,7 @@ describe('creating a room from the setup card', () => {
     await waitFor(() =>
       expect(screen.getByTestId('path')).toHaveTextContent('/play/abc123'),
     );
-    expect(api.createRoom).toHaveBeenCalledWith(5);
+    expect(api.createRoom).toHaveBeenCalledWith(5, 30);
     expect(readSeat('abc123')).toEqual({ side: 'white', token });
   });
 

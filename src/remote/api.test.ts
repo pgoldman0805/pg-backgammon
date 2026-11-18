@@ -26,6 +26,17 @@ describe('createRoom', () => {
     );
   });
 
+  it('sends the move clock when one is chosen, including off', async () => {
+    const body = { roomId: 'r1', side: 'white', seatToken: 't' };
+    for (const seconds of [30, 0]) {
+      const { calls, fetchFn } = fake(201, body);
+      await createRemoteApi(fetchFn).createRoom(5, seconds);
+      expect(calls[0].init?.body).toBe(
+        JSON.stringify({ length: 5, moveSeconds: seconds }),
+      );
+    }
+  });
+
   it('throws on other statuses', async () => {
     const api = createRemoteApi(fake(500, {}).fetchFn);
     await expect(api.createRoom(5)).rejects.toThrow('create-failed:500');

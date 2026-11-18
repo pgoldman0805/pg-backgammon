@@ -14,6 +14,7 @@ import {
   useSyncExternalStore,
 } from 'react';
 import type { RemoteApi } from '../../remote/api';
+import { readPlayerName } from '../../remote/playerPrefs';
 import type { RoomSummary, Side } from '../../remote/protocol';
 import {
   adoptSeatFromFragment,
@@ -113,6 +114,7 @@ export function useRemoteRoom(
       seatToken: seat.token,
       side: seat.side,
       transport: depsRef.current.transport,
+      name: readPlayerName() || undefined,
     });
     sessionRef.current = session;
     setPhase({ kind: 'seated', session, seat });
